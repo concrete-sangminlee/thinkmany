@@ -1,0 +1,2502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>승원이 연구 많이 된다. 잘 때 생각 많이 날거야</title>
+  <meta name="description" content="구조공학 + AI + 연구팁 종합 가이드 — 선배가 후배에게 전하는 연구 안내서">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="assets/favicon.svg">
+</head>
+<body>
+  <!-- Progress Bar -->
+  <div id="progress-bar"></div>
+
+  <!-- Top Bar -->
+  <header id="topbar">
+    <button class="menu-toggle" aria-label="메뉴 열기">☰</button>
+    <span class="site-title">승원이 연구 가이드 — 구조공학 + AI + 연구팁</span>
+  </header>
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div id="search-box">
+      <input type="text" id="search-input" placeholder="목차 검색..." aria-label="목차 검색">
+    </div>
+    <nav id="toc-container" aria-label="목차"></nav>
+  </aside>
+  <div id="sidebar-overlay"></div>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <div id="content">
+
+      <!-- ============ HERO ============ -->
+      <section class="hero-section">
+        <div class="hero-badge">구조공학 × AI × 연구 가이드</div>
+        <h1 class="hero-title">
+          <span class="gradient-text">승원이 연구 많이 된다.</span><br>
+          잘 때 생각 많이 날거야
+        </h1>
+        <p class="hero-subtitle">
+          선배가 후배에게 전하는 구조공학 + AI + 대학원 생활 종합 안내서.<br>
+          기초부터 실전까지, 연구실에서 꼭 알아야 할 모든 것을 담았다.
+        </p>
+        <div class="hero-stats">
+          <div class="hero-stat glass reveal">
+            <span class="hero-stat-number gradient-text">6</span>
+            <span class="hero-stat-label">챕터</span>
+          </div>
+          <div class="hero-stat glass reveal" data-delay="1">
+            <span class="hero-stat-number gradient-text-cool">50+</span>
+            <span class="hero-stat-label">핵심 개념</span>
+          </div>
+          <div class="hero-stat glass reveal" data-delay="2">
+            <span class="hero-stat-number gradient-text-warm">15+</span>
+            <span class="hero-stat-label">실전 도구</span>
+          </div>
+        </div>
+        <div class="hero-cta">
+          <a href="#structural-basics" class="btn btn-primary">시작하기 →</a>
+          <a href="#tools-software" class="btn btn-secondary">도구 바로가기</a>
+        </div>
+      </section>
+
+<!-- ============================================
+     섹션 1: 구조공학 기초
+     ============================================ -->
+<div class="section" id="structural-basics">
+  <div class="section-header reveal">
+    <span class="section-number purple">01</span>
+    <h2>구조공학 기초</h2>
+  </div>
+  <p class="section-desc reveal">구조공학은 하중을 안전하게 지지하고 전달하는 구조물을 설계하는 학문입니다. 이 섹션에서는 구조역학의 핵심 원리부터 유한요소법, 내풍설계, 내진설계, 그리고 주요 설계기준까지 대학원 연구에 필수적인 기초 지식을 다룹니다.</p>
+
+  <!-- 1.1 구조역학 핵심 -->
+  <div class="subsection reveal" id="mechanics-fundamentals">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🔩</span> 1.1 구조역학 핵심
+    </h3>
+  </div>
+
+  <div class="card-grid reveal">
+    <div class="card">
+      <span class="card-icon">⚖️</span>
+      <div class="card-title">힘의 평형 (Equilibrium)</div>
+      <div class="card-desc">
+        정역학의 가장 기본이 되는 원리로, 정적 평형 상태의 물체에 작용하는 모든 힘과 모멘트의 합이 0이어야 합니다. 2차원에서는 ΣFx=0, ΣFy=0, ΣM=0의 3개 평형방정식이 성립하며, 3차원에서는 6개의 평형방정식(3개 힘 + 3개 모멘트)으로 확장됩니다. 부정정 구조물의 경우 평형방정식만으로는 풀 수 없으며, 적합조건(변형의 연속성)과 구성방정식(응력-변형률 관계)이 추가로 필요합니다.
+      </div>
+      <span class="card-tag tag-purple">정역학</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">📐</span>
+      <div class="card-title">응력과 변형률 (Stress & Strain)</div>
+      <div class="card-desc">
+        응력(σ)은 단위 면적당 내력(σ = F/A)이며, 변형률(ε)은 원래 길이 대비 변형량(ε = ΔL/L)입니다. 선형 탄성 범위에서 후크의 법칙 σ = Eε가 성립하며, 여기서 E는 탄성계수(Young's modulus)입니다. 구조용 강재의 경우 E ≈ 200 GPa, 콘크리트는 약 25~35 GPa입니다. 전단응력 τ = VQ/Ib 관계도 보 설계에서 매우 중요합니다.
+      </div>
+      <span class="card-tag tag-cyan">재료역학</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔄</span>
+      <div class="card-title">모멘트와 전단력 (Moment & Shear)</div>
+      <div class="card-desc">
+        보(beam) 부재에 하중이 작용하면 내부에 전단력(V)과 휨모멘트(M)가 발생합니다. 이 둘의 관계는 dM/dx = V, dV/dx = -w(x)로 표현됩니다. BMD(Bending Moment Diagram)와 SFD(Shear Force Diagram)를 그려 최대 모멘트와 전단력 발생 위치를 파악하는 것은 구조 설계의 기본입니다. 최대 휨응력은 σ = My/I로 계산합니다.
+      </div>
+      <span class="card-tag tag-purple">구조해석</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">📉</span>
+      <div class="card-title">처짐 해석 (Deflection Analysis)</div>
+      <div class="card-desc">
+        구조물의 사용성(serviceability)을 확보하기 위해 처짐을 제한값 이내로 제어해야 합니다. 처짐의 미분방정식 EI·d²y/dx² = M(x)를 적분하여 처짐곡선을 구합니다. 실무에서는 모멘트 면적법, 공액보법, 가상일법 등을 활용합니다. 일반적으로 보의 처짐 제한은 L/360(활하중) 또는 L/240(전체하중)이며, 캔틸레버는 L/180을 적용합니다.
+      </div>
+      <span class="card-tag tag-green">사용성</span>
+    </div>
+  </div>
+
+  <div class="formula-box reveal">
+    <strong>핵심 관계식:</strong> σ = Eε &nbsp;|&nbsp; σ = My/I &nbsp;|&nbsp; τ = VQ/Ib &nbsp;|&nbsp; EI·d²y/dx² = M(x)
+  </div>
+
+  <!-- 1.2 구조 해석 방법 -->
+  <div class="subsection reveal" id="analysis-methods">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🧮</span> 1.2 구조 해석 방법
+    </h3>
+  </div>
+
+  <div class="tab-container reveal">
+    <div class="tab-buttons">
+      <button class="tab-btn active" data-tab="tab-static">정적 해석</button>
+      <button class="tab-btn" data-tab="tab-dynamic">동적 해석</button>
+      <button class="tab-btn" data-tab="tab-nonlinear">비선형 해석</button>
+    </div>
+
+    <div class="tab-content active" id="tab-static">
+      <h4>정적 해석 (Static Analysis)</h4>
+      <p>정적 해석은 시간에 따라 변하지 않는 하중(자중, 활하중, 적설하중 등)에 대한 구조 응답을 구하는 방법입니다. 관성력과 감쇠력을 무시하고 <strong>[K]{u} = {F}</strong> 형태의 연립방정식을 풀어 변위, 응력, 반력을 산출합니다.</p>
+      <p><strong>적용 시점:</strong> 중력 하중 조합(1.2D + 1.6L 등) 해석, 풍하중의 등가정적 해석, 온도 하중 해석, 프리스트레스 해석 등 대부분의 일상적 설계 업무에 사용됩니다.</p>
+      <div class="formula-box">
+        [K]{u} = {F} &nbsp;&nbsp;→&nbsp;&nbsp; {u} = [K]<sup>-1</sup>{F}
+      </div>
+      <div class="highlight-box tip">
+        <span class="highlight-box-icon">💡</span>
+        <div class="highlight-box-content">
+          <p><strong>실무 팁:</strong> 정적 해석은 계산 비용이 낮아 초기 설계 단계에서 빠르게 여러 대안을 검토하기에 적합합니다. 다만 풍하중이나 지진하중처럼 동적 특성이 중요한 하중에 대해서는 동적 해석 결과와 비교 검증하는 것이 좋습니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-dynamic">
+      <h4>동적 해석 (Dynamic Analysis)</h4>
+      <p>시간에 따라 변하는 하중(지진, 풍하중, 차량 충격, 기계 진동 등)에 대한 구조 응답을 구합니다. 관성력과 감쇠력을 포함한 운동방정식 <strong>[M]{u''} + [C]{u'} + [K]{u} = {F(t)}</strong>를 풀어야 합니다.</p>
+      <p><strong>주요 방법:</strong></p>
+      <ul>
+        <li><strong>모드 해석(Modal Analysis):</strong> 고유진동수와 모드 형상을 구하여 구조물의 동적 특성을 파악합니다. det([K] - ω²[M]) = 0을 풀어 고유값을 산출합니다.</li>
+        <li><strong>응답스펙트럼 해석:</strong> 설계 스펙트럼을 이용한 최대 응답 추정. 각 모드별 최대응답을 SRSS 또는 CQC 방법으로 조합합니다.</li>
+        <li><strong>시간이력 해석(Time History):</strong> Newmark-β법이나 Wilson-θ법 등 수치적분으로 매 시간 스텝의 응답을 직접 계산합니다. 가장 정확하지만 계산 비용이 큽니다.</li>
+      </ul>
+      <div class="formula-box">
+        [M]{u''} + [C]{u'} + [K]{u} = {F(t)}
+      </div>
+      <div class="highlight-box info">
+        <span class="highlight-box-icon">📘</span>
+        <div class="highlight-box-content">
+          <p><strong>비교 포인트:</strong> 응답스펙트럼 해석은 모드 조합으로 최대 응답만 얻을 수 있어 부호 정보를 잃습니다. 비선형 거동이나 시간 의존적 응답이 필요한 경우 반드시 시간이력 해석을 수행해야 합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-nonlinear">
+      <h4>비선형 해석 (Nonlinear Analysis)</h4>
+      <p>실제 구조물은 대변형, 재료 비선형, 접촉/경계 비선형 등 다양한 비선형 거동을 보입니다. 비선형 해석에서는 <strong>증분-반복법(incremental-iterative method)</strong>을 사용하여 하중을 단계적으로 재하하며 매 단계에서 수렴할 때까지 반복 계산합니다.</p>
+      <p><strong>비선형의 유형:</strong></p>
+      <ul>
+        <li><strong>재료 비선형:</strong> 항복, 소성, 균열, 크리프 등 재료의 비선형 응력-변형률 관계. RC 구조물의 경우 콘크리트 균열과 철근 항복을 모델링해야 합니다.</li>
+        <li><strong>기하학적 비선형:</strong> 대변형(large deformation), P-delta 효과, 좌굴 등. 장대교량이나 고층건물에서 중요합니다.</li>
+        <li><strong>경계 비선형:</strong> 접촉, 갭, 마찰 등 경계 조건이 변하는 경우. 면진장치나 댐퍼 모델링 시 필수적입니다.</li>
+      </ul>
+      <div class="formula-box">
+        [K<sub>T</sub>]{Δu} = {ΔF} &nbsp;&nbsp;(접선강성행렬을 이용한 Newton-Raphson 반복)
+      </div>
+      <div class="highlight-box warning">
+        <span class="highlight-box-icon">⚠️</span>
+        <div class="highlight-box-content">
+          <p><strong>주의:</strong> 비선형 해석은 수렴 실패가 빈번합니다. 하중 증분 크기, 수렴 기준(tolerance), 최대 반복 횟수를 적절히 설정해야 합니다. 수렴이 안 될 경우 하중 스텝을 줄이거나 arc-length method를 시도해 보세요.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.3 유한요소법(FEM) 기초 -->
+  <div class="subsection reveal" id="fem-basics">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🔬</span> 1.3 유한요소법(FEM) 기초
+    </h3>
+  </div>
+
+  <div class="pipeline reveal">
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">🔲</span>
+      <span class="pipeline-step-title">메시 생성</span>
+      <span class="pipeline-step-desc">연속체를 유한 개의 요소로 분할</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">📊</span>
+      <span class="pipeline-step-title">요소 정식화</span>
+      <span class="pipeline-step-desc">형상함수와 요소 강성행렬 유도</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">🧩</span>
+      <span class="pipeline-step-title">강성행렬 조립</span>
+      <span class="pipeline-step-desc">전체 시스템 행렬 [K] 구성</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">⚡</span>
+      <span class="pipeline-step-title">연립방정식 풀이</span>
+      <span class="pipeline-step-desc">[K]{u}={F} 해 구하기</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">📈</span>
+      <span class="pipeline-step-title">후처리</span>
+      <span class="pipeline-step-desc">응력, 변형, 반력 산출 및 시각화</span>
+    </div>
+  </div>
+
+  <p class="reveal">유한요소법(FEM)은 복잡한 기하형상과 하중 조건을 가진 구조물을 해석하기 위한 수치적 방법입니다. 연속체를 유한 개의 요소(element)로 분할하고, 각 요소 내의 변위를 형상함수(shape function)로 근사합니다. 요소 강성행렬 <code>[k] = ∫[B]ᵀ[D][B]dV</code>를 계산하고 이를 조립하여 전체 강성행렬을 구성합니다. 여기서 [B]는 변형률-변위 행렬, [D]는 재료 구성 행렬입니다. 경계조건을 적용한 후 연립방정식을 풀면 절점 변위를 얻고, 이로부터 요소 응력과 변형률을 역산합니다.</p>
+
+  <div class="formula-box reveal">
+    <strong>FEM 기본 방정식:</strong> [K]{u} = {F} &nbsp;&nbsp;|&nbsp;&nbsp; [k<sub>e</sub>] = ∫<sub>V</sub> [B]<sup>T</sup>[D][B] dV
+  </div>
+
+  <div class="highlight-box tip reveal">
+    <span class="highlight-box-icon">💡</span>
+    <div class="highlight-box-content">
+      <p><strong>메시 품질 팁:</strong> 응력이 급변하는 부위(응력 집중부, 하중 작용점, 기하학적 불연속부)에서는 메시를 조밀하게, 변화가 적은 부위에서는 성기게 배치하세요. 요소의 종횡비(aspect ratio)는 가급적 1:1에 가깝게 유지하고, 왜곡된(distorted) 요소는 해석 정확도를 크게 떨어뜨립니다. 수렴성 검토(mesh convergence study)를 반드시 수행하여 결과가 메시 크기에 의존하지 않음을 확인하세요.</p>
+    </div>
+  </div>
+
+  <!-- 1.4 내풍설계 -->
+  <div class="subsection reveal" id="wind-design">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🌬️</span> 1.4 내풍설계
+    </h3>
+  </div>
+
+  <div class="card-grid reveal">
+    <div class="card">
+      <span class="card-icon">💨</span>
+      <div class="card-title">풍하중 특성</div>
+      <div class="card-desc">
+        풍하중은 평균풍(mean wind)과 변동풍(fluctuating wind)으로 구분됩니다. 평균풍은 정적 하중으로, 변동풍은 난류(turbulence)에 의한 동적 하중으로 작용합니다. 거스트 팩터(gust factor)를 통해 동적 효과를 등가 정적 하중으로 변환할 수 있습니다. 설계풍속은 재현기간(return period) 100년 기준으로 설정하며, KBC 기준에서 기본풍속 V0를 지역별로 규정합니다.
+      </div>
+      <span class="card-tag tag-cyan">풍공학</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏗️</span>
+      <div class="card-title">풍동실험 (Wind Tunnel Test)</div>
+      <div class="card-desc">
+        경계층 풍동(boundary layer wind tunnel)에서 축소 모형(보통 1:300~1:500 스케일)을 이용하여 풍압, 풍력계수, 공기역학적 응답을 측정합니다. HFFB(High Frequency Force Balance) 기법은 모형에 작용하는 전체 풍력을 측정하고, 압력탭 실험은 외장재 설계를 위한 국부 풍압계수를 제공합니다. 고층건물, 대스팬 구조물, 비정형 구조물에서 필수적으로 수행됩니다.
+      </div>
+      <span class="card-tag tag-purple">실험</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">📊</span>
+      <div class="card-title">풍속 프로파일</div>
+      <div class="card-desc">
+        대기경계층 내 풍속은 높이에 따라 증가하며, 지표면 거칠기(terrain roughness)에 영향을 받습니다. 멱법칙(power law) V(z) = V<sub>ref</sub>(z/z<sub>ref</sub>)<sup>α</sup>에서 지수 α는 지표면 조도에 따라 0.10(해상)~0.33(도심)입니다. 로그법칙(log law) V(z) = (u*/κ)ln(z/z0)도 널리 사용되며, 여기서 u*는 마찰속도, κ=0.4는 카르만 상수, z0는 조도길이입니다.
+      </div>
+      <span class="card-tag tag-green">프로파일</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">🌀</span>
+      <div class="card-title">공기역학적 불안정성</div>
+      <div class="card-desc">
+        <strong>와류진동(Vortex-Induced Vibration):</strong> 와류 이탈 주파수가 구조물 고유진동수와 일치할 때 공진 발생. Lock-in 현상에 주의해야 합니다.<br>
+        <strong>플러터(Flutter):</strong> 연성 플러터는 비틀림과 휨 모드가 결합하여 발생하는 자려진동으로, 임계풍속 초과 시 발산적 진동이 일어납니다. 장대교량 설계에서 가장 중요한 검토항목입니다.<br>
+        <strong>갤로핑(Galloping):</strong> 비원형 단면(각형, 빙부착 케이블 등)에서 발생하는 1자유도 자려진동. Den Hartog 기준 dCL/dα + CD < 0일 때 발생합니다.
+      </div>
+      <span class="card-tag tag-red">불안정성</span>
+      <span class="card-tag tag-orange">진동</span>
+    </div>
+  </div>
+
+  <div class="formula-box reveal">
+    <strong>설계풍압:</strong> q = 0.5 × ρ × V<sup>2</sup> &nbsp;&nbsp;|&nbsp;&nbsp; W = q × G × C<sub>p</sub> × A<br>
+    <small style="color: var(--text-muted);">ρ: 공기밀도(1.225 kg/m³), V: 설계풍속, G: 거스트팩터, C<sub>p</sub>: 풍압계수, A: 수압면적</small>
+  </div>
+
+  <!-- 1.5 내진설계 -->
+  <div class="subsection reveal" id="seismic-design">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🏚️</span> 1.5 내진설계
+    </h3>
+  </div>
+
+  <p class="reveal">내진설계는 지진으로부터 인명을 보호하고 구조물의 붕괴를 방지하는 것을 최우선 목표로 합니다. 현대 내진설계는 <strong>"강도 기반 설계"</strong>에서 <strong>"성능 기반 설계(Performance-Based Design)"</strong>로 패러다임이 전환되고 있으며, 구조물의 연성(ductility)을 확보하여 에너지를 흡수하는 것이 핵심 철학입니다.</p>
+
+  <div class="card-grid reveal">
+    <div class="card">
+      <span class="card-icon">🌍</span>
+      <div class="card-title">지진하중</div>
+      <div class="card-desc">
+        지진하중은 지반 가속도에 의해 구조물에 유발되는 관성력입니다. 등가정적 해석법에서 밑면전단력 V = C<sub>s</sub>W로 계산하며, 여기서 C<sub>s</sub>는 지진응답계수, W는 유효 지진 중량입니다. C<sub>s</sub> = S<sub>DS</sub>/(R/I)로 산정되며, R은 반응수정계수(구조시스템의 연성능력 반영), I는 중요도계수입니다. 한국의 지진구역계수는 S=0.22g(I구역), 0.14g(II구역)입니다.
+      </div>
+      <span class="card-tag tag-red">하중</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">📉</span>
+      <div class="card-title">응답스펙트럼</div>
+      <div class="card-desc">
+        응답스펙트럼은 단자유도 시스템(SDOF)의 고유주기에 따른 최대 응답(가속도, 속도, 변위)을 나타낸 곡선입니다. 설계 스펙트럼은 지반종류(S<sub>1</sub>~S<sub>5</sub>), 지역계수, 감쇠비(보통 5%)를 고려하여 구성합니다. 단주기(S<sub>DS</sub>)와 1초 주기(S<sub>D1</sub>) 스펙트럼 가속도가 설계의 핵심 파라미터이며, T<sub>0</sub>~T<sub>s</sub> 구간이 등가속도 구간입니다.
+      </div>
+      <span class="card-tag tag-purple">해석</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">⚡</span>
+      <div class="card-title">비선형 시간이력해석</div>
+      <div class="card-desc">
+        실제 지진파(또는 인공지진파)를 입력하여 구조물의 시간에 따른 응답을 직접 계산합니다. 재료 비선형(소성힌지, 파이버 모델)과 기하학적 비선형(P-delta)을 모두 고려할 수 있어 가장 정확한 해석 방법입니다. 최소 7세트 이상의 지진파를 사용하여 평균 응답을 구합니다. OpenSees, PERFORM-3D, ETABS 등의 소프트웨어가 널리 사용됩니다.
+      </div>
+      <span class="card-tag tag-orange">고급해석</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎯</span>
+      <div class="card-title">성능기반설계 (PBD)</div>
+      <div class="card-desc">
+        지진의 재현기간별로 서로 다른 성능 목표를 설정합니다. 빈번한 지진(50년 50% 초과확률)에서는 즉시 사용 가능, 설계 지진(50년 10%)에서는 인명 안전, 최대 고려 지진(50년 2%)에서는 붕괴 방지를 목표로 합니다. 층간변위비, 소성힌지 회전각, 부재 손상도 등으로 성능 수준을 정량적으로 평가합니다. FEMA P-58, ASCE 41 등이 대표적 기준입니다.
+      </div>
+      <span class="card-tag tag-green">설계철학</span>
+    </div>
+  </div>
+
+  <div class="highlight-box warning reveal">
+    <span class="highlight-box-icon">⚠️</span>
+    <div class="highlight-box-content">
+      <p><strong>내진설계 핵심 원칙:</strong></p>
+      <ul>
+        <li><strong>강주약보(Strong Column - Weak Beam):</strong> 기둥보다 보가 먼저 항복하도록 설계하여 층붕괴(soft story)를 방지합니다. ΣMnc ≥ 1.2ΣMnb 조건을 만족해야 합니다.</li>
+        <li><strong>연성 확보:</strong> 취성파괴(전단파괴, 부착파괴)보다 연성파괴(휨파괴)가 먼저 발생하도록 설계합니다. 횡보강근(후프, 타이)을 소성힌지 예상 구간에 밀배치합니다.</li>
+        <li><strong>하중 경로의 연속성:</strong> 지진 관성력이 바닥판 → 보 → 기둥 → 기초 → 지반으로 원활하게 전달되도록 구조 시스템을 구성합니다.</li>
+        <li><strong>비틀림 불규칙 회피:</strong> 강성 중심과 질량 중심의 편심을 최소화하여 비틀림 응답을 줄입니다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1.6 설계기준 -->
+  <div class="subsection reveal" id="design-codes">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">📋</span> 1.6 설계기준
+    </h3>
+  </div>
+
+  <div class="reveal" style="overflow-x: auto;">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>기준명</th>
+          <th>국가/기관</th>
+          <th>적용 분야</th>
+          <th>특징</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="highlight">KBC 2016</td>
+          <td>한국 (건축구조기준)</td>
+          <td>건축물 전반 (하중, 강구조, RC, 내진설계)</td>
+          <td>국내 건축 설계의 근간. 하중조합, 내진등급, 풍하중 규정 포함. ASCE 7과 유사한 체계를 따름</td>
+        </tr>
+        <tr>
+          <td class="highlight">KDS</td>
+          <td>한국 (국가건설기준)</td>
+          <td>건설 전 분야 (토목, 건축, 항만, 도로 등)</td>
+          <td>2019년부터 시행된 통합 건설기준. KDS 41(건축), KDS 24(교량) 등으로 분류. 성능 중심 체계로 전환 추진 중</td>
+        </tr>
+        <tr>
+          <td class="highlight">ASCE 7</td>
+          <td>미국 (ASCE)</td>
+          <td>최소 설계 하중 (풍, 지진, 활하중, 적설 등)</td>
+          <td>LRFD 기반 하중기준의 국제 표준. 풍하중 및 내진 조항이 매우 상세하며, 최신판(ASCE 7-22)은 다중위험도 기반 설계 반영</td>
+        </tr>
+        <tr>
+          <td class="highlight">Eurocode</td>
+          <td>유럽 (CEN)</td>
+          <td>건축 및 토목 전 분야 (EN 1990~1999)</td>
+          <td>부분안전계수법 적용. National Annex를 통해 각국 실정에 맞게 조정 가능. 성능기반 설계 개념 선도</td>
+        </tr>
+        <tr>
+          <td class="highlight">ACI 318</td>
+          <td>미국 (ACI)</td>
+          <td>철근콘크리트 구조 설계</td>
+          <td>RC 설계의 글로벌 표준. 최신판(ACI 318-19)은 내진 상세, 전단 설계, 내구성 규정이 대폭 개정됨. KBC의 RC 설계도 이를 참고</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box tip reveal">
+    <span class="highlight-box-icon">💡</span>
+    <div class="highlight-box-content">
+      <p><strong>국내 실무에서의 기준 적용:</strong> 한국에서 건축물 구조 설계 시 <strong>KBC(건축구조기준)</strong>와 <strong>KDS(국가건설기준)</strong>가 법적 구속력이 있는 주요 기준입니다. 다만 국내 기준이 다루지 않는 특수한 설계 상황(고성능 콘크리트, 특수 접합부 등)에서는 ACI 318, AISC 360 등 미국 기준을 보완적으로 참고하는 것이 일반적입니다. 대학원 연구에서는 국제 학술지 투고 시 ASCE 7이나 Eurocode 체계로 설명하면 범용성이 높아집니다.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================
+     섹션 2: AI/ML 심화
+     ============================================ -->
+<div class="section" id="ai-ml">
+  <div class="section-header reveal">
+    <span class="section-number blue">02</span>
+    <h2>AI/ML 심화</h2>
+  </div>
+  <p class="section-desc reveal">구조공학에 인공지능과 머신러닝을 접목하면 해석 효율을 획기적으로 높이고, 기존 방법으로는 어려웠던 문제를 해결할 수 있습니다. 이 섹션에서는 ML 기초부터 딥러닝 아키텍처, 컴퓨터 비전, PINN, 서로게이트 모델링, 생성형 AI 활용, 그리고 실전 파이프라인까지 포괄적으로 다룹니다.</p>
+
+  <!-- 2.1 머신러닝 기초 -->
+  <div class="subsection reveal" id="ml-fundamentals">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🤖</span> 2.1 머신러닝 기초
+    </h3>
+  </div>
+
+  <div class="card-grid card-grid-3 reveal">
+    <div class="card">
+      <span class="card-icon">🎯</span>
+      <div class="card-title">지도학습 (Supervised Learning)</div>
+      <div class="card-desc">
+        입력(X)과 정답 레이블(y)의 쌍으로 구성된 데이터로 학습합니다. <strong>회귀(Regression):</strong> 변위, 응력, 고유진동수 등 연속값 예측에 사용. 선형회귀, Random Forest, Gradient Boosting, Neural Network 등이 대표적입니다. <strong>분류(Classification):</strong> 손상 유무 판별, 구조 등급 분류 등. SVM, Decision Tree, Logistic Regression이 널리 쓰입니다. 구조공학에서는 FEM 해석 결과를 레이블로 활용하는 경우가 많습니다.
+      </div>
+      <span class="card-tag tag-blue">회귀</span>
+      <span class="card-tag tag-purple">분류</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔍</span>
+      <div class="card-title">비지도학습 (Unsupervised Learning)</div>
+      <div class="card-desc">
+        레이블 없이 데이터의 내재된 구조와 패턴을 발견합니다. <strong>클러스터링:</strong> K-means, DBSCAN 등으로 센서 데이터를 군집화하여 이상 거동을 탐지합니다. <strong>차원 축소:</strong> PCA(주성분분석)로 고차원 FEM 응답을 저차원으로 압축하여 핵심 모드를 추출합니다. <strong>이상 탐지:</strong> Autoencoder, Isolation Forest로 구조물 건전성 모니터링(SHM) 데이터에서 이상 신호를 감지합니다.
+      </div>
+      <span class="card-tag tag-green">클러스터링</span>
+      <span class="card-tag tag-cyan">차원축소</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎮</span>
+      <div class="card-title">강화학습 (Reinforcement Learning)</div>
+      <div class="card-desc">
+        에이전트가 환경과 상호작용하며 보상을 최대화하는 정책을 학습합니다. 구조공학에서는 <strong>능동 제어(active control)</strong>에 활용됩니다. 지진이나 풍하중 하에서 MR 댐퍼, AMD(Active Mass Damper) 등의 제어력을 실시간 최적화합니다. DQN, PPO, SAC 등의 알고리즘이 사용되며, 구조 최적 설계의 순차적 의사결정 문제에도 적용할 수 있습니다.
+      </div>
+      <span class="card-tag tag-orange">제어</span>
+      <span class="card-tag tag-red">최적화</span>
+    </div>
+  </div>
+
+  <div class="highlight-box info reveal">
+    <span class="highlight-box-icon">📘</span>
+    <div class="highlight-box-content">
+      <p><strong>편향-분산 트레이드오프 (Bias-Variance Tradeoff):</strong> 모델이 너무 단순하면 편향(bias)이 높아 과소적합(underfitting)이, 너무 복잡하면 분산(variance)이 높아 과적합(overfitting)이 발생합니다. 총 오차 = 편향² + 분산 + 노이즈 관계가 성립합니다. 구조공학 데이터는 샘플 수가 적은 경우가 많아 과적합 위험이 높으므로, 정규화(L1/L2), 드롭아웃, 조기 종료(early stopping) 등의 기법이 중요합니다.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box tip reveal">
+    <span class="highlight-box-icon">💡</span>
+    <div class="highlight-box-content">
+      <p><strong>교차 검증 (Cross-Validation):</strong> 데이터가 제한적인 구조공학 문제에서 모델 일반화 성능을 평가하는 핵심 기법입니다. <strong>K-Fold CV</strong>는 데이터를 K개로 분할하여 K번 학습/검증을 반복합니다(보통 K=5 또는 10). <strong>Leave-One-Out CV</strong>는 데이터가 매우 적을 때(수십 개 수준) 유용합니다. 시계열 데이터(지진 응답, SHM 데이터)의 경우 시간 순서를 유지하는 <strong>Time Series Split</strong>을 사용해야 합니다.</p>
+    </div>
+  </div>
+
+  <!-- 2.2 딥러닝 아키텍처 -->
+  <div class="subsection reveal" id="dl-architectures">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🧠</span> 2.2 딥러닝 아키텍처
+    </h3>
+  </div>
+
+  <div class="tab-container reveal">
+    <div class="tab-buttons">
+      <button class="tab-btn active" data-tab="tab-mlp">MLP</button>
+      <button class="tab-btn" data-tab="tab-cnn">CNN</button>
+      <button class="tab-btn" data-tab="tab-rnn">RNN/LSTM</button>
+      <button class="tab-btn" data-tab="tab-transformer">Transformer</button>
+      <button class="tab-btn" data-tab="tab-gnn">GNN</button>
+    </div>
+
+    <div class="tab-content active" id="tab-mlp">
+      <h4>MLP (Multi-Layer Perceptron)</h4>
+      <p>가장 기본적인 신경망 구조로, 입력층-은닉층-출력층의 완전연결(fully connected) 구조입니다. 범용 근사 정리(Universal Approximation Theorem)에 의해 충분한 뉴런이 있으면 어떤 연속함수도 근사할 수 있습니다.</p>
+      <p><strong>구조공학 적용:</strong> FEM 입력 파라미터(단면 크기, 재료 물성, 하중)를 입력하여 응답(변위, 응력)을 예측하는 서로게이트 모델, 구조물 손상도 예측, 재료 물성 역추정 등에 활용됩니다.</p>
+      <div class="code-block">
+<span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn
+
+<span class="keyword">class</span> <span class="function">StructuralMLP</span>(nn.Module):
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, input_dim, hidden_dim, output_dim):
+        <span class="function">super</span>().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.ReLU(),
+            nn.BatchNorm1d(hidden_dim),
+            nn.Dropout(<span class="number">0.2</span>),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+            nn.BatchNorm1d(hidden_dim),
+            nn.Linear(hidden_dim, output_dim)
+        )
+
+    <span class="keyword">def</span> <span class="function">forward</span>(self, x):
+        <span class="keyword">return</span> self.net(x)
+
+<span class="comment"># 예: 5개 설계 변수 → 3개 응답(최대변위, 최대응력, 고유진동수)</span>
+model = <span class="function">StructuralMLP</span>(input_dim=<span class="number">5</span>, hidden_dim=<span class="number">128</span>, output_dim=<span class="number">3</span>)
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-cnn">
+      <h4>CNN (Convolutional Neural Network)</h4>
+      <p>합성곱 연산을 통해 공간적 특징(spatial features)을 자동으로 추출합니다. 커널(필터)이 입력 위를 슬라이딩하며 지역적 패턴을 감지하고, 풀링(pooling)으로 위치 불변성을 확보합니다. 깊은 레이어로 갈수록 저수준(에지, 텍스처)에서 고수준(형상, 객체) 특징을 학습합니다.</p>
+      <p><strong>구조공학 적용:</strong> 균열 이미지 분류/분할, 콘크리트 표면 결함 탐지, 풍압 분포 예측(2D 입력으로 건물 형상 → 풍압 분포), 위상 최적화 결과 예측 등에 널리 사용됩니다.</p>
+      <div class="code-block">
+<span class="keyword">class</span> <span class="function">CrackDetector</span>(nn.Module):
+    <span class="keyword">def</span> <span class="function">__init__</span>(self):
+        <span class="function">super</span>().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(<span class="number">3</span>, <span class="number">32</span>, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>),
+            nn.BatchNorm2d(<span class="number">32</span>),
+            nn.ReLU(),
+            nn.MaxPool2d(<span class="number">2</span>),
+            nn.Conv2d(<span class="number">32</span>, <span class="number">64</span>, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>),
+            nn.BatchNorm2d(<span class="number">64</span>),
+            nn.ReLU(),
+            nn.MaxPool2d(<span class="number">2</span>),
+            nn.Conv2d(<span class="number">64</span>, <span class="number">128</span>, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>),
+            nn.BatchNorm2d(<span class="number">128</span>),
+            nn.ReLU(),
+            nn.AdaptiveAvgPool2d(<span class="number">1</span>)
+        )
+        self.classifier = nn.Linear(<span class="number">128</span>, <span class="number">2</span>)  <span class="comment"># 균열 유/무</span>
+
+    <span class="keyword">def</span> <span class="function">forward</span>(self, x):
+        x = self.features(x).flatten(<span class="number">1</span>)
+        <span class="keyword">return</span> self.classifier(x)
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-rnn">
+      <h4>RNN / LSTM (Recurrent Neural Networks)</h4>
+      <p>시계열(sequential) 데이터 처리에 특화된 구조입니다. 기본 RNN은 기울기 소실 문제가 있어 <strong>LSTM(Long Short-Term Memory)</strong>이 널리 사용됩니다. LSTM은 셀 상태(cell state)와 세 가지 게이트(forget, input, output)를 통해 장기 의존성을 효과적으로 학습합니다. Bidirectional LSTM은 양방향 문맥을 활용하여 성능을 높입니다.</p>
+      <p><strong>구조공학 적용:</strong> 지진 응답 시계열 예측, SHM 가속도 센서 데이터 분석, 풍속/풍향 시계열 예측, 피로 하중 이력 분석 등 시간에 따른 구조 응답을 다루는 문제에 적합합니다.</p>
+      <div class="code-block">
+<span class="keyword">class</span> <span class="function">SeismicResponseLSTM</span>(nn.Module):
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, input_size, hidden_size, num_layers, output_size):
+        <span class="function">super</span>().__init__()
+        self.lstm = nn.LSTM(
+            input_size=input_size,    <span class="comment"># 지반 가속도 차원</span>
+            hidden_size=hidden_size,
+            num_layers=num_layers,
+            batch_first=<span class="keyword">True</span>,
+            dropout=<span class="number">0.2</span>,
+            bidirectional=<span class="keyword">True</span>
+        )
+        self.fc = nn.Linear(hidden_size * <span class="number">2</span>, output_size)  <span class="comment"># 양방향이므로 *2</span>
+
+    <span class="keyword">def</span> <span class="function">forward</span>(self, x):
+        <span class="comment"># x: (batch, seq_len, input_size)</span>
+        out, _ = self.lstm(x)
+        <span class="keyword">return</span> self.fc(out)  <span class="comment"># 매 시간 스텝의 구조 응답 예측</span>
+
+<span class="comment"># 예: 지반가속도(1ch) → 층별 변위 응답(10층)</span>
+model = <span class="function">SeismicResponseLSTM</span>(<span class="number">1</span>, <span class="number">64</span>, <span class="number">2</span>, <span class="number">10</span>)
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-transformer">
+      <h4>Transformer</h4>
+      <p>Self-Attention 메커니즘을 핵심으로 하는 아키텍처로, 시퀀스 내 모든 위치 간의 관계를 병렬적으로 계산합니다. RNN과 달리 순차 처리가 불필요하여 학습 속도가 빠르고, 장거리 의존성을 효과적으로 모델링합니다. Attention(Q,K,V) = softmax(QK<sup>T</sup>/√d<sub>k</sub>)V 공식이 핵심입니다.</p>
+      <p><strong>구조공학 적용:</strong> 장기 SHM 데이터의 시계열 패턴 분석, 다중 센서 간 상관관계 학습, 구조 응답 예측에서 LSTM 대비 우수한 성능을 보이는 사례가 증가하고 있습니다. Vision Transformer(ViT)는 구조물 이미지 기반 상태 평가에도 활용됩니다.</p>
+      <div class="code-block">
+<span class="keyword">class</span> <span class="function">SHMTransformer</span>(nn.Module):
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, d_model, nhead, num_layers, input_dim, output_dim):
+        <span class="function">super</span>().__init__()
+        self.input_proj = nn.Linear(input_dim, d_model)
+        self.pos_encoding = nn.Parameter(torch.randn(<span class="number">1</span>, <span class="number">1000</span>, d_model))
+        encoder_layer = nn.TransformerEncoderLayer(
+            d_model=d_model, nhead=nhead,
+            dim_feedforward=d_model*<span class="number">4</span>, dropout=<span class="number">0.1</span>,
+            batch_first=<span class="keyword">True</span>
+        )
+        self.transformer = nn.TransformerEncoder(encoder_layer, num_layers)
+        self.output_proj = nn.Linear(d_model, output_dim)
+
+    <span class="keyword">def</span> <span class="function">forward</span>(self, x):
+        <span class="comment"># x: (batch, seq_len, input_dim)</span>
+        x = self.input_proj(x) + self.pos_encoding[:, :x.size(<span class="number">1</span>)]
+        x = self.transformer(x)
+        <span class="keyword">return</span> self.output_proj(x)
+
+<span class="comment"># 예: 10개 가속도계 데이터 → 구조 상태 분류</span>
+model = <span class="function">SHMTransformer</span>(d_model=<span class="number">128</span>, nhead=<span class="number">8</span>, num_layers=<span class="number">4</span>, input_dim=<span class="number">10</span>, output_dim=<span class="number">5</span>)
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-gnn">
+      <h4>GNN (Graph Neural Network)</h4>
+      <p>그래프 구조 데이터를 처리하는 신경망입니다. 구조물은 본질적으로 노드(절점)와 엣지(부재)로 구성된 그래프이므로, GNN은 구조공학에 매우 자연스럽게 적용됩니다. 메시지 패싱(Message Passing) 방식으로 이웃 노드의 정보를 집계하여 노드 임베딩을 업데이트합니다. GCN, GAT(Graph Attention Network), GraphSAGE 등이 대표적입니다.</p>
+      <p><strong>구조공학 적용:</strong> FEM 메시를 그래프로 표현하여 구조 응답 예측, 트러스/프레임 구조 최적 설계, 구조물 손상 위치 추정, 도시 규모의 건물군 지진 취약도 평가 등에 활용됩니다. 메시 독립적 예측이 가능하여 다양한 기하형상에 일반화할 수 있습니다.</p>
+      <div class="code-block">
+<span class="keyword">import</span> torch
+<span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn
+<span class="keyword">from</span> torch_geometric.nn <span class="keyword">import</span> GCNConv, global_mean_pool
+
+<span class="keyword">class</span> <span class="function">StructuralGNN</span>(nn.Module):
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, node_features, hidden_dim, output_dim):
+        <span class="function">super</span>().__init__()
+        self.conv1 = GCNConv(node_features, hidden_dim)
+        self.conv2 = GCNConv(hidden_dim, hidden_dim)
+        self.conv3 = GCNConv(hidden_dim, hidden_dim)
+        self.fc = nn.Linear(hidden_dim, output_dim)
+
+    <span class="keyword">def</span> <span class="function">forward</span>(self, x, edge_index, batch):
+        <span class="comment"># x: 절점 특징(좌표, 물성, 경계조건 등)</span>
+        x = torch.relu(self.conv1(x, edge_index))
+        x = torch.relu(self.conv2(x, edge_index))
+        x = torch.relu(self.conv3(x, edge_index))
+        x = global_mean_pool(x, batch)  <span class="comment"># 그래프 레벨 출력</span>
+        <span class="keyword">return</span> self.fc(x)
+
+<span class="comment"># 예: 절점 특징 6차원(x,y,z좌표 + 3개 물성) → 전체 구조 응답</span>
+model = <span class="function">StructuralGNN</span>(node_features=<span class="number">6</span>, hidden_dim=<span class="number">64</span>, output_dim=<span class="number">3</span>)
+      </div>
+    </div>
+  </div>
+
+  <!-- 2.3 컴퓨터 비전 -->
+  <div class="subsection reveal" id="computer-vision">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">👁️</span> 2.3 컴퓨터 비전
+    </h3>
+  </div>
+
+  <div class="card-grid reveal">
+    <div class="card">
+      <span class="card-icon">🔎</span>
+      <div class="card-title">균열 탐지 (Crack Detection)</div>
+      <div class="card-desc">
+        콘크리트 구조물 표면의 균열을 자동으로 탐지하는 핵심 기술입니다. 이진 분류(균열 유/무)부터 균열의 폭, 길이, 방향까지 정량적으로 측정합니다. <strong>ResNet, EfficientNet</strong> 기반 분류 모델이 기본이며, 픽셀 단위 분할이 필요한 경우 <strong>U-Net</strong>이 가장 널리 사용됩니다. DeepCrack, CrackForest 등 구조물 균열 특화 데이터셋을 활용한 전이학습이 효과적입니다. 드론 촬영 이미지와 결합하면 대규모 인프라 점검이 가능합니다.
+      </div>
+      <span class="card-tag tag-blue">U-Net</span>
+      <span class="card-tag tag-purple">ResNet</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎨</span>
+      <div class="card-title">Semantic Segmentation</div>
+      <div class="card-desc">
+        이미지의 모든 픽셀에 클래스 레이블을 할당합니다. 구조물 이미지에서 균열, 박리, 철근 노출, 백태 등 다양한 손상 유형을 동시에 분류할 수 있습니다. <strong>U-Net</strong>(인코더-디코더 구조 + skip connection), <strong>DeepLab v3+</strong>(Atrous Spatial Pyramid Pooling), <strong>SegFormer</strong>(Transformer 기반) 등이 대표적입니다. 구조물 점검 보고서 자동화, 손상 면적 정량화에 직접 활용됩니다.
+      </div>
+      <span class="card-tag tag-cyan">DeepLab</span>
+      <span class="card-tag tag-green">SegFormer</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">📦</span>
+      <div class="card-title">Object Detection</div>
+      <div class="card-desc">
+        이미지에서 관심 객체의 위치(bounding box)와 클래스를 동시에 예측합니다. <strong>YOLO(You Only Look Once)</strong> 시리즈는 실시간 처리가 가능하여 드론 기반 현장 점검에 적합합니다. 최신 YOLOv8은 높은 정확도와 경량화를 동시에 달성합니다. <strong>Faster R-CNN</strong>은 정확도가 더 높아 정밀 분석에 유용합니다. 볼트 풀림, 부식, 변형 등 구조물 구성요소의 결함을 탐지하는 데 활용됩니다.
+      </div>
+      <span class="card-tag tag-orange">YOLOv8</span>
+      <span class="card-tag tag-red">Faster R-CNN</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">📡</span>
+      <div class="card-title">SHM 이미지 분석</div>
+      <div class="card-desc">
+        구조물 건전성 모니터링(Structural Health Monitoring)에 비전 기술을 적용합니다. <strong>비접촉 변위 측정:</strong> 타겟 마커 추적(DIC, Digital Image Correlation) 또는 마커리스 기법으로 구조물 변위를 광학적으로 측정합니다. <strong>진동 기반 모니터링:</strong> 고속 카메라 영상에서 미세 진동을 추출하여 고유진동수 변화를 모니터링합니다. 센서 설치가 어려운 문화재, 노후 인프라 등에서 특히 유용합니다.
+      </div>
+      <span class="card-tag tag-yellow">SHM</span>
+      <span class="card-tag tag-cyan">DIC</span>
+    </div>
+  </div>
+
+  <!-- 2.4 물리정보 신경망 PINN -->
+  <div class="subsection reveal" id="pinn">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">⚛️</span> 2.4 물리정보 신경망 (PINN)
+    </h3>
+  </div>
+
+  <p class="reveal">PINN(Physics-Informed Neural Network)은 신경망 학습 과정에 물리 법칙(지배방정식, 경계조건, 초기조건)을 손실함수에 직접 반영하는 기법입니다. 순수 데이터 기반 접근법의 한계를 극복하고, 적은 데이터로도 물리적으로 타당한 예측을 가능하게 합니다.</p>
+
+  <div class="formula-box reveal">
+    <strong>PINN 손실함수:</strong> L = L<sub>data</sub> + &lambda; &middot; L<sub>physics</sub><br>
+    <small style="color: var(--text-muted);">L<sub>data</sub> = MSE(u<sub>pred</sub>, u<sub>obs</sub>) &nbsp;|&nbsp; L<sub>physics</sub> = MSE(PDE residual, 0) &nbsp;|&nbsp; &lambda;: 물리 제약 가중치</small>
+  </div>
+
+  <p class="reveal">예를 들어, 보의 처짐 문제에서 지배방정식 EI(d<sup>4</sup>w/dx<sup>4</sup>) = q(x)를 만족하도록 손실함수에 PDE 잔차(residual)를 추가합니다. 신경망의 자동미분(autograd)을 활용하여 도함수를 정확하게 계산할 수 있습니다. 경계조건(고정단: w=0, dw/dx=0 등)도 별도의 손실항으로 부여합니다.</p>
+
+  <div class="card-grid card-grid-2 reveal">
+    <div class="card accent-green">
+      <span class="card-icon">✅</span>
+      <div class="card-title">PINN의 장점</div>
+      <div class="card-desc">
+        <ul>
+          <li><strong>데이터 효율성:</strong> 물리 법칙이 정규화 역할을 하여 소량 데이터로도 학습 가능</li>
+          <li><strong>물리적 일관성:</strong> 예측 결과가 지배방정식, 보존법칙 등 물리 법칙을 만족</li>
+          <li><strong>메시 불필요:</strong> FEM과 달리 메시 생성 없이 임의의 콜로케이션 포인트에서 학습 가능</li>
+          <li><strong>역문제 풀이:</strong> 관측 데이터로부터 미지의 물성치나 하중을 역추정 가능</li>
+          <li><strong>다물리 연성:</strong> 열-구조 연성, 유체-구조 상호작용 등 복합 문제에 유연하게 적용</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card accent-orange">
+      <span class="card-icon">⚠️</span>
+      <div class="card-title">PINN의 한계</div>
+      <div class="card-desc">
+        <ul>
+          <li><strong>수렴 어려움:</strong> 데이터 손실과 물리 손실의 균형 조절이 어려움 (가중치 &lambda; 튜닝)</li>
+          <li><strong>복잡한 기하형상:</strong> 불규칙한 영역에서 콜로케이션 포인트 배치가 어렵고 정확도 저하</li>
+          <li><strong>급격한 변화:</strong> 충격파, 균열 전파 등 불연속성이 있는 문제에서 성능 제한</li>
+          <li><strong>계산 비용:</strong> 자동미분 연산으로 학습이 느리며, 고차 미분이 필요한 PDE에서 더 느림</li>
+          <li><strong>스케일링:</strong> 대규모 3D 문제로의 확장이 아직 도전적인 연구 과제</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box info reveal">
+    <span class="highlight-box-icon">📘</span>
+    <div class="highlight-box-content">
+      <p><strong>구조역학 적용 사례:</strong></p>
+      <ul>
+        <li><strong>보/판 처짐 예측:</strong> Euler-Bernoulli 보 이론, Kirchhoff 판 이론의 지배방정식을 PINN에 적용</li>
+        <li><strong>구조물 손상 역추정:</strong> 가속도 센서 데이터로부터 강성 저하 위치 및 크기를 역추정</li>
+        <li><strong>재료 구성방정식 학습:</strong> 실험 데이터와 열역학 법칙을 결합하여 비선형 재료 모델 구축</li>
+        <li><strong>동적 응답 예측:</strong> 운동방정식을 물리 제약으로 부여하여 지진/풍하중 응답 예측</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2.5 서로게이트 모델링 -->
+  <div class="subsection reveal" id="surrogate-modeling">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🚀</span> 2.5 서로게이트 모델링
+    </h3>
+  </div>
+
+  <p class="reveal">서로게이트 모델(Surrogate Model, 대리 모델)은 계산 비용이 높은 FEM 해석을 ML 모델로 대체하여 실시간에 가까운 예측을 가능하게 합니다. 구조 최적 설계, 신뢰성 해석, 불확실성 정량화 등 수천~수만 회의 반복 해석이 필요한 문제에서 필수적입니다. FEM 1회 해석에 수 시간이 걸리는 복잡한 모델도 학습된 서로게이트 모델로 밀리초 단위로 예측할 수 있습니다.</p>
+
+  <div class="pipeline reveal">
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">🖥️</span>
+      <span class="pipeline-step-title">FEM 시뮬레이션</span>
+      <span class="pipeline-step-desc">고충실도 해석 수행</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">📊</span>
+      <span class="pipeline-step-title">데이터 생성</span>
+      <span class="pipeline-step-desc">DOE 기반 입출력 쌍 생성</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">🧠</span>
+      <span class="pipeline-step-title">ML 모델 학습</span>
+      <span class="pipeline-step-desc">MLP, GP, PCE 등</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">⚡</span>
+      <span class="pipeline-step-title">빠른 예측</span>
+      <span class="pipeline-step-desc">밀리초 단위 실시간 응답</span>
+    </div>
+  </div>
+
+  <div class="card-grid card-grid-2 reveal">
+    <div class="card">
+      <span class="card-icon">📉</span>
+      <div class="card-title">ROM (Reduced Order Model)</div>
+      <div class="card-desc">
+        고차원 FEM 모델을 저차원으로 축소하여 계산 효율을 높이는 기법입니다. <strong>POD(Proper Orthogonal Decomposition):</strong> 스냅샷 행렬의 SVD를 통해 주요 모드를 추출하고, 이 모드들의 선형 조합으로 응답을 근사합니다. 수만 개 자유도를 수십 개로 줄일 수 있습니다. <strong>DMD(Dynamic Mode Decomposition):</strong> 시계열 데이터에서 동적 모드를 추출하여 시스템 거동을 재구성합니다. POD-Galerkin 방법은 지배방정식에 POD 기저를 투영하여 축소 모델을 구성합니다.
+      </div>
+      <span class="card-tag tag-purple">POD</span>
+      <span class="card-tag tag-blue">DMD</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎲</span>
+      <div class="card-title">데이터 생성 전략 (DOE)</div>
+      <div class="card-desc">
+        서로게이트 모델의 품질은 학습 데이터의 질에 좌우됩니다. <strong>Latin Hypercube Sampling(LHS):</strong> 각 변수의 범위를 균등하게 분할하여 공간을 고르게 채웁니다. 가장 널리 사용되는 방법입니다. <strong>Sobol Sequence:</strong> 준난수(quasi-random) 기반으로 LHS보다 더 균일한 분포를 제공합니다. <strong>Adaptive Sampling:</strong> 예측 불확실성이 높은 영역에 추가 샘플을 배치하여 효율적으로 정확도를 개선합니다. 일반적으로 입력 변수 개수의 10~20배 이상 샘플이 필요합니다.
+      </div>
+      <span class="card-tag tag-green">LHS</span>
+      <span class="card-tag tag-cyan">적응적 샘플링</span>
+    </div>
+  </div>
+
+  <div class="highlight-box tip reveal">
+    <span class="highlight-box-icon">💡</span>
+    <div class="highlight-box-content">
+      <p><strong>서로게이트 모델 선택 가이드:</strong> 입력 변수가 적고(10개 이하) 불확실성 정량화가 필요하면 <strong>Gaussian Process(GP/Kriging)</strong>가 적합합니다. 변수가 많고 대량 데이터가 확보된 경우 <strong>Neural Network</strong>이 유리합니다. 고차 다항식 근사가 가능한 문제에서는 <strong>PCE(Polynomial Chaos Expansion)</strong>가 효과적입니다. 여러 모델을 앙상블하면 더욱 안정적인 예측이 가능합니다.</p>
+    </div>
+  </div>
+
+  <!-- 2.6 생성형 AI 활용 -->
+  <div class="subsection reveal" id="generative-ai">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">✨</span> 2.6 생성형 AI 활용
+    </h3>
+  </div>
+
+  <div class="card-grid card-grid-3 reveal">
+    <div class="card">
+      <span class="card-icon">💬</span>
+      <div class="card-title">LLM 연구 활용</div>
+      <div class="card-desc">
+        ChatGPT, Claude 등 대규모 언어 모델을 구조공학 연구에 활용하는 방법입니다. <strong>문헌 리뷰 보조:</strong> 논문 요약, 연구 동향 파악, 관련 키워드 확장에 활용합니다. <strong>수식 검증:</strong> 유도 과정의 논리적 오류를 검토하고 대안적 접근법을 탐색합니다. <strong>영어 학술 글쓰기:</strong> 논문 초고 작성, 문법 교정, 리뷰어 코멘트에 대한 응답 작성을 지원합니다. 단, LLM의 출력은 반드시 원문 논문과 대조하여 사실 관계를 검증해야 합니다.
+      </div>
+      <span class="card-tag tag-blue">ChatGPT</span>
+      <span class="card-tag tag-purple">Claude</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏗️</span>
+      <div class="card-title">위상최적화 + GAN</div>
+      <div class="card-desc">
+        GAN(Generative Adversarial Network)을 위상 최적화(Topology Optimization)에 적용하여 설계 공간을 혁신적으로 탐색합니다. <strong>SIMP 방법</strong>의 반복 해석을 대체하여 실시간 최적 형상 생성이 가능합니다. Generator가 설계 변수(밀도 분포)를 생성하고, Discriminator가 최적해 여부를 판별합니다. <strong>cGAN(Conditional GAN)</strong>은 하중 조건, 경계 조건을 입력으로 조건부 생성을 수행합니다. VAE(Variational Autoencoder) 기반 접근도 연구되고 있으며, 잠재 공간에서의 설계 탐색이 가능합니다.
+      </div>
+      <span class="card-tag tag-orange">GAN</span>
+      <span class="card-tag tag-red">TopOpt</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">💻</span>
+      <div class="card-title">코드 생성 활용법</div>
+      <div class="card-desc">
+        LLM의 코드 생성 능력을 구조공학 연구에 활용합니다. <strong>FEM 스크립트:</strong> ABAQUS Python, OpenSees Tcl/Python 스크립트를 자연어로 설명하고 생성합니다. <strong>데이터 처리:</strong> SHM 센서 데이터 전처리, 시각화 코드를 빠르게 작성합니다. <strong>ML 파이프라인:</strong> PyTorch/TensorFlow 모델 구현, 하이퍼파라미터 튜닝 코드를 생성합니다. GitHub Copilot이나 Claude Code를 IDE에 통합하면 생산성이 크게 향상됩니다. 코드 리뷰와 디버깅에도 적극 활용하세요.
+      </div>
+      <span class="card-tag tag-cyan">Copilot</span>
+      <span class="card-tag tag-green">자동화</span>
+    </div>
+  </div>
+
+  <div class="highlight-box tip reveal">
+    <span class="highlight-box-icon">💡</span>
+    <div class="highlight-box-content">
+      <p><strong>LLM 활용 팁:</strong> 프롬프트에 구체적인 맥락(사용 중인 소프트웨어, 해석 유형, 재료 종류 등)을 제공할수록 정확한 답변을 얻을 수 있습니다. "ABAQUS Python으로 3D 보 모델을 생성하는 스크립트를 작성해줘. 단면은 H-300x150x6.5x9, 재료는 SS400, 경계조건은 양단 핀, 등분포하중 10 kN/m" 처럼 구체적으로 요청하세요. 생성된 코드는 반드시 검증 후 사용하고, 특히 단위 체계(SI vs. 공학 단위)를 꼭 확인하세요.</p>
+    </div>
+  </div>
+
+  <!-- 2.7 실전 ML 파이프라인 -->
+  <div class="subsection reveal" id="ml-pipeline">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🔧</span> 2.7 실전 ML 파이프라인
+    </h3>
+  </div>
+
+  <div class="pipeline reveal">
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">📥</span>
+      <span class="pipeline-step-title">데이터 수집</span>
+      <span class="pipeline-step-desc">실험/시뮬레이션/센서 데이터</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">🧹</span>
+      <span class="pipeline-step-title">전처리</span>
+      <span class="pipeline-step-desc">결측치, 정규화, 특성 공학</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">🔍</span>
+      <span class="pipeline-step-title">모델 선택</span>
+      <span class="pipeline-step-desc">문제 유형에 맞는 알고리즘</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">🏋️</span>
+      <span class="pipeline-step-title">학습</span>
+      <span class="pipeline-step-desc">하이퍼파라미터 튜닝</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">📊</span>
+      <span class="pipeline-step-title">평가</span>
+      <span class="pipeline-step-desc">교차검증, 테스트 성능</span>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <span class="pipeline-step-icon">🚀</span>
+      <span class="pipeline-step-title">배포</span>
+      <span class="pipeline-step-desc">API, 웹앱, 리포트</span>
+    </div>
+  </div>
+
+  <div class="highlight-box warning reveal">
+    <span class="highlight-box-icon">⚠️</span>
+    <div class="highlight-box-content">
+      <p><strong>흔한 실수들 (Common Pitfalls):</strong></p>
+      <ul>
+        <li><strong>데이터 누출(Data Leakage):</strong> 전처리(정규화, 특성 선택)를 전체 데이터에 대해 수행한 후 분할하면 테스트 정보가 학습에 유입됩니다. 반드시 학습 데이터로만 fit하고 테스트 데이터에는 transform만 적용하세요.</li>
+        <li><strong>불균형 데이터:</strong> 구조물 손상 데이터는 정상이 대다수. 정확도(accuracy)만 보면 손상을 모두 놓칠 수 있습니다. F1-score, Precision, Recall을 함께 확인하세요.</li>
+        <li><strong>물리적 타당성 미검증:</strong> ML 예측이 물리적으로 불가능한 결과(음의 강성, 에너지 보존 위반 등)를 출력할 수 있습니다. 항상 공학적 판단으로 결과를 검증하세요.</li>
+        <li><strong>과적합에 대한 과소평가:</strong> 학습 손실만 모니터링하지 마세요. 검증 손실이 증가하기 시작하면 학습을 중단(early stopping)해야 합니다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <h4>평가 지표 (Evaluation Metrics)</h4>
+    <p>문제 유형에 따라 적절한 평가 지표를 선택해야 합니다.</p>
+  </div>
+
+  <div class="card-grid card-grid-2 reveal">
+    <div class="card">
+      <span class="card-icon">📈</span>
+      <div class="card-title">회귀 문제 지표</div>
+      <div class="card-desc">
+        <ul>
+          <li><strong>R² (결정계수):</strong> 모델이 데이터 분산을 얼마나 설명하는지. 1에 가까울수록 좋음. 0.95 이상이면 구조공학에서 우수한 수준</li>
+          <li><strong>RMSE:</strong> 예측 오차의 제곱 평균 제곱근. 물리적 단위를 가져 해석이 직관적</li>
+          <li><strong>MAE:</strong> 절대 오차의 평균. 이상치에 강건</li>
+          <li><strong>MAPE:</strong> 백분율 오차. 스케일이 다른 변수 간 비교에 유용</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎯</span>
+      <div class="card-title">분류 문제 지표</div>
+      <div class="card-desc">
+        <ul>
+          <li><strong>Accuracy:</strong> 전체 정확도. 불균형 데이터에서는 오해의 소지가 큼</li>
+          <li><strong>Precision:</strong> 양성 예측 중 실제 양성 비율. 오경보(false alarm) 최소화 시 중요</li>
+          <li><strong>Recall:</strong> 실제 양성 중 탐지 비율. 손상 놓침 방지가 중요할 때 우선</li>
+          <li><strong>F1-Score:</strong> Precision과 Recall의 조화평균. 불균형 데이터에서 종합 성능 평가</li>
+          <li><strong>AUC-ROC:</strong> 임계값에 무관한 분류 성능 평가</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box tip reveal">
+    <span class="highlight-box-icon">💡</span>
+    <div class="highlight-box-content">
+      <p><strong>구조공학 ML 연구 논문 작성 팁:</strong> 논문에서 ML 모델의 성능만 보고하면 리뷰어의 지적을 받기 쉽습니다. (1) 기존 방법(FEM, 경험식) 대비 정확도와 계산 시간을 정량적으로 비교하고, (2) 입력 변수의 물리적 의미와 선택 근거를 설명하며, (3) SHAP 값이나 Partial Dependence Plot으로 모델 해석성(interpretability)을 보여주고, (4) 학습 데이터 범위 밖의 외삽(extrapolation) 성능도 평가하세요.</p>
+    </div>
+  </div>
+</div>
+<!-- ============================================
+     Section 03: 연구 방법론
+     ============================================ -->
+<section class="section" id="research-methods">
+  <div class="section-header reveal">
+    <span class="section-number cyan">03</span>
+    <h2>연구 방법론</h2>
+  </div>
+  <p class="section-desc reveal">구조공학과 AI 분야에서 성공적인 연구를 수행하기 위한 체계적 방법론을 다룹니다. 논문 읽기부터 작성, 리뷰 대응, 자격시험 준비, 학회 발표까지 대학원 연구 생활의 핵심 역량을 정리했습니다.</p>
+
+  <!-- 3.1 논문 읽는 법 -->
+  <div class="subsection reveal" id="paper-reading">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">📖</span> 3.1 논문 읽는 법
+    </h3>
+    <p>모든 연구의 시작은 기존 문헌을 정확히 이해하는 것입니다. S. Keshav 교수가 제안한 <strong>3-Pass Reading Method</strong>는 효율적인 논문 읽기의 표준으로 자리 잡았습니다. 한 번에 완벽히 이해하려 하지 말고, 단계적으로 깊이를 더해가는 것이 핵심입니다.</p>
+
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <div class="timeline-label">1st Pass (5~10분)</div>
+        <div class="timeline-title">제목, 초록, 결론 훑기</div>
+        <div class="timeline-desc">
+          논문의 제목, 초록(Abstract), 서론의 첫 단락, 각 섹션 제목, 결론만 읽습니다. 이 단계에서 답해야 할 질문: (1) 이 논문이 어떤 문제를 다루는가? (2) 저자의 주요 접근법은 무엇인가? (3) 내 연구와 관련이 있는가? 이 단계에서 관련 없는 논문의 80%를 걸러낼 수 있습니다. 그림과 표의 캡션도 훑어보면 연구 범위를 빠르게 파악할 수 있습니다.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">2nd Pass (30~60분)</div>
+        <div class="timeline-title">그림, 표, 수식 중심 정독</div>
+        <div class="timeline-desc">
+          논문 전체를 읽되, 증명이나 수식 유도의 세부 과정은 건너뜁니다. 그림과 표를 주의 깊게 분석하고, 축의 레이블, 오차 범위, 통계적 유의성을 확인합니다. 참고문헌 목록에서 이미 읽은 논문과 아직 읽지 않은 중요 논문을 표시합니다. 구조공학 논문이라면 하중 조건, 경계 조건, 재료 모델을 꼼꼼히 살피고, AI 논문이라면 데이터셋 구성, 하이퍼파라미터, 평가 지표를 확인합니다.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">3rd Pass (수 시간)</div>
+        <div class="timeline-title">재현 가능할 정도로 상세히 읽기</div>
+        <div class="timeline-desc">
+          논문을 처음부터 끝까지, 모든 수식 유도와 가정을 직접 따라가며 읽습니다. 저자의 관점이 아닌 비판적 시각에서 각 주장의 근거를 검토합니다. "내가 이 연구를 재현할 수 있는가?"를 기준으로 빠진 정보를 메모합니다. 특히 실험 조건, 전처리 과정, 모델 아키텍처의 세부 사항에 주목합니다. 이 단계를 마치면 해당 논문의 강점, 약점, 숨겨진 가정, 향후 연구 가능성까지 명확하게 파악할 수 있어야 합니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box tip reveal">
+      <div class="highlight-box-icon">💡</div>
+      <div class="highlight-box-content">
+        <p><strong>비판적 읽기 전략 (Critical Reading)</strong></p>
+        <p>논문을 읽을 때 다음 질문을 항상 염두에 두세요: (1) 저자가 세운 가정은 현실적인가? 구조해석에서 경계 조건이 실제 구조물을 제대로 반영하는가? (2) 실험/시뮬레이션 결과가 저자의 주장을 충분히 뒷받침하는가? (3) 비교 대상(baseline)이 공정한가? 최신 SOTA 모델과 비교했는가, 아니면 약한 기준과 비교했는가? (4) 결과의 일반화 가능성은 어느 정도인가? 한 가지 구조 유형에서만 검증했다면 한계를 인지해야 합니다.</p>
+      </div>
+    </div>
+
+    <h4>문헌 맵핑 (Literature Mapping) 전략</h4>
+    <div class="card-grid reveal">
+      <div class="card">
+        <span class="card-icon">🗺️</span>
+        <div class="card-title">개념 맵(Concept Map)</div>
+        <div class="card-desc">읽은 논문들의 핵심 개념을 노드로, 관계를 연결선으로 그려 연구 분야의 전체 지형도를 만듭니다. Obsidian이나 Miro 같은 도구를 활용하면 편리합니다. 구조공학+AI 분야에서는 "손상 탐지 - 딥러닝 - 센서 데이터" 같은 클러스터가 형성됩니다.</div>
+        <span class="card-tag tag-cyan">정리법</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">📊</span>
+        <div class="card-title">연도별 흐름 정리</div>
+        <div class="card-desc">동일 주제의 논문을 연도순으로 나열하면 연구 트렌드와 패러다임 전환점이 보입니다. 예를 들어 구조 건전성 모니터링(SHM)이 통계적 방법 → 기계학습 → 딥러닝 → Physics-Informed ML로 발전해 온 흐름을 파악할 수 있습니다.</div>
+        <span class="card-tag tag-purple">트렌드</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔗</span>
+        <div class="card-title">인용 네트워크 분석</div>
+        <div class="card-desc">Connected Papers나 Semantic Scholar의 인용 그래프를 활용해 핵심 논문(seed paper)에서 출발하여 관련 문헌을 체계적으로 확장합니다. 많이 인용된 논문은 해당 분야의 기초 연구이고, 최신 인용 논문은 연구 최전선을 보여줍니다.</div>
+        <span class="card-tag tag-green">도구</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.2 연구 문제 찾기 -->
+  <div class="subsection reveal" id="finding-problems">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🔍</span> 3.2 연구 문제 찾기
+    </h3>
+    <p>좋은 연구 문제를 발견하는 것은 대학원 생활에서 가장 중요하면서도 가장 어려운 일 중 하나입니다. 독창적이면서도 실현 가능한 연구 질문을 찾기 위한 체계적 전략을 소개합니다.</p>
+
+    <div class="card-grid reveal">
+      <div class="card accent-cyan">
+        <span class="card-icon">📝</span>
+        <div class="card-title">기존 연구의 한계점 분석</div>
+        <div class="card-desc">
+          논문의 "Limitations" 섹션과 "Future Work" 섹션은 연구 아이디어의 보물창고입니다. 특히 구조공학+AI 분야에서 자주 발견되는 한계점: (1) 특정 구조 유형에만 적용 가능한 AI 모델, (2) 노이즈가 많은 현장 데이터에서의 성능 저하, (3) 물리적 의미를 반영하지 않는 블랙박스 예측, (4) 학습 데이터 부족 문제. 이런 한계점 하나하나가 연구 주제가 될 수 있습니다.
+        </div>
+        <span class="card-tag tag-cyan">문헌 기반</span>
+      </div>
+      <div class="card accent-purple">
+        <span class="card-icon">🔀</span>
+        <div class="card-title">학제간 융합 기회 탐색</div>
+        <div class="card-desc">
+          구조공학과 AI의 교차점에서 새로운 연구 기회를 발굴합니다. 컴퓨터 비전 분야의 최신 아키텍처를 구조물 균열 탐지에 적용하거나, 자연어 처리(NLP) 기법을 건축 설계 기준서 분석에 활용하거나, 강화학습을 구조 최적설계에 도입하는 등의 융합이 가능합니다. 한 분야에서 잘 작동하는 방법론이 다른 분야에서는 아직 시도되지 않은 경우가 많습니다.
+        </div>
+        <span class="card-tag tag-purple">융합 연구</span>
+      </div>
+      <div class="card accent-green">
+        <span class="card-icon">🏗️</span>
+        <div class="card-title">실무 현장의 문제 관찰</div>
+        <div class="card-desc">
+          학술 논문만이 아니라 실제 건설 현장, 구조 점검 보고서, 재난 사례 분석에서 연구 문제를 발견할 수 있습니다. 현장 엔지니어들이 겪는 반복적 어려움(수작업 점검의 비효율, 노후 인프라 관리, 시공 품질 편차 등)을 AI로 해결할 수 있는지 고민해 보세요. 산업체 세미나, 기술 보고서, 특허 공개 자료도 유용한 정보원입니다.
+        </div>
+        <span class="card-tag tag-green">실무 연계</span>
+      </div>
+    </div>
+
+    <div class="highlight-box info reveal">
+      <div class="highlight-box-icon">📌</div>
+      <div class="highlight-box-content">
+        <p><strong>좋은 연구 질문의 조건 (FINER Criteria)</strong></p>
+        <p><strong>Feasible(실현 가능)</strong>: 보유한 데이터, 컴퓨팅 자원, 시간 내에 수행할 수 있는가? 석사 2년, 박사 4~5년이라는 시간 제약을 현실적으로 고려하세요.</p>
+        <p><strong>Interesting(흥미로운)</strong>: 동료 연구자와 리뷰어가 관심을 가질 만한가? 해당 분야 학회의 최근 키워드와 트렌드를 확인하세요.</p>
+        <p><strong>Novel(새로운)</strong>: 기존 연구와 차별화되는 점이 있는가? 단순 적용이 아니라 방법론적, 이론적 기여가 있어야 합니다.</p>
+        <p><strong>Ethical(윤리적)</strong>: 연구 윤리에 부합하는가? 데이터 사용 권한, 재현성, 공정한 비교를 보장해야 합니다.</p>
+        <p><strong>Relevant(유의미한)</strong>: 학문적 또는 실용적으로 의미 있는 기여를 하는가?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.3 논문 쓰는 법 -->
+  <div class="subsection reveal" id="paper-writing">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">✍️</span> 3.3 논문 쓰는 법
+    </h3>
+    <p>좋은 연구라도 논문으로 제대로 표현하지 못하면 학계에 기여할 수 없습니다. 논문의 각 섹션별 작성 전략을 구조공학+AI 분야의 맥락에서 상세히 다룹니다.</p>
+
+    <div class="tab-container reveal">
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="tab-abstract">Abstract</button>
+        <button class="tab-btn" data-tab="tab-intro">Introduction</button>
+        <button class="tab-btn" data-tab="tab-method">Methodology</button>
+        <button class="tab-btn" data-tab="tab-results">Results &amp; Discussion</button>
+        <button class="tab-btn" data-tab="tab-conclusion">Conclusion</button>
+      </div>
+
+      <div class="tab-content active" id="tab-abstract">
+        <h4>초록 (Abstract) 작성법</h4>
+        <p>초록은 논문 전체의 축약본이자, 독자가 논문을 읽을지 결정하는 첫 관문입니다. 보통 150~300 단어 내에서 다음 요소를 빠짐없이 포함해야 합니다.</p>
+        <ul class="check-list">
+          <li><strong>배경 (1~2문장)</strong>: 연구 분야의 맥락과 해결해야 할 문제를 간결하게 제시합니다. 예: "노후 교량의 구조 건전성 모니터링은 안전 관리의 핵심이나, 기존 방법은 전문가 의존도가 높고 비용이 크다."</li>
+          <li><strong>목적 (1문장)</strong>: 이 연구가 무엇을 달성하고자 하는지 명확히 기술합니다. "본 연구에서는 ~를 제안한다" 형식으로 작성합니다.</li>
+          <li><strong>방법 (2~3문장)</strong>: 핵심 방법론을 설명합니다. 사용한 모델 아키텍처, 학습 데이터, 검증 방법 등을 구체적으로 명시합니다.</li>
+          <li><strong>결과 (2~3문장)</strong>: 정량적 결과를 포함합니다. "제안 모델은 기존 방법 대비 정확도 15% 향상, 계산 시간 40% 단축을 달성했다" 같이 구체적 수치를 제시합니다.</li>
+          <li><strong>의의 (1문장)</strong>: 이 연구의 기여와 실용적 함의를 요약합니다.</li>
+        </ul>
+        <div class="highlight-box tip">
+          <div class="highlight-box-icon">💡</div>
+          <div class="highlight-box-content">
+            <p><strong>초록 작성 팁</strong>: 초록은 논문을 완전히 작성한 후 가장 마지막에 쓰세요. 약어는 초록에서 처음 사용할 때 풀어서 쓰고, 참고문헌 인용은 피합니다. 키워드 5~6개는 검색 엔진 최적화를 고려하여 선정합니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-intro">
+        <h4>서론 (Introduction) 작성법</h4>
+        <p>서론은 독자를 연구 주제로 안내하는 내비게이션입니다. <strong>"깔때기(funnel)" 구조</strong>로 넓은 맥락에서 좁은 연구 질문으로 자연스럽게 좁혀 나갑니다.</p>
+
+        <div class="pipeline">
+          <div class="pipeline-step">
+            <div class="pipeline-step-icon">🌍</div>
+            <div class="pipeline-step-title">Background</div>
+            <div class="pipeline-step-desc">넓은 맥락 제시</div>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step">
+            <div class="pipeline-step-icon">📚</div>
+            <div class="pipeline-step-title">Literature</div>
+            <div class="pipeline-step-desc">기존 연구 정리</div>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step">
+            <div class="pipeline-step-icon">⚠️</div>
+            <div class="pipeline-step-title">Gap</div>
+            <div class="pipeline-step-desc">연구 공백 지적</div>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step">
+            <div class="pipeline-step-icon">🎯</div>
+            <div class="pipeline-step-title">Objective</div>
+            <div class="pipeline-step-desc">연구 목적 선언</div>
+          </div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step">
+            <div class="pipeline-step-icon">📋</div>
+            <div class="pipeline-step-title">Outline</div>
+            <div class="pipeline-step-desc">논문 구성 안내</div>
+          </div>
+        </div>
+
+        <p><strong>Background</strong>: 구조공학+AI 논문이라면, 해당 구조물의 중요성과 현재 관리/해석의 문제점으로 시작합니다. 통계 데이터를 인용하면 설득력이 높아집니다. 예를 들어, "국토교통부 통계에 따르면 30년 이상 경과한 교량이 전체의 약 20%를 차지한다."</p>
+        <p><strong>Literature Review</strong>: 관련 연구를 단순 나열하지 말고, 주제별로 그룹화하여 흐름을 보여줍니다. "~에 관한 연구는 크게 세 가지로 분류된다"와 같은 구조화가 효과적입니다. 각 그룹의 장단점을 비교 분석합니다.</p>
+        <p><strong>Gap</strong>: "However," "Nevertheless," "Despite these advances,"로 전환하며 기존 연구의 한계를 명확히 지적합니다. 이 부분이 서론의 핵심입니다. 구체적으로 어떤 문제가 해결되지 않았는지 논리적으로 설명합니다.</p>
+        <p><strong>Objective</strong>: "Therefore, this study aims to..."로 연구 목적을 선언합니다. 연구의 주요 기여(contributions)를 번호 매겨 명시하면 리뷰어가 논문의 가치를 쉽게 파악합니다.</p>
+      </div>
+
+      <div class="tab-content" id="tab-method">
+        <h4>연구 방법론 (Methodology) 작성법</h4>
+        <p>방법론 섹션의 핵심 가치는 <strong>재현성(Reproducibility)</strong>입니다. 다른 연구자가 이 섹션만 읽고도 동일한 연구를 수행할 수 있어야 합니다.</p>
+
+        <ul class="check-list">
+          <li><strong>전체 프레임워크 그림</strong>: 제안 방법의 전체 흐름을 보여주는 플로우차트를 반드시 포함하세요. 복잡한 AI 파이프라인도 한눈에 이해할 수 있게 됩니다.</li>
+          <li><strong>데이터 설명</strong>: 사용 데이터의 출처, 수집 방법, 전처리 과정, 데이터 분할(train/validation/test) 비율을 명시합니다. 구조 데이터라면 센서 유형, 샘플링 주파수, 측정 위치를 기술합니다.</li>
+          <li><strong>모델 상세</strong>: AI 모델의 아키텍처를 층(layer) 단위로 설명하고, 하이퍼파라미터(학습률, 배치 크기, 에폭 수, 옵티마이저 등)를 표로 정리합니다. 구조 모델이라면 요소 타입, 메쉬 밀도, 재료 구성 모델을 명확히 기술합니다.</li>
+          <li><strong>수식 유도</strong>: 핵심 수식은 유도 과정을 보여주되, 잘 알려진 수식은 참고문헌만 인용합니다. 변수의 물리적 의미를 반드시 설명합니다.</li>
+          <li><strong>평가 지표</strong>: 어떤 메트릭으로 성능을 측정할 것인지(RMSE, MAE, F1-score, IoU 등) 미리 정의하고, 왜 해당 지표가 적합한지 근거를 제시합니다.</li>
+        </ul>
+
+        <div class="highlight-box warning">
+          <div class="highlight-box-icon">⚠️</div>
+          <div class="highlight-box-content">
+            <p><strong>흔한 실수</strong>: 하이퍼파라미터를 명시하지 않거나, 데이터 전처리 과정을 생략하거나, 학습/검증/테스트 분할 전략을 불명확하게 기술하는 것은 리뷰어로부터 "재현성 부족" 지적을 받는 주요 원인입니다. 특히 교차 검증(cross-validation) 방법과 난수 시드(random seed) 설정을 기술하는 것을 잊지 마세요.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-results">
+        <h4>결과 및 토의 (Results &amp; Discussion) 작성법</h4>
+        <p>결과 섹션은 단순한 데이터 나열이 아니라, 연구 질문에 대한 답을 제시하는 곳입니다. 각 그림과 표는 명확한 메시지를 전달해야 합니다.</p>
+
+        <p><strong>그림/표 활용 원칙</strong></p>
+        <ul>
+          <li><strong>그림이 먼저, 텍스트는 보조</strong>: 독자는 그림과 표를 먼저 봅니다. 그림만으로도 핵심 결과를 이해할 수 있도록 축 레이블, 범례, 단위를 명확히 표시하세요.</li>
+          <li><strong>비교 시각화</strong>: 제안 방법과 기존 방법의 성능 비교는 막대 그래프나 산점도로 한눈에 보이게 합니다. 구조물의 손상 위치 예측 결과는 실제 위치와 오버레이하여 시각적으로 비교합니다.</li>
+          <li><strong>정량적 표 작성</strong>: 모든 비교 방법의 성능 지표를 하나의 표에 정리합니다. 최고 성능 값은 <strong>볼드체</strong>로, 두 번째는 <em>밑줄</em>로 표시하는 것이 관례입니다.</li>
+        </ul>
+
+        <p><strong>토의(Discussion) 작성 전략</strong></p>
+        <ul>
+          <li>결과를 단순 반복하지 말고, <strong>"왜?"</strong>에 답하세요. "제안 모델의 정확도가 높은 이유는 어텐션 메커니즘이 구조물의 국부적 손상 특징을 효과적으로 포착하기 때문이다."</li>
+          <li>예상과 다른 결과가 나왔다면 솔직하게 분석합니다. 이것이 오히려 연구의 깊이를 보여줍니다.</li>
+          <li>기존 연구와의 비교에서 우월한 점뿐 아니라, 성능이 낮은 경우도 분석하여 적용 범위와 한계를 명확히 합니다.</li>
+          <li>Ablation study(구성 요소 제거 실험)를 포함하면 제안 방법의 각 구성 요소가 얼마나 기여하는지 정량적으로 보여줄 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <div class="tab-content" id="tab-conclusion">
+        <h4>결론 (Conclusion) 작성법</h4>
+        <p>결론은 초록과 비슷하지만 다릅니다. 초록이 논문의 요약이라면, 결론은 연구의 의미와 미래를 이야기하는 곳입니다.</p>
+
+        <ul class="check-list">
+          <li><strong>연구 요약 (2~3문장)</strong>: 연구 목적과 접근 방법을 간결하게 환기합니다. 새로운 정보를 추가하지 않습니다.</li>
+          <li><strong>핵심 발견 정리</strong>: 가장 중요한 결과 3~4가지를 번호 매겨 명확히 기술합니다. 정량적 수치를 다시 한 번 언급합니다.</li>
+          <li><strong>학문적/실용적 기여도</strong>: "본 연구의 기여는 다음과 같다"로 시작하여, (1) 방법론적 기여, (2) 실험적 발견, (3) 실용적 함의를 구분하여 작성합니다.</li>
+          <li><strong>한계점 인정</strong>: 솔직하게 연구의 제한사항을 밝힙니다. 이는 학문적 성실성을 보여주며, 리뷰어의 신뢰를 얻습니다.</li>
+          <li><strong>향후 연구 제안</strong>: 구체적이고 실현 가능한 후속 연구 방향을 제시합니다. "향후 다양한 구조물에 적용하여 일반성을 검증할 필요가 있다" 같은 모호한 문장보다, "향후 교량 외에 고층 건물의 풍하중 응답 예측으로 확장하여 적용성을 검증할 계획이다"처럼 구체적으로 씁니다.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.4 리뷰어 대응 -->
+  <div class="subsection reveal" id="reviewer-response">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">📬</span> 3.4 리뷰어 대응
+    </h3>
+    <p>Peer review는 논문 출판의 핵심 과정입니다. 리뷰 코멘트에 전문적이고 체계적으로 대응하는 것은 연구 역량만큼이나 중요한 학술 커뮤니케이션 능력입니다.</p>
+
+    <div class="do-dont reveal">
+      <div class="do-box">
+        <h4>✅ 이렇게 하세요 (Do)</h4>
+        <ul>
+          <li><strong>감사 표현으로 시작</strong>: 모든 리뷰어에게 "The authors sincerely appreciate the reviewer's constructive comments"로 시작합니다. 비판적 코멘트에도 감사를 표합니다.</li>
+          <li><strong>코멘트별 구체적 답변</strong>: 각 코멘트를 인용한 후, 정확히 무엇을 어떻게 수정했는지 구체적으로 기술합니다. "수정하였습니다"가 아닌, "Section 3.2의 Table 2에 요청하신 비교 결과를 추가하였습니다"처럼 명확히 쓰세요.</li>
+          <li><strong>데이터와 근거로 뒷받침</strong>: 의견 불일치 시 문헌 인용, 추가 실험 결과, 통계적 근거를 제시합니다. "리뷰어의 지적에 따라 추가 실험을 수행한 결과, 기존 결론이 유효함을 확인하였습니다 (새로운 Fig. 8 참조)."</li>
+          <li><strong>추가 실험 수행</strong>: 리뷰어가 요청한 추가 분석이나 실험은 가능한 모두 수행합니다. 수행이 불가능하다면, 그 이유를 논리적으로 설명하고 대안을 제시합니다.</li>
+          <li><strong>변경 사항 하이라이트</strong>: 수정된 원고에서 변경된 부분을 빨간색이나 파란색으로 표시합니다. 리뷰어가 수정 사항을 쉽게 확인할 수 있어야 합니다.</li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <h4>❌ 이것은 피하세요 (Don't)</h4>
+        <ul>
+          <li><strong>감정적 대응</strong>: 리뷰가 부당하게 느껴져도 감정적으로 반응하지 마세요. 리뷰어의 의도를 최대한 선의로 해석하고, 객관적 근거로만 대응합니다.</li>
+          <li><strong>모호한 답변</strong>: "관련 내용을 보완하였습니다", "수정하였습니다" 같은 모호한 답변은 리뷰어의 불신을 삽니다. 무엇을, 어디서, 어떻게 수정했는지 반드시 명시하세요.</li>
+          <li><strong>리뷰어 의견 무시</strong>: 동의하지 않더라도 무시하지 마세요. 모든 코멘트에 반드시 응답하고, 반대 의견이라면 학술적 근거를 들어 정중하게 논증합니다.</li>
+          <li><strong>변경 없이 재제출</strong>: 실질적 수정 없이 말만 바꿔 재제출하면 에디터와 리뷰어가 즉시 알아챕니다. Reject 확률이 크게 높아집니다.</li>
+          <li><strong>과도한 방어</strong>: 리뷰어가 틀렸다고 직접적으로 지적하기보다, "리뷰어의 의견은 타당하나, 다음과 같은 이유로 현재 접근이 더 적합하다고 판단하였습니다"로 표현합니다.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box tip reveal">
+      <div class="highlight-box-icon">💡</div>
+      <div class="highlight-box-content">
+        <p><strong>Revision 전략</strong></p>
+        <p>(1) 리뷰를 받으면 최소 하루는 냉각 기간을 두세요. 처음에는 감정적으로 반응하기 쉽습니다. (2) 모든 코멘트를 스프레드시트에 정리하고, 난이도와 우선순위를 분류합니다. (3) Response letter는 "리뷰어 코멘트 인용 → 저자 답변 → 수정 내용(원고 위치 포함)" 3단 구조로 작성합니다. (4) 지도교수와 반드시 논의한 후 최종 제출하세요. (5) Major revision을 받았다면, 보통 1~3개월 내 재제출이 적절합니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.5 논문제출자격시험 -->
+  <div class="subsection reveal" id="qualifying-exam">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🎓</span> 3.5 논문제출자격시험 (Qualifying Exam)
+    </h3>
+    <p>박사과정의 중요한 마일스톤인 자격시험(Qualifying Exam)은 학교마다 형식이 다르지만, 보통 필기시험과 구술/발표 시험으로 구성됩니다. 체계적 준비 전략을 타임라인으로 정리합니다.</p>
+
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <div class="timeline-label">D-6개월</div>
+        <div class="timeline-title">범위 파악 및 기출 수집</div>
+        <div class="timeline-desc">
+          시험 범위, 형식, 평가 기준을 정확히 파악합니다. 선배들에게 기출 문제와 경험담을 요청하고, 최소 최근 5년치 기출을 수집합니다. 시험 과목별로 핵심 교과서와 참고자료 목록을 정리합니다. 구조공학이라면 구조역학, 재료역학, 구조동역학, 유한요소법, 콘크리트/강 구조 등의 범위를 확인하세요. AI 관련 과목이 있다면 기계학습, 딥러닝 이론도 포함됩니다.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">D-3개월</div>
+        <div class="timeline-title">핵심 교과서 정리</div>
+        <div class="timeline-desc">
+          각 과목별 핵심 교재를 선정하여 정리 노트를 작성합니다. 주요 공식, 유도 과정, 핵심 개념을 한 눈에 볼 수 있는 요약본(cheat sheet)을 만드세요. 구조역학이라면 에너지법, 매트릭스 구조해석, 소성 해석의 핵심 이론을 집중적으로 정리합니다. 매주 일정 분량을 소화하는 스케줄을 세우고, 이해가 부족한 부분은 교수님이나 선배에게 질문합니다.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">D-1개월</div>
+        <div class="timeline-title">기출 풀이 및 모의 발표</div>
+        <div class="timeline-desc">
+          수집한 기출 문제를 시간을 재며 풀어봅니다. 틀린 문제는 반드시 오답 노트를 작성하세요. 구술/발표 시험이 포함된다면, 연구 계획 발표를 준비하고 연구실 동료들 앞에서 모의 발표를 3회 이상 진행합니다. 예상 질문 리스트(최소 30개)를 만들고 답변을 준비합니다. 발표 시간 배분(보통 20~30분)을 철저히 연습합니다.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">D-1주</div>
+        <div class="timeline-title">최종 복습 및 발표 연습</div>
+        <div class="timeline-desc">
+          새로운 내용을 학습하기보다, 지금까지 정리한 요약본을 반복 복습합니다. 발표 자료를 최종 점검하고, 발표 대본이 아닌 자연스러운 설명이 되도록 연습합니다. 타이머를 켜고 실전처럼 리허설합니다. 컴퓨터, 어댑터, 레이저 포인터 등 발표에 필요한 장비를 미리 확인합니다.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">당일</div>
+        <div class="timeline-title">컨디션 관리 및 발표 팁</div>
+        <div class="timeline-desc">
+          충분한 수면과 가벼운 식사로 컨디션을 최상으로 유지합니다. 시험 장소에 30분 일찍 도착하여 환경을 확인합니다. 발표 시에는 심사위원과 눈을 맞추며, 자신감 있되 겸손한 태도를 유지합니다. 질문에 대해 모르는 것은 솔직하게 인정하고, 향후 연구 계획에 포함시키겠다고 답하는 것이 오히려 좋은 인상을 줍니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box important reveal">
+      <div class="highlight-box-icon">🔥</div>
+      <div class="highlight-box-content">
+        <p><strong>실전 팁</strong></p>
+        <p>(1) 자격시험은 개별 지식뿐 아니라 분야 간 연결 능력을 평가합니다. "구조동역학에서 배운 모달 해석이 AI 기반 손상 탐지에 어떻게 활용되는가?" 같은 통합 질문에 대비하세요. (2) 발표에서는 연구의 독창성(novelty)과 타당성(feasibility)을 특히 강조합니다. (3) 심사위원 구성을 미리 확인하고, 각 교수님의 전문 분야에서 나올 수 있는 질문을 예상합니다. (4) 긴장은 자연스러운 것이며, 적당한 긴장은 오히려 집중력을 높입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.6 학회 발표 -->
+  <div class="subsection reveal" id="conference-presentation">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🎤</span> 3.6 학회 발표
+    </h3>
+    <p>학회 발표는 연구 성과를 알리고, 동료 연구자와 네트워킹하며, 피드백을 받을 수 있는 소중한 기회입니다. 포스터 발표와 구두 발표의 특성을 비교하고 준비 전략을 안내합니다.</p>
+
+    <div class="card-grid card-grid-2 reveal">
+      <div class="card accent-cyan">
+        <span class="card-icon">📄</span>
+        <div class="card-title">포스터 발표 (Poster Presentation)</div>
+        <div class="card-desc">
+          <strong>특징</strong>: 대형 포스터(보통 A0 크기)를 게시하고, 지나가는 참관자에게 1:1 또는 소그룹으로 연구를 설명합니다. 청중과 깊이 있는 대화가 가능하여, 구체적인 기술 질문과 피드백을 받기에 유리합니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.8rem;">
+          <strong>준비 전략</strong>: (1) 포스터는 3m 거리에서도 제목과 핵심 그림이 보여야 합니다. (2) 텍스트를 최소화하고, 그림/그래프 중심으로 구성합니다. (3) 1분 엘리베이터 피치(핵심 요약)와 5분 상세 설명 두 가지 버전을 준비합니다. (4) QR코드로 논문 원본이나 코드 저장소 링크를 제공하면 효과적입니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.8rem;">
+          <strong>준비 타임라인</strong>: 학회 6주 전 초안 설계 → 4주 전 지도교수 검토 → 2주 전 인쇄 → 1주 전 설명 연습
+        </div>
+        <span class="card-tag tag-cyan">상호작용 중심</span>
+        <span class="card-tag tag-green">네트워킹 유리</span>
+      </div>
+      <div class="card accent-purple">
+        <span class="card-icon">🎙️</span>
+        <div class="card-title">구두 발표 (Oral Presentation)</div>
+        <div class="card-desc">
+          <strong>특징</strong>: 세션 룸에서 다수의 청중에게 슬라이드를 사용하여 발표합니다. 보통 15~20분 발표 + 5분 질의응답으로 구성됩니다. 짧은 시간에 핵심을 전달해야 하므로 구조화된 스토리텔링이 중요합니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.8rem;">
+          <strong>준비 전략</strong>: (1) 슬라이드는 "1장 1메시지" 원칙을 지킵니다. (2) 구조공학 관련 발표라면 구조물 사진, FEM 결과 시각화, AI 모델의 학습 곡선 등 시각 자료를 풍부히 사용합니다. (3) 발표 원고를 외우기보다 핵심 키워드만 기억하고 자연스럽게 설명합니다. (4) 예상 질문 10개를 준비하고, 백업 슬라이드에 추가 데이터를 넣어둡니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.8rem;">
+          <strong>준비 타임라인</strong>: 학회 4주 전 슬라이드 초안 → 2주 전 지도교수 검토 → 1주 전 연구실 모의 발표 3회 → 전날 최종 리허설
+        </div>
+        <span class="card-tag tag-purple">넓은 청중</span>
+        <span class="card-tag tag-orange">시간 관리 중요</span>
+      </div>
+    </div>
+
+    <h4>학회 네트워킹 전략</h4>
+    <div class="card-grid card-grid-3 reveal">
+      <div class="card">
+        <span class="card-icon">🤝</span>
+        <div class="card-title">사전 준비</div>
+        <div class="card-desc">학회 프로그램을 미리 확인하고, 만나고 싶은 연구자 5~10명의 최근 논문을 읽어두세요. "선생님의 XX 논문을 인상 깊게 읽었습니다"로 대화를 시작하면 자연스럽습니다. 명함(또는 디지털 명함)을 준비합니다.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">☕</span>
+        <div class="card-title">커피 브레이크 활용</div>
+        <div class="card-desc">공식 세션 외에 커피 타임, 환영 만찬, 포스터 세션이 네트워킹의 핵심 시간입니다. 혼자 서 있기보다 적극적으로 다가가세요. "어떤 세션이 흥미로우셨나요?"는 좋은 대화 시작점입니다. 대학원생끼리의 교류도 매우 유용합니다.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">📧</span>
+        <div class="card-title">사후 팔로업</div>
+        <div class="card-desc">학회 후 1주일 내에 만났던 연구자들에게 감사 이메일을 보냅니다. "학회에서 나눈 XX 관련 대화가 유익했습니다. 혹시 협업 가능성이 있다면 논의하고 싶습니다"와 같이 구체적 내용을 포함하면 기억에 남습니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     Section 04: 도구/소프트웨어
+     ============================================ -->
+<section class="section" id="tools-software">
+  <div class="section-header reveal">
+    <span class="section-number green">04</span>
+    <h2>도구/소프트웨어</h2>
+  </div>
+  <p class="section-desc reveal">구조공학 연구와 AI 개발에 필요한 소프트웨어, 프로그래밍 도구, 생산성 도구를 정리했습니다. 각 도구의 특성과 적합한 용도를 파악하면 연구 효율성이 크게 향상됩니다.</p>
+
+  <!-- 4.1 구조해석 소프트웨어 -->
+  <div class="subsection reveal" id="structural-software">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🏢</span> 4.1 구조해석 소프트웨어
+    </h3>
+    <p>건축/토목 구조물의 해석 및 설계에 사용되는 전문 소프트웨어입니다. 각 도구는 특화된 영역이 있으므로, 연구 목적에 맞는 도구를 선택하는 것이 중요합니다.</p>
+
+    <div class="reveal" style="overflow-x:auto;">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>소프트웨어</th>
+            <th>개발사</th>
+            <th>주요 용도</th>
+            <th>특징</th>
+            <th>라이선스</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="highlight">ETABS</td>
+            <td>CSI (Computers &amp; Structures, Inc.)</td>
+            <td>건축 구조물 해석/설계, 특히 고층 건물에 최적화. 내진 설계, 풍하중 해석에 강점</td>
+            <td>직관적 UI, 한국 건축구조기준(KDS) 지원, 자동 설계 기능 내장, 실무에서 가장 널리 사용</td>
+            <td>상용 (교육용 제공)</td>
+          </tr>
+          <tr>
+            <td class="highlight">SAP2000</td>
+            <td>CSI</td>
+            <td>범용 구조해석, 교량/특수 구조물. 정적/동적 해석, 비선형 해석 가능</td>
+            <td>ETABS보다 범용적, 교량 모듈 강력, 케이블 구조/텐션 구조 해석 가능, 다양한 요소 타입 지원</td>
+            <td>상용 (교육용 제공)</td>
+          </tr>
+          <tr>
+            <td class="highlight">MIDAS Gen</td>
+            <td>MIDAS IT (한국)</td>
+            <td>건축/토목 범용 구조해석. 특히 한국 설계 기준에 최적화</td>
+            <td>한국어 인터페이스, KDS/KBC 완벽 지원, 한국 실무에서 ETABS와 함께 가장 많이 사용, 기술 지원 우수</td>
+            <td>상용</td>
+          </tr>
+          <tr>
+            <td class="highlight">OpenSees</td>
+            <td>UC Berkeley (오픈소스)</td>
+            <td>지진공학 연구, 비선형 동적 해석, 재료/구조 비선형 거동 시뮬레이션</td>
+            <td>Tcl/Python 스크립트 기반, 자유로운 재료 모델 구현, 연구용 비선형 해석의 표준, 대규모 파라메트릭 스터디에 유리</td>
+            <td><strong>무료 (오픈소스)</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight-box tip reveal">
+      <div class="highlight-box-icon">💡</div>
+      <div class="highlight-box-content">
+        <p><strong>연구용으로는 OpenSees를 강력히 추천합니다.</strong> 무료이면서도 비선형 해석 능력이 상용 소프트웨어에 뒤지지 않습니다. 스크립트 기반이므로 파라메트릭 스터디(수백~수천 개의 해석 케이스 자동 실행)가 가능하고, Python과 연동하면 AI 모델의 학습 데이터를 대량 생성하는 데 매우 유용합니다. OpenSeesPy 라이브러리를 사용하면 Python 환경에서 직접 구조해석을 수행할 수 있어, 딥러닝 프레임워크와의 통합이 용이합니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4.2 범용 FEM -->
+  <div class="subsection reveal" id="general-fem">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🔧</span> 4.2 범용 FEM (유한요소 해석)
+    </h3>
+    <p>구조물의 상세 응력 해석, 접촉 문제, 열-구조 연성 해석 등 고급 해석이 필요할 때 사용하는 범용 유한요소 소프트웨어입니다.</p>
+
+    <div class="card-grid card-grid-2 reveal">
+      <div class="card accent-blue">
+        <span class="card-icon">🔬</span>
+        <div class="card-title">ABAQUS</div>
+        <div class="card-desc">
+          Dassault Systemes에서 개발한 범용 FEM 소프트웨어로, 학계에서 가장 널리 사용됩니다. <strong>ABAQUS/Standard</strong>는 정적/준정적 해석에, <strong>ABAQUS/Explicit</strong>는 충돌, 폭발, 낙하 등 동적 해석에 특화되어 있습니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.5rem;">
+          <strong>주요 강점</strong>: 비선형 재료 모델(콘크리트 손상 소성 모델, 강재 파괴 모델 등)이 매우 풍부하고, 사용자 서브루틴(UMAT, UEL)으로 커스텀 재료/요소를 구현할 수 있습니다. Python 스크립팅으로 모델 생성 자동화가 가능하여, AI 학습 데이터 생성에 활용 가능합니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.5rem;">
+          <strong>활용 예시</strong>: 철근콘크리트 부재 상세 해석, 강접합부 파괴 시뮬레이션, 복합재료 구조 해석, 지반-구조 상호작용
+        </div>
+        <span class="card-tag tag-blue">비선형 해석</span>
+        <span class="card-tag tag-purple">학계 표준</span>
+        <span class="card-tag tag-cyan">Python 스크립팅</span>
+      </div>
+      <div class="card accent-orange">
+        <span class="card-icon">⚙️</span>
+        <div class="card-title">ANSYS</div>
+        <div class="card-desc">
+          ANSYS Inc.에서 개발한 멀티피직스(Multiphysics) 해석 플랫폼입니다. 구조, 열, 유체, 전자기 해석을 하나의 환경에서 수행할 수 있는 것이 최대 강점입니다. <strong>ANSYS Mechanical</strong>은 구조 해석, <strong>ANSYS Fluent</strong>는 CFD 해석을 담당합니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.5rem;">
+          <strong>주요 강점</strong>: Workbench 환경에서 다양한 물리 현상의 연성(coupling) 해석이 뛰어납니다. 메쉬 자동 생성 기능이 강력하고, Parametric Design Language(APDL)로 자동화가 가능합니다. 최근 ANSYS AI/ML 도구와의 연동도 확대되고 있습니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.5rem;">
+          <strong>활용 예시</strong>: 열-구조 연성 해석(화재 시 구조물), 유체-구조 상호작용(FSI), 피로 해석, 위상 최적화(Topology Optimization)
+        </div>
+        <span class="card-tag tag-orange">멀티피직스</span>
+        <span class="card-tag tag-green">산업계 표준</span>
+        <span class="card-tag tag-purple">연성 해석</span>
+      </div>
+    </div>
+
+    <div class="highlight-box info reveal">
+      <div class="highlight-box-icon">📌</div>
+      <div class="highlight-box-content">
+        <p><strong>학술 라이선스 안내</strong>: ABAQUS와 ANSYS 모두 대학 연구실에 학술용(Academic) 라이선스를 제공합니다. 학술 라이선스는 상용 라이선스보다 훨씬 저렴하며, 기능 제한이 거의 없습니다. 학교 전산센터나 지도교수에게 문의하세요. ABAQUS는 대부분의 공대에서 이미 라이선스를 보유하고 있는 경우가 많습니다. HPC 클러스터에서 병렬 해석을 수행하면 대규모 모델도 합리적인 시간 내에 해석할 수 있습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4.3 CFD 도구 -->
+  <div class="subsection reveal" id="cfd-tools">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🌬️</span> 4.3 CFD 도구 (전산유체역학)
+    </h3>
+    <p>풍공학, 유체-구조 상호작용, 환기 해석 등 구조공학에서 유체 흐름 분석이 필요할 때 사용하는 CFD(Computational Fluid Dynamics) 소프트웨어를 비교합니다.</p>
+
+    <div class="reveal" style="overflow-x:auto;">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>소프트웨어</th>
+            <th>주요 용도</th>
+            <th>학습 난이도</th>
+            <th>비용</th>
+            <th>적합한 상황</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="highlight">OpenFOAM</td>
+            <td>범용 CFD, 풍공학, 외부/내부 유동, 난류 모델링. 사용자 정의 솔버 개발 가능</td>
+            <td>높음 (C++ 기반, CLI 환경, 공식 GUI 없음)</td>
+            <td><strong>무료 (오픈소스)</strong></td>
+            <td>학술 연구, 커스텀 솔버 필요 시, 대규모 파라메트릭 스터디, 논문에서 재현성이 중요한 경우</td>
+          </tr>
+          <tr>
+            <td class="highlight">STAR-CCM+</td>
+            <td>멀티피직스 CFD, 복잡 형상의 메쉬 생성 우수, 자동차/항공/건축 분야</td>
+            <td>중간 (GUI 친화적, 폴리히드럴 메쉬 자동 생성)</td>
+            <td>상용 (고가)</td>
+            <td>복잡한 형상, 멀티피직스 연성, 산업 프로젝트, 빠른 메쉬 생성이 필요한 경우</td>
+          </tr>
+          <tr>
+            <td class="highlight">ANSYS Fluent</td>
+            <td>범용 CFD, ANSYS 생태계 연동, 열유동, 연소, 다상유동</td>
+            <td>중간 (Workbench 환경, 풍부한 튜토리얼)</td>
+            <td>상용 (학술 라이선스 가능)</td>
+            <td>ANSYS Mechanical과 연성 해석(FSI), 열유동 해석, 학교에 이미 라이선스가 있는 경우</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight-box tip reveal">
+      <div class="highlight-box-icon">💡</div>
+      <div class="highlight-box-content">
+        <p><strong>풍공학 연구자를 위한 OpenFOAM 추천</strong>: 구조물의 풍하중, 풍압 분포, 보행자 풍환경 분석 등 풍공학 연구에서는 OpenFOAM이 사실상 학술 표준입니다. 무료이므로 연구비 부담이 없고, 소스 코드를 수정하여 새로운 난류 모델이나 경계 조건을 구현할 수 있어 학술적 기여가 가능합니다. ParaView와 연동하면 고품질 시각화도 가능합니다. 초기 학습 비용이 높지만, 장기적으로 가장 유연하고 강력한 선택입니다. PyFoam이나 swak4Foam 같은 유틸리티를 활용하면 자동화와 후처리가 편리해집니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4.4 프로그래밍 -->
+  <div class="subsection reveal" id="programming">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">💻</span> 4.4 프로그래밍
+    </h3>
+    <p>현대 구조공학 연구에서 프로그래밍은 선택이 아닌 필수입니다. 데이터 분석, AI 모델 개발, 해석 자동화에 주로 사용되는 언어를 비교합니다.</p>
+
+    <div class="card-grid reveal">
+      <div class="card accent-cyan">
+        <span class="card-icon">🐍</span>
+        <div class="card-title">Python</div>
+        <div class="card-desc">
+          구조공학+AI 연구의 <strong>사실상 표준 언어</strong>입니다. 풍부한 생태계가 최대 장점입니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.5rem;">
+          <strong>핵심 라이브러리</strong>: NumPy(수치 계산), SciPy(과학 계산, 최적화, 신호처리), pandas(데이터 처리), matplotlib/seaborn(시각화), PyTorch/TensorFlow(딥러닝), scikit-learn(전통 ML), OpenSeesPy(구조해석), FEniCS(FEM)
+        </div>
+        <div class="card-desc" style="margin-top:0.5rem;">
+          <strong>구조공학+AI 활용</strong>: 센서 데이터 전처리, 딥러닝 모델 구축/학습, FEM 해석 자동화, 결과 시각화, 논문용 그래프 생성까지 전 과정을 하나의 언어로 처리 가능
+        </div>
+        <span class="card-tag tag-cyan">AI/ML 필수</span>
+        <span class="card-tag tag-green">생태계 최강</span>
+      </div>
+      <div class="card accent-orange">
+        <span class="card-icon">📐</span>
+        <div class="card-title">MATLAB</div>
+        <div class="card-desc">
+          MathWorks에서 개발한 수치 계산 환경으로, 공학 분야에서 오랫동안 사랑받아 왔습니다. 행렬 연산이 직관적이고, 신호처리 및 제어 관련 도구가 매우 강력합니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.5rem;">
+          <strong>강점</strong>: Simulink(동적 시스템 시뮬레이션), Signal Processing Toolbox(센서 데이터 분석), Optimization Toolbox, Statistics and Machine Learning Toolbox. 프로토타이핑 속도가 빠르고, 디버깅이 편리합니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.5rem;">
+          <strong>적합한 경우</strong>: 지도교수가 MATLAB을 사용하는 경우, 기존 MATLAB 코드를 활용해야 하는 경우, 빠른 알고리즘 프로토타이핑이 필요한 경우
+        </div>
+        <span class="card-tag tag-orange">신호처리</span>
+        <span class="card-tag tag-purple">프로토타이핑</span>
+      </div>
+      <div class="card accent-green">
+        <span class="card-icon">⚡</span>
+        <div class="card-title">Julia</div>
+        <div class="card-desc">
+          MIT에서 개발한 고성능 과학 컴퓨팅 언어입니다. <strong>"C의 속도 + Python의 편리함"</strong>을 목표로 설계되었습니다. JIT(Just-In-Time) 컴파일로 Python보다 수십~수백 배 빠른 수치 계산이 가능합니다.
+        </div>
+        <div class="card-desc" style="margin-top:0.5rem;">
+          <strong>강점</strong>: 대규모 수치 시뮬레이션, 미분방정식 풀이(DifferentialEquations.jl), 최적화(JuMP.jl), 자동 미분(Zygote.jl). Physics-Informed Neural Networks(PINNs) 구현에 특히 강점이 있습니다 (NeuralPDE.jl, SciML 생태계).
+        </div>
+        <div class="card-desc" style="margin-top:0.5rem;">
+          <strong>고려 사항</strong>: Python 대비 생태계가 작고, 커뮤니티가 성장 중입니다. 딥러닝은 아직 PyTorch/TensorFlow가 우세합니다.
+        </div>
+        <span class="card-tag tag-green">고성능</span>
+        <span class="card-tag tag-cyan">과학 컴퓨팅</span>
+      </div>
+    </div>
+
+    <h4>Python 구조해석 예제: 단순보 처짐 계산</h4>
+    <div class="code-block reveal">
+<span class="comment"># 단순보(Simply Supported Beam) 중앙 집중하중 처짐 계산</span>
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+<span class="comment"># 보 물성치 정의</span>
+L = <span class="number">6.0</span>      <span class="comment"># 보 길이 (m)</span>
+E = <span class="number">200e9</span>    <span class="comment"># 탄성계수 (Pa) - 강재</span>
+I = <span class="number">8.33e-6</span>  <span class="comment"># 단면 2차 모멘트 (m^4)</span>
+P = <span class="number">10e3</span>     <span class="comment"># 집중하중 (N)</span>
+
+<span class="comment"># 위치별 처짐 계산 (Euler-Bernoulli 보 이론)</span>
+x = np.<span class="function">linspace</span>(<span class="number">0</span>, L, <span class="number">200</span>)
+delta = np.<span class="function">where</span>(
+    x <= L/<span class="number">2</span>,
+    P * x * (<span class="number">3</span>*L**<span class="number">2</span> - <span class="number">4</span>*x**<span class="number">2</span>) / (<span class="number">48</span> * E * I),
+    P * (L - x) * (<span class="number">3</span>*L**<span class="number">2</span> - <span class="number">4</span>*(L - x)**<span class="number">2</span>) / (<span class="number">48</span> * E * I)
+)
+
+<span class="comment"># 최대 처짐 (중앙)</span>
+delta_max = P * L**<span class="number">3</span> / (<span class="number">48</span> * E * I)
+<span class="function">print</span>(<span class="string">f"최대 처짐: {delta_max*1000:.2f} mm"</span>)
+
+<span class="comment"># 시각화</span>
+plt.<span class="function">figure</span>(figsize=(<span class="number">10</span>, <span class="number">4</span>))
+plt.<span class="function">plot</span>(x, delta * <span class="number">1000</span>, <span class="string">'b-'</span>, linewidth=<span class="number">2</span>)
+plt.<span class="function">xlabel</span>(<span class="string">'위치 (m)'</span>)
+plt.<span class="function">ylabel</span>(<span class="string">'처짐 (mm)'</span>)
+plt.<span class="function">title</span>(<span class="string">'단순보 처짐 곡선'</span>)
+plt.<span class="function">grid</span>(<span class="keyword">True</span>, alpha=<span class="number">0.3</span>)
+plt.<span class="function">show</span>()
+    </div>
+  </div>
+
+  <!-- 4.5 논문/문서 도구 -->
+  <div class="subsection reveal" id="writing-tools">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">📝</span> 4.5 논문/문서 도구
+    </h3>
+    <p>논문 작성, 수식 편집, 참고문헌 관리에 필수적인 도구들입니다. 올바른 도구 선택이 논문 작성 효율을 크게 좌우합니다.</p>
+
+    <div class="card-grid reveal">
+      <div class="card">
+        <span class="card-icon">📜</span>
+        <div class="card-title">LaTeX / Overleaf</div>
+        <div class="card-desc">
+          학술 논문 작성의 표준 도구입니다. 수식, 참고문헌, 교차 참조를 자동으로 관리하며, 대부분의 저널/학회 템플릿이 LaTeX으로 제공됩니다. <strong>Overleaf</strong>는 브라우저 기반 LaTeX 편집기로, 설치 없이 사용 가능하고 실시간 공동 작업을 지원합니다. 지도교수와 함께 논문을 수정할 때 매우 편리합니다.
+        </div>
+        <span class="card-tag tag-purple">논문 작성 필수</span>
+        <span class="card-tag tag-cyan">공동 작업</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔢</span>
+        <div class="card-title">MathType / Mathpix</div>
+        <div class="card-desc">
+          MathType은 Word 환경에서 복잡한 수식을 편집할 때 사용합니다. Mathpix Snip은 이미지나 PDF의 수식을 촬영/캡처하면 LaTeX 코드로 자동 변환해주는 혁신적 도구입니다. 교과서나 논문의 수식을 빠르게 LaTeX으로 옮길 때 시간을 크게 절약합니다.
+        </div>
+        <span class="card-tag tag-orange">수식 편집</span>
+        <span class="card-tag tag-green">OCR 변환</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">📊</span>
+        <div class="card-title">draw.io / Inkscape</div>
+        <div class="card-desc">
+          draw.io(diagrams.net)는 논문의 플로우차트, 시스템 다이어그램, 네트워크 아키텍처 그림을 그리는 무료 웹 도구입니다. Inkscape는 벡터 그래픽 편집기로, 논문 그림의 최종 다듬기에 사용합니다. 해상도 저하 없는 벡터 이미지(SVG, PDF)를 생성할 수 있어, 저널 투고 시 고품질 그림 요구 사항을 충족합니다.
+        </div>
+        <span class="card-tag tag-blue">다이어그램</span>
+        <span class="card-tag tag-purple">벡터 그래픽</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">📚</span>
+        <div class="card-title">Zotero</div>
+        <div class="card-desc">
+          무료 참고문헌 관리 도구입니다. 브라우저 확장 프로그램으로 웹에서 논문 정보를 원클릭 저장하고, Word/LaTeX/Google Docs에서 인용 삽입과 참고문헌 목록 자동 생성이 가능합니다. 폴더/태그로 문헌을 체계적으로 분류하고, PDF에 직접 하이라이트와 메모를 남길 수 있습니다. Zotero Better BibTeX 플러그인으로 LaTeX 연동이 특히 편리합니다.
+        </div>
+        <span class="card-tag tag-green">참고문헌 관리</span>
+        <span class="card-tag tag-cyan">무료</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">🕸️</span>
+        <div class="card-title">Connected Papers</div>
+        <div class="card-desc">
+          시드(seed) 논문 하나를 입력하면, 인용 관계를 기반으로 관련 논문의 시각적 그래프를 생성합니다. 새로운 연구 분야에 진입할 때 핵심 문헌을 빠르게 파악하는 데 매우 유용합니다. 그래프에서 노드 크기는 인용 수, 거리는 내용 유사성을 나타냅니다. "Prior Works"와 "Derivative Works" 뷰를 전환하며 분야의 과거와 현재를 탐색할 수 있습니다.
+        </div>
+        <span class="card-tag tag-purple">문헌 탐색</span>
+        <span class="card-tag tag-orange">시각화</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4.6 데이터 시각화 -->
+  <div class="subsection reveal" id="visualization">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">📈</span> 4.6 데이터 시각화
+    </h3>
+    <p>연구 결과를 효과적으로 전달하려면 적절한 시각화 도구 선택이 중요합니다. 논문 그래프, 3D 시뮬레이션 결과, 인터랙티브 대시보드 등 목적에 따라 최적의 도구가 다릅니다.</p>
+
+    <div class="card-grid card-grid-2 reveal">
+      <div class="card">
+        <span class="card-icon">📉</span>
+        <div class="card-title">matplotlib / seaborn</div>
+        <div class="card-desc">
+          Python의 기본 시각화 라이브러리입니다. matplotlib은 세밀한 커스터마이징이 가능하여 논문용 고품질 그래프 제작에 최적입니다. seaborn은 matplotlib 위에 구축된 통계 시각화 라이브러리로, 히트맵, 바이올린 플롯, 상관관계 매트릭스 등을 간단하게 생성합니다. 논문 투고 시 요구되는 해상도(300dpi 이상)와 벡터 포맷(PDF/SVG) 출력을 지원합니다.
+        </div>
+        <span class="card-tag tag-cyan">논문 그래프</span>
+        <span class="card-tag tag-purple">정적 시각화</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔄</span>
+        <div class="card-title">Plotly</div>
+        <div class="card-desc">
+          인터랙티브 시각화에 특화된 라이브러리입니다. 마우스 호버 시 데이터 값 표시, 확대/축소, 3D 회전 등이 가능합니다. Dash 프레임워크와 결합하면 웹 기반 대시보드를 구축할 수 있습니다. 학회 발표에서 실시간 인터랙티브 시각화를 보여주면 청중의 이해도와 관심을 크게 높일 수 있습니다. 구조물의 모드 형상이나 응력 분포를 3D로 보여줄 때 효과적입니다.
+        </div>
+        <span class="card-tag tag-green">인터랙티브</span>
+        <span class="card-tag tag-orange">웹 대시보드</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌐</span>
+        <div class="card-title">ParaView</div>
+        <div class="card-desc">
+          대규모 과학 데이터의 3D 시각화를 위한 오픈소스 도구입니다. FEM 해석 결과(응력, 변형, 온도 분포), CFD 시뮬레이션 결과(유속장, 압력장)를 고품질 3D 렌더링으로 시각화합니다. OpenFOAM, ABAQUS, VTK 포맷 등 다양한 데이터 형식을 지원합니다. 애니메이션 생성 기능으로 시간에 따른 구조물 거동이나 유체 흐름 변화를 동영상으로 제작할 수 있습니다. Python 스크립팅(pvpython)으로 자동화도 가능합니다.
+        </div>
+        <span class="card-tag tag-blue">3D 시각화</span>
+        <span class="card-tag tag-green">오픈소스</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎨</span>
+        <div class="card-title">Tecplot</div>
+        <div class="card-desc">
+          CFD 및 수치 시뮬레이션 결과의 전문 시각화 소프트웨어입니다. 특히 유동장 시각화(유선, 등고선, 벡터 플롯)에 강점이 있습니다. 논문 품질의 2D/3D 그래프를 직관적 GUI로 빠르게 생성할 수 있습니다. 대형 데이터셋 처리 성능이 뛰어나며, 매크로 기능으로 반복 작업을 자동화할 수 있습니다. 풍공학 분야에서 풍압 계수 분포, 풍속 프로파일 시각화에 많이 사용됩니다.
+        </div>
+        <span class="card-tag tag-orange">CFD 전문</span>
+        <span class="card-tag tag-purple">고품질 출력</span>
+      </div>
+    </div>
+
+    <div class="highlight-box tip reveal">
+      <div class="highlight-box-icon">💡</div>
+      <div class="highlight-box-content">
+        <p><strong>시각화 도구 선택 가이드</strong>: 논문용 2D 그래프 → matplotlib (세밀한 제어, 저널 요구사항 충족). 발표/웹 공유용 인터랙티브 차트 → Plotly. FEM/CFD 3D 결과 → ParaView (무료) 또는 Tecplot. 빠른 탐색적 분석 → seaborn. 원칙적으로, 논문에 들어가는 모든 그래프는 스크립트로 재현 가능하게 만드세요. matplotlib 코드를 함수로 정리해 두면 리비전(revision) 때 그래프를 쉽게 업데이트할 수 있습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4.7 생산성 도구 -->
+  <div class="subsection reveal" id="productivity-tools">
+    <h3 class="subsection-title">
+      <span class="subsection-icon">🚀</span> 4.7 생산성 도구
+    </h3>
+    <p>연구의 효율성과 재현성을 높이는 개발/생산성 도구입니다. 이 도구들을 숙달하면 코드 관리, 실험 추적, 연구 환경 설정에 드는 시간을 크게 줄일 수 있습니다.</p>
+
+    <div class="card-grid reveal">
+      <div class="card accent-purple">
+        <span class="card-icon">🔀</span>
+        <div class="card-title">Git / GitHub</div>
+        <div class="card-desc">
+          코드 버전 관리의 절대적 표준입니다. 실험 코드의 모든 변경 이력을 추적하고, 실수로 코드를 망쳐도 이전 버전으로 복원할 수 있습니다. GitHub에 연구 코드를 공개하면 논문의 재현성을 높이고, 학계에서의 신뢰도가 올라갑니다. 브랜치 기능으로 여러 실험을 병렬로 관리할 수 있습니다.
+        </div>
+        <span class="card-tag tag-purple">버전 관리</span>
+        <span class="card-tag tag-green">필수</span>
+      </div>
+      <div class="card accent-blue">
+        <span class="card-icon">🖥️</span>
+        <div class="card-title">VS Code</div>
+        <div class="card-desc">
+          Microsoft의 무료 코드 편집기로, 확장 프로그램 생태계가 매우 풍부합니다. Python, LaTeX, Jupyter Notebook, Remote SSH(서버 원격 개발), GitHub Copilot(AI 코딩 보조) 등을 하나의 환경에서 사용할 수 있습니다. 특히 Remote-SSH 확장으로 연구실 서버나 HPC 클러스터에 접속하여 로컬처럼 개발하는 것이 매우 편리합니다.
+        </div>
+        <span class="card-tag tag-blue">코드 편집기</span>
+        <span class="card-tag tag-cyan">원격 개발</span>
+      </div>
+      <div class="card accent-cyan">
+        <span class="card-icon">📓</span>
+        <div class="card-title">Jupyter Notebook</div>
+        <div class="card-desc">
+          코드, 시각화, 수식, 텍스트 설명을 하나의 문서에 결합하는 대화형 컴퓨팅 환경입니다. 데이터 탐색, 실험 결과 분석, 프로토타이핑에 이상적입니다. 셀 단위로 코드를 실행하며 중간 결과를 즉시 확인할 수 있어, AI 모델 학습 과정을 모니터링하기에 편리합니다. JupyterLab은 더 발전된 인터페이스를 제공합니다.
+        </div>
+        <span class="card-tag tag-cyan">대화형 개발</span>
+        <span class="card-tag tag-orange">데이터 분석</span>
+      </div>
+      <div class="card accent-green">
+        <span class="card-icon">🐳</span>
+        <div class="card-title">Docker</div>
+        <div class="card-desc">
+          연구 환경을 컨테이너로 패키징하여 어디서든 동일한 환경을 재현합니다. "내 컴퓨터에서는 되는데..." 문제를 근본적으로 해결합니다. Python 버전, CUDA 버전, 라이브러리 의존성을 Dockerfile로 정의하면, 다른 연구자가 docker pull 한 줄로 동일한 환경을 구축할 수 있습니다. 논문에 Docker 이미지를 함께 공개하면 재현성 면에서 높은 평가를 받습니다.
+        </div>
+        <span class="card-tag tag-green">환경 재현</span>
+        <span class="card-tag tag-purple">컨테이너</span>
+      </div>
+      <div class="card accent-orange">
+        <span class="card-icon">🖧</span>
+        <div class="card-title">HPC (고성능 컴퓨팅) 사용법</div>
+        <div class="card-desc">
+          대규모 FEM 해석이나 딥러닝 학습에는 학교/연구소의 HPC 클러스터를 활용합니다. SLURM, PBS 같은 작업 스케줄러로 GPU/CPU 자원을 할당받아 작업을 제출합니다. SSH 접속, 환경 모듈(module load), 작업 스크립트 작성법을 숙지해야 합니다. 국가슈퍼컴퓨팅센터(KISTI)의 누리온/뉴론 시스템도 학술 연구자에게 무료로 자원을 제공합니다.
+        </div>
+        <span class="card-tag tag-orange">대규모 연산</span>
+        <span class="card-tag tag-red">GPU 학습</span>
+      </div>
+    </div>
+
+    <h4>Git 기본 워크플로우</h4>
+    <div class="code-block reveal">
+<span class="comment"># 1. 저장소 초기화 (최초 1회)</span>
+$ git <span class="function">init</span>
+$ git remote <span class="function">add</span> origin https://github.com/username/my-research.git
+
+<span class="comment"># 2. 일상적인 작업 흐름</span>
+$ git <span class="function">status</span>                    <span class="comment"># 변경된 파일 확인</span>
+$ git <span class="function">add</span> model.py data_loader.py  <span class="comment"># 수정한 파일 스테이징</span>
+$ git <span class="function">commit</span> -m <span class="string">"feat: attention 메커니즘 추가 및 학습률 스케줄러 적용"</span>
+
+<span class="comment"># 3. 새로운 실험을 브랜치로 관리</span>
+$ git <span class="function">checkout</span> -b experiment/transformer-v2  <span class="comment"># 새 브랜치 생성</span>
+<span class="comment"># ... 실험 코드 수정 ...</span>
+$ git <span class="function">add</span> .
+$ git <span class="function">commit</span> -m <span class="string">"exp: Transformer 인코더 레이어 수 변경 실험"</span>
+
+<span class="comment"># 4. 실험 성공 시 메인 브랜치에 병합</span>
+$ git <span class="function">checkout</span> main
+$ git <span class="function">merge</span> experiment/transformer-v2
+
+<span class="comment"># 5. 원격 저장소에 푸시</span>
+$ git <span class="function">push</span> origin main
+
+<span class="comment"># 유용한 팁: 커밋 메시지 컨벤션</span>
+<span class="comment"># feat: 새 기능  |  fix: 버그 수정  |  exp: 실험</span>
+<span class="comment"># refactor: 리팩토링  |  docs: 문서  |  data: 데이터 관련</span>
+    </div>
+
+    <div class="highlight-box info reveal">
+      <div class="highlight-box-icon">📌</div>
+      <div class="highlight-box-content">
+        <p><strong>연구 코드 관리 모범 사례</strong>: (1) .gitignore에 대용량 데이터 파일, 체크포인트, 가상환경 폴더를 등록하세요. (2) requirements.txt 또는 environment.yml로 패키지 의존성을 기록합니다. (3) 주요 실험마다 config 파일(YAML/JSON)로 하이퍼파라미터를 관리하면, 나중에 어떤 설정으로 어떤 결과를 얻었는지 추적이 쉽습니다. (4) Weights &amp; Biases(wandb)나 MLflow 같은 실험 추적 도구를 병행하면 더욱 체계적인 연구가 가능합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============================== -->
+<!-- Section 05: 리소스/데이터셋      -->
+<!-- ============================== -->
+<section class="section" id="resources">
+  <div class="section-header reveal">
+    <span class="section-number orange">05</span>
+    <h2>리소스/데이터셋</h2>
+  </div>
+  <p class="section-desc reveal">구조공학과 AI를 함께 공부하려면 양쪽 분야의 탄탄한 기초가 필수입니다. 여기서는 검증된 교재, 무료 강의, 공개 데이터셋, 핵심 논문, 그리고 활발한 학술 커뮤니티를 한곳에 정리했습니다. 각 리소스는 직접 활용해 본 경험을 바탕으로 선별했으니, 연구 단계에 맞춰 골라 보세요.</p>
+
+  <!-- 5.1 추천 교과서 -->
+  <div class="subsection reveal" id="textbooks">
+    <h3 class="subsection-title"><span class="subsection-icon">📚</span> 5.1 추천 교과서</h3>
+    <p>아래 교과서들은 각 분야에서 수십 년간 표준 참고서로 인정받아 온 책들입니다. 학부 수준부터 연구 수준까지 단계별로 정리했습니다.</p>
+
+    <div class="tab-container">
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="tab-struct-mech">구조역학</button>
+        <button class="tab-btn" data-tab="tab-fem">FEM</button>
+        <button class="tab-btn" data-tab="tab-wind">풍공학</button>
+        <button class="tab-btn" data-tab="tab-seismic">내진공학</button>
+        <button class="tab-btn" data-tab="tab-ml-books">ML/AI</button>
+      </div>
+
+      <!-- 구조역학 -->
+      <div class="tab-content active" id="tab-struct-mech">
+        <div class="card-grid card-grid-2">
+          <div class="card accent-orange reveal">
+            <span class="card-icon">📖</span>
+            <div class="card-title">Structural Analysis &mdash; R.C. Hibbeler</div>
+            <p class="card-desc">정적/부정정 구조물의 해석 방법을 체계적으로 설명합니다. 트러스, 보, 프레임 해석부터 영향선, 처짐 계산, 매트릭스 구조해석까지 풍부한 예제와 함께 다룹니다. 학부 고학년~석사 초반에 기초를 다지기에 최적입니다.</p>
+            <span class="card-tag tag-green">학부~석사 초반</span>
+            <span class="card-tag tag-orange">구조역학 필독</span>
+          </div>
+          <div class="card accent-orange reveal" data-delay="1">
+            <span class="card-icon">📖</span>
+            <div class="card-title">Theory of Elastic Stability &mdash; S.P. Timoshenko &amp; J.M. Gere</div>
+            <p class="card-desc">좌굴(buckling) 이론의 고전 중의 고전입니다. 기둥, 판, 셸의 탄성 안정성을 수학적으로 엄밀하게 다루며, 에너지법과 근사법까지 포괄합니다. 좌굴 해석이나 안정성 관련 연구를 한다면 반드시 참고해야 할 교과서입니다.</p>
+            <span class="card-tag tag-red">석사~박사</span>
+            <span class="card-tag tag-purple">이론 심화</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEM -->
+      <div class="tab-content" id="tab-fem">
+        <div class="card-grid card-grid-2">
+          <div class="card accent-blue reveal">
+            <span class="card-icon">📐</span>
+            <div class="card-title">The Finite Element Method &mdash; O.C. Zienkiewicz, R.L. Taylor &amp; J.Z. Zhu</div>
+            <p class="card-desc">유한요소법의 바이블이라 불리는 3권짜리 대작입니다. 1권은 기본 이론(변분법, 가중잔차법, 요소 정식화), 2권은 고체역학 응용, 3권은 유체역학 응용을 다룹니다. FEM의 수학적 기반부터 실제 구현까지 완벽히 이해하고 싶다면 이 책이 최종 참고서입니다.</p>
+            <span class="card-tag tag-red">석사~박사</span>
+            <span class="card-tag tag-blue">FEM 바이블</span>
+          </div>
+          <div class="card accent-blue reveal" data-delay="1">
+            <span class="card-icon">📐</span>
+            <div class="card-title">An Introduction to the Finite Element Method &mdash; J.N. Reddy</div>
+            <p class="card-desc">Zienkiewicz가 너무 방대하다면 Reddy의 교과서로 시작하세요. 1차원 문제에서 출발해 2D/3D 구조, 열전달, 유체 문제까지 단계적으로 확장합니다. 변분원리와 가중잔차법의 연결을 명쾌하게 설명하며, 직접 코딩해볼 수 있는 예제가 많습니다.</p>
+            <span class="card-tag tag-green">학부~석사</span>
+            <span class="card-tag tag-cyan">입문 추천</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 풍공학 -->
+      <div class="tab-content" id="tab-wind">
+        <div class="card-grid card-grid-2">
+          <div class="card accent-cyan reveal">
+            <span class="card-icon">🌬️</span>
+            <div class="card-title">Wind Effects on Structures &mdash; E. Simiu &amp; D.H. Yeo</div>
+            <p class="card-desc">풍하중의 기본 이론부터 구조물 응답 해석까지 포괄하는 표준 교과서입니다. 대기경계층 이론, 풍속의 확률 모델, 공기역학적 힘 계산, 와류 유발 진동(VIV), 플러터, 갤로핑 현상을 체계적으로 설명합니다. ASCE 7 풍하중 기준의 이론적 배경을 이해하는 데에도 필수입니다.</p>
+            <span class="card-tag tag-red">석사~박사</span>
+            <span class="card-tag tag-cyan">풍공학 표준</span>
+          </div>
+          <div class="card accent-cyan reveal" data-delay="1">
+            <span class="card-icon">🌬️</span>
+            <div class="card-title">Wind Loading of Structures &mdash; J.D. Holmes</div>
+            <p class="card-desc">Simiu 교과서에 비해 실무 적용에 더 초점을 맞춘 책입니다. 풍동 실험 기법, 풍압 계수 결정법, 내풍 설계 절차를 상세히 다루며, 저층/고층 건물, 교량, 타워 등 다양한 구조물 유형별 풍하중 특성을 실용적으로 정리합니다.</p>
+            <span class="card-tag tag-green">석사 초반~</span>
+            <span class="card-tag tag-orange">실무 지향</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 내진공학 -->
+      <div class="tab-content" id="tab-seismic">
+        <div class="card-grid card-grid-2">
+          <div class="card accent-purple reveal">
+            <span class="card-icon">🏗️</span>
+            <div class="card-title">Dynamics of Structures &mdash; A.K. Chopra</div>
+            <p class="card-desc">구조동역학의 결정판입니다. 단자유도(SDOF)에서 다자유도(MDOF) 시스템까지 진동 이론을 명쾌하게 전개하고, 응답스펙트럼법, 모드 해석법, 직접 적분법 등 지진 응답 해석의 핵심 기법을 철저히 다룹니다. 비선형 동적 해석의 기초까지 포함되어 있어, 내진 연구의 출발점으로 최적입니다.</p>
+            <span class="card-tag tag-green">학부~석사</span>
+            <span class="card-tag tag-purple">동역학 필독</span>
+          </div>
+          <div class="card accent-purple reveal" data-delay="1">
+            <span class="card-icon">🏗️</span>
+            <div class="card-title">Fundamentals of Earthquake Engineering &mdash; A.S. Elnashai &amp; L. Di Sarno</div>
+            <p class="card-desc">지진 발생 메커니즘부터 구조물의 내진 설계 철학까지 통합적으로 다룹니다. 지진학 기초, 지반 운동 특성, 성능 기반 설계(Performance-Based Design), 내진 보강 기법 등을 실제 피해 사례와 함께 설명합니다. Chopra와 함께 읽으면 이론과 응용이 완성됩니다.</p>
+            <span class="card-tag tag-red">석사~박사</span>
+            <span class="card-tag tag-orange">종합 참고서</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ML/AI -->
+      <div class="tab-content" id="tab-ml-books">
+        <div class="card-grid">
+          <div class="card accent-green reveal">
+            <span class="card-icon">🧠</span>
+            <div class="card-title">Deep Learning &mdash; I. Goodfellow, Y. Bengio &amp; A. Courville</div>
+            <p class="card-desc">딥러닝의 수학적 기반(선형대수, 확률론, 정보이론)부터 CNN, RNN, 생성모델, 정규화 기법까지 체계적으로 정리한 교과서입니다. 이론적 깊이가 있으면서도 직관적 설명이 병행되어, AI 연구를 제대로 하려면 한 번은 정독해야 할 책입니다. 온라인에서 무료로 읽을 수 있습니다.</p>
+            <span class="card-tag tag-red">석사~박사</span>
+            <span class="card-tag tag-green">무료 열람 가능</span>
+          </div>
+          <div class="card accent-green reveal" data-delay="1">
+            <span class="card-icon">🧠</span>
+            <div class="card-title">Pattern Recognition and Machine Learning &mdash; C.M. Bishop</div>
+            <p class="card-desc">베이지안 관점에서 머신러닝을 설명하는 고전입니다. 확률 분포, 회귀, 분류, 커널 방법, 그래프 모델, EM 알고리즘 등을 다루며, 불확실성 정량화가 중요한 구조공학 문제에 특히 유용한 통계적 관점을 제공합니다.</p>
+            <span class="card-tag tag-red">석사~박사</span>
+            <span class="card-tag tag-purple">이론 심화</span>
+          </div>
+          <div class="card accent-green reveal" data-delay="2">
+            <span class="card-icon">🧠</span>
+            <div class="card-title">Hands-On Machine Learning &mdash; A. Geron</div>
+            <p class="card-desc">이론보다 실습에 초점을 맞춘 입문서로, scikit-learn과 TensorFlow/Keras를 사용한 실제 구현을 빠르게 배울 수 있습니다. 회귀, 분류, 앙상블, 차원 축소부터 CNN, RNN, 강화학습까지 코드와 함께 설명합니다. 구조공학 데이터에 ML을 처음 적용해보려는 분에게 최적의 출발점입니다.</p>
+            <span class="card-tag tag-green">입문~석사</span>
+            <span class="card-tag tag-cyan">실습 중심</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.2 온라인 강의 -->
+  <div class="subsection reveal" id="online-courses">
+    <h3 class="subsection-title"><span class="subsection-icon">🎓</span> 5.2 온라인 강의</h3>
+    <p>교과서 독학이 어려울 때, 잘 구성된 온라인 강의가 큰 도움이 됩니다. 구조공학 기초부터 ML/AI 실습까지, 검증된 무료 및 유료 강의를 소개합니다.</p>
+
+    <div class="card-grid card-grid-2">
+      <div class="card reveal">
+        <span class="card-icon">🏛️</span>
+        <div class="card-title">MIT OpenCourseWare</div>
+        <p class="card-desc"><strong>2.092 Finite Element Analysis of Solids and Fluids I</strong> &mdash; Klaus-Jurgen Bathe 교수의 전설적인 FEM 강의. 변분법 기초부터 요소 정식화, 수렴성 분석까지 체계적으로 다룹니다. <strong>1.561 Structural Analysis and Design</strong>은 구조역학 전반을 복습하기 좋으며, <strong>1.571 Structural Analysis and Control</strong>은 구조 제어 이론의 입문으로 유용합니다.</p>
+        <span class="card-tag tag-green">무료</span>
+        <span class="card-tag tag-blue">구조공학/FEM</span>
+      </div>
+      <div class="card reveal" data-delay="1">
+        <span class="card-icon">🎯</span>
+        <div class="card-title">Coursera &mdash; ML &amp; Deep Learning</div>
+        <p class="card-desc"><strong>Machine Learning Specialization (Andrew Ng)</strong> &mdash; 머신러닝의 핵심 개념을 직관적으로 설명하는 입문 강의의 정석. 2022년 리뉴얼 버전은 Python과 TensorFlow를 사용합니다. <strong>Deep Learning Specialization (5개 코스)</strong> &mdash; 신경망 기초, CNN, 시퀀스 모델, 구조화된 ML 프로젝트 전략까지 심화 학습에 필수입니다.</p>
+        <span class="card-tag tag-yellow">무료 청강 / 유료 수료증</span>
+        <span class="card-tag tag-purple">ML/AI</span>
+      </div>
+      <div class="card reveal" data-delay="2">
+        <span class="card-icon">▶️</span>
+        <div class="card-title">YouTube 채널 추천</div>
+        <p class="card-desc"><strong>3Blue1Brown</strong> &mdash; 선형대수(Essence of Linear Algebra)와 미적분의 기하학적 직관을 시각화합니다. ML의 수학적 기반을 다지는 데 최고. <strong>StatQuest (Josh Starmer)</strong> &mdash; 통계와 ML 알고리즘을 쉽고 재미있게 설명합니다. 의사결정트리, XGBoost, PCA 등의 직관적 이해에 도움. <strong>Sentdex</strong> &mdash; Python을 활용한 ML/딥러닝 실습 튜토리얼이 풍부합니다.</p>
+        <span class="card-tag tag-green">무료</span>
+        <span class="card-tag tag-cyan">시각화/실습</span>
+      </div>
+      <div class="card reveal" data-delay="3">
+        <span class="card-icon">🇰🇷</span>
+        <div class="card-title">한국어 강의 플랫폼</div>
+        <p class="card-desc"><strong>K-MOOC</strong> &mdash; 서울대 구조역학, KAIST 유한요소법, 한양대 동역학 등 국내 주요 대학의 전공 강의를 무료로 수강할 수 있습니다. <strong>KOCW</strong> &mdash; 더 다양한 대학의 강의 영상을 제공하며, 특히 학부 수준의 기초 과목을 복습할 때 유용합니다. <strong>인프런/패스트캠퍼스</strong> &mdash; Python, PyTorch, 데이터 분석 등 AI 실무 강의가 한국어로 잘 정리되어 있습니다.</p>
+        <span class="card-tag tag-green">K-MOOC/KOCW 무료</span>
+        <span class="card-tag tag-yellow">인프런 일부 유료</span>
+      </div>
+    </div>
+
+    <div class="highlight-box tip reveal">
+      <span class="highlight-box-icon">💡</span>
+      <div class="highlight-box-content">
+        <p><strong>강의 수강 전략:</strong> 처음부터 끝까지 완강하려고 하면 지치기 쉽습니다. 연구에 당장 필요한 부분을 먼저 골라 듣고, 나머지는 레퍼런스로 활용하세요. 예를 들어, PINN 연구를 시작한다면 Andrew Ng의 신경망 기초 + 3Blue1Brown의 선형대수만 먼저 보는 것이 효율적입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.3 공개 데이터셋 -->
+  <div class="subsection reveal" id="datasets">
+    <h3 class="subsection-title"><span class="subsection-icon">📊</span> 5.3 공개 데이터셋</h3>
+    <p>데이터 기반 연구의 출발점은 양질의 데이터셋입니다. 구조공학 분야에서 널리 사용되는 공개 데이터셋을 유형별로 정리했습니다.</p>
+
+    <div style="overflow-x:auto;">
+      <table class="comparison-table reveal">
+        <thead>
+          <tr>
+            <th>데이터셋</th>
+            <th>유형</th>
+            <th>규모</th>
+            <th>용도</th>
+            <th>접근 방법</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="highlight">PEER Ground Motion Database</td>
+            <td>지진 가속도 시계열</td>
+            <td>10,000+ 기록, 전 세계 지진</td>
+            <td>비선형 시간이력 해석 입력, 지진 위험도 분석, 응답스펙트럼 비교 연구</td>
+            <td>PEER NGA-West2 웹사이트에서 무료 다운로드 (회원가입 필요)</td>
+          </tr>
+          <tr>
+            <td class="highlight">SDNET2018</td>
+            <td>콘크리트 균열 이미지</td>
+            <td>약 56,000장 (균열/비균열)</td>
+            <td>CNN 기반 균열 탐지 모델 훈련, 이미지 분류 및 세그멘테이션 연구</td>
+            <td>Utah State University 공개 &mdash; Kaggle에서도 검색 가능</td>
+          </tr>
+          <tr>
+            <td class="highlight">IASC-ASCE SHM Benchmark</td>
+            <td>구조 진동 가속도 데이터</td>
+            <td>Phase I/II 실험 데이터셋</td>
+            <td>구조물 건전성 모니터링(SHM) 알고리즘 검증, 손상 탐지 모델 벤치마크</td>
+            <td>ASCE Structural Health Monitoring Committee 웹사이트</td>
+          </tr>
+          <tr>
+            <td class="highlight">TPU Aerodynamic Database</td>
+            <td>풍압 계수 시계열</td>
+            <td>다양한 건물 형상, 풍향별 데이터</td>
+            <td>풍압 분포 예측, CFD 검증, 풍하중 추정 모델 학습</td>
+            <td>Tokyo Polytechnic University 풍공학 데이터베이스 (무료 공개)</td>
+          </tr>
+          <tr>
+            <td class="highlight">Kaggle &mdash; Structural Engineering</td>
+            <td>혼합 (수치/이미지)</td>
+            <td>데이터셋별 상이</td>
+            <td>"Steel Defect Detection", "Concrete Compressive Strength" 등 다양한 구조 관련 대회 데이터셋 활용 가능</td>
+            <td>Kaggle.com에서 "structural engineering", "concrete", "bridge" 등으로 검색</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight-box info reveal">
+      <span class="highlight-box-icon">ℹ️</span>
+      <div class="highlight-box-content">
+        <p><strong>데이터셋 활용 팁:</strong> 공개 데이터셋은 모델의 초기 프로토타이핑과 벤치마크 비교에 매우 유용하지만, 실제 연구 논문에서는 자체 수집 데이터나 시뮬레이션 데이터를 함께 사용하는 것이 심사에서 유리합니다. 공개 데이터로 방법론을 검증한 후, 자신의 연구 문제에 맞는 데이터를 추가하는 전략을 추천합니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.4 유용한 논문 -->
+  <div class="subsection reveal" id="key-papers">
+    <h3 class="subsection-title"><span class="subsection-icon">📄</span> 5.4 유용한 논문</h3>
+    <p>구조공학과 AI의 접점에서 반드시 읽어야 할 핵심 논문들입니다. 각 분야의 시작점이 되는 랜드마크 논문을 중심으로 선별했습니다.</p>
+
+    <div class="tab-container">
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="tab-shm-papers">SHM + ML</button>
+        <button class="tab-btn" data-tab="tab-pinn-papers">PINN</button>
+        <button class="tab-btn" data-tab="tab-topology-papers">위상최적화 + AI</button>
+        <button class="tab-btn" data-tab="tab-general-ai-struct">구조공학 + AI 종합</button>
+      </div>
+
+      <!-- SHM + ML -->
+      <div class="tab-content active" id="tab-shm-papers">
+        <div class="card-grid card-grid-2">
+          <div class="card reveal">
+            <span class="card-icon">📄</span>
+            <div class="card-title">Machine learning for structural engineering: A state-of-the-art review</div>
+            <p class="card-desc"><strong>Salehi &amp; Burgeno (2018)</strong>, <em>Engineering Structures</em>. 구조공학에 ML이 어떻게 적용되어 왔는지 포괄적으로 정리한 리뷰 논문입니다. 손상 탐지, 하중 예측, 재료 모델링 등 다양한 응용을 체계적으로 분류하여 전체 그림을 파악하기에 좋습니다.</p>
+            <span class="card-tag tag-orange">리뷰 논문</span>
+            <span class="card-tag tag-purple">필독</span>
+          </div>
+          <div class="card reveal" data-delay="1">
+            <span class="card-icon">📄</span>
+            <div class="card-title">Deep learning-based crack damage detection using convolutional neural networks</div>
+            <p class="card-desc"><strong>Cha, Choi &amp; Buyukozturk (2017)</strong>, <em>Computer-Aided Civil and Infrastructure Engineering</em>. CNN을 활용한 콘크리트 균열 자동 탐지의 선구적 연구입니다. 비전 기반 구조물 점검의 패러다임을 바꾼 논문으로, 이후 수많은 후속 연구의 출발점이 되었습니다.</p>
+            <span class="card-tag tag-cyan">CNN 적용</span>
+            <span class="card-tag tag-green">600+ 인용</span>
+          </div>
+          <div class="card reveal" data-delay="2">
+            <span class="card-icon">📄</span>
+            <div class="card-title">Structural damage detection using neural networks and vibration signatures</div>
+            <p class="card-desc"><strong>Worden, Manson &amp; Fieller (2000)</strong>, <em>Journal of Sound and Vibration</em>. 진동 데이터와 신경망을 결합한 손상 탐지의 초기 핵심 연구입니다. 통계적 패턴 인식 프레임워크에서 SHM 문제를 공식화하는 방식은 지금도 많은 연구의 기반이 됩니다.</p>
+            <span class="card-tag tag-purple">고전 논문</span>
+            <span class="card-tag tag-blue">SHM 기초</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PINN -->
+      <div class="tab-content" id="tab-pinn-papers">
+        <div class="card-grid card-grid-2">
+          <div class="card reveal">
+            <span class="card-icon">📄</span>
+            <div class="card-title">Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear PDEs</div>
+            <p class="card-desc"><strong>Raissi, Perdikaris &amp; Karniadakis (2019)</strong>, <em>Journal of Computational Physics</em>. PINN의 원조 논문입니다. 물리 법칙(편미분방정식)을 손실 함수에 직접 반영하여 신경망을 학습시키는 프레임워크를 제안했습니다. 구조역학의 지배방정식을 신경망에 융합하려는 모든 연구의 출발점입니다.</p>
+            <span class="card-tag tag-red">반드시 정독</span>
+            <span class="card-tag tag-purple">PINN 원조</span>
+          </div>
+          <div class="card reveal" data-delay="1">
+            <span class="card-icon">📄</span>
+            <div class="card-title">When and why PINNs fail to train: A neural tangent kernel perspective</div>
+            <p class="card-desc"><strong>Wang, Yu &amp; Perdikaris (2022)</strong>, <em>Journal of Computational Physics</em>. PINN이 잘 수렴하지 않는 문제를 Neural Tangent Kernel 관점에서 분석한 논문입니다. 손실 함수의 각 항이 불균형하게 학습되는 현상을 규명하고, 적응적 가중치 전략을 제안합니다. PINN 연구자라면 학습 실패 원인 분석에 필수입니다.</p>
+            <span class="card-tag tag-orange">학습 실패 분석</span>
+            <span class="card-tag tag-cyan">이론적 기여</span>
+          </div>
+          <div class="card reveal" data-delay="2">
+            <span class="card-icon">📄</span>
+            <div class="card-title">Scientific machine learning through physics-informed neural networks: Where we are and what's next</div>
+            <p class="card-desc"><strong>Cuomo et al. (2022)</strong>, <em>Journal of Scientific Computing</em>. PINN의 발전 과정, 변형 모델(DeepONet, Fourier Neural Operator 등), 적용 사례, 미해결 과제를 종합적으로 정리한 서베이 논문입니다. PINN 연구의 전체 지형도를 파악하는 데 매우 유용합니다.</p>
+            <span class="card-tag tag-orange">서베이 논문</span>
+            <span class="card-tag tag-green">2022</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 위상최적화 + AI -->
+      <div class="tab-content" id="tab-topology-papers">
+        <div class="card-grid card-grid-2">
+          <div class="card reveal">
+            <span class="card-icon">📄</span>
+            <div class="card-title">A 99 line topology optimization code written in Matlab</div>
+            <p class="card-desc"><strong>Sigmund (2001)</strong>, <em>Structural and Multidisciplinary Optimization</em>. 위상최적화의 가장 유명한 교육용 논문입니다. SIMP 방법을 단 99줄의 Matlab 코드로 구현하여, 최적화의 핵심 개념을 누구나 손으로 따라할 수 있게 만들었습니다. AI 적용 이전에 기본 프레임워크를 이해하는 필수 논문입니다.</p>
+            <span class="card-tag tag-purple">필독 고전</span>
+            <span class="card-tag tag-blue">위상최적화 기초</span>
+          </div>
+          <div class="card reveal" data-delay="1">
+            <span class="card-icon">📄</span>
+            <div class="card-title">TopologyGAN &mdash; Topology optimization using GANs</div>
+            <p class="card-desc"><strong>Nie et al. (2021)</strong>, <em>ASME Journal of Mechanical Design</em>. 조건부 GAN(cGAN)을 활용하여 경계 조건과 하중 조건에서 최적 토폴로지를 직접 생성하는 접근법입니다. 전통적 반복 최적화 대비 수백 배 빠른 추론 속도를 달성하며, 딥러닝 기반 설계 자동화의 가능성을 보여줍니다.</p>
+            <span class="card-tag tag-pink">GAN 활용</span>
+            <span class="card-tag tag-green">설계 자동화</span>
+          </div>
+          <div class="card reveal" data-delay="2">
+            <span class="card-icon">📄</span>
+            <div class="card-title">Neural reparameterization improves structural optimization</div>
+            <p class="card-desc"><strong>Hoyer et al. (2019)</strong>, <em>NeurIPS Workshop</em>. 위상최적화 문제에서 설계 변수를 신경망으로 재매개변수화(reparameterization)하는 접근법을 제안합니다. 기존 SIMP 방법 대비 더 매끄러운 구조와 적은 회색 영역을 만들어내며, 물리 제약 하에서의 신경망 최적화 전략을 보여줍니다.</p>
+            <span class="card-tag tag-cyan">NeurIPS</span>
+            <span class="card-tag tag-orange">신경망 재매개변수화</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 구조공학 + AI 종합 -->
+      <div class="tab-content" id="tab-general-ai-struct">
+        <div class="card-grid card-grid-2">
+          <div class="card reveal">
+            <span class="card-icon">📄</span>
+            <div class="card-title">Deep learning for real-time structural health monitoring</div>
+            <p class="card-desc"><strong>Zhang et al. (2019)</strong>, <em>Mechanical Systems and Signal Processing</em>. 딥러닝(1D-CNN + LSTM)을 실시간 SHM 시스템에 적용한 연구입니다. 가속도 센서 데이터에서 직접 특징을 추출하여 손상 위치와 정도를 실시간으로 판별하는 프레임워크를 제시합니다.</p>
+            <span class="card-tag tag-blue">실시간 SHM</span>
+            <span class="card-tag tag-green">CNN+LSTM</span>
+          </div>
+          <div class="card reveal" data-delay="1">
+            <span class="card-icon">📄</span>
+            <div class="card-title">Surrogate modeling of structural response using neural networks</div>
+            <p class="card-desc"><strong>Papadrakakis, Lagaros &amp; Tsompanakis (1998)</strong>, <em>Computer Methods in Applied Mechanics and Engineering</em>. 신경망 기반 대리 모델(surrogate model)의 초기 연구로, 구조물의 비선형 응답을 신경망으로 근사하여 신뢰성 해석과 최적화의 계산 비용을 획기적으로 줄이는 전략을 제안합니다.</p>
+            <span class="card-tag tag-purple">대리 모델 초기 연구</span>
+            <span class="card-tag tag-orange">최적화</span>
+          </div>
+          <div class="card reveal" data-delay="2">
+            <span class="card-icon">📄</span>
+            <div class="card-title">Transfer learning for structural health monitoring</div>
+            <p class="card-desc"><strong>Gardner, Liu &amp; Worden (2020)</strong>, <em>Mechanical Systems and Signal Processing</em>. 한 구조물에서 학습한 손상 탐지 모델을 다른 구조물에 전이(transfer)하는 방법론을 제시합니다. 구조물마다 새로 대량의 데이터를 수집해야 하는 문제를 해결하는 핵심 연구입니다.</p>
+            <span class="card-tag tag-cyan">전이학습</span>
+            <span class="card-tag tag-pink">도메인 적응</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.5 커뮤니티/학회 -->
+  <div class="subsection reveal" id="communities">
+    <h3 class="subsection-title"><span class="subsection-icon">🌐</span> 5.5 커뮤니티/학회</h3>
+    <p>연구는 혼자 하는 것이 아닙니다. 관련 학회에 참여하고, 논문을 발표하고, 다른 연구자와 교류하는 것이 장기적인 성장에 핵심입니다.</p>
+
+    <div class="card-grid">
+      <div class="card reveal">
+        <span class="card-icon">🏛️</span>
+        <div class="card-title">ASCE (American Society of Civil Engineers)</div>
+        <p class="card-desc">세계 최대 토목공학 학회입니다. <em>Journal of Structural Engineering</em>, <em>Journal of Engineering Mechanics</em> 등 구조공학 최고 수준의 저널을 발행합니다. EMI(Engineering Mechanics Institute) 컨퍼런스는 구조역학과 계산역학 분야의 핵심 국제 학술대회입니다.</p>
+        <span class="card-tag tag-blue">국제</span>
+        <span class="card-tag tag-purple">구조공학 최상위</span>
+      </div>
+      <div class="card reveal" data-delay="1">
+        <span class="card-icon">🇰🇷</span>
+        <div class="card-title">KSCE (대한토목학회)</div>
+        <p class="card-desc">한국 토목공학의 대표 학회로, <em>KSCE Journal of Civil Engineering</em>(SCI 등재)을 발행합니다. 정기 학술대회와 분과별 세미나가 활발하며, 국내 네트워킹의 핵심 채널입니다. 학생 회원 가입 시 학회지 열람과 학술대회 할인 혜택이 있습니다.</p>
+        <span class="card-tag tag-orange">국내</span>
+        <span class="card-tag tag-green">SCI 저널</span>
+      </div>
+      <div class="card reveal" data-delay="2">
+        <span class="card-icon">🏢</span>
+        <div class="card-title">대한건축학회 (AIK)</div>
+        <p class="card-desc">건축 구조 분야를 다루는 국내 핵심 학회입니다. 건축물의 구조 설계, 내진 설계, 풍하중 설계 관련 기준 제정에 참여하며, <em>대한건축학회 논문집 구조계</em>를 통해 연구 결과를 발표할 수 있습니다.</p>
+        <span class="card-tag tag-orange">국내</span>
+        <span class="card-tag tag-pink">건축구조</span>
+      </div>
+      <div class="card reveal" data-delay="3">
+        <span class="card-icon">🌉</span>
+        <div class="card-title">IABSE (International Association for Bridge and Structural Engineering)</div>
+        <p class="card-desc">교량과 대형 구조물에 특화된 국제 학회입니다. <em>Structural Engineering International</em> 저널을 발행하며, 세계 각지에서 열리는 심포지엄과 워크숍을 통해 실무 엔지니어와 연구자가 만나는 장을 제공합니다.</p>
+        <span class="card-tag tag-blue">국제</span>
+        <span class="card-tag tag-cyan">교량/대형 구조물</span>
+      </div>
+      <div class="card reveal" data-delay="4">
+        <span class="card-icon">🤖</span>
+        <div class="card-title">AI 학회 &mdash; 구조공학 접점</div>
+        <p class="card-desc"><strong>NeurIPS</strong>의 "AI for Science" 워크숍, <strong>ICML</strong>의 물리 기반 ML 세션, <strong>AAAI</strong>의 AI for Engineering 트랙에서 PINN, 과학적 ML, 디지털 트윈 관련 최신 연구를 발표할 수 있습니다. AI 학회에 구조공학 주제로 논문을 내면 높은 임팩트를 기대할 수 있습니다.</p>
+        <span class="card-tag tag-blue">국제</span>
+        <span class="card-tag tag-purple">AI 최상위</span>
+      </div>
+      <div class="card reveal" data-delay="4">
+        <span class="card-icon">🇰🇷</span>
+        <div class="card-title">국내 전문 학회</div>
+        <p class="card-desc"><strong>한국풍공학회</strong> &mdash; 풍동 실험, CFD, 풍하중 설계 기준 관련 연구 교류. <strong>한국지진공학회</strong> &mdash; 지진 위험도, 내진 설계, 성능 평가 분야의 전문 학회. <strong>한국전산구조공학회</strong> &mdash; 유한요소법, 수치해석, 구조 최적화 및 AI 적용 관련 논문이 활발히 발표됩니다. 이 세 학회는 규모가 크지 않아 오히려 교수님들과 직접 교류하기 좋습니다.</p>
+        <span class="card-tag tag-orange">국내</span>
+        <span class="card-tag tag-green">전문 분과</span>
+      </div>
+    </div>
+
+    <div class="highlight-box tip reveal">
+      <span class="highlight-box-icon">💡</span>
+      <div class="highlight-box-content">
+        <p><strong>학회 전략:</strong> 석사 1년차부터 국내 학회(KSCE, 전산구조공학회 등)에 포스터 발표를 시작하세요. 발표 경험이 쌓이면 석사 2년차~박사 과정에서 ASCE, IABSE 등 국제 학회에 구두 발표로 도전합니다. 학회 참가 자체가 연구 동기부여에 큰 도움이 됩니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- Section 06: 연구실 생활           -->
+<!-- ============================== -->
+<section class="section" id="lab-life">
+  <div class="section-header reveal">
+    <span class="section-number pink">06</span>
+    <h2>연구실 생활</h2>
+  </div>
+  <p class="section-desc reveal">대학원 생활은 연구 능력만으로 결정되지 않습니다. 시간 관리, 교수님과의 관계, 멘탈 관리, 네트워킹, 그리고 졸업 후 진로 설계까지 &mdash; 논문에는 나오지 않는 이 모든 것들이 성공적인 대학원 생활의 진짜 변수입니다. 선배로서 경험했던 시행착오와 배움을 솔직하게 공유합니다.</p>
+
+  <!-- 6.1 시간 관리 -->
+  <div class="subsection reveal" id="time-management">
+    <h3 class="subsection-title"><span class="subsection-icon">⏰</span> 6.1 시간 관리</h3>
+    <p>연구, 수업, 세미나, TA 업무가 동시에 몰리는 대학원에서 시간 관리는 생존 기술입니다. 아래 전략들은 실제로 효과를 본 방법들입니다.</p>
+
+    <div class="card-grid card-grid-2">
+      <div class="card reveal">
+        <span class="card-icon">🍅</span>
+        <div class="card-title">포모도로 테크닉</div>
+        <p class="card-desc"><strong>25분 집중 + 5분 휴식</strong>을 한 세트로 반복합니다. 4세트 완료 후 15~30분의 긴 휴식을 취하세요. 핵심은 25분 동안 오직 하나의 작업에만 집중하는 것입니다. 논문 읽기, 코딩, 수식 유도 등 인지적으로 힘든 작업에 특히 효과적이며, 하루에 8~10 포모도로(약 4~5시간의 순수 집중 시간)를 달성하면 매우 생산적인 하루입니다.</p>
+        <span class="card-tag tag-green">즉시 실천 가능</span>
+      </div>
+      <div class="card reveal" data-delay="1">
+        <span class="card-icon">📋</span>
+        <div class="card-title">주간 계획 + 회고</div>
+        <p class="card-desc"><strong>월요일 아침 30분:</strong> 이번 주 목표 3가지를 구체적으로 설정합니다. "논문 읽기"가 아니라 "Raissi et al. (2019) PINN 논문 정독 + 핵심 수식 정리"처럼 측정 가능하게 작성하세요. <strong>금요일 오후 20분:</strong> 달성한 것과 미달성 사항을 짧게 기록하고, 다음 주로 넘길 항목을 정리합니다. 이 루틴만으로도 시간 사용의 질이 크게 달라집니다.</p>
+        <span class="card-tag tag-purple">습관 형성</span>
+      </div>
+      <div class="card reveal" data-delay="2">
+        <span class="card-icon">📓</span>
+        <div class="card-title">연구 일지 작성</div>
+        <p class="card-desc">매일 퇴근 전 <strong>10분만</strong> 투자해서 오늘 한 일, 발견한 것, 막힌 부분, 내일 할 일을 간단히 기록하세요. Notion, Obsidian, 또는 평범한 텍스트 파일이면 충분합니다. 연구 일지는 논문 작성 시 실험 과정 복원, 교수님 미팅 준비, 졸업 논문의 연구 방법론 서술에 결정적으로 도움됩니다. 기록하지 않으면 3개월 전의 실험 세팅은 반드시 잊어버립니다.</p>
+        <span class="card-tag tag-orange">강력 추천</span>
+      </div>
+      <div class="card reveal" data-delay="3">
+        <span class="card-icon">🧘</span>
+        <div class="card-title">Deep Work 실천</div>
+        <p class="card-desc">Cal Newport의 <em>Deep Work</em> 개념을 적용하세요. 하루 중 <strong>2~3시간의 방해 없는 집중 시간</strong>을 확보합니다. 이 시간에는 메신저, 이메일, SNS를 완전히 차단하고 가장 인지적으로 어려운 작업(수식 유도, 알고리즘 구현, 논문 초고 작성)에 몰입합니다. 오전 시간이 집중력이 가장 높으므로, 오전에 Deep Work, 오후에 미팅과 행정 업무를 배치하는 것을 권장합니다.</p>
+        <span class="card-tag tag-cyan">생산성 극대화</span>
+      </div>
+    </div>
+
+    <div class="highlight-box tip reveal">
+      <span class="highlight-box-icon">💡</span>
+      <div class="highlight-box-content">
+        <p><strong>타임 블로킹 (Time Blocking) 전략:</strong> Google Calendar나 Notion Calendar를 활용하여 하루를 30분~1시간 단위 블록으로 나누세요. "오전 9:00~11:00 = 코딩 (Deep Work)", "11:00~12:00 = 논문 읽기", "14:00~15:00 = 교수님 미팅"처럼 시간대별로 작업을 할당합니다. 빈 시간이 생기면 자동으로 SNS를 보게 되지만, 블록이 있으면 다음 작업으로 자연스럽게 넘어갑니다. 처음엔 70% 정도만 계획대로 되지만, 2~3주 후부터 습관이 잡힙니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6.2 교수님과의 소통 -->
+  <div class="subsection reveal" id="advisor-communication">
+    <h3 class="subsection-title"><span class="subsection-icon">🤝</span> 6.2 교수님과의 소통</h3>
+    <p>지도교수님과의 관계는 대학원 생활의 질을 결정하는 가장 중요한 요소 중 하나입니다. 효과적인 소통 방법과 피해야 할 실수를 정리했습니다.</p>
+
+    <div class="do-dont reveal">
+      <div class="do-box">
+        <h4>이렇게 하세요</h4>
+        <ul>
+          <li><strong>정기 미팅 준비:</strong> 미팅 최소 하루 전에 진행 상황 요약, 결과 그래프/표, 질문 리스트를 문서로 정리하세요. 1~2페이지 분량의 요약 슬라이드가 효과적입니다.</li>
+          <li><strong>진행상황 문서화:</strong> 매주 또는 격주로 짧은 진행 보고서(progress report)를 이메일이나 공유 문서로 보내세요. 교수님이 요청하지 않더라도 선제적으로 공유하면 신뢰가 쌓입니다.</li>
+          <li><strong>구체적 질문:</strong> "잘 안 됩니다" 대신 "A 방법을 시도했는데 B 결과가 나왔습니다. C가 원인일 수 있을까요?" 처럼, 자신의 시도와 분석을 포함한 질문을 하세요.</li>
+          <li><strong>선제적 보고:</strong> 문제가 생기면 미팅까지 기다리지 말고 빨리 알리세요. 일찍 공유할수록 해결이 쉽고, 교수님도 도와줄 시간이 생깁니다.</li>
+          <li><strong>피드백 반영 기록:</strong> 교수님의 코멘트를 받으면 어떻게 반영했는지를 다음 미팅에서 구체적으로 보여주세요. 피드백이 반영되는 것을 보면 교수님도 더 적극적으로 지도해 주십니다.</li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <h4>이것은 피하세요</h4>
+        <ul>
+          <li><strong>무준비 미팅:</strong> 아무 준비 없이 미팅에 가면 교수님의 시간을 낭비하게 됩니다. 교수님은 여러 학생을 동시에 지도하고 있다는 점을 기억하세요.</li>
+          <li><strong>문제만 가져가기:</strong> 문제점만 나열하고 해결 방안은 전혀 고민하지 않은 채 미팅에 임하는 것은 의존적 인상을 줍니다. 최소한 본인의 가설이나 대안을 1~2개 준비하세요.</li>
+          <li><strong>약속 미이행:</strong> "다음 주까지 하겠습니다"라고 한 뒤 못 했다면, 미팅 전에 미리 알리세요. 아무 말 없이 미팅에서 "못 했습니다"라고 하면 신뢰가 크게 떨어집니다.</li>
+          <li><strong>피드백 무시:</strong> 교수님이 수정을 요청한 부분을 반영하지 않고 넘어가는 것은 최악입니다. 동의하지 않더라도 이유를 설명하고 논의해야 합니다.</li>
+          <li><strong>비교 발언:</strong> "다른 연구실에서는 이렇게 한다" 식의 비교는 대부분 역효과를 냅니다. 개선 제안이 있다면 건설적인 방식으로 표현하세요.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box info reveal">
+      <span class="highlight-box-icon">📝</span>
+      <div class="highlight-box-content">
+        <p><strong>효과적인 미팅 준비 템플릿:</strong> 미팅 자료는 다음 구조를 추천합니다. (1) <strong>지난 미팅 이후 진행 사항</strong> &mdash; 무엇을 했는지 간결하게. (2) <strong>주요 결과</strong> &mdash; 그래프, 표, 코드 결과를 시각적으로. (3) <strong>문제/질문</strong> &mdash; 막힌 부분과 본인이 생각한 가설. (4) <strong>다음 단계 계획</strong> &mdash; 향후 1~2주 목표. 이 구조를 매번 따르면, 미팅 시간이 단축되고 핵심에 집중할 수 있습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6.3 멘탈 관리 -->
+  <div class="subsection reveal" id="mental-health">
+    <h3 class="subsection-title"><span class="subsection-icon">💪</span> 6.3 멘탈 관리</h3>
+    <p>대학원 과정은 지적 도전뿐 아니라 심리적으로도 힘든 여정입니다. 이건 당신만 그런 것이 아닙니다. 많은 대학원생이 겪는 공통된 어려움과 실질적인 대처법을 정리했습니다.</p>
+
+    <div class="card-grid card-grid-2">
+      <div class="card reveal">
+        <span class="card-icon">🎭</span>
+        <div class="card-title">임포스터 신드롬 (Impostor Syndrome)</div>
+        <p class="card-desc"><strong>정의:</strong> 자신의 성취가 실력이 아니라 운 때문이라고 느끼며, 곧 가짜임이 들통날 것이라는 불안감입니다. 대학원생의 약 70%가 경험한다는 연구 결과가 있습니다.<br><br><strong>대처법:</strong> (1) 자신의 성취 목록을 작성하고 주기적으로 읽어보세요. (2) 선배나 동료에게 솔직하게 이야기하면, 대부분 같은 감정을 경험하고 있다는 걸 알게 됩니다. (3) "완벽해야 한다"는 생각을 "충분히 잘 하고 있다"로 바꾸는 연습을 하세요.</p>
+        <span class="card-tag tag-pink">매우 흔함</span>
+      </div>
+      <div class="card reveal" data-delay="1">
+        <span class="card-icon">🔥</span>
+        <div class="card-title">번아웃 예방</div>
+        <p class="card-desc"><strong>위험 신호:</strong> 연구에 대한 흥미 상실, 만성 피로, 수면 장애, 과민함, "왜 이걸 하고 있지?"라는 생각이 반복된다면 번아웃 초기일 수 있습니다.<br><br><strong>예방 전략:</strong> (1) 주 1회 이상 연구와 완전히 무관한 활동(운동, 취미, 친구 만남)을 하세요. (2) 매일 일정한 시간에 퇴근하는 규칙을 세우세요 &mdash; 연구실에 오래 있는 것과 생산성은 다릅니다. (3) 장기 목표를 작은 마일스톤으로 나누어 달성감을 자주 느끼세요.</p>
+        <span class="card-tag tag-red">조기 인식 중요</span>
+      </div>
+      <div class="card reveal" data-delay="2">
+        <span class="card-icon">🎯</span>
+        <div class="card-title">동기부여 유지</div>
+        <p class="card-desc"><strong>작은 성취 기록:</strong> "오늘 loss가 10% 줄었다", "논문 Introduction 초고 완성" 같은 소소한 성취를 매일 기록하세요. 큰 성과가 나오기까지 수개월이 걸리므로, 작은 진전의 기록이 동기부여의 연료가 됩니다.<br><br><strong>동료와 교류:</strong> 연구실 내 또는 타 연구실 동기들과 정기적으로 만나 서로의 연구를 공유하세요. 같은 어려움을 겪는 동료가 있다는 것만으로도 큰 위안이 됩니다.</p>
+        <span class="card-tag tag-green">일상적 실천</span>
+      </div>
+      <div class="card reveal" data-delay="3">
+        <span class="card-icon">🏃</span>
+        <div class="card-title">운동과 건강</div>
+        <p class="card-desc">이 부분을 가볍게 보지 마세요. 규칙적인 운동은 단순한 건강 관리가 아니라 <strong>연구 생산성에 직접적인 영향</strong>을 줍니다. 유산소 운동은 BDNF(뇌유래신경영양인자) 분비를 촉진하여 학습과 기억력을 향상시키고, 스트레스 호르몬(코르티솔)을 낮춥니다. 주 3회 30분 이상의 운동을 연구 스케줄에 "미팅"처럼 고정하세요. 학교 헬스장, 수영장 등 교내 시설을 활용하면 비용 부담도 줄일 수 있습니다.</p>
+        <span class="card-tag tag-cyan">과학적으로 검증</span>
+      </div>
+    </div>
+
+    <blockquote class="reveal">
+      대학원은 마라톤입니다. 빠르게 달리는 것보다 꾸준히 달리는 것이 중요합니다. 지금 잠시 힘든 것은 당연한 과정이지, 당신이 부족해서가 아닙니다. 오늘 한 걸음을 내디딘 것만으로도 이미 충분히 잘 하고 있습니다. 포기하지 않는 한, 반드시 끝에 도달합니다.
+    </blockquote>
+  </div>
+
+  <!-- 6.4 네트워킹 -->
+  <div class="subsection reveal" id="networking">
+    <h3 class="subsection-title"><span class="subsection-icon">🔗</span> 6.4 네트워킹</h3>
+    <p>좋은 네트워크는 좋은 공동연구, 좋은 추천서, 좋은 기회로 이어집니다. 대학원 때부터 차근차근 쌓아가는 것이 중요합니다.</p>
+
+    <div class="card-grid card-grid-2">
+      <div class="card reveal">
+        <span class="card-icon">🎤</span>
+        <div class="card-title">학회 활용법</div>
+        <p class="card-desc"><strong>발표 후 질문:</strong> 다른 연구자의 발표가 끝나면 질문을 하세요. 좋은 질문은 가장 쉬운 자기소개입니다. "저도 비슷한 데이터를 다루고 있는데, A 전처리 방법을 선택하신 이유가 궁금합니다" 같은 구체적 질문이 효과적입니다.<br><br><strong>포스터 세션:</strong> 포스터 세션은 1:1 대화가 가능한 최고의 네트워킹 기회입니다. 관심 있는 포스터 앞에서 "이 결과가 인상적인데, 더 자세히 설명해 주실 수 있나요?"라고 대화를 시작하세요. 명함 또는 연락처를 교환하는 것을 잊지 마세요.</p>
+        <span class="card-tag tag-purple">학회 필수</span>
+      </div>
+      <div class="card reveal" data-delay="1">
+        <span class="card-icon">✉️</span>
+        <div class="card-title">공동연구 시작하기</div>
+        <p class="card-desc"><strong>콜드 이메일 작성법:</strong> (1) 제목을 구체적으로 &mdash; "Collaboration inquiry on PINN-based structural analysis" (2) 첫 문장에 자기소개 + 상대 연구에 대한 구체적 언급 (3) 공동 관심사와 협업 아이디어를 간결하게 제시 (4) "짧은 Zoom 미팅이 가능한지" 정중하게 요청. <strong>핵심:</strong> 상대의 논문을 실제로 읽었다는 것이 드러나야 합니다. 5명에게 보내서 1~2명이 답하면 성공입니다.</p>
+        <span class="card-tag tag-cyan">실무 전략</span>
+      </div>
+      <div class="card reveal" data-delay="2">
+        <span class="card-icon">💼</span>
+        <div class="card-title">LinkedIn 프로필 관리</div>
+        <p class="card-desc">학술 네트워킹에서 LinkedIn은 점점 중요해지고 있습니다. <strong>프로필 구성:</strong> (1) 전문적 프로필 사진 (2) Headline에 연구 주제 명시 ("Ph.D. Researcher in Structural Engineering + AI") (3) 논문 출판 시 바로 업데이트 (4) 학회 참석, 수상 내역 게시. 해외 연구자들과의 연결 요청 시에는 반드시 짧은 메시지를 첨부하세요.</p>
+        <span class="card-tag tag-blue">온라인 존재감</span>
+      </div>
+      <div class="card reveal" data-delay="3">
+        <span class="card-icon">✈️</span>
+        <div class="card-title">해외 연구실 방문</div>
+        <p class="card-desc"><strong>교환 프로그램:</strong> BK21, 한국연구재단 해외파견, 학교 자체 교환 프로그램 등을 적극 활용하세요. 보통 3~6개월 단위이며, 해외 유명 연구실에서의 경험은 연구 역량과 이력 모두에 큰 도움이 됩니다.<br><br><strong>인턴십:</strong> 여름/겨울 방학 기간에 해외 대학이나 연구기관의 인턴십 프로그램에 지원하세요. 미국의 경우 NSF REU, 유럽의 경우 DAAD 같은 프로그램이 있습니다. 지원 시 교수님의 추천서가 필요하므로, 미리 상의하는 것이 중요합니다.</p>
+        <span class="card-tag tag-orange">경력 강화</span>
+      </div>
+    </div>
+
+    <div class="highlight-box tip reveal">
+      <span class="highlight-box-icon">💡</span>
+      <div class="highlight-box-content">
+        <p><strong>실전 네트워킹 팁:</strong> 학회 만찬이나 소셜 이벤트에 꼭 참석하세요. 비공식적인 자리에서 이루어지는 대화가 공식 세션보다 더 깊은 관계로 이어지는 경우가 많습니다. 긴장되더라도 "어떤 연구를 하고 계신가요?"라는 한마디로 시작하면 됩니다. 대부분의 연구자는 자신의 연구에 대해 이야기하는 것을 좋아합니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6.5 졸업 후 진로 -->
+  <div class="subsection reveal" id="career-paths">
+    <h3 class="subsection-title"><span class="subsection-icon">🚀</span> 6.5 졸업 후 진로</h3>
+    <p>구조공학 + AI를 전공한 대학원생의 진로는 생각보다 다양합니다. 학계와 산업계의 특성을 비교하고, 각 경로에서 필요한 준비를 정리했습니다.</p>
+
+    <div class="do-dont reveal">
+      <div class="do-box" style="border-color: rgba(99,102,241,0.4); background: rgba(99,102,241,0.06);">
+        <h4 style="color: var(--accent-blue);">학계 (Academia)</h4>
+        <ul>
+          <li><strong>교수:</strong> 박사 졸업 후 포닥 1~3회를 거쳐 교수 임용에 도전합니다. 구조공학 + AI 융합 분야는 아직 전문 교수가 적어 경쟁력이 있습니다. 1저자 SCI 논문 5편 이상, 국제 학회 발표 경험, 강의 경력이 주요 평가 요소입니다.</li>
+          <li><strong>연구원:</strong> 한국건설기술연구원(KICT), 한국과학기술연구원(KIST), 국토안전관리원 등 정부출연 연구기관은 안정적인 연구 환경을 제공합니다. 프로젝트 기반으로 운영되며, 현장 적용 가능한 연구를 중시합니다.</li>
+          <li><strong>포닥 (Postdoc):</strong> 박사 직후 1~3년간 다른 연구실에서 연구 역량을 심화합니다. 해외 포닥은 국제 네트워크 확장과 독립적 연구 능력 증명에 필수적이며, 교수 임용 시 크게 유리합니다.</li>
+          <li><strong>장점:</strong> 연구 주제의 자유도, 학문적 기여, 학생 양성, 안식년 제도</li>
+          <li><strong>고려사항:</strong> 긴 준비 기간, 임용 경쟁, 초기 연봉 수준, 행정/강의 부담</li>
+        </ul>
+      </div>
+      <div class="dont-box" style="border-color: rgba(251,146,60,0.4); background: rgba(251,146,60,0.06);">
+        <h4 style="color: var(--accent-orange);">산업계 (Industry)</h4>
+        <ul>
+          <li><strong>설계사무소:</strong> 삼성물산 건설부문, 현대건설, 대우건설 등의 기술연구소 또는 동양구조, 서울구조 등 전문 구조설계 사무소에서 고급 해석 및 AI 기반 설계 자동화를 담당할 수 있습니다.</li>
+          <li><strong>건설/엔지니어링 기업:</strong> 디지털 트윈, BIM+AI, 스마트 건설 분야가 급성장하고 있어 구조공학 + AI 인력 수요가 높습니다. 현장 적용 경험을 쌓기에 좋습니다.</li>
+          <li><strong>IT/AI 기업:</strong> 네이버, 카카오, 삼성SDS 등 IT 기업의 AI 연구팀, 또는 구글/메타 등 해외 빅테크의 Applied Science 포지션도 가능합니다. 구조공학 도메인 지식 + 딥러닝 실력의 조합은 차별화 요소가 됩니다.</li>
+          <li><strong>장점:</strong> 높은 초기 연봉, 빠른 임팩트, 다양한 프로젝트 경험, 명확한 경력 경로</li>
+          <li><strong>고려사항:</strong> 연구 주제 자유도 제한, 업무 강도, 직무 전환 가능성</li>
+        </ul>
+      </div>
+    </div>
+
+    <h4>포트폴리오 구성 전략</h4>
+    <div class="card-grid reveal">
+      <div class="card">
+        <span class="card-icon">📝</span>
+        <div class="card-title">논문 포트폴리오</div>
+        <p class="card-desc">학계 지향이라면 1저자 SCI 논문이 핵심입니다. 구조공학 저널(ASCE, Elsevier)과 AI/ML 저널 양쪽에 논문이 있으면 융합 연구자로서 강한 인상을 줍니다. 산업계에서도 논문은 전문성의 증거가 됩니다.</p>
+        <span class="card-tag tag-purple">학계 필수</span>
+      </div>
+      <div class="card" data-delay="1">
+        <span class="card-icon">💻</span>
+        <div class="card-title">GitHub 프로젝트</div>
+        <p class="card-desc">연구에서 개발한 코드를 정리하여 GitHub에 공개하세요. 깔끔한 README, 실행 가능한 예제, 논문 인용 정보를 포함하면 학술적 영향력과 코딩 실력을 동시에 보여줄 수 있습니다. 산업계 면접에서 GitHub 링크는 이력서만큼 중요합니다.</p>
+        <span class="card-tag tag-green">학계+산업계 공통</span>
+      </div>
+      <div class="card" data-delay="2">
+        <span class="card-icon">🌐</span>
+        <div class="card-title">기술 블로그</div>
+        <p class="card-desc">연구 과정에서 배운 기술적 내용을 블로그로 정리하세요. PINN 구현 튜토리얼, FEM 코딩 가이드, 논문 리뷰 등은 학계와 산업계 모두에서 당신의 전문성을 보여주는 자산이 됩니다. Velog, GitHub Pages, 개인 웹사이트 모두 좋습니다.</p>
+        <span class="card-tag tag-cyan">장기 투자</span>
+      </div>
+    </div>
+
+    <h4>박사과정 전형적 커리어 타임라인</h4>
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <div class="timeline-label">박사 1~2년차</div>
+        <div class="timeline-title">기초 연구 + 코스워크</div>
+        <div class="timeline-desc">핵심 과목 이수, 문헌 조사, 연구 주제 확정, 예비 실험/시뮬레이션 수행. 이 시기에 프로그래밍 능력과 도메인 지식의 기반을 완성합니다. 국내 학회에 첫 포스터 발표를 목표로 하세요.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">박사 3년차</div>
+        <div class="timeline-title">핵심 연구 수행 + 첫 논문</div>
+        <div class="timeline-desc">본격적인 연구 수행 및 첫 1저자 SCI 논문 투고. 국제 학회 발표 시작. 연구 방법론이 구체화되고 결과가 축적되는 가장 생산적인 시기입니다. 박사 자격시험(Qualifying Exam)도 이 시기에 통과합니다.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">박사 4년차</div>
+        <div class="timeline-title">연구 심화 + 추가 논문</div>
+        <div class="timeline-desc">2~3편의 추가 논문 작업, 국제 학회 구두 발표, 해외 연구실 방문(가능하다면). 이 시기에 공동연구 네트워크를 확장하고, 졸업 후 진로를 구체적으로 탐색하기 시작합니다.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">박사 5년차</div>
+        <div class="timeline-title">학위 논문 + 졸업 + 진로</div>
+        <div class="timeline-desc">학위 논문(Dissertation) 작성 및 심사. 포닥 지원, 교수 임용 서류 준비, 또는 산업계 면접 진행. 연구 결과를 종합하여 학문적 기여를 완성하는 단계입니다. 마지막 논문을 마무리하며 다음 단계로의 전환을 준비합니다.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">졸업 후 1~3년</div>
+        <div class="timeline-title">포닥 / 산업계 첫 포지션</div>
+        <div class="timeline-desc">학계: 포닥으로 독립 연구 역량 증명 및 네트워크 확장. 산업계: 주니어 연구원/엔지니어로 실무 경험 축적. 어느 경로든 이 시기에 자신만의 전문 분야를 확립하는 것이 중요합니다.</div>
+      </div>
+    </div>
+
+    <div class="highlight-box important reveal">
+      <span class="highlight-box-icon">🔑</span>
+      <div class="highlight-box-content">
+        <p><strong>핵심 조언:</strong> 진로를 너무 일찍 하나로 정하지 마세요. 박사 2~3년차까지는 학계와 산업계 모두에서 통하는 역량(논문, 코딩, 발표력)을 쌓는 것에 집중하고, 이후 관심과 상황에 맞게 결정해도 충분합니다. 구조공학 + AI는 두 분야 어디에서든 수요가 높은 융합 역량이므로, 선택의 폭이 넓다는 것을 기억하세요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- Footer                          -->
+<!-- ============================== -->
+<footer class="site-footer">
+  <p>선배가 후배에게 전하는 연구 가이드</p>
+  <p>Made with <span class="footer-heart">♥</span> for 승원이</p>
+</footer>
+
+    </div>
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
