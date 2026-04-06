@@ -1047,6 +1047,77 @@ li::marker {
   font-size: 1.3rem;
 }
 
+/* --- Markdown Content --- */
+.md-content {
+  margin-top: 1rem;
+}
+
+.md-content h1, .md-content h2, .md-content h3, .md-content h4 {
+  margin-top: 1.5rem;
+}
+
+.md-content h1:first-child, .md-content h2:first-child,
+.md-content h3:first-child, .md-content h4:first-child {
+  margin-top: 0;
+}
+
+.md-content img {
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  margin: 1rem 0;
+}
+
+.md-content pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.2rem 1.5rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 1rem 0;
+}
+
+.md-content pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  color: var(--text-primary);
+}
+
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.md-content th {
+  background: var(--bg-card);
+  color: var(--text-white);
+  font-weight: 600;
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 2px solid var(--accent-purple);
+}
+
+.md-content td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.md-content tr:hover td {
+  background: rgba(167,139,250,0.03);
+}
+
+.md-content hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 2rem 0;
+}
+
 /* --- Footer --- */
 .site-footer {
   text-align: center;

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 — 승원이 연구 가이드</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --bg3: #16161f;
+      --text: #e8e8ed;
+      --text2: #9898a8;
+      --muted: #6a6a7a;
+      --border: #2a2a3a;
+      --purple: #a78bfa;
+      --blue: #6366f1;
+      --cyan: #22d3ee;
+      --green: #34d399;
+      --red: #f87171;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* --- Login Screen --- */
+    #login-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    #login-screen h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #login-screen p {
+      color: var(--text2);
+      margin-bottom: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      max-width: 400px;
+    }
+
+    #login-screen input {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px 16px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    #login-screen input:focus {
+      outline: none;
+      border-color: var(--purple);
+    }
+
+    .login-btn {
+      padding: 12px 32px;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .login-btn:hover { opacity: 0.9; }
+
+    #login-error {
+      color: var(--red);
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    /* --- App Layout --- */
+    #app { display: none; }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .app-header h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg3);
+      color: var(--text);
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .btn:hover { border-color: var(--purple); }
+
+    .btn-save {
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      border: none;
+      color: white;
+      font-weight: 600;
+    }
+
+    .btn-save:hover { opacity: 0.9; }
+
+    .btn-save:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-danger {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .btn-danger:hover {
+      background: rgba(248,113,113,0.1);
+    }
+
+    /* --- Sidebar + Editor Layout --- */
+    .app-body {
+      display: flex;
+      height: calc(100vh - 57px);
+    }
+
+    .file-list {
+      width: 280px;
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      background: var(--bg);
+      flex-shrink: 0;
+    }
+
+    .file-group-label {
+      padding: 0.8rem 1rem 0.4rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    .file-item {
+      display: block;
+      padding: 0.5rem 1rem 0.5rem 1.5rem;
+      font-size: 0.82rem;
+      color: var(--text2);
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+    }
+
+    .file-item:hover {
+      background: rgba(167,139,250,0.05);
+      color: var(--text);
+    }
+
+    .file-item.active {
+      background: rgba(167,139,250,0.08);
+      color: var(--purple);
+      border-left-color: var(--purple);
+      font-weight: 500;
+    }
+
+    .file-item .badge {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* --- Editor Area --- */
+    .editor-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .editor-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .editor-filename {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--cyan);
+    }
+
+    .editor-status {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .editor-status.modified { color: var(--purple); }
+    .editor-status.saving { color: var(--cyan); }
+    .editor-status.saved { color: var(--green); }
+    .editor-status.error { color: var(--red); }
+
+    .editor-wrap {
+      flex: 1;
+      overflow: auto;
+      padding: 0;
+    }
+
+    .no-file {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* --- EasyMDE Overrides --- */
+    .EasyMDEContainer { height: 100%; }
+
+    .EasyMDEContainer .CodeMirror {
+      background: var(--bg) !important;
+      color: var(--text) !important;
+      border: none !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 0.9rem !important;
+      height: 100% !important;
+    }
+
+    .EasyMDEContainer .CodeMirror-cursor {
+      border-left-color: var(--purple) !important;
+    }
+
+    .EasyMDEContainer .CodeMirror-selected {
+      background: rgba(167,139,250,0.2) !important;
+    }
+
+    .EasyMDEContainer .editor-toolbar {
+      background: var(--bg2) !important;
+      border-bottom: 1px solid var(--border) !important;
+      border-top: none !important;
+      opacity: 1 !important;
+    }
+
+    .EasyMDEContainer .editor-toolbar button {
+      color: var(--text2) !important;
+    }
+
+    .EasyMDEContainer .editor-toolbar button:hover,
+    .EasyMDEContainer .editor-toolbar button.active {
+      background: var(--bg3) !important;
+      color: var(--purple) !important;
+      border-color: var(--border) !important;
+    }
+
+    .EasyMDEContainer .editor-statusbar {
+      display: none !important;
+    }
+
+    .EasyMDEContainer .editor-preview {
+      background: var(--bg) !important;
+      color: var(--text) !important;
+      font-family: 'Inter', sans-serif !important;
+    }
+
+    .EasyMDEContainer .editor-preview h1,
+    .EasyMDEContainer .editor-preview h2,
+    .EasyMDEContainer .editor-preview h3 {
+      color: white !important;
+    }
+
+    .EasyMDEContainer .editor-preview code {
+      background: var(--bg3) !important;
+      color: var(--cyan) !important;
+    }
+
+    .EasyMDEContainer .editor-preview pre {
+      background: var(--bg2) !important;
+    }
+
+    /* --- Toast --- */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      z-index: 999;
+      animation: slideUp 0.3s ease;
+    }
+
+    .toast.success {
+      background: rgba(52,211,153,0.15);
+      border: 1px solid rgba(52,211,153,0.3);
+      color: var(--green);
+    }
+
+    .toast.error {
+      background: rgba(248,113,113,0.15);
+      border: 1px solid rgba(248,113,113,0.3);
+      color: var(--red);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 768px) {
+      .file-list { width: 200px; }
+      .editor-header { padding: 0.8rem 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .app-body { flex-direction: column; }
+      .file-list {
+        width: 100%;
+        height: 200px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login -->
+  <div id="login-screen">
+    <h1>관리자 로그인</h1>
+    <p>GitHub Personal Access Token을 입력하세요.<br>
+       토큰은 브라우저에만 저장되며, 외부로 전송되지 않습니다.<br>
+       <a href="https://github.com/settings/tokens/new" target="_blank" style="color:#a78bfa;">토큰 발급하기</a> (repo 권한 필요)</p>
+    <input type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <button class="login-btn" id="login-btn">로그인</button>
+    <div id="login-error"></div>
+  </div>
+
+  <!-- App -->
+  <div id="app">
+    <div class="app-header">
+      <h1>승원이 연구 가이드 — 관리자</h1>
+      <div class="header-actions">
+        <button class="btn btn-save" id="save-btn" disabled>저장 (Ctrl+S)</button>
+        <button class="btn" id="back-btn" onclick="location.href='../'">사이트 보기</button>
+        <button class="btn btn-danger" id="logout-btn">로그아웃</button>
+      </div>
+    </div>
+    <div class="app-body">
+      <div class="file-list" id="file-list"></div>
+      <div class="editor-area">
+        <div class="editor-header" id="editor-header" style="display:none;">
+          <span class="editor-filename" id="editor-filename"></span>
+          <span class="editor-status" id="editor-status"></span>
+        </div>
+        <div class="editor-wrap" id="editor-wrap">
+          <div class="no-file" id="no-file">왼쪽에서 파일을 선택하세요</div>
+          <textarea id="editor-textarea" style="display:none;"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  <script>
+    // --- Config ---
+    const REPO_OWNER = 'concrete-sangminlee';
+    const REPO_NAME = 'seungwon_thinkmany';
+    const CONTENT_DIR = 'content';
+
+    const SECTIONS = [
+      { group: '01. 구조공학 기초', files: [
+        { file: '1-1-mechanics-fundamentals.md', label: '1.1 구조역학 핵심' },
+        { file: '1-2-analysis-methods.md', label: '1.2 구조 해석 방법' },
+        { file: '1-3-fem-basics.md', label: '1.3 유한요소법(FEM) 기초' },
+        { file: '1-4-wind-design.md', label: '1.4 내풍설계' },
+        { file: '1-5-seismic-design.md', label: '1.5 내진설계' },
+        { file: '1-6-design-codes.md', label: '1.6 설계기준' },
+      ]},
+      { group: '02. AI/ML 심화', files: [
+        { file: '2-1-ml-fundamentals.md', label: '2.1 머신러닝 기초' },
+        { file: '2-2-dl-architectures.md', label: '2.2 딥러닝 아키텍처' },
+        { file: '2-3-computer-vision.md', label: '2.3 컴퓨터 비전' },
+        { file: '2-4-pinn.md', label: '2.4 물리정보 신경망(PINN)' },
+        { file: '2-5-surrogate-modeling.md', label: '2.5 서로게이트 모델링' },
+        { file: '2-6-generative-ai.md', label: '2.6 생성형 AI 활용' },
+        { file: '2-7-ml-pipeline.md', label: '2.7 실전 ML 파이프라인' },
+      ]},
+      { group: '03. 연구 방법론', files: [
+        { file: '3-1-paper-reading.md', label: '3.1 논문 읽는 법' },
+        { file: '3-2-finding-problems.md', label: '3.2 연구 문제 찾기' },
+        { file: '3-3-paper-writing.md', label: '3.3 논문 쓰는 법' },
+        { file: '3-4-reviewer-response.md', label: '3.4 리뷰어 대응' },
+        { file: '3-5-qualifying-exam.md', label: '3.5 논문제출자격시험' },
+        { file: '3-6-conference-presentation.md', label: '3.6 학회 발표' },
+      ]},
+      { group: '04. 도구/소프트웨어', files: [
+        { file: '4-1-structural-software.md', label: '4.1 구조해석 소프트웨어' },
+        { file: '4-2-general-fem.md', label: '4.2 범용 FEM' },
+        { file: '4-3-cfd-tools.md', label: '4.3 CFD 도구' },
+        { file: '4-4-programming.md', label: '4.4 프로그래밍' },
+        { file: '4-5-writing-tools.md', label: '4.5 논문/문서 도구' },
+        { file: '4-6-visualization.md', label: '4.6 데이터 시각화' },
+        { file: '4-7-productivity-tools.md', label: '4.7 생산성 도구' },
+      ]},
+      { group: '05. 리소스/데이터셋', files: [
+        { file: '5-1-textbooks.md', label: '5.1 추천 교과서' },
+        { file: '5-2-online-courses.md', label: '5.2 온라인 강의' },
+        { file: '5-3-datasets.md', label: '5.3 공개 데이터셋' },
+        { file: '5-4-key-papers.md', label: '5.4 유용한 논문' },
+        { file: '5-5-communities.md', label: '5.5 커뮤니티/학회' },
+      ]},
+      { group: '06. 연구실 생활', files: [
+        { file: '6-1-time-management.md', label: '6.1 시간 관리' },
+        { file: '6-2-advisor-communication.md', label: '6.2 교수님과의 소통' },
+        { file: '6-3-mental-health.md', label: '6.3 멘탈 관리' },
+        { file: '6-4-networking.md', label: '6.4 네트워킹' },
+        { file: '6-5-career-paths.md', label: '6.5 졸업 후 진로' },
+      ]},
+    ];
+
+    // --- State ---
+    let token = '';
+    let currentFile = null;
+    let currentSha = null;
+    let originalContent = '';
+    let editor = null;
+
+    // --- GitHub API ---
+    async function ghAPI(path, options = {}) {
+      const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/${path}`, {
+        ...options,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
+      });
+      if (!res.ok && res.status !== 404) throw new Error(`GitHub API error: ${res.status}`);
+      return res;
+    }
+
+    async function loadFile(filePath) {
+      const res = await ghAPI(`contents/${CONTENT_DIR}/${filePath}`);
+      if (res.status === 404) return { content: '', sha: null };
+      const data = await res.json();
+      return {
+        content: decodeURIComponent(escape(atob(data.content.replace(/\n/g, '')))),
+        sha: data.sha,
+      };
+    }
+
+    async function saveFile(filePath, content, sha) {
+      const body = {
+        message: `docs: ${filePath} 업데이트`,
+        content: btoa(unescape(encodeURIComponent(content))),
+      };
+      if (sha) body.sha = sha;
+
+      const res = await ghAPI(`contents/${CONTENT_DIR}/${filePath}`, {
+        method: 'PUT',
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      return data.content.sha;
+    }
+
+    // --- UI: Login ---
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const t = document.getElementById('token-input').value.trim();
+      if (!t) return;
+      try {
+        const res = await fetch('https://api.github.com/user', {
+          headers: { 'Authorization': `Bearer ${t}` },
+        });
+        if (!res.ok) throw new Error('Invalid token');
+        const user = await res.json();
+        if (user.login !== REPO_OWNER) {
+          throw new Error('이 리포지토리의 소유자만 접근할 수 있습니다.');
+        }
+        token = t;
+        localStorage.setItem('sw_admin_token', t);
+        showApp();
+      } catch (e) {
+        const el = document.getElementById('login-error');
+        el.textContent = e.message;
+        el.style.display = 'block';
+      }
+    });
+
+    // Auto-login
+    const savedToken = localStorage.getItem('sw_admin_token');
+    if (savedToken) {
+      token = savedToken;
+      showApp();
+    }
+
+    // --- UI: App ---
+    function showApp() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      renderFileList();
+    }
+
+    function renderFileList() {
+      const list = document.getElementById('file-list');
+      list.innerHTML = '';
+      SECTIONS.forEach(sec => {
+        const label = document.createElement('div');
+        label.className = 'file-group-label';
+        label.textContent = sec.group;
+        list.appendChild(label);
+
+        sec.files.forEach(f => {
+          const item = document.createElement('div');
+          item.className = 'file-item';
+          item.textContent = f.label;
+          item.setAttribute('data-file', f.file);
+          item.addEventListener('click', () => openFile(f.file, f.label, item));
+          list.appendChild(item);
+        });
+      });
+    }
+
+    async function openFile(filePath, label, el) {
+      if (currentFile && editor && editor.value() !== originalContent) {
+        if (!confirm('저장하지 않은 변경사항이 있습니다. 계속할까요?')) return;
+      }
+
+      // Active state
+      document.querySelectorAll('.file-item').forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+
+      currentFile = filePath;
+      document.getElementById('no-file').style.display = 'none';
+      document.getElementById('editor-header').style.display = 'flex';
+      document.getElementById('editor-filename').textContent = filePath;
+      setStatus('불러오는 중...', '');
+
+      try {
+        const { content, sha } = await loadFile(filePath);
+        currentSha = sha;
+        originalContent = content;
+
+        // Destroy previous editor
+        if (editor) {
+          editor.toTextArea();
+          editor = null;
+        }
+
+        const textarea = document.getElementById('editor-textarea');
+        textarea.style.display = 'block';
+        textarea.value = content;
+
+        editor = new EasyMDE({
+          element: textarea,
+          autofocus: true,
+          spellChecker: false,
+          status: false,
+          placeholder: '마크다운으로 내용을 작성하세요...\n\n# 제목\n## 소제목\n- 목록 항목\n**굵게** *기울임* `코드`',
+          toolbar: [
+            'bold', 'italic', 'heading', '|',
+            'unordered-list', 'ordered-list', '|',
+            'code', 'quote', 'link', 'image', '|',
+            'preview', 'side-by-side', '|',
+            'guide',
+          ],
+          sideBySideFullscreen: false,
+        });
+
+        editor.codemirror.on('change', () => {
+          const modified = editor.value() !== originalContent;
+          document.getElementById('save-btn').disabled = !modified;
+          if (modified) setStatus('수정됨', 'modified');
+          else setStatus('', '');
+        });
+
+        setStatus('', '');
+        document.getElementById('save-btn').disabled = true;
+      } catch (e) {
+        setStatus('오류: ' + e.message, 'error');
+      }
+    }
+
+    // --- Save ---
+    document.getElementById('save-btn').addEventListener('click', doSave);
+
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        if (!document.getElementById('save-btn').disabled) doSave();
+      }
+    });
+
+    async function doSave() {
+      if (!currentFile || !editor) return;
+
+      const btn = document.getElementById('save-btn');
+      btn.disabled = true;
+      setStatus('저장 중...', 'saving');
+
+      try {
+        const content = editor.value();
+        const newSha = await saveFile(currentFile, content, currentSha);
+        currentSha = newSha;
+        originalContent = content;
+        setStatus('저장 완료', 'saved');
+        showToast('저장되었습니다', 'success');
+        setTimeout(() => setStatus('', ''), 3000);
+      } catch (e) {
+        setStatus('저장 실패: ' + e.message, 'error');
+        showToast('저장 실패: ' + e.message, 'error');
+        btn.disabled = false;
+      }
+    }
+
+    // --- Logout ---
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      localStorage.removeItem('sw_admin_token');
+      token = '';
+      location.reload();
+    });
+
+    // --- Helpers ---
+    function setStatus(text, cls) {
+      const el = document.getElementById('editor-status');
+      el.textContent = text;
+      el.className = 'editor-status' + (cls ? ' ' + cls : '');
+    }
+
+    function showToast(msg, type) {
+      const toast = document.createElement('div');
+      toast.className = 'toast ' + type;
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+  </script>
+</body>
+</html>
