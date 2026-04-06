@@ -36,7 +36,7 @@
   <main id="main-content">
     <div id="content">
 
-      <!-- ============ HERO ============ -->
+      <!-- HERO -->
       <section class="hero-section">
         <div class="hero-badge">구조공학 × AI × 연구 가이드</div>
         <h1 class="hero-title">
@@ -49,11 +49,11 @@
         </p>
         <div class="hero-stats">
           <div class="hero-stat glass reveal">
-            <span class="hero-stat-number gradient-text">6</span>
+            <span class="hero-stat-number gradient-text" id="stat-chapters">-</span>
             <span class="hero-stat-label">챕터</span>
           </div>
           <div class="hero-stat glass reveal" data-delay="1">
-            <span class="hero-stat-number gradient-text-cool">50+</span>
+            <span class="hero-stat-number gradient-text-cool" id="stat-topics">-</span>
             <span class="hero-stat-label">핵심 개념</span>
           </div>
           <div class="hero-stat glass reveal" data-delay="2">
@@ -62,244 +62,13 @@
           </div>
         </div>
         <div class="hero-cta">
-          <a href="#structural-basics" class="btn btn-primary">시작하기 →</a>
-          <a href="#tools-software" class="btn btn-secondary">도구 바로가기</a>
+          <a href="#" class="btn btn-primary" id="cta-start">시작하기 →</a>
+          <a href="#" class="btn btn-secondary" id="cta-tools">도구 바로가기</a>
         </div>
       </section>
 
-      <!-- ============ 01. 구조공학 기초 ============ -->
-      <section class="section" id="structural-basics">
-        <div class="section-header reveal">
-          <span class="section-number purple">01</span>
-          <h2>구조공학 기초</h2>
-        </div>
-        <p class="section-desc"><!-- 여기에 섹션 소개 작성 --></p>
-
-        <div class="subsection reveal" id="mechanics-fundamentals">
-          <h3 class="subsection-title">1.1 구조역학 핵심</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="analysis-methods">
-          <h3 class="subsection-title">1.2 구조 해석 방법</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="fem-basics">
-          <h3 class="subsection-title">1.3 유한요소법(FEM) 기초</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="wind-design">
-          <h3 class="subsection-title">1.4 내풍설계</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="seismic-design">
-          <h3 class="subsection-title">1.5 내진설계</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="design-codes">
-          <h3 class="subsection-title">1.6 설계기준</h3>
-          <!-- 내용 작성 -->
-        </div>
-      </section>
-
-      <!-- ============ 02. AI/ML 심화 ============ -->
-      <section class="section" id="ai-ml">
-        <div class="section-header reveal">
-          <span class="section-number blue">02</span>
-          <h2>AI/ML 심화</h2>
-        </div>
-        <p class="section-desc"><!-- 여기에 섹션 소개 작성 --></p>
-
-        <div class="subsection reveal" id="ml-fundamentals">
-          <h3 class="subsection-title">2.1 머신러닝 기초</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="dl-architectures">
-          <h3 class="subsection-title">2.2 딥러닝 아키텍처</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="computer-vision">
-          <h3 class="subsection-title">2.3 컴퓨터 비전</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="pinn">
-          <h3 class="subsection-title">2.4 물리정보 신경망(PINN)</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="surrogate-modeling">
-          <h3 class="subsection-title">2.5 서로게이트 모델링</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="generative-ai">
-          <h3 class="subsection-title">2.6 생성형 AI 활용</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="ml-pipeline">
-          <h3 class="subsection-title">2.7 실전 ML 파이프라인</h3>
-          <!-- 내용 작성 -->
-        </div>
-      </section>
-
-      <!-- ============ 03. 연구 방법론 ============ -->
-      <section class="section" id="research-methods">
-        <div class="section-header reveal">
-          <span class="section-number cyan">03</span>
-          <h2>연구 방법론</h2>
-        </div>
-        <p class="section-desc"><!-- 여기에 섹션 소개 작성 --></p>
-
-        <div class="subsection reveal" id="paper-reading">
-          <h3 class="subsection-title">3.1 논문 읽는 법</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="finding-problems">
-          <h3 class="subsection-title">3.2 연구 문제 찾기</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="paper-writing">
-          <h3 class="subsection-title">3.3 논문 쓰는 법</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="reviewer-response">
-          <h3 class="subsection-title">3.4 리뷰어 대응</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="qualifying-exam">
-          <h3 class="subsection-title">3.5 논문제출자격시험</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="conference-presentation">
-          <h3 class="subsection-title">3.6 학회 발표</h3>
-          <!-- 내용 작성 -->
-        </div>
-      </section>
-
-      <!-- ============ 04. 도구/소프트웨어 ============ -->
-      <section class="section" id="tools-software">
-        <div class="section-header reveal">
-          <span class="section-number green">04</span>
-          <h2>도구/소프트웨어</h2>
-        </div>
-        <p class="section-desc"><!-- 여기에 섹션 소개 작성 --></p>
-
-        <div class="subsection reveal" id="structural-software">
-          <h3 class="subsection-title">4.1 구조해석 소프트웨어</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="general-fem">
-          <h3 class="subsection-title">4.2 범용 FEM</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="cfd-tools">
-          <h3 class="subsection-title">4.3 CFD 도구</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="programming">
-          <h3 class="subsection-title">4.4 프로그래밍</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="writing-tools">
-          <h3 class="subsection-title">4.5 논문/문서 도구</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="visualization">
-          <h3 class="subsection-title">4.6 데이터 시각화</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="productivity-tools">
-          <h3 class="subsection-title">4.7 생산성 도구</h3>
-          <!-- 내용 작성 -->
-        </div>
-      </section>
-
-      <!-- ============ 05. 리소스/데이터셋 ============ -->
-      <section class="section" id="resources">
-        <div class="section-header reveal">
-          <span class="section-number orange">05</span>
-          <h2>리소스/데이터셋</h2>
-        </div>
-        <p class="section-desc"><!-- 여기에 섹션 소개 작성 --></p>
-
-        <div class="subsection reveal" id="textbooks">
-          <h3 class="subsection-title">5.1 추천 교과서</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="online-courses">
-          <h3 class="subsection-title">5.2 온라인 강의</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="datasets">
-          <h3 class="subsection-title">5.3 공개 데이터셋</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="key-papers">
-          <h3 class="subsection-title">5.4 유용한 논문</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="communities">
-          <h3 class="subsection-title">5.5 커뮤니티/학회</h3>
-          <!-- 내용 작성 -->
-        </div>
-      </section>
-
-      <!-- ============ 06. 연구실 생활 ============ -->
-      <section class="section" id="lab-life">
-        <div class="section-header reveal">
-          <span class="section-number pink">06</span>
-          <h2>연구실 생활</h2>
-        </div>
-        <p class="section-desc"><!-- 여기에 섹션 소개 작성 --></p>
-
-        <div class="subsection reveal" id="time-management">
-          <h3 class="subsection-title">6.1 시간 관리</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="advisor-communication">
-          <h3 class="subsection-title">6.2 교수님과의 소통</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="mental-health">
-          <h3 class="subsection-title">6.3 멘탈 관리</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="networking">
-          <h3 class="subsection-title">6.4 네트워킹</h3>
-          <!-- 내용 작성 -->
-        </div>
-
-        <div class="subsection reveal" id="career-paths">
-          <h3 class="subsection-title">6.5 졸업 후 진로</h3>
-          <!-- 내용 작성 -->
-        </div>
-      </section>
+      <!-- Dynamic sections rendered here -->
+      <div id="sections-container"></div>
 
       <!-- Footer -->
       <footer class="site-footer">
@@ -312,63 +81,77 @@
 
   <script src="js/main.js"></script>
   <script>
-    // Load markdown content into subsections
-    const CONTENT_MAP = {
-      'mechanics-fundamentals': '1-1-mechanics-fundamentals.md',
-      'analysis-methods': '1-2-analysis-methods.md',
-      'fem-basics': '1-3-fem-basics.md',
-      'wind-design': '1-4-wind-design.md',
-      'seismic-design': '1-5-seismic-design.md',
-      'design-codes': '1-6-design-codes.md',
-      'ml-fundamentals': '2-1-ml-fundamentals.md',
-      'dl-architectures': '2-2-dl-architectures.md',
-      'computer-vision': '2-3-computer-vision.md',
-      'pinn': '2-4-pinn.md',
-      'surrogate-modeling': '2-5-surrogate-modeling.md',
-      'generative-ai': '2-6-generative-ai.md',
-      'ml-pipeline': '2-7-ml-pipeline.md',
-      'paper-reading': '3-1-paper-reading.md',
-      'finding-problems': '3-2-finding-problems.md',
-      'paper-writing': '3-3-paper-writing.md',
-      'reviewer-response': '3-4-reviewer-response.md',
-      'qualifying-exam': '3-5-qualifying-exam.md',
-      'conference-presentation': '3-6-conference-presentation.md',
-      'structural-software': '4-1-structural-software.md',
-      'general-fem': '4-2-general-fem.md',
-      'cfd-tools': '4-3-cfd-tools.md',
-      'programming': '4-4-programming.md',
-      'writing-tools': '4-5-writing-tools.md',
-      'visualization': '4-6-visualization.md',
-      'productivity-tools': '4-7-productivity-tools.md',
-      'textbooks': '5-1-textbooks.md',
-      'online-courses': '5-2-online-courses.md',
-      'datasets': '5-3-datasets.md',
-      'key-papers': '5-4-key-papers.md',
-      'communities': '5-5-communities.md',
-      'time-management': '6-1-time-management.md',
-      'advisor-communication': '6-2-advisor-communication.md',
-      'mental-health': '6-3-mental-health.md',
-      'networking': '6-4-networking.md',
-      'career-paths': '6-5-career-paths.md',
-    };
+    // Load config and build page dynamically
+    (async function() {
+      let config;
+      try {
+        const res = await fetch('content/config.json');
+        config = await res.json();
+      } catch(e) {
+        console.error('config.json 로드 실패:', e);
+        return;
+      }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      Object.entries(CONTENT_MAP).forEach(([id, file]) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        fetch('content/' + file)
-          .then(r => r.ok ? r.text() : '')
-          .then(md => {
-            if (md.trim()) {
-              const div = document.createElement('div');
-              div.className = 'md-content';
-              div.innerHTML = marked.parse(md);
-              el.appendChild(div);
-            }
-          })
-          .catch(() => {});
+      const sections = config.sections;
+      const container = document.getElementById('sections-container');
+
+      // Update hero stats
+      document.getElementById('stat-chapters').textContent = sections.length;
+      const totalTopics = sections.reduce((sum, s) => sum + s.subsections.length, 0);
+      document.getElementById('stat-topics').textContent = totalTopics;
+
+      // CTA buttons
+      if (sections.length > 0) {
+        document.getElementById('cta-start').href = '#' + sections[0].id;
+      }
+      const toolsSection = sections.find(s => s.id === 'tools-software');
+      if (toolsSection) {
+        document.getElementById('cta-tools').href = '#' + toolsSection.id;
+      }
+
+      // Build sections HTML
+      sections.forEach(sec => {
+        const sectionEl = document.createElement('section');
+        sectionEl.className = 'section';
+        sectionEl.id = sec.id;
+
+        let subsectionsHTML = sec.subsections.map(sub =>
+          `<div class="subsection reveal" id="${sub.id}">
+            <h3 class="subsection-title">${sub.title}</h3>
+            <div class="md-content" data-file="${sub.file}"></div>
+          </div>`
+        ).join('\n');
+
+        sectionEl.innerHTML = `
+          <div class="section-header reveal">
+            <span class="section-number ${sec.color}">${sec.number}</span>
+            <h2>${sec.title}</h2>
+          </div>
+          ${sec.desc ? `<p class="section-desc">${sec.desc}</p>` : ''}
+          ${subsectionsHTML}
+        `;
+
+        container.appendChild(sectionEl);
       });
-    });
+
+      // Load markdown content
+      const mdContainers = document.querySelectorAll('.md-content[data-file]');
+      await Promise.all(Array.from(mdContainers).map(async el => {
+        const file = el.getAttribute('data-file');
+        try {
+          const res = await fetch('content/' + file);
+          if (!res.ok) return;
+          const md = await res.text();
+          if (md.trim()) {
+            el.innerHTML = marked.parse(md);
+          }
+        } catch(e) {}
+      }));
+
+      // Re-init main.js features after dynamic content is ready
+      if (typeof initTOC === 'function') initTOC();
+      if (typeof initReveal === 'function') initReveal();
+    })();
   </script>
 </body>
 </html>

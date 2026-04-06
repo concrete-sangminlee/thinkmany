@@ -23,109 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // --- 2. Generate TOC from Sections/Subsections ---
-  // IDs are on .section and .subsection divs, not on headings directly
-  const sections = document.querySelectorAll('#content .section[id]');
-  const tocItems = [];
-  let currentGroup = null;
-
-  sections.forEach(section => {
-    const h2 = section.querySelector('.section-header h2');
-    if (!h2) return;
-
-    const groupLabel = document.createElement('div');
-    groupLabel.className = 'toc-group-label';
-    groupLabel.textContent = h2.textContent;
-    tocContainer.appendChild(groupLabel);
-    currentGroup = groupLabel;
-
-    // Section-level TOC item
-    const sectionLink = document.createElement('a');
-    sectionLink.className = 'toc-item';
-    sectionLink.href = '#' + section.id;
-    sectionLink.textContent = h2.textContent;
-    sectionLink.setAttribute('data-target', section.id);
-    tocContainer.appendChild(sectionLink);
-    tocItems.push({ element: sectionLink, target: section, group: currentGroup });
-
-    // Subsection TOC items
-    const subsections = section.querySelectorAll('.subsection[id]');
-    subsections.forEach(sub => {
-      const h3 = sub.querySelector('h3');
-      if (!h3) return;
-      const link = document.createElement('a');
-      link.className = 'toc-item toc-h3';
-      link.href = '#' + sub.id;
-      link.textContent = h3.textContent;
-      link.setAttribute('data-target', sub.id);
-      tocContainer.appendChild(link);
-      tocItems.push({ element: link, target: sub, group: currentGroup });
-    });
-  });
-
-  // --- 3. Active TOC Tracking ---
-  let activeItem = null;
-
-  const observerOptions = {
-    rootMargin: '-80px 0px -70% 0px',
-    threshold: 0
-  };
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        const item = tocItems.find(t => t.target.id === id);
-        if (item) {
-          if (activeItem) activeItem.element.classList.remove('active');
-          item.element.classList.add('active');
-          activeItem = item;
-          // Scroll TOC item into view
-          item.element.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        }
-      }
-    });
-  }, observerOptions);
-
-  tocItems.forEach(item => observer.observe(item.target));
-
-  // --- 4. TOC Search Filter ---
-  searchInput.addEventListener('input', () => {
-    const term = searchInput.value.toLowerCase().trim();
-    let visibleCount = 0;
-    const groupVisibility = new Map();
-
-    tocItems.forEach(item => {
-      const match = !term || item.element.textContent.toLowerCase().includes(term);
-      item.element.classList.toggle('toc-hidden', !match);
-      if (match) visibleCount++;
-
-      if (item.group) {
-        if (!groupVisibility.has(item.group)) groupVisibility.set(item.group, false);
-        if (match) groupVisibility.set(item.group, true);
-      }
-    });
-
-    // Toggle group label visibility
-    groupVisibility.forEach((visible, group) => {
-      group.classList.toggle('toc-hidden', !visible);
-    });
-
-    // No results message
-    let noResults = tocContainer.querySelector('.toc-no-results');
-    if (visibleCount === 0 && term) {
-      if (!noResults) {
-        noResults = document.createElement('div');
-        noResults.className = 'toc-no-results';
-        noResults.textContent = '검색 결과 없음';
-        tocContainer.appendChild(noResults);
-      }
-      noResults.style.display = 'block';
-    } else if (noResults) {
-      noResults.style.display = 'none';
-    }
-  });
-
   // --- 5. Mobile Sidebar Toggle ---
   function openSidebar() {
     sidebar.classList.add('open');
@@ -145,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   overlay.addEventListener('click', closeSidebar);
 
-  // Close sidebar when clicking TOC item on mobile
   tocContainer.addEventListener('click', e => {
     if (e.target.classList.contains('toc-item') && window.innerWidth <= 900) {
       closeSidebar();
@@ -157,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const link = e.target.closest('a[href^="#"]');
     if (!link) return;
     const targetId = link.getAttribute('href').slice(1);
+    if (!targetId) return;
     const target = document.getElementById(targetId);
     if (target) {
       e.preventDefault();
@@ -164,9 +61,120 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // --- 7. Scroll Reveal Animations ---
+  // --- 8. Tab System ---
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    const container = btn.closest('.tab-container');
+    if (!container) return;
+    const tabId = btn.getAttribute('data-tab');
+    container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    const content = container.querySelector('#' + tabId);
+    if (content) content.classList.add('active');
+  });
+
+  // --- 9. Handle resize ---
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) closeSidebar();
+  });
+});
+
+// --- Global functions called after dynamic content loads ---
+
+function initTOC() {
+  const tocContainer = document.getElementById('toc-container');
+  const searchInput = document.getElementById('search-input');
+  tocContainer.innerHTML = '';
+
+  const sections = document.querySelectorAll('#content .section[id]');
+  const tocItems = [];
+  let currentGroup = null;
+
+  sections.forEach(section => {
+    const h2 = section.querySelector('.section-header h2');
+    if (!h2) return;
+
+    const groupLabel = document.createElement('div');
+    groupLabel.className = 'toc-group-label';
+    groupLabel.textContent = h2.textContent;
+    tocContainer.appendChild(groupLabel);
+    currentGroup = groupLabel;
+
+    const sectionLink = document.createElement('a');
+    sectionLink.className = 'toc-item';
+    sectionLink.href = '#' + section.id;
+    sectionLink.textContent = h2.textContent;
+    tocContainer.appendChild(sectionLink);
+    tocItems.push({ element: sectionLink, target: section, group: currentGroup });
+
+    section.querySelectorAll('.subsection[id]').forEach(sub => {
+      const h3 = sub.querySelector('h3');
+      if (!h3) return;
+      const link = document.createElement('a');
+      link.className = 'toc-item toc-h3';
+      link.href = '#' + sub.id;
+      link.textContent = h3.textContent;
+      tocContainer.appendChild(link);
+      tocItems.push({ element: link, target: sub, group: currentGroup });
+    });
+  });
+
+  // Active tracking
+  let activeItem = null;
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const item = tocItems.find(t => t.target.id === entry.target.id);
+        if (item) {
+          if (activeItem) activeItem.element.classList.remove('active');
+          item.element.classList.add('active');
+          activeItem = item;
+          item.element.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+
+  tocItems.forEach(item => observer.observe(item.target));
+
+  // Search
+  searchInput.addEventListener('input', () => {
+    const term = searchInput.value.toLowerCase().trim();
+    let visibleCount = 0;
+    const groupVis = new Map();
+
+    tocItems.forEach(item => {
+      const match = !term || item.element.textContent.toLowerCase().includes(term);
+      item.element.classList.toggle('toc-hidden', !match);
+      if (match) visibleCount++;
+      if (item.group) {
+        if (!groupVis.has(item.group)) groupVis.set(item.group, false);
+        if (match) groupVis.set(item.group, true);
+      }
+    });
+
+    groupVis.forEach((vis, g) => g.classList.toggle('toc-hidden', !vis));
+
+    let noRes = tocContainer.querySelector('.toc-no-results');
+    if (visibleCount === 0 && term) {
+      if (!noRes) {
+        noRes = document.createElement('div');
+        noRes.className = 'toc-no-results';
+        noRes.textContent = '검색 결과 없음';
+        tocContainer.appendChild(noRes);
+      }
+      noRes.style.display = 'block';
+    } else if (noRes) {
+      noRes.style.display = 'none';
+    }
+  });
+}
+
+function initReveal() {
   const revealObserver = new IntersectionObserver(
-    (entries) => {
+    entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
@@ -176,33 +184,5 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
   );
-
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-  // --- 8. Tab System ---
-  document.addEventListener('click', e => {
-    const btn = e.target.closest('.tab-btn');
-    if (!btn) return;
-
-    const container = btn.closest('.tab-container');
-    if (!container) return;
-
-    const tabId = btn.getAttribute('data-tab');
-
-    // Deactivate all in this container
-    container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
-    // Activate clicked
-    btn.classList.add('active');
-    const content = container.querySelector('#' + tabId);
-    if (content) content.classList.add('active');
-  });
-
-  // --- 9. Handle resize ---
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 900) {
-      closeSidebar();
-    }
-  });
-});
+}
