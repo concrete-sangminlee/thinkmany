@@ -44,7 +44,7 @@
   --sidebar-width: 280px;
   --topbar-height: 56px;
   --progress-height: 3px;
-  --content-max-width: 900px;
+  --content-max-width: 100%;
 
   /* Radius */
   --radius-sm: 8px;
