@@ -82,6 +82,7 @@ html {
   scroll-padding-top: calc(var(--topbar-height) + 24px);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark;
 }
 
 body {
