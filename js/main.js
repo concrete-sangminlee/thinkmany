@@ -42,6 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   overlay.addEventListener('click', closeSidebar);
 
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSidebar();
+  });
+
   tocContainer.addEventListener('click', e => {
     if (e.target.classList.contains('toc-item') && window.innerWidth <= 900) {
       closeSidebar();
@@ -83,7 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- Global functions called after dynamic content loads ---
 
+let _tocObserver = null;
+
 function initTOC() {
+  if (_tocObserver) _tocObserver.disconnect();
+
   const tocContainer = document.getElementById('toc-container');
   const searchInput = document.getElementById('search-input');
   tocContainer.innerHTML = '';
@@ -123,7 +131,7 @@ function initTOC() {
 
   // Active tracking
   let activeItem = null;
-  const observer = new IntersectionObserver(entries => {
+  _tocObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const item = tocItems.find(t => t.target.id === entry.target.id);
@@ -137,7 +145,7 @@ function initTOC() {
     });
   }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
 
-  tocItems.forEach(item => observer.observe(item.target));
+  tocItems.forEach(item => _tocObserver.observe(item.target));
 
   // Search
   searchInput.addEventListener('input', () => {

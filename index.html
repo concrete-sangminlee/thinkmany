@@ -4,13 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>연구 많이 된다. 잘 때 생각 많이 날거야</title>
-  <meta name="description" content="공학 대학원생을 위한 연구 종합 가이드북">
+  <meta name="description" content="대학원생을 위한 연구 종합 가이드북 — ML/AI, 연구 방법론, 도구, 커리어까지">
+  <meta property="og:title" content="대학원생 연구 가이드">
+  <meta property="og:description" content="기초부터 실전까지, 연구실에서 꼭 알아야 할 모든 것을 담았다.">
+  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="assets/favicon.svg">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
 </head>
 <body>
   <!-- Progress Bar -->
@@ -20,7 +24,7 @@
   <header id="topbar">
     <button class="menu-toggle" aria-label="메뉴 열기">☰</button>
     <span class="site-title">대학원생 연구 가이드</span>
-    <a href="admin/" class="admin-link" title="관리자">&#9998;</a>
+    <a href="admin/" class="admin-link" title="관리자" aria-label="관리자 페이지">&#9998;</a>
   </header>
 
   <!-- Sidebar -->
@@ -142,9 +146,11 @@
           if (!res.ok) return;
           const md = await res.text();
           if (md.trim()) {
-            el.innerHTML = marked.parse(md);
+            el.innerHTML = DOMPurify.sanitize(marked.parse(md));
           }
-        } catch(e) {}
+        } catch(e) {
+          el.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">콘텐츠를 불러올 수 없습니다.</p>';
+        }
       }));
 
       // Re-init main.js features after dynamic content is ready

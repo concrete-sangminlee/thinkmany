@@ -1053,6 +1053,7 @@ li::marker {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity var(--transition-slow), transform var(--transition-slow);
+  will-change: opacity, transform;
 }
 
 .reveal.visible {

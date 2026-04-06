@@ -200,15 +200,26 @@
       return res;
     }
 
+    function utf8ToBase64(str) {
+      return btoa(Array.from(new TextEncoder().encode(str), b => String.fromCharCode(b)).join(''));
+    }
+
+    function base64ToUtf8(b64) {
+      const bin = atob(b64.replace(/\n/g, ''));
+      return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)));
+    }
+
     async function loadGHFile(filePath) {
+      if (!filePath.startsWith('content/')) return { content: '', sha: null };
       const res = await ghAPI(`contents/${filePath}`);
       if (res.status === 404) return { content: '', sha: null };
       const data = await res.json();
-      return { content: decodeURIComponent(escape(atob(data.content.replace(/\n/g, '')))), sha: data.sha };
+      return { content: base64ToUtf8(data.content), sha: data.sha };
     }
 
     async function saveGHFile(filePath, content, sha) {
-      const body = { message: `docs: ${filePath} 업데이트`, content: btoa(unescape(encodeURIComponent(content))) };
+      if (!filePath.startsWith('content/')) return null;
+      const body = { message: `docs: ${filePath} 업데이트`, content: utf8ToBase64(content) };
       if (sha) body.sha = sha;
       const res = await ghAPI(`contents/${filePath}`, { method: 'PUT', body: JSON.stringify(body) });
       const data = await res.json();
