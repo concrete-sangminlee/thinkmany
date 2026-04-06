@@ -78,3 +78,45 @@
     <p>3. <strong>완강에 집착하지 않는다.</strong> 연구에 당장 필요한 모듈/주차를 먼저 수강하고, 나머지는 필요할 때 돌아와서 듣는 것이 현실적이다.</p>
   </div>
 </div>
+
+---
+
+## 학습 로드맵
+
+<div class="pipeline">
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">🎯</div>
+    <div class="pipeline-step-title">수학 기초</div>
+    <div class="pipeline-step-desc">Gilbert Strang Linear Algebra, 4주</div>
+  </div>
+  <span class="pipeline-arrow">→</span>
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">🎯</div>
+    <div class="pipeline-step-title">ML 입문</div>
+    <div class="pipeline-step-desc">Andrew Ng ML, 6주</div>
+  </div>
+  <span class="pipeline-arrow">→</span>
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">🎯</div>
+    <div class="pipeline-step-title">DL 심화</div>
+    <div class="pipeline-step-desc">CS231n 또는 Fast.ai, 8주</div>
+  </div>
+  <span class="pipeline-arrow">→</span>
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">🎯</div>
+    <div class="pipeline-step-title">분야 응용</div>
+    <div class="pipeline-step-desc">논문 재현하며 실전 학습</div>
+  </div>
+</div>
+
+---
+
+## 병행 학습 전략
+
+<div class="highlight-box tip">
+  <span class="highlight-box-icon">💡</span>
+  <div class="highlight-box-content">
+    <p><strong>3가지를 병행하는 것이 가장 효과적이다</strong></p>
+    <p>직관 영상(3Blue1Brown 15분)으로 개념 잡기 → 수학 강의(MIT/Stanford)로 이론 이해 → 구현(Fast.ai/Kaggle)으로 실전 경험. 한 가지만 하면 균형이 무너진다.</p>
+  </div>
+</div>

@@ -68,3 +68,29 @@
     <p><strong>색상 수를 최소화한다.</strong> 한 그래프에 7개 이상의 색상을 사용하면 구분이 어려워진다. 데이터 그룹이 많으면 서브플롯으로 분리하는 것이 낫다.</p>
   </div>
 </div>
+
+---
+
+## matplotlib 기본 세팅
+
+<div class="highlight-box tip">
+  <span class="highlight-box-icon">💡</span>
+  <div class="highlight-box-content">
+    <p><strong>논문용 matplotlib 기본 세팅</strong></p>
+    <p>figsize=(8,6), fontsize=12, dpi=300, tight_layout=True, 축 라벨에 단위 포함, 범례는 데이터를 가리지 않는 위치에 배치한다. 이 세팅을 <code>plot_config.py</code> 같은 파일 하나에 저장해두고 모든 플롯에서 import하면 논문 전체에서 일관성이 유지된다. 매번 설정을 반복하는 시간을 절약할 수 있다.</p>
+  </div>
+</div>
+
+---
+
+## 논문 그림 체크리스트
+
+<div class="check-list">
+  <label><input type="checkbox"> 벡터 포맷(SVG/PDF)으로 저장했는가?</label>
+  <label><input type="checkbox"> 모든 축에 라벨과 단위가 있는가?</label>
+  <label><input type="checkbox"> 폰트 크기가 10pt 이상인가?</label>
+  <label><input type="checkbox"> 범례가 명확하고 데이터를 가리지 않는가?</label>
+  <label><input type="checkbox"> 색맹 친화적 색상(viridis 등)을 사용했는가?</label>
+  <label><input type="checkbox"> 흑백 인쇄에서도 구분 가능한가?</label>
+  <label><input type="checkbox"> 캡션만으로 그림을 이해할 수 있는가?</label>
+</div>

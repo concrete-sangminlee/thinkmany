@@ -78,3 +78,51 @@
     <p><strong>requirements.txt를 관리한다.</strong> 다른 환경에서 동일한 결과를 재현하려면 패키지 버전을 고정해야 한다.</p>
   </div>
 </div>
+
+---
+
+## Python vs MATLAB 결정
+
+<div class="highlight-box info">
+  <span class="highlight-box-icon">ℹ️</span>
+  <div class="highlight-box-content">
+    <p><strong>어떤 언어를 먼저 배울까?</strong></p>
+    <p>연구실에서 이미 MATLAB을 쓰고 있다면 MATLAB부터 배운다. 선배의 코드를 이해하고 협업하는 것이 우선이다. 새 프로젝트를 시작하거나 ML을 쓸 계획이면 Python을 추천한다. 무료이고, 라이브러리 생태계가 압도적이며, 취업 시장에서도 더 유리하다. 둘 다 배울 여유가 있다면 Python을 메인으로 잡고, MATLAB은 필요할 때 보조로 활용하는 전략이 효율적이다.</p>
+  </div>
+</div>
+
+---
+
+## Git 실전 워크플로우
+
+<div class="pipeline">
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">🌿</div>
+    <div class="pipeline-step-title">branch 생성</div>
+    <div class="pipeline-step-desc">feature/실험명으로 새 브랜치를 만든다</div>
+  </div>
+  <span class="pipeline-arrow">→</span>
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">🔧</div>
+    <div class="pipeline-step-title">코드 수정 및 테스트</div>
+    <div class="pipeline-step-desc">실험 코드를 작성하고 동작을 확인한다</div>
+  </div>
+  <span class="pipeline-arrow">→</span>
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">💾</div>
+    <div class="pipeline-step-title">commit</div>
+    <div class="pipeline-step-desc">변경 내용을 명확히 기록한다</div>
+  </div>
+  <span class="pipeline-arrow">→</span>
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">☁️</div>
+    <div class="pipeline-step-title">push</div>
+    <div class="pipeline-step-desc">원격 저장소에 백업한다</div>
+  </div>
+  <span class="pipeline-arrow">→</span>
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">🔀</div>
+    <div class="pipeline-step-title">PR/merge</div>
+    <div class="pipeline-step-desc">완료된 실험을 main에 통합한다</div>
+  </div>
+</div>

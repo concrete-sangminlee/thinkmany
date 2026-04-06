@@ -68,3 +68,56 @@
     <p><strong>핵심 원칙:</strong> 도구가 많다고 좋은 것이 아니다. 자신이 실제로 매일 사용할 도구만 선택하고, 그 도구에 숙달되는 것이 중요하다.</p>
   </div>
 </div>
+
+---
+
+## 연구 주간 워크플로우 예시
+
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="timeline-label">월요일</div>
+    <div class="timeline-title">주간 계획 세우기</div>
+    <div class="timeline-desc">Notion이나 Todoist에 이번 주 할 일을 정리한다. 지난주 미완료 항목을 옮기고, 우선순위를 매긴다. 지도교수 미팅이 있다면 보고할 내용과 질문 목록을 미리 준비한다.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-label">화 - 목</div>
+    <div class="timeline-title">집중 연구 시간</div>
+    <div class="timeline-desc">핵심 연구 작업에 집중한다. 코드 변경은 Git으로 관리하고, 실험이나 시뮬레이션을 실행한다. 결과가 나오면 즉시 연구 노트에 기록하고, 그래프를 저장해 둔다.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-label">금요일</div>
+    <div class="timeline-title">주간 정리</div>
+    <div class="timeline-desc">Zotero에 이번 주 읽은 논문을 추가하고 태그를 정리한다. 연구 노트에 주간 요약을 작성한다. 코드 리포지토리를 정리하고 커밋 메시지를 깔끔하게 남긴다.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-label">주말</div>
+    <div class="timeline-title">가벼운 회고 + 방향 설정</div>
+    <div class="timeline-desc">이번 주 진행 상황을 돌아보고, 다음 주 방향을 간단히 설정한다. 무리하게 일하지 말고, 머리를 식히는 시간도 연구의 일부다.</div>
+  </div>
+</div>
+
+---
+
+## Makefile 자동화 예시
+
+<div class="highlight-box tip">
+  <span class="highlight-box-icon">💡</span>
+  <div class="highlight-box-content">
+    <p><strong>Makefile 하나로 연구 파이프라인 전체를 자동화할 수 있다</strong></p>
+    <p><code>make run</code>(실험 실행) → <code>make plot</code>(그래프 생성) → <code>make paper</code>(LaTeX 컴파일)까지 한 번에 처리할 수 있다. 각 단계의 의존성을 명시해 두면, 데이터가 바뀌었을 때 그래프와 논문까지 자동으로 다시 생성된다.</p>
+    <p>반복 작업을 자동화하면 실수가 줄고 재현성이 높아진다. "이 그래프를 어떤 스크립트로 만들었더라?"라는 고민이 사라지고, 누구든 <code>make all</code> 한 번으로 동일한 결과를 얻을 수 있다.</p>
+  </div>
+</div>
+
+---
+
+## 도구 과부하 경고
+
+<div class="highlight-box warning">
+  <span class="highlight-box-icon">⚠️</span>
+  <div class="highlight-box-content">
+    <p><strong>도구 세팅에 시간을 쓰느라 연구를 못 하는 함정에 빠지지 말 것</strong></p>
+    <p>새로운 앱이 나올 때마다 설치하고, 설정을 만지고, 기존 데이터를 마이그레이션하느라 반나절을 쓰는 일이 반복되면 본말이 전도된 것이다.</p>
+    <p>핵심 도구 3개 — 코드 에디터(VS Code), 논문 관리(Zotero), 노트(Notion 또는 Obsidian) — 만 제대로 쓰면 충분하다. 도구는 연구를 돕는 수단이지 목적이 아니다.</p>
+  </div>
+</div>

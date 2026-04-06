@@ -76,3 +76,51 @@
     <span class="card-tag tag-green">무료</span>
   </div>
 </div>
+
+---
+
+## 목적별 읽기 전략
+
+<div class="tab-container">
+  <div class="tab-buttons">
+    <button class="tab-btn active" data-tab="tab-s31-survey">서베이용</button>
+    <button class="tab-btn" data-tab="tab-s31-reproduce">재현용</button>
+    <button class="tab-btn" data-tab="tab-s31-related">Related Work 작성용</button>
+  </div>
+  <div class="tab-content active" id="tab-s31-survey">
+    <p><strong>빠르게 훑어 흐름을 잡는다</strong></p>
+    <ul>
+      <li>Abstract + Conclusion 위주로 빠르게 50편 이상을 훑는다</li>
+      <li>핵심 키워드와 트렌드를 파악하여 분야의 전체 지형을 그린다</li>
+      <li>방법론, 데이터, 성능을 비교표로 정리하면 서베이 논문 작성에 바로 활용할 수 있다</li>
+    </ul>
+  </div>
+  <div class="tab-content" id="tab-s31-reproduce">
+    <p><strong>Method 섹션을 집중적으로 읽는다</strong></p>
+    <ul>
+      <li>하이퍼파라미터, 데이터 전처리, 학습 설정을 상세히 기록한다</li>
+      <li>코드 공개 여부를 확인하고, 공개된 경우 코드와 논문의 차이점을 비교한다</li>
+      <li>재현이 안 되면 저자에게 이메일로 문의하는 것도 방법이다</li>
+    </ul>
+  </div>
+  <div class="tab-content" id="tab-s31-related">
+    <p><strong>각 논문의 위치를 정리한다</strong></p>
+    <ul>
+      <li>각 논문의 기여점을 1줄로 요약한다</li>
+      <li>내 연구와의 차이점을 명시적으로 정리한다</li>
+      <li>시간순으로 분야의 발전 흐름을 정리하면 Related Work 섹션의 구조가 자연스럽게 잡힌다</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## 신뢰도 판단 기준
+
+<div class="highlight-box warning">
+  <span class="highlight-box-icon">⚠️</span>
+  <div class="highlight-box-content">
+    <p><strong>다음 징후가 있으면 논문의 신뢰도를 의심해야 한다</strong></p>
+    <p>비현실적으로 높은 성능(99.9% 정확도), 데이터셋 분할 방법 미기재, 코드 미공개 + 재현 불가, 통계적 유의성 검증 없음, 비교 대상(baseline)이 너무 약함. 이런 논문을 Related Work에 포함할 때는 비판적 시각을 유지하고, 검증 없이 결과를 그대로 인용하지 않는다.</p>
+  </div>
+</div>

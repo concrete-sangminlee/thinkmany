@@ -57,3 +57,27 @@
     </ul>
   </div>
 </div>
+
+---
+
+## 모르는 질문 대처법
+
+<div class="highlight-box tip">
+  <span class="highlight-box-icon">💡</span>
+  <div class="highlight-box-content">
+    <p><strong>"정확히는 모르지만, 이 문제는 ~한 접근으로 풀 수 있을 것 같습니다."</strong></p>
+    <p>완전히 모르는 질문을 받더라도 관련 개념을 연결하며 사고 과정을 보여주는 것이 중요하다. 교수는 정답 자체보다 사고 방식을 본다. 아는 범위 안에서 문제를 분해하고, 어떤 방향으로 접근할 수 있는지를 설명하면 "이 학생은 새로운 문제를 만나도 해결할 수 있겠다"는 인상을 줄 수 있다.</p>
+  </div>
+</div>
+
+---
+
+## 실패 시 대처
+
+<div class="highlight-box info">
+  <span class="highlight-box-icon">ℹ️</span>
+  <div class="highlight-box-content">
+    <p><strong>실패가 끝은 아니다</strong></p>
+    <p>대부분의 프로그램은 재시험 기회를 제공한다(보통 1회). 실패하면 원인을 분석하고 약한 과목을 집중 보강한다. 실패 자체가 끝이 아니라 보강의 기회다. 필요하면 해당 과목 교수에게 직접 조언을 구한다. 어떤 부분이 부족했는지 구체적 피드백을 받으면 재시험 준비가 훨씬 효율적이 된다.</p>
+  </div>
+</div>

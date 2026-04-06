@@ -85,3 +85,36 @@
     <p><strong>실전 조언</strong> — 초기 샘플 수는 최소 10d개(d=설계 변수 수) 이상 확보하고, 적응적 추가는 수렴할 때까지 반복한다.</p>
   </div>
 </div>
+
+---
+
+## 기법 선택 가이드
+
+<div class="tab-container">
+  <div class="tab-buttons">
+    <button class="tab-btn active" data-tab="tab-s25-lowdim">변수 5개 이하</button>
+    <button class="tab-btn" data-tab="tab-s25-uq">불확실성 정량화 필요</button>
+    <button class="tab-btn" data-tab="tab-s25-large">대규모 데이터</button>
+  </div>
+  <div class="tab-content active" id="tab-s25-lowdim">
+    <p><strong>RSM / 다항식이 충분하다.</strong> 해석이 쉽고 빠르며, 2차까지면 대부분의 응답면을 커버할 수 있다. 변수 수가 적으면 굳이 복잡한 모델을 쓸 이유가 없다.</p>
+  </div>
+  <div class="tab-content" id="tab-s25-uq">
+    <p><strong>Kriging / Gaussian Process를 추천한다.</strong> 예측값과 함께 신뢰구간을 제공하므로, 어디에 불확실성이 큰지 파악할 수 있다. 적응적 샘플링(EI, LCB)과 궁합이 좋다.</p>
+  </div>
+  <div class="tab-content" id="tab-s25-large">
+    <p><strong>신경망 기반 모델이 강점을 보인다.</strong> 1000개 이상의 샘플이 확보된 경우, 복잡한 비선형 관계를 효과적으로 포착한다. 다만 해석 가능성이 떨어지므로 SHAP 등으로 보완한다.</p>
+  </div>
+</div>
+
+---
+
+## 실전 예제: 10개 샘플로 최적화
+
+<div class="highlight-box info">
+  <span class="highlight-box-icon">ℹ️</span>
+  <div class="highlight-box-content">
+    <p><strong>베이지안 최적화의 전형적인 워크플로우</strong></p>
+    <p>(1) Latin Hypercube Sampling으로 초기 10개 점 생성 → (2) GP 대리 모델 구축 → (3) Expected Improvement로 다음 평가 점 선택 → (4) 실제 시뮬레이션 1회 실행 → (5) GP 모델 갱신 → (3)-(5) 반복. 보통 20-30회 반복이면 최적점에 수렴한다.</p>
+  </div>
+</div>

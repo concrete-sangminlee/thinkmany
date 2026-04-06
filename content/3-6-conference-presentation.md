@@ -71,3 +71,58 @@
     <div class="card-desc">학회 후 1주 내로 만났던 사람에게 follow-up 이메일을 보낸다. 논문 공유 등으로 관계를 이어간다.</div>
   </div>
 </div>
+
+---
+
+## 발표 슬라이드 구성
+
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="timeline-label">슬라이드 1-3</div>
+    <div class="timeline-title">인트로</div>
+    <div class="timeline-desc">연구 배경, 동기, 목적을 전달한다. 청중이 왜 이 연구가 필요한지 이해할 수 있도록 한다.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-label">슬라이드 4-7</div>
+    <div class="timeline-title">방법</div>
+    <div class="timeline-desc">프레임워크, 핵심 알고리즘, 실험 설계를 설명한다. 복잡한 수식보다 직관적인 다이어그램을 사용한다.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-label">슬라이드 8-11</div>
+    <div class="timeline-title">결과</div>
+    <div class="timeline-desc">주요 결과, 기존 방법과의 비교, 결과 해석을 제시한다. 핵심 그래프/표에 집중한다.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-label">슬라이드 12-13</div>
+    <div class="timeline-title">결론</div>
+    <div class="timeline-desc">연구 요약과 향후 연구 방향을 정리한다. 기여점을 명확히 강조한다.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-label">백업 3장</div>
+    <div class="timeline-title">예상 질문 대비</div>
+    <div class="timeline-desc">예상 질문에 대한 추가 데이터, 상세 수식, 추가 실험 결과를 준비해 둔다.</div>
+  </div>
+</div>
+
+---
+
+## Q&A 대처법
+
+<div class="do-dont">
+  <div class="do-box">
+    <h4>✅ Do</h4>
+    <ul>
+      <li>질문을 끝까지 듣고 반복하여 확인한다</li>
+      <li>모르면 솔직히 "좋은 질문인데 아직 검토하지 못했다"고 인정한다</li>
+      <li>관련 슬라이드로 돌아가며 답변한다</li>
+    </ul>
+  </div>
+  <div class="dont-box">
+    <h4>❌ Don't</h4>
+    <ul>
+      <li>방어적 태도로 질문자와 대립하지 않는다</li>
+      <li>질문을 무시하거나 넘기지 않는다</li>
+      <li>아는 척하며 틀린 답변을 하지 않는다</li>
+    </ul>
+  </div>
+</div>

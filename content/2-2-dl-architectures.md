@@ -80,3 +80,48 @@
     </ul>
   </div>
 </div>
+
+---
+
+## 아키텍처 선택 가이드
+
+<div class="highlight-box info">
+  <span class="highlight-box-icon">ℹ️</span>
+  <div class="highlight-box-content">
+    <p><strong>데이터 유형별 추천 아키텍처</strong></p>
+    <p>입력이 이미지나 공간 데이터면 CNN, 시계열/센서 신호면 LSTM 또는 Transformer, 정형 데이터(테이블)면 MLP나 XGBoost가 보통 더 낫다. 확신이 없으면 가장 간단한 MLP부터 시작하고, 성능이 부족할 때 복잡한 아키텍처로 넘어간다.</p>
+  </div>
+</div>
+
+---
+
+## 학습이 안 될 때 체크리스트
+
+<div class="check-list">
+  <label><input type="checkbox"> learning rate가 너무 크거나 작지 않은가? (기본: 1e-3에서 시작)</label>
+  <label><input type="checkbox"> 입력 데이터가 정규화되어 있는가? (평균 0, 표준편차 1)</label>
+  <label><input type="checkbox"> 배치 사이즈가 적절한가? (32-128이 보통)</label>
+  <label><input type="checkbox"> gradient vanishing/exploding이 발생하는가? (gradient norm 확인)</label>
+  <label><input type="checkbox"> 데이터에 NaN이나 이상치가 있는가?</label>
+  <label><input type="checkbox"> 모델이 충분히 큰가? (작은 데이터셋에 과적합 가능한지 먼저 테스트)</label>
+</div>
+
+---
+
+## 좋은 학습 곡선 vs 나쁜 학습 곡선
+
+<div class="do-dont">
+  <div class="do-box">
+    <h4>✅ 정상</h4>
+    <ul>
+      <li>train loss↓ val loss↓ → 둘 다 안정적으로 수렴</li>
+    </ul>
+  </div>
+  <div class="dont-box">
+    <h4>❌ 문제 상황</h4>
+    <ul>
+      <li>과적합: train loss↓ val loss↑ → 정규화 필요, 데이터 부족 의심</li>
+      <li>학습 안됨: loss가 줄지 않음 → learning rate, 데이터, 모델 구조 점검</li>
+    </ul>
+  </div>
+</div>

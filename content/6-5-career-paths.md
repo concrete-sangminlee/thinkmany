@@ -93,3 +93,42 @@
     <p>졸업장을 받는 순간 배움이 끝나는 것이 아니다. 기술은 빠르게 변하고, 대학원에서 배운 것은 5년 후면 기본 지식이 된다. 지속적 학습, 네트워크 유지, 후배 멘토링은 경력 전체에 걸쳐 자산이 된다. 어떤 경로를 선택하든, "배우는 사람"이라는 정체성을 유지하는 것이 가장 중요하다.</p>
   </div>
 </div>
+
+---
+
+## 나에게 맞는 길 찾기
+
+<div class="card-grid">
+  <div class="card">
+    <span class="card-icon">🔭</span>
+    <div class="card-title">자율성 + 탐구 중시</div>
+    <div class="card-desc">학계(교수/연구원)가 맞다. 연구 주제를 스스로 정하고, 긴 호흡으로 깊이 파고드는 것에 보람을 느끼는 사람에게 적합하다.</div>
+  </div>
+  <div class="card">
+    <span class="card-icon">🏢</span>
+    <div class="card-title">안정 + 높은 연봉</div>
+    <div class="card-desc">대기업 R&D(삼성/LG/현대 연구소)가 맞다. 체계적 환경에서 자원이 풍부한 연구를 수행하며, 안정적 보상을 받을 수 있다.</div>
+  </div>
+  <div class="card">
+    <span class="card-icon">⚡</span>
+    <div class="card-title">빠른 성장 + 도전</div>
+    <div class="card-desc">스타트업이 맞다. 빠른 의사결정, 다양한 역할 경험이 가능하지만, 높은 불확실성을 감수해야 한다.</div>
+  </div>
+  <div class="card">
+    <span class="card-icon">🌏</span>
+    <div class="card-title">사회 임팩트</div>
+    <div class="card-desc">공공기관/국책연구소가 맞다. 정책 연구와 공공 기여에 초점을 맞추며, 고용 안정성이 높다.</div>
+  </div>
+</div>
+
+---
+
+## 포닥이란?
+
+<div class="highlight-box info">
+  <span class="highlight-box-icon">ℹ️</span>
+  <div class="highlight-box-content">
+    <p><strong>Post-doctoral Researcher</strong></p>
+    <p>포닥은 박사 졸업 후 독립 연구자로 성장하기 위한 과도기다. 보통 1-3년간 다른 대학이나 연구소에서 새로운 분야를 경험하거나 논문 실적을 쌓는다. 교수직 지원에 거의 필수적인 과정이다. 현실적으로 급여는 낮고(보통 연 3000-5000만원), 고용 안정성이 낮지만, 연구 자유도는 높다. 포닥 기간에 독립적 연구 주제를 확보하고, 인적 네트워크를 넓히는 것이 핵심이다.</p>
+  </div>
+</div>

@@ -69,3 +69,27 @@
     <div class="card-desc">카카오톡, 슬랙 기반의 대학원생 커뮤니티가 분야별로 운영되고 있다. 연구 정보 공유, 논문 스터디, 고민 상담 등이 이루어지며, 소속 연구실 밖의 네트워크를 형성하는 데 도움이 된다.</div>
   </div>
 </div>
+
+---
+
+## 좋은 질문 작성법
+
+<div class="highlight-box tip">
+  <span class="highlight-box-icon">💡</span>
+  <div class="highlight-box-content">
+    <p><strong>Stack Exchange에서 답을 받는 질문의 공통점</strong></p>
+    <p>최소 재현 가능한 예시 코드 첨부, 이미 시도한 것 명시, 구체적인 에러 메시지 포함. "안 돼요"보다 "이 코드를 실행하면 이 에러가 나옵니다"가 10배 빠르게 답을 받는다.</p>
+  </div>
+</div>
+
+---
+
+## 학회 가입 ROI
+
+<div class="highlight-box info">
+  <span class="highlight-box-icon">ℹ️</span>
+  <div class="highlight-box-content">
+    <p><strong>IEEE 학생 회원은 연 $30 정도</strong></p>
+    <p>이것으로 IEEE Xplore 논문 접근(개별 구매 시 편당 $30-50), 학회 등록비 할인(보통 $100-200 절약), travel grant 지원 기회를 얻을 수 있다. 1년 회비로 논문 1편만 무료로 읽어도 본전이다.</p>
+  </div>
+</div>

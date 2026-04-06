@@ -67,3 +67,51 @@
     <p><strong>저널별 Style Guide를 확인한다.</strong> 미국식/영국식 영어, 약어 규칙, 숫자 표기법이 저널마다 다르다. Author Guidelines를 투고 전에 반드시 정독한다.</p>
   </div>
 </div>
+
+---
+
+## LaTeX vs Word 선택
+
+<div class="highlight-box info">
+  <span class="highlight-box-icon">ℹ️</span>
+  <div class="highlight-box-content">
+    <p><strong>상황에 따른 선택 기준</strong></p>
+    <p>수식이 많은 논문이면 LaTeX가 압도적으로 편하다. 공동 작업에서 Track Changes가 필요하면 Word가 유리하다. Overleaf를 쓰면 LaTeX의 장점 + 실시간 공동 편집을 모두 얻을 수 있다. 대부분의 공학 저널은 LaTeX 템플릿을 제공한다. 지도교수가 Word를 선호하면 Word로 쓰되, 최종 조판만 LaTeX로 변환하는 방법도 있다.</p>
+  </div>
+</div>
+
+---
+
+## Zotero → Overleaf 워크플로우
+
+<div class="pipeline">
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">🌐</div>
+    <div class="pipeline-step-title">논문 저장</div>
+    <div class="pipeline-step-desc">브라우저에서 Zotero Connector로 클릭 한 번에 수집한다</div>
+  </div>
+  <span class="pipeline-arrow">→</span>
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">📂</div>
+    <div class="pipeline-step-title">컬렉션별 정리</div>
+    <div class="pipeline-step-desc">프로젝트/주제별로 폴더를 나눠 관리한다</div>
+  </div>
+  <span class="pipeline-arrow">→</span>
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">📤</div>
+    <div class="pipeline-step-title">BibTeX 내보내기</div>
+    <div class="pipeline-step-desc">Better BibTeX 플러그인으로 자동 내보내기를 설정한다</div>
+  </div>
+  <span class="pipeline-arrow">→</span>
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">🔗</div>
+    <div class="pipeline-step-title">Overleaf 연동</div>
+    <div class="pipeline-step-desc">.bib 파일을 프로젝트에 업로드한다</div>
+  </div>
+  <span class="pipeline-arrow">→</span>
+  <div class="pipeline-step">
+    <div class="pipeline-step-icon">📝</div>
+    <div class="pipeline-step-title">\cite{key}로 인용</div>
+    <div class="pipeline-step-desc">참고문헌이 자동 생성된다</div>
+  </div>
+</div>

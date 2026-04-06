@@ -75,3 +75,37 @@
   <label><input type="checkbox"> 대학원이 아니면 이 목표를 달성할 다른 경로가 있는가?</label>
   <label><input type="checkbox"> 현재 나의 동기 수준은 입학 때와 비교해 어떤가?</label>
 </div>
+
+---
+
+## 대학원을 가지 말아야 할 때
+
+<div class="highlight-box warning">
+  <span class="highlight-box-icon">⚠️</span>
+  <div class="highlight-box-content">
+    <p><strong>다음 중 하나라도 해당하면 진학 전에 한 번 더 생각해볼 것</strong></p>
+    <p>주변의 기대나 압력으로 결정한 경우, 취업이 안 돼서 대안으로 가는 경우, 학위 자체만이 목적인 경우, 연구보다는 수업 듣기를 선호하는 경우. 대학원은 "배우는 곳"이 아니라 "답이 없는 문제를 푸는 곳"이다. 스스로 질문을 만들고 답을 찾아가는 과정에 흥미가 없다면, 시간과 에너지를 다른 방향에 투자하는 것이 나을 수 있다.</p>
+  </div>
+</div>
+
+---
+
+## 재정 현실
+
+<div class="card-grid">
+  <div class="card">
+    <span class="card-icon">🎓</span>
+    <div class="card-title">등록금과 장학금</div>
+    <div class="card-desc">국내: BK21/교내 장학금으로 등록금 면제가 많다. 해외: RA/TA 풀펀딩 또는 자비로 나뉜다. 반드시 입학 전에 재정 지원 조건을 확인한다.</div>
+  </div>
+  <div class="card">
+    <span class="card-icon">💰</span>
+    <div class="card-title">생활비</div>
+    <div class="card-desc">인건비/장학금은 월 100-200만원 수준이다. 지역과 학교에 따라 차이가 크므로, 실제 생활이 가능한 수준인지 미리 계산한다.</div>
+  </div>
+  <div class="card">
+    <span class="card-icon">⏳</span>
+    <div class="card-title">기회비용</div>
+    <div class="card-desc">동기들이 취업 후 연봉 4000만원+를 받을 때, 2년-5년을 연구에 투자하는 것의 의미를 스스로 납득해야 한다. 이 결정에 확신이 없으면 대학원 생활이 힘들어진다.</div>
+  </div>
+</div>
