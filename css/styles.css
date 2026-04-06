@@ -273,6 +273,24 @@ li::marker {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex: 1;
+}
+
+.admin-link {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.admin-link:hover {
+  opacity: 1;
+  color: var(--accent-purple);
+  background: rgba(167,139,250,0.1);
 }
 
 /* --- Sidebar --- */
