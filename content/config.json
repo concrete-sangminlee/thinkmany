@@ -5,23 +5,86 @@
       "number": "01",
       "title": "대학원생을 시작하며",
       "color": "purple",
-      "desc": "",
+      "desc": "대학원 생활의 목적, 의무, 일상의 기본기를 다잡는 첫 걸음",
       "subsections": [
-        {
-          "id": "1-1-new",
-          "file": "1-1-new.md",
-          "title": "목적이 무엇인가"
-        },
-        {
-          "id": "1-2-new",
-          "file": "1-2-new.md",
-          "title": "대학원생의 의무란"
-        },
-        {
-          "id": "1-3-new",
-          "file": "1-3-new.md",
-          "title": "매일 해야만 하는 것"
-        }
+        { "id": "1-1-new", "file": "1-1-new.md", "title": "목적이 무엇인가" },
+        { "id": "1-2-new", "file": "1-2-new.md", "title": "대학원생의 의무란" },
+        { "id": "1-3-new", "file": "1-3-new.md", "title": "매일 해야만 하는 것" }
+      ]
+    },
+    {
+      "id": "section-2",
+      "number": "02",
+      "title": "ML/AI for Engineering",
+      "color": "blue",
+      "desc": "공학 연구에 ML/AI를 적용하기 위한 핵심 개념과 실전 파이프라인",
+      "subsections": [
+        { "id": "2-1-ml-fundamentals", "file": "2-1-ml-fundamentals.md", "title": "머신러닝 기초 개념" },
+        { "id": "2-2-dl-architectures", "file": "2-2-dl-architectures.md", "title": "딥러닝 핵심 아키텍처" },
+        { "id": "2-3-computer-vision", "file": "2-3-computer-vision.md", "title": "컴퓨터 비전과 공학 응용" },
+        { "id": "2-4-pinn", "file": "2-4-pinn.md", "title": "물리 기반 AI (PINN)" },
+        { "id": "2-5-surrogate-modeling", "file": "2-5-surrogate-modeling.md", "title": "대리 모델링과 최적화" },
+        { "id": "2-6-generative-ai", "file": "2-6-generative-ai.md", "title": "생성형 AI 활용법" },
+        { "id": "2-7-ml-pipeline", "file": "2-7-ml-pipeline.md", "title": "ML 프로젝트 파이프라인" }
+      ]
+    },
+    {
+      "id": "section-3",
+      "number": "03",
+      "title": "연구 방법론",
+      "color": "cyan",
+      "desc": "논문 읽기부터 학회 발표까지, 연구의 전 과정을 체계적으로",
+      "subsections": [
+        { "id": "3-1-paper-reading", "file": "3-1-paper-reading.md", "title": "논문 읽기 전략" },
+        { "id": "3-2-finding-problems", "file": "3-2-finding-problems.md", "title": "연구 문제 찾기" },
+        { "id": "3-3-paper-writing", "file": "3-3-paper-writing.md", "title": "논문 작성법" },
+        { "id": "3-4-reviewer-response", "file": "3-4-reviewer-response.md", "title": "리뷰어 대응 전략" },
+        { "id": "3-5-qualifying-exam", "file": "3-5-qualifying-exam.md", "title": "종합시험 준비" },
+        { "id": "3-6-conference-presentation", "file": "3-6-conference-presentation.md", "title": "학회 발표" }
+      ]
+    },
+    {
+      "id": "tools-software",
+      "number": "04",
+      "title": "도구 & 소프트웨어",
+      "color": "green",
+      "desc": "연구 생산성을 높이는 시뮬레이션, 프로그래밍, 글쓰기, 시각화 도구들",
+      "subsections": [
+        { "id": "4-1-structural-software", "file": "4-1-structural-software.md", "title": "분야별 시뮬레이션 도구" },
+        { "id": "4-2-general-fem", "file": "4-2-general-fem.md", "title": "범용 해석 도구" },
+        { "id": "4-3-cfd-tools", "file": "4-3-cfd-tools.md", "title": "실험 및 데이터 수집 도구" },
+        { "id": "4-4-programming", "file": "4-4-programming.md", "title": "프로그래밍 언어와 환경" },
+        { "id": "4-5-writing-tools", "file": "4-5-writing-tools.md", "title": "논문 작성 도구" },
+        { "id": "4-6-visualization", "file": "4-6-visualization.md", "title": "데이터 시각화" },
+        { "id": "4-7-productivity-tools", "file": "4-7-productivity-tools.md", "title": "생산성 도구" }
+      ]
+    },
+    {
+      "id": "section-5",
+      "number": "05",
+      "title": "리소스",
+      "color": "orange",
+      "desc": "교과서, 강의, 데이터셋, 커뮤니티 — 분야별 필수 리소스 모음",
+      "subsections": [
+        { "id": "5-1-textbooks", "file": "5-1-textbooks.md", "title": "분야별 핵심 교과서" },
+        { "id": "5-2-online-courses", "file": "5-2-online-courses.md", "title": "온라인 강의 & MOOC" },
+        { "id": "5-3-datasets", "file": "5-3-datasets.md", "title": "공개 데이터셋" },
+        { "id": "5-4-key-papers", "file": "5-4-key-papers.md", "title": "분야별 필독 논문" },
+        { "id": "5-5-communities", "file": "5-5-communities.md", "title": "학술 커뮤니티" }
+      ]
+    },
+    {
+      "id": "section-6",
+      "number": "06",
+      "title": "성장 & 커리어",
+      "color": "pink",
+      "desc": "시간 관리, 멘탈 관리, 네트워킹, 그리고 졸업 이후의 커리어",
+      "subsections": [
+        { "id": "6-1-time-management", "file": "6-1-time-management.md", "title": "시간 관리" },
+        { "id": "6-2-advisor-communication", "file": "6-2-advisor-communication.md", "title": "지도교수 소통법" },
+        { "id": "6-3-mental-health", "file": "6-3-mental-health.md", "title": "멘탈 관리" },
+        { "id": "6-4-networking", "file": "6-4-networking.md", "title": "네트워킹" },
+        { "id": "6-5-career-paths", "file": "6-5-career-paths.md", "title": "졸업 후 커리어" }
       ]
     }
   ]

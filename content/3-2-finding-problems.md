@@ -9,7 +9,7 @@
   <div class="card accent-blue">
     <span class="card-icon">🔀</span>
     <div class="card-title">학제간 융합 기회</div>
-    <div class="card-desc">[다른 분야에서 검증된 방법을 구조공학에 적용 — 예: CV→균열탐지, NLP→설계기준 분석]</div>
+    <div class="card-desc">[다른 분야에서 검증된 방법을 내 분야에 적용 — 예: CV→균열탐지, NLP→설계기준 분석]</div>
   </div>
   <div class="card accent-cyan">
     <span class="card-icon">🏗️</span>
