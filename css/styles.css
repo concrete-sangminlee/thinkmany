@@ -422,6 +422,11 @@ li::marker {
   max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 2rem 2.5rem 4rem;
+  overflow-x: hidden;
+}
+
+.md-content {
+  overflow-x: hidden;
 }
 
 /* --- Section Styles --- */
@@ -600,17 +605,18 @@ li::marker {
 /* --- Card Component --- */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
   gap: 1.2rem;
   margin: 1.5rem 0;
+  max-width: 100%;
 }
 
 .card-grid-3 {
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
 }
 
 .card-grid-2 {
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
 }
 
 .card {
@@ -701,6 +707,7 @@ li::marker {
 /* --- Tab System --- */
 .tab-container {
   margin: 1.5rem 0;
+  max-width: 100%;
 }
 
 .tab-buttons {
@@ -711,6 +718,12 @@ li::marker {
   padding-bottom: 0;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tab-buttons::-webkit-scrollbar {
+  display: none;
 }
 
 .tab-btn {
@@ -796,9 +809,10 @@ li::marker {
   align-items: center;
   gap: 0;
   margin: 2rem 0;
-  overflow-x: auto;
   padding: 1rem 0;
-  -webkit-overflow-scrolling: touch;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100%;
 }
 
 .pipeline-step {
@@ -806,13 +820,14 @@ li::marker {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  min-width: 120px;
+  min-width: 100px;
+  max-width: 140px;
   padding: 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   transition: all var(--transition-normal);
-  flex-shrink: 0;
+  flex: 1 1 100px;
 }
 
 .pipeline-step:hover {
@@ -923,6 +938,8 @@ li::marker {
 
 .highlight-box-content {
   flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .highlight-box-content p {
