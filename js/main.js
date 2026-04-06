@@ -1,5 +1,5 @@
 /* ========================================
-   승원이 연구 가이드 - JavaScript
+   연구 가이드 - JavaScript
    ======================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
