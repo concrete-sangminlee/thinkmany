@@ -1227,6 +1227,12 @@ li::marker {
   #content {
     padding: 1.5rem;
   }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 @media (max-width: 768px) {
