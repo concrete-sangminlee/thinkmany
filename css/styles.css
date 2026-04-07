@@ -1065,15 +1065,8 @@ li::marker {
 
 /* --- Scroll Reveal --- */
 .reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
-  will-change: opacity, transform;
-}
-
-.reveal.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 .reveal[data-delay="1"] { transition-delay: 0.1s; }
