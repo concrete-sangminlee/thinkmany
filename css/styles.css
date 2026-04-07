@@ -1064,15 +1064,40 @@ li::marker {
 .dont-box li::marker { color: var(--accent-red); }
 
 /* --- Scroll Reveal --- */
+/* 콘텐츠는 항상 보이되, 뷰포트 진입 시 부드러운 등장 효과 */
 .reveal {
   opacity: 1;
-  transform: none;
+  transform: translateY(0);
 }
 
-.reveal[data-delay="1"] { transition-delay: 0.1s; }
-.reveal[data-delay="2"] { transition-delay: 0.2s; }
-.reveal[data-delay="3"] { transition-delay: 0.3s; }
-.reveal[data-delay="4"] { transition-delay: 0.4s; }
+@keyframes revealUp {
+  from {
+    opacity: 0.3;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal.animated {
+  animation: revealUp 0.6s ease-out forwards;
+}
+
+.reveal.animated[data-delay="1"] { animation-delay: 0.1s; }
+.reveal.animated[data-delay="2"] { animation-delay: 0.2s; }
+.reveal.animated[data-delay="3"] { animation-delay: 0.3s; }
+.reveal.animated[data-delay="4"] { animation-delay: 0.4s; }
+
+/* 카드, 하이라이트 박스 등에 hover 시 부드러운 효과 */
+.section-header {
+  transition: opacity 0.4s ease;
+}
+
+.subsection {
+  transition: opacity 0.4s ease;
+}
 
 /* --- Sub-section divider --- */
 .subsection {
@@ -1221,11 +1246,6 @@ li::marker {
     padding: 1.5rem;
   }
 
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
 }
 
 @media (max-width: 768px) {
