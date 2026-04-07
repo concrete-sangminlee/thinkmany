@@ -82,16 +82,17 @@ html {
   scroll-padding-top: calc(var(--topbar-height) + 24px);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color-scheme: dark;
+  color-scheme: only dark;
 }
 
 body {
   font-family: var(--font-sans);
-  background: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: #0a0a0f !important;
+  color: #e8e8ed !important;
   line-height: 1.7;
   font-size: 16px;
   overflow-x: hidden;
+  -webkit-text-fill-color: initial;
 }
 
 /* --- Scrollbar --- */
@@ -1087,6 +1088,23 @@ li::marker {
 /* --- Markdown Content --- */
 .md-content {
   margin-top: 1rem;
+  color: #e8e8ed;
+}
+
+.md-content p,
+.md-content li,
+.md-content span,
+.md-content div,
+.md-content label {
+  color: #e8e8ed;
+}
+
+.md-content strong {
+  color: #ffffff;
+}
+
+.md-content a {
+  color: #a78bfa;
 }
 
 .md-content h1, .md-content h2, .md-content h3, .md-content h4 {
