@@ -1007,6 +1007,19 @@ li::marker {
   padding-left: 0;
 }
 
+.check-list label {
+  display: block;
+  padding: 0.5rem 0;
+  padding-left: 0.3rem;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.check-list label input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: var(--accent-green);
+}
+
 .check-list li {
   padding: 0.4rem 0;
   padding-left: 1.8rem;
