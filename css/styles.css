@@ -87,12 +87,11 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: #0a0a0f !important;
-  color: #e8e8ed !important;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   line-height: 1.7;
   font-size: 16px;
   overflow-x: hidden;
-  -webkit-text-fill-color: initial;
 }
 
 /* --- Scrollbar --- */
@@ -1140,7 +1139,7 @@ li::marker {
 /* --- Markdown Content --- */
 .md-content {
   margin-top: 1rem;
-  color: #e8e8ed;
+  color: var(--text-primary);
 }
 
 .md-content p,
@@ -1148,15 +1147,15 @@ li::marker {
 .md-content span,
 .md-content div,
 .md-content label {
-  color: #e8e8ed;
+  color: var(--text-primary);
 }
 
 .md-content strong {
-  color: #ffffff;
+  color: var(--text-white);
 }
 
 .md-content a {
-  color: #a78bfa;
+  color: var(--accent-purple);
 }
 
 .md-content h1, .md-content h2, .md-content h3, .md-content h4 {
@@ -1380,71 +1379,7 @@ li::marker {
   }
 }
 
-/* --- Chrome 강제 다크모드 무력화 --- */
-@media (prefers-color-scheme: light) {
-  html, body {
-    background-color: #0a0a0f !important;
-    color: #e8e8ed !important;
-  }
-
-  #topbar {
-    background-color: #0d0d14 !important;
-    color: #e8e8ed !important;
-  }
-
-  #sidebar {
-    background-color: #0d0d14 !important;
-    color: #e8e8ed !important;
-  }
-
-  #main-content, #content {
-    background-color: #0a0a0f !important;
-    color: #e8e8ed !important;
-  }
-
-  .hero-section, .section {
-    background-color: transparent !important;
-    color: #e8e8ed !important;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    color: #ffffff !important;
-  }
-
-  p, li, span, div, label, td, th, a {
-    color: inherit !important;
-  }
-
-  .card, .highlight-box, .do-box, .dont-box, .pipeline-step, .tab-content, .timeline-item {
-    background-color: #16161f !important;
-    color: #e8e8ed !important;
-  }
-
-  .card-title, .timeline-title, .pipeline-step-title {
-    color: #ffffff !important;
-  }
-
-  .card-desc, .timeline-desc, .pipeline-step-desc, .text-secondary {
-    color: #9898a8 !important;
-  }
-
-  .site-title, .toc-item, .toc-group-label {
-    color: #e8e8ed !important;
-  }
-
-  .hero-title, .hero-subtitle {
-    color: #e8e8ed !important;
-  }
-
-  .subsection-title {
-    color: #ffffff !important;
-  }
-
-  input[type="text"], input[type="search"] {
-    background-color: #16161f !important;
-    color: #e8e8ed !important;
-  }
-}
+/* Chrome 강제 다크모드 무력화는 color-scheme: only dark로 처리 */
 
 /* ========================================
    Light Mode (data-theme="light")
