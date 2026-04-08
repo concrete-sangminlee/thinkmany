@@ -1,4 +1,4 @@
-## 리뷰 결과가 왔다
+# 리뷰 결과가 왔다
 
 이메일 알림이 뜬다. "Decision on Manuscript #XXXX." 심장이 빨라진다. 클릭한다. 에디터의 편지가 보인다. "We invite you to submit a revised version of your manuscript..." 아래로 스크롤하면 리뷰어 코멘트가 쭉 이어진다.
 
