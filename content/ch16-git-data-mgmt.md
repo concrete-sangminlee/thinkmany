@@ -226,7 +226,27 @@ my_project/
 
 데이터만으로는 정보가 불완전하다. 이 데이터가 언제, 어떤 조건에서, 어떤 장비로, 누구에 의해 수집되었는지를 기록해야 한다. 이것이 메타데이터(metadata)다.
 
-가장 간단한 방법은 각 데이터 폴더에 `README.txt` 또는 `metadata.json`을 넣어두는 것이다. 실험 날짜, 실험자, 장비 세팅, 환경 조건(온도, 습도), 샘플 정보 등을 기록한다. 당장은 귀찮지만, 6개월 후 "이 데이터의 시편 크기가 뭐였지?" 할 때 감사하게 될 것이다.
+가장 간단한 방법은 각 데이터 폴더에 `README.txt` 또는 `metadata.json`을 넣어두는 것이다. 아래는 바로 복사해서 쓸 수 있는 `metadata.json` 템플릿이다.
+
+```json
+{
+  "experiment_date": "2025-03-15",
+  "experimenter": "홍길동",
+  "equipment": "Instron 5982 (S/N: 12345)",
+  "conditions": {
+    "temperature_C": 25,
+    "humidity_pct": 50
+  },
+  "sample": {
+    "material": "CFRP",
+    "dimensions_mm": [250, 25, 1.5],
+    "count": 5
+  },
+  "notes": "시편 3번은 그립 슬립 발생, 분석에서 제외"
+}
+```
+
+실험 날짜, 실험자, 장비 세팅, 환경 조건(온도, 습도), 샘플 정보 등을 기록한다. 당장은 귀찮지만, 6개월 후 "이 데이터의 시편 크기가 뭐였지?" 할 때 감사하게 될 것이다.
 
 ---
 
@@ -341,7 +361,15 @@ Thumbs.db
 
 이 장을 읽고 "Git을 시작해야겠다"는 생각이 들었다면, 지금 당장 실행할 수 있는 가장 간단한 방법을 알려주겠다.
 
-먼저, GitHub에 가입한다(github.com). 학교 이메일로 가입하면 학생 혜택(GitHub Education)을 받을 수 있다. 그다음, GitHub Desktop을 설치한다. GitHub Desktop은 Git의 GUI 클라이언트로, 명령어를 모르는 상태에서도 Git을 사용할 수 있게 해준다. 버튼 클릭으로 commit, push, pull이 가능하다.
+오늘 당장 아래 다섯 단계를 순서대로 실행하면, 30분 안에 Git을 시작할 수 있다.
+
+1. github.com에 가입한다 (학교 이메일로 가입하면 GitHub Education 학생 혜택을 받을 수 있다).
+2. GitHub Desktop을 설치한다 (desktop.github.com).
+3. GitHub Desktop에서 "Create a New Repository"를 클릭하고 자기 연구 프로젝트 이름을 입력한다.
+4. 연구 프로젝트 폴더 안의 코드 파일을 한 개 이상 넣고, "Commit to main" 버튼을 클릭한다.
+5. "Push origin" 버튼을 클릭하여 GitHub 클라우드에 백업한다.
+
+GitHub Desktop은 Git의 GUI 클라이언트로, 명령어를 모르는 상태에서도 Git을 사용할 수 있게 해준다. 버튼 클릭으로 commit, push, pull이 가능하다.
 
 명령어가 익숙해지면 터미널에서 직접 Git을 사용하는 것이 더 효율적이지만, 처음에는 GitHub Desktop으로 시작하는 것을 추천한다. 중요한 것은 도구가 아니라 습관이다. 매일 코드를 커밋하고 push하는 습관만 들이면, 나머지는 자연스럽게 따라온다.
 
