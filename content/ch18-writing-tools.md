@@ -314,6 +314,100 @@ echo "=== 실험 완료 ==="
 
 ---
 
+## LaTeX 5분 스타트
+
+LaTeX을 한 번도 써본 적 없는 사람이, 5분 안에 첫 문서를 만들고 컴파일할 수 있도록 최소한의 과정을 정리한다. 로컬 설치는 생략한다. Overleaf(overleaf.com)에서 시작하면 설치 없이 브라우저에서 바로 작업할 수 있다.
+
+**Step 1**: Overleaf에 가입하고, "New Project → Blank Project"를 클릭한다.
+
+**Step 2**: 학술지 투고가 목적이라면 "New Project → View All Templates"에서 IEEE, Elsevier, ASCE 등 해당 저널의 템플릿을 검색해서 연다. 템플릿을 쓰면 형식 맞추기에 시간을 쓸 필요가 없다.
+
+**Step 3**: 제목(`\title{...}`)과 저자(`\author{...}`)를 수정한다.
+
+**Step 4**: 본문에 섹션을 추가한다. 오른쪽의 "Recompile" 버튼을 눌러 PDF를 확인한다.
+
+이것만 알면 시작할 수 있다. 아래는 논문 작성에서 가장 자주 쓰는 명령어 6개다.
+
+`\section{제목}`: 대분류 섹션을 만든다. `\subsection{제목}`으로 소분류를 만든다.
+
+`\cite{키}`: 참고문헌을 인용한다. .bib 파일에 등록된 citation key를 넣으면, 컴파일 시 자동으로 번호가 매겨진다.
+
+`\ref{라벨}`: 그림, 표, 수식의 번호를 자동 참조한다. `\label{fig:crack}`으로 라벨을 달고, 본문에서 `Fig.~\ref{fig:crack}`으로 참조한다.
+
+`\begin{figure}...\end{figure}`: 그림을 삽입한다. `\includegraphics[width=0.8\textwidth]{figure.pdf}`로 그림 파일을 넣고, `\caption{설명}`으로 캡션을 단다.
+
+`\begin{table}...\end{table}`: 표를 삽입한다. 내부에 `tabular` 환경을 넣어서 표 내용을 작성한다.
+
+`\begin{equation}...\end{equation}`: 수식을 삽입한다. 자동으로 번호가 매겨진다.
+
+자주 쓰는 수식 입력법도 정리한다. 분수는 `\frac{분자}{분모}`, 적분은 `\int_{a}^{b} f(x)\,dx`, 행렬은 `\begin{bmatrix} a & b \\ c & d \end{bmatrix}`, 편미분은 `\frac{\partial u}{\partial x}`, 그리스 문자는 `\alpha`, `\beta`, `\sigma` 등으로 쓴다. 이 정도면 공학 논문에 나오는 수식 대부분을 커버할 수 있다.
+
+---
+
+## LaTeX 자주 겪는 문제 해결
+
+LaTeX을 쓰다 보면 반드시 부딪히는 문제들이 있다. 처음 겪으면 당황스럽지만, 대부분은 원인이 정해져 있고 해결법도 단순하다.
+
+<div class="highlight-box tip">
+<span class="highlight-box-icon">💡</span>
+<div class="highlight-box-content">
+<p><strong>참고문헌이 물음표([?])로 나올 때</strong></p>
+<p>가장 흔한 문제다. 원인은 대부분 두 가지 중 하나이다. 첫째, 컴파일 횟수가 부족한 경우. LaTeX은 참고문헌 처리를 위해 여러 번 컴파일해야 한다(LaTeX → BibTeX → LaTeX → LaTeX). Overleaf에서는 보통 자동으로 처리되지만, 가끔 수동으로 "Recompile"을 두 번 눌러야 하는 경우가 있다. 둘째, .bib 파일 경로가 틀렸거나, citation key가 .bib 파일에 없는 경우. \bibliography{references}에서 파일명(확장자 제외)이 실제 .bib 파일명과 일치하는지, \cite{키}의 키가 .bib 파일 안에 존재하는지를 확인한다.</p>
+</div>
+</div>
+
+<div class="highlight-box tip">
+<span class="highlight-box-icon">💡</span>
+<div class="highlight-box-content">
+<p><strong>그림이 원하는 위치에 안 갈 때</strong></p>
+<p>LaTeX의 float 시스템은 그림과 표를 "최적의 위치"에 배치하려 하기 때문에, 코드에 넣은 위치와 실제 출력 위치가 다를 수 있다. \begin{figure}[h!]로 "여기에 가능한 한 배치하라"고 지시하거나, \usepackage{float}를 추가한 뒤 \begin{figure}[H]로 "반드시 여기에 배치하라"고 강제할 수 있다. 다만 [H]를 남용하면 페이지에 빈 공간이 많이 생길 수 있으므로, 최종 조판 단계에서 조절하는 것을 권한다.</p>
+</div>
+</div>
+
+<div class="highlight-box tip">
+<span class="highlight-box-icon">💡</span>
+<div class="highlight-box-content">
+<p><strong>한글이 깨질 때</strong></p>
+<p>기본 LaTeX 엔진(pdflatex)은 한글을 지원하지 않는다. 한글이 포함된 문서를 작성하려면 XeLaTeX이나 LuaLaTeX 엔진을 사용하고, \usepackage{kotex} 패키지를 추가해야 한다. Overleaf에서는 왼쪽 상단 메뉴 → "Settings" → "Compiler"를 XeLaTeX으로 변경하면 된다. 학위논문 작성 시 한글이 필수이므로, 처음부터 XeLaTeX + kotex 조합으로 시작하는 것이 편하다.</p>
+</div>
+</div>
+
+<div class="highlight-box tip">
+<span class="highlight-box-icon">💡</span>
+<div class="highlight-box-content">
+<p><strong>표가 너무 넓어서 페이지를 벗어날 때</strong></p>
+<p>열이 많은 표는 페이지 폭을 초과하기 쉽다. 해결법은 세 가지다. 첫째, \resizebox{\textwidth}{!}{...}로 표 전체를 페이지 폭에 맞게 축소한다. 둘째, tabular 대신 tabularx 환경을 쓰면 열 폭을 자동으로 조절할 수 있다(\usepackage{tabularx} 필요). 셋째, 폰트 크기를 줄이는 방법도 있다. \begin{table} 안에 \small이나 \footnotesize를 넣으면 표의 글자 크기가 줄어든다.</p>
+</div>
+</div>
+
+---
+
+## 논문 협업을 위한 Git 워크플로우
+
+논문을 혼자 쓰는 경우는 드물다. 지도교수님, 공동 저자와 함께 원고를 수정하고 코멘트를 주고받는 과정이 반복된다. 이때 버전 관리가 엉망이면 "최종.tex", "최종_수정.tex", "진짜최종.tex" 같은 파일이 쌓이게 된다.
+
+### Overleaf만 쓸 때의 한계
+
+Overleaf는 구글 독스처럼 실시간 공동 편집을 지원하지만, 몇 가지 한계가 있다. 무료 계정에서는 버전 히스토리가 제한적이다. 동시 편집 시 같은 줄을 수정하면 충돌이 발생할 수 있다. 오프라인 작업이 불가능하다. 프로젝트가 커지면(그림 파일이 많아지면) 컴파일 시간이 길어지고 타임아웃이 발생하기도 한다.
+
+### Git + Overleaf 연동
+
+Overleaf 유료 플랜에서는 Git 연동 기능을 제공한다. Overleaf 프로젝트를 Git 저장소로 클론해서, 로컬에서 편집한 뒤 push하면 Overleaf에 반영된다. 반대로 Overleaf에서 수정한 내용을 pull로 받을 수도 있다. 이 방식을 쓰면 Overleaf의 편의성과 Git의 버전 관리 능력을 모두 활용할 수 있다.
+
+### 순수 Git으로 LaTeX 협업하기
+
+Overleaf 없이 Git만으로 LaTeX 논문을 관리하는 것도 충분히 가능하다. 이 경우 아래 규칙을 따르면 충돌을 최소화할 수 있다.
+
+**.gitignore 설정**: LaTeX은 컴파일 시 보조 파일을 많이 생성한다. *.aux, *.log, *.bbl, *.blg, *.out, *.toc, *.pdf(컴파일 결과물)를 .gitignore에 추가하여, 소스 파일만 추적한다. 불필요한 파일이 커밋되면 diff가 지저분해지고 충돌이 잦아진다.
+
+**브랜치 전략**: main 브랜치는 항상 컴파일 가능한 상태를 유지한다. 대규모 수정(섹션 재구성, 새로운 실험 결과 추가)은 별도 브랜치에서 작업하고, 컴파일이 확인된 후 main에 병합한다. "main은 항상 돌아가는 원고"라는 원칙을 지키면, 어느 시점에서든 안전한 버전으로 돌아갈 수 있다.
+
+**.bib 파일 충돌 방지**: 참고문헌 파일(.bib)은 여러 저자가 동시에 수정할 때 충돌이 잦다. 간단한 규칙 하나로 충돌을 크게 줄일 수 있다. 항목을 citation key 알파벳순으로 정렬하는 것이다. 각자 새 항목을 추가할 때 알파벳 순서에 맞는 위치에 넣으면, 다른 위치에서 수정이 발생하므로 충돌 확률이 줄어든다.
+
+**커밋 메시지 규칙**: "update"나 "fix" 같은 모호한 메시지 대신, "Section 3: 실험 결과 표 추가", "Eq. 5: 유도 과정 보완", "Reviewer 2 코멘트 #3 반영" 등 구체적으로 적는다. 나중에 특정 변경 시점을 찾아야 할 때 이 메시지가 결정적으로 도움이 된다.
+
+---
+
 ## 도구보다 중요한 것
 
 이 장 전체에서 수많은 도구를 소개했다. LaTeX, Overleaf, Zotero, Grammarly, Notion, Obsidian, Slack, Makefile. 그런데 솔직히 말해야 할 것이 있다. 도구를 아무리 잘 갖춰도, 연구를 대신해 주지는 않는다.

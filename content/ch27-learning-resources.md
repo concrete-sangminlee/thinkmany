@@ -336,3 +336,112 @@ CS224n(NLP with Deep Learning)은 자연어 처리의 핵심 강의다. Word2Vec
 교과서, 강의, 논문을 공부하는 것은 당장 논문을 쓰는 것보다 느린 길처럼 보인다. 하지만 기초 없이 쓴 논문은 얕고, 기초 위에 쓴 논문은 깊다. 리뷰어는 이 차이를 즉시 알아본다.
 
 좋은 교과서 한 권은 수십 편의 논문보다 오래 남는 지식을 제공한다. 좋은 강의 한 시리즈는 수개월의 시행착오를 줄여준다. 핵심 논문 한 편은 연구의 방향을 바꿀 수 있다. 학습은 비용이 아니라 투자다. 가장 높은 수익률을 내는 투자다.
+
+---
+
+## 전공별 학습 로드맵
+
+앞서 공통 학습 로드맵을 제시했다. 하지만 전공에 따라 필요한 도구와 기법이 다르다. 아래에서 전공별로 구체적인 학습 경로를 제안한다. 각 경로에 핵심 교과서 1권, 온라인 강의 1개, 그리고 직접 해볼 수 있는 프로젝트 1개를 추천한다.
+
+<div class="tab-container">
+<div class="tab-buttons">
+<button class="tab-btn active" data-tab="tab-ch27-road-struct">구조/재료 ML</button>
+<button class="tab-btn" data-tab="tab-ch27-road-thermo">열유체 ML</button>
+<button class="tab-btn" data-tab="tab-ch27-road-elec">전기/신호 ML</button>
+<button class="tab-btn" data-tab="tab-ch27-road-chem">재료/화학 ML</button>
+</div>
+
+<div class="tab-content active" id="tab-ch27-road-struct">
+
+**구조/재료 ML 학습 경로:**
+
+Kreyszig 공학수학(선형대수, PDE 장) → 구조역학 교과서(Chopra 또는 Hibbeler) → Python + scikit-learn 기초 → CNN for 결함 탐지(균열 이미지 분류) → PINN(물리 기반 신경망)
+
+- **핵심 교과서:** Chopra, "Dynamics of Structures." 구조물의 동적 응답과 모드 해석을 이해해야 SHM(구조 건전성 모니터링) 데이터를 올바르게 다룰 수 있다.
+- **온라인 강의:** Stanford CS231n. 이미지 기반 결함 탐지를 하려면 CNN의 원리를 제대로 배워야 한다.
+- **첫 프로젝트:** Kaggle의 균열 이미지 데이터셋으로 결함/정상 이진 분류기를 만든다. 전처리부터 모델 학습, 평가까지 전체 파이프라인을 경험할 수 있다.
+
+</div>
+
+<div class="tab-content" id="tab-ch27-road-thermo">
+
+**열유체 ML 학습 경로:**
+
+열역학/유체역학(Incropera, Munson) → 수치해석(Chapra & Canale) → Python 기초 → 대리 모델링/GP(Gaussian Process) → CFD 가속(시뮬레이션 결과 예측)
+
+- **핵심 교과서:** Incropera & DeWitt, "Fundamentals of Heat and Mass Transfer." 열전달 현상의 물리적 이해 없이 대리 모델을 만들면, 물리적으로 불가능한 예측을 걸러낼 수 없다.
+- **온라인 강의:** Andrew Ng ML Specialization. GP나 대리 모델링으로 바로 넘어가기 전에, ML의 기초(회귀, 과적합, 교차 검증)를 먼저 잡아야 한다.
+- **첫 프로젝트:** 간단한 2D 열전도 시뮬레이션(COMSOL 또는 Python FDM)에서 입력(경계조건, 물성)과 출력(온도 분포)의 관계를 GP로 대리 모델링한다.
+
+</div>
+
+<div class="tab-content" id="tab-ch27-road-elec">
+
+**전기/신호 ML 학습 경로:**
+
+신호처리(Oppenheim & Willsky) → 회로해석 기초 → Python 기초 → RNN/LSTM for 시계열 예측 → 이상 탐지(anomaly detection)
+
+- **핵심 교과서:** Oppenheim & Willsky, "Signals and Systems." 시계열 데이터의 주파수 분석, 필터링, 샘플링 이론을 이해해야 전처리 단계에서 정보를 잃지 않는다.
+- **온라인 강의:** MIT 6.S191 (Introduction to Deep Learning). RNN, LSTM, Attention 메커니즘을 짧고 최신 트렌드에 맞게 배울 수 있다.
+- **첫 프로젝트:** 공개 센서 데이터셋(예: NASA Bearing Dataset)에서 LSTM 기반 시계열 예측 모델을 만들고, 예측 오차 기반 이상 탐지를 구현한다.
+
+</div>
+
+<div class="tab-content" id="tab-ch27-road-chem">
+
+**재료/화학 ML 학습 경로:**
+
+물리화학/재료과학(Callister) → 양자역학 기초(Sholl & Steckel DFT 입문) → Python 기초 → GNN(Graph Neural Network)/분자 표현 → Materials Project 활용
+
+- **핵심 교과서:** Callister & Rethwisch, "Materials Science and Engineering." 결정 구조, 상변태, 기계적 성질의 기초를 모르면 재료 데이터의 물리적 의미를 파악할 수 없다.
+- **온라인 강의:** Fast.ai Practical Deep Learning for Coders (Part 1). 코드 중심으로 빠르게 모델을 만들어보는 경험이 중요하고, 이후 GNN으로 확장할 때 기초가 된다.
+- **첫 프로젝트:** Materials Project API에서 재료 물성 데이터를 다운로드하고, 조성(composition) 기반 특성으로 밴드갭이나 형성 에너지를 예측하는 모델을 만든다.
+
+</div>
+</div>
+
+---
+
+## 학습 자가 진단
+
+<div class="highlight-box tip">
+<span class="highlight-box-icon">💡</span>
+<div class="highlight-box-content">
+<p><strong>"내가 충분히 이해한 건가?" 확인 기준</strong></p>
+<p>공부를 했는데 정말 이해한 건지 확신이 안 설 때가 있다. 아래의 기준으로 자가 진단해 볼 수 있다.</p>
+<ul>
+<li><strong>선형대수를 이해했다면:</strong> 2x2 행렬의 고유값 분해를 손으로 할 수 있다. 고유벡터가 기하학적으로 무엇을 의미하는지 설명할 수 있다.</li>
+<li><strong>ML을 이해했다면:</strong> 과적합이 왜 발생하는지 비전공자에게 비유를 들어 설명할 수 있다. 편향-분산 트레이드오프를 그림으로 그릴 수 있다.</li>
+<li><strong>DL을 이해했다면:</strong> CNN의 합성곱 연산이 입력 이미지에 무엇을 하는지 그림으로 그릴 수 있다. 왜 풀링 층이 필요한지 설명할 수 있다.</li>
+<li><strong>통계를 이해했다면:</strong> p-value가 무엇인지 한 문장으로 정의할 수 있다. "유의하다"와 "중요하다"의 차이를 설명할 수 있다.</li>
+</ul>
+<p>설명할 수 없으면 이해한 것이 아니다. 교과서를 다시 펴는 것이 부끄러운 일이 아니라, 정직한 학습의 시작이다.</p>
+</div>
+</div>
+
+---
+
+## 각 교재/강의의 현실적 학습 시간
+
+교과서나 강의를 시작할 때 가장 궁금한 것이 "이거 얼마나 걸리나?"다. 현실적인 시간 추정을 아래에 정리한다. 개인차가 있으므로 ±30% 정도의 편차를 감안해야 한다.
+
+<div class="card-grid">
+<div class="card">
+<h4>Goodfellow "Deep Learning"</h4>
+<p><strong>핵심 5장(Part II) 읽기:</strong> 약 30시간. 수식을 따라가면서 읽으면 하루 1~2시간씩 3~4주가 소요된다.<br><strong>전체 통독:</strong> 100시간 이상. Part III까지 포함하면 한 학기 분량이다. 전체를 읽는 것보다 필요한 장을 선별해서 읽는 것이 현실적이다.</p>
+</div>
+<div class="card">
+<h4>Andrew Ng ML Specialization</h4>
+<p><strong>비디오 시청:</strong> 약 40시간. 1.5배속으로 들으면 30시간 정도로 줄일 수 있지만, 처음 듣는다면 1배속을 추천한다.<br><strong>과제 포함:</strong> 약 60시간. 프로그래밍 과제를 직접 풀면 이해도가 크게 올라간다. 비디오만 보는 것과는 학습 효과의 차이가 분명하다.</p>
+</div>
+<div class="card">
+<h4>Stanford CS231n</h4>
+<p><strong>비디오 시청:</strong> 약 25시간. 강의가 밀도 있으므로 1배속을 추천한다.<br><strong>과제 포함:</strong> 약 80시간. 과제가 상당히 도전적이고, 직접 CNN을 구현해야 하므로 시간이 많이 소요된다. 과제를 풀지 않으면 절반만 배우는 것이다.</p>
+</div>
+<div class="card">
+<h4>Fast.ai Part 1</h4>
+<p><strong>비디오 시청:</strong> 약 15시간. 실용적이고 빠르게 진행되므로, 입문자에게 부담이 적다.<br><strong>실습 포함:</strong> 약 40시간. 각 강의 후 자기 데이터셋에 적용해보는 실습이 핵심이다. 비디오만 보면 "할 수 있을 것 같은" 착각에 빠지기 쉽다.</p>
+</div>
+</div>
+
+완강이 목표가 아니라 이해가 목표다. 강의를 끝까지 듣는 것에 집착하면, 중간에 이해 안 되는 부분을 넘기게 된다. 한 강의의 70%를 확실히 이해하는 것이 100%를 대충 훑는 것보다 낫다. 이해가 안 되면 멈추고, 교과서나 다른 자료를 찾아본 후 다시 돌아오는 것이 올바른 학습 방식이다.

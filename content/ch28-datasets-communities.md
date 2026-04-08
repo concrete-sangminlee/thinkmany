@@ -329,3 +329,57 @@ GitHub에서 자기 코드를 공개한다. 논문과 함께 코드를 공개하
 대학원 연구는 고독한 작업이다. 혼자 논문을 읽고, 혼자 코드를 짜고, 혼자 실험하고, 혼자 논문을 쓴다. 하지만 연구자는 혼자가 아니다. 같은 문제를 고민하는 사람들이 전 세계에 있다. 그들이 공개한 데이터가 있고, 그들이 만든 커뮤니티가 있다. 이 자원을 활용하는 것과 활용하지 않는 것은, 장기적으로 연구 생산성과 커리어에 큰 차이를 만든다.
 
 데이터를 찾아보고, 질문을 올려보고, 학회에 가보고, 코드를 공유해보라. 작은 첫 걸음이 큰 차이를 만든다.
+
+---
+
+## 데이터셋 품질 평가표
+
+공개 데이터셋을 찾았다고 바로 쓰면 안 된다. 데이터셋의 품질을 평가하는 과정이 필요하다. 아래 체크리스트를 사용하여 후보 데이터셋을 평가한다. 5개 이상 "예"에 해당하면 사용을 검토할 만하고, 3개 미만이면 신중하게 재검토해야 한다.
+
+<div class="check-list">
+  <label><input type="checkbox"> <strong>샘플 수</strong>: 내 모델 학습에 충분한 양인가? (딥러닝이라면 최소 수천 개, 전통 ML이라면 수백 개 이상)</label>
+  <label><input type="checkbox"> <strong>레이블 품질</strong>: 정답(label/annotation)이 전문가에 의해 검증되었는가? 크라우드소싱 레이블이라면 일치도(inter-annotator agreement)가 보고되어 있는가?</label>
+  <label><input type="checkbox"> <strong>클래스 균형</strong>: 클래스 간 샘플 수의 불균형이 심하지 않은가? 불균형이 심하다면, 대응 전략(오버샘플링, 가중 손실함수 등)이 가능한가?</label>
+  <label><input type="checkbox"> <strong>수집 조건</strong>: 데이터 수집에 사용된 장비, 환경, 조건이 내 연구 대상과 유사한가? 실험실 데이터를 현장 문제에 쓰려면 sim-to-real gap을 고려해야 한다.</label>
+  <label><input type="checkbox"> <strong>대표성</strong>: 시간적, 공간적으로 충분한 다양성을 포함하고 있는가? 특정 시점, 특정 장소에만 편중된 데이터는 일반화 성능에 한계가 있다.</label>
+  <label><input type="checkbox"> <strong>라이선스</strong>: 연구 사용을 명시적으로 허용하는 라이선스(CC BY, CC0 등)인가? 상업적 사용 제한이 내 연구에 영향을 주는가?</label>
+  <label><input type="checkbox"> <strong>벤치마크 사용 이력</strong>: 다른 논문에서 벤치마크 데이터셋으로 사용된 적이 있는가? 있다면, 기존 연구와 직접 성능 비교가 가능하므로 논문의 설득력이 높아진다.</label>
+</div>
+
+이 체크리스트를 통과한 데이터셋이라도, 직접 데이터를 시각화하고 탐색하는 과정은 반드시 필요하다. 통계 요약만 보고 사용을 결정하면, 데이터의 숨겨진 문제(결측치 패턴, 이상치 분포, 레이블 오류 등)를 놓칠 수 있다.
+
+---
+
+## 숨겨진 데이터셋 찾기
+
+Kaggle, UCI, Google Dataset Search는 모두가 아는 경로다. 하지만 연구에 딱 맞는 데이터셋은 오히려 잘 알려지지 않은 곳에서 발견되는 경우가 많다. 아래는 Kaggle/UCI 말고 데이터셋을 찾을 수 있는 다섯 가지 경로와 각각의 구체적 검색 방법이다.
+
+<div class="card-grid">
+  <div class="card">
+    <span class="card-icon">📄</span>
+    <div class="card-title">논문의 Data Availability 섹션</div>
+    <div class="card-desc">최근 주요 저널(Nature, Science, IEEE 계열 등)은 데이터 공개를 의무화하는 추세다. 논문 말미의 "Data Availability Statement"에 데이터 저장소 링크(Zenodo, Figshare, Dryad 등)가 명시되어 있다. 자기 분야의 핵심 논문 10편을 확인하면, 2-3개의 데이터셋을 발견할 수 있다.</div>
+  </div>
+  <div class="card">
+    <span class="card-icon">💻</span>
+    <div class="card-title">GitHub 저장소</div>
+    <div class="card-desc">논문 재현 코드를 공개한 GitHub 저장소에 데이터가 함께 포함된 경우가 많다. "논문 제목 + github"로 검색하거나, Papers With Code(paperswithcode.com)에서 논문을 찾으면 연결된 저장소와 데이터셋을 한 번에 확인할 수 있다.</div>
+  </div>
+  <div class="card">
+    <span class="card-icon">🏛️</span>
+    <div class="card-title">정부/공공기관 포털</div>
+    <div class="card-desc">한국: data.go.kr(공공데이터포털), KOSIS(통계청). 미국: USGS(지질조사국), NOAA(해양대기국), data.gov. 유럽: Copernicus(환경/기후), EUROSTAT. 각 포털에서 분야 키워드로 검색하면, 정부가 수집한 고품질 데이터를 무료로 받을 수 있다.</div>
+  </div>
+  <div class="card">
+    <span class="card-icon">🏆</span>
+    <div class="card-title">학회 데이터 챌린지</div>
+    <div class="card-desc">PHM Society, IEEE, Kaggle Competitions에서 주최하는 데이터 챌린지에 사용된 데이터셋은 대부분 챌린지 종료 후에도 공개 상태로 유지된다. 이 데이터셋은 이미 많은 팀이 다양한 방법으로 분석했으므로, 벤치마크 비교에 적합하다. 각 학회 웹사이트의 "Past Competitions" 또는 "Data Challenge" 섹션에서 찾을 수 있다.</div>
+  </div>
+  <div class="card">
+    <span class="card-icon">✉️</span>
+    <div class="card-title">저자에게 직접 요청</div>
+    <div class="card-desc">논문에서 데이터를 사용했지만 공개하지 않은 경우, 교신저자에게 정중한 이메일을 보내면 데이터를 공유받을 수 있다. 성공률은 약 30-50% 정도다. 이메일에는 (1) 자기 소개, (2) 어떤 논문의 어떤 데이터를 원하는지, (3) 연구 목적, (4) 데이터 사용 후 적절히 인용할 것임을 명시한다. 짧고 정중하게 쓰되, 당연한 권리처럼 요구하지 않는다.</div>
+  </div>
+</div>
+
+데이터셋을 찾는 것도 연구 역량의 일부다. 같은 주제를 연구하는 두 사람 중, 더 좋은 데이터를 확보한 사람이 더 좋은 논문을 쓸 확률이 높다. 위의 다섯 가지 경로를 조합하면, 기존에 몰랐던 데이터셋을 발견할 가능성이 크게 높아진다.

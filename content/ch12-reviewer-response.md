@@ -328,3 +328,87 @@ Reject 후 논문을 개선하고 재투고하는 과정 자체가 연구 역량
 처음 리비전을 할 때는 지도교수나 선배의 Response Letter를 참고하는 것이 도움이 된다. 어떤 톤으로 쓰는지, 어떤 구조를 사용하는지, 어떻게 반박하는지를 보고 배울 수 있다. 연구실에 이전 리비전 파일이 있다면 달라고 해보는 것도 좋다.
 
 마지막으로, Response Letter 작성에 시간을 아끼지 말 것을 당부한다. 논문 수정에 3주를 투자했으면, Response Letter 작성에도 최소 2-3일을 투자해야 한다. 성의 있는 Response Letter는 리뷰어에 대한 존중이자, 자신의 연구에 대한 자부심의 표현이다.
+
+---
+
+## 응답 템플릿 라이브러리
+
+리뷰어의 코멘트는 분야와 저널을 막론하고 패턴이 반복된다. 아래는 가장 흔한 다섯 가지 코멘트 유형에 대한 실전 응답 예문이다. 그대로 복사해서 쓰라는 뜻이 아니라, 구조와 톤을 참고하여 자기 상황에 맞게 수정해서 쓰라는 뜻이다.
+
+<div class="tab-container">
+  <div class="tab-buttons">
+    <button class="tab-btn active" data-tab="tab-ch12-tpl-exp">추가 실험/분석 요구</button>
+    <button class="tab-btn" data-tab="tab-ch12-tpl-baseline">비교 대상 부족</button>
+    <button class="tab-btn" data-tab="tab-ch12-tpl-novelty">Novelty 의문</button>
+    <button class="tab-btn" data-tab="tab-ch12-tpl-english">영어 품질 지적</button>
+    <button class="tab-btn" data-tab="tab-ch12-tpl-lit">문헌 조사 부족</button>
+  </div>
+
+  <div class="tab-content active" id="tab-ch12-tpl-exp">
+    <h4>"실험/분석이 더 필요하다"</h4>
+    <p>리뷰어가 추가 실험이나 분석을 요구하는 경우, 실제로 수행한 내용과 그 결과를 구체적으로 보여주는 것이 핵심이다.</p>
+    <p><strong>템플릿:</strong></p>
+    <p><em>"We appreciate this suggestion. To address this concern, we have added [구체적 추가 분석 내용, 예: a parametric study on the effect of sensor spacing]. The results are presented in [새 Figure/Table 번호, 예: the new Figure 8 and Table 5]. These additional results confirm that [핵심 발견 요약, 예: the proposed method maintains its accuracy within 3% under varying sensor configurations]. The corresponding discussion has been added in Section [번호] (Pages [X-Y]) of the revised manuscript."</em></p>
+    <p>포인트: 무엇을 추가했는지, 결과가 어디에 있는지, 그 결과가 의미하는 바가 무엇인지를 한 단락 안에 모두 담는다.</p>
+  </div>
+
+  <div class="tab-content" id="tab-ch12-tpl-baseline">
+    <h4>"비교 대상(baseline)이 부족하다"</h4>
+    <p>비교 실험 추가 요구는 리뷰어가 가장 자주 하는 요청 중 하나다. 구체적으로 어떤 방법을 추가했고, 결과가 어떻게 나왔는지를 명확히 보여준다.</p>
+    <p><strong>템플릿:</strong></p>
+    <p><em>"Following the reviewer's recommendation, we have included comparisons with [방법 A] (Author et al., 20XX) and [방법 B] (Author et al., 20XX). Table [X] summarizes the quantitative comparison across all evaluation metrics. Our method outperforms [방법 A] by [수치]% in [지표] and achieves comparable performance to [방법 B] while requiring [장점, 예: 50% less training data]. We have also added a qualitative comparison in Figure [Y]. These additions can be found in Section [번호] (Pages [X-Y])."</em></p>
+    <p>포인트: 비교 결과를 숫자로 보여주고, 자기 방법의 우위 또는 동등성을 객관적으로 제시한다.</p>
+  </div>
+
+  <div class="tab-content" id="tab-ch12-tpl-novelty">
+    <h4>"Novelty가 약하다"</h4>
+    <p>가장 대응하기 어려운 코멘트다. 감정적으로 반응하지 말고, 기존 연구와의 차별점을 구조적으로 나열하는 것이 효과적이다.</p>
+    <p><strong>템플릿:</strong></p>
+    <p><em>"We respectfully note that the novelty of our work lies in the following three aspects: (1) [차별점 1, 예: the integration of physics-based constraints into the learning framework], (2) [차별점 2, 예: a novel data augmentation strategy tailored for sparse sensor data], and (3) [차별점 3, 예: the first application of this approach to full-scale bridge monitoring data]. To clarify these contributions, we have added Table [X] comparing our approach with existing methods across [비교 기준, 예: five key dimensions]. This comparison table is now included in Section [번호] (Page [X]) of the revised manuscript."</em></p>
+    <p>포인트: 차별점을 번호로 나열하고, 비교표를 추가하여 시각적 증거를 제공한다. 주장만 하지 말고 근거를 보여준다.</p>
+  </div>
+
+  <div class="tab-content" id="tab-ch12-tpl-english">
+    <h4>"영어 품질이 낮다"</h4>
+    <p>이 코멘트에는 반박하지 않는 것이 최선이다. 실제로 교정을 받고, 그 사실을 명시한다.</p>
+    <p><strong>템플릿:</strong></p>
+    <p><em>"We have thoroughly revised the manuscript with the help of a professional editing service [또는: a native English-speaking colleague]. All sections have been carefully reviewed for grammar, clarity, and readability. We believe the revised manuscript is now substantially improved in terms of English quality. We apologize for any inconvenience this may have caused during the review process."</em></p>
+    <p>포인트: 짧고 명확하게. 실제로 교정을 받지 않았으면서 받았다고 쓰면, 재심사에서 바로 들통난다. 반드시 실제로 교정을 받아야 한다.</p>
+  </div>
+
+  <div class="tab-content" id="tab-ch12-tpl-lit">
+    <h4>"문헌 조사가 부족하다"</h4>
+    <p>리뷰어가 특정 논문을 추천한 경우, 해당 논문을 읽고 적절한 위치에 인용을 추가한다. 리뷰어 자신의 논문이 포함되어 있을 수도 있으니, 가급적 인용하는 것이 현실적이다.</p>
+    <p><strong>템플릿:</strong></p>
+    <p><em>"We thank the reviewer for pointing this out. We have expanded the literature review to include [N]개 additional references covering [주제 영역, 예: recent advances in physics-informed neural networks and domain adaptation techniques]. Specifically, we have added discussions on [Author1 et al. (20XX)], [Author2 et al. (20XX)], and [Author3 et al. (20XX)] in Section 2 (Pages [X-Y]). These additions provide a more comprehensive overview of the related work and better position our contribution within the existing literature."</em></p>
+    <p>포인트: 몇 편을 추가했는지 숫자로 밝히고, 구체적으로 어떤 논문을 어디에 추가했는지 명시한다.</p>
+  </div>
+</div>
+
+위 템플릿을 그대로 쓰는 것보다, 구조를 흡수하는 것이 중요하다. 모든 응답은 (1) 감사/인정 → (2) 수행한 조치 → (3) 결과 위치 명시라는 3단 구조를 따른다. 이 구조만 지키면, 어떤 유형의 코멘트에도 일관되고 전문적인 대응을 할 수 있다.
+
+---
+
+## Reject 후 전략: 끝이 아니다
+
+<div class="highlight-box tip">
+  <span class="highlight-box-icon">💡</span>
+  <div class="highlight-box-content">
+    <p><strong>Reject은 "끝"이 아니라 "다음 단계"다</strong></p>
+    <p>Reject 이메일을 받으면 세상이 무너지는 기분이 든다. 몇 달을 투자한 연구가 부정당한 것 같고, 모든 노력이 헛된 것 같다. 하지만 현실을 보면, 3번 Reject까지는 정상 범위다. SCI급 저널의 평균 거절률은 60-80%에 달한다. 최종적으로 좋은 저널에 게재된 논문 중에서도 처음 1-2번은 거절당한 것이 수두룩하다. Reject은 실패가 아니라, 논문을 더 강하게 만드는 과정의 일부다.</p>
+  </div>
+</div>
+
+Reject을 받은 후의 현실적 대처를 단계별로 정리한다.
+
+**1단계: 24시간 감정 정리.** 이것은 리비전 때와 똑같다. Reject 이메일을 받은 날은 아무것도 하지 않는다. 화가 나고, 좌절감이 들고, "리뷰어가 논문을 제대로 읽지도 않았다"는 생각이 든다. 이 감정이 지나갈 때까지 기다린다. 하루가 지나면, 같은 코멘트가 다르게 보이기 시작한다.
+
+**2단계: 건설적 피드백 추출.** Reject에 달린 리뷰어 코멘트를 하나씩 정리한다. 감정적 불만은 걸러내고, 건설적인 지적만 추출한다. "이 부분의 실험이 부족하다"는 건설적 피드백이고, "novelty가 없다"는 (아프지만) 보강해야 할 방향을 알려주는 피드백이다. 리뷰어의 코멘트를 "무료 컨설팅"으로 생각하면 마음이 편해진다.
+
+**3단계: 다음 타겟 저널 선정.** 레벨을 한 단계 낮출지, 같은 레벨의 다른 저널을 시도할지 결정해야 한다. Reject 사유가 "scope이 맞지 않는다"였다면, 같은 레벨에서 scope이 더 적합한 저널로 옮기면 된다. Reject 사유가 "기여가 부족하다"였다면, 한 단계 아래 저널을 고려하거나 논문을 대폭 보강해야 한다. 미리 후보 저널 3-5개를 정해두었다면(ch07 참고), 이 과정이 빨라진다.
+
+**4단계: 코멘트 반영하여 원고 개선.** Reject을 받은 논문을 그대로 다른 저널에 보내는 것은 비효율적이다. 리뷰어의 건설적 피드백을 반영하여 논문을 개선한다. 추가 실험이 필요하면 수행하고, 문헌 조사가 부족하면 보강하고, 영어를 다시 교정한다. 이 과정을 거치면 논문의 질이 확실히 올라간다.
+
+**5단계: 커버레터에 이전 피드백 반영 여부 판단.** 새 저널에 투고할 때, "이전 투고에서 받은 피드백을 반영했다"고 커버레터에 명시할 수 있다. 이것은 에디터에게 "이미 피어 리뷰를 거쳐 개선된 원고"라는 인상을 준다. 다만, 이전 저널명을 구체적으로 밝힐 필요는 없다. "This manuscript has been substantially revised based on feedback from a previous peer review process"라고 적는 정도면 충분하다. 이 전략이 모든 저널에서 효과적인 것은 아니므로, 지도교수와 상의하여 판단한다.
+
+기억해야 할 것은 이것이다. Reject은 연구의 끝이 아니다. 오히려 Reject 후 개선 과정을 거친 논문이 최종적으로 더 좋은 논문이 되는 경우가 많다. 3번의 Reject과 3번의 개선을 거친 논문은, 처음 투고 때와는 비교할 수 없을 정도로 탄탄해진다. 포기하지 말고, 한 단계씩 개선해 나가면 된다.
