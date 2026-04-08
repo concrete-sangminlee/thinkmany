@@ -24,7 +24,7 @@
   <div class="card">
     <span class="card-icon">📝</span>
     <div class="card-title">필기시험</div>
-    <div class="card-desc">정해진 시간(보통 3-6시간) 동안 문제를 풀거나 서술한다. 범위가 넓고, 개념 이해와 응용 능력을 동시에 평가한다. Open-book인 경우도, Closed-book인 경우도 있다.</div>
+    <div class="card-desc">정해진 시간(보통 3-6시간) 동안 문제를 풀거나 서술한다. 범위가 넓고, 개념 이해와 응용 능력을 동시에 평가한다. Open-book(교재나 노트를 볼 수 있는 형식)인 경우도, Closed-book(아무 자료도 볼 수 없는 형식)인 경우도 있다.</div>
   </div>
   <div class="card">
     <span class="card-icon">🎤</span>
