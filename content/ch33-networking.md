@@ -18,7 +18,7 @@
 
 최신 정보를 빠르게 얻는다. 출판된 논문은 이미 연구가 완료된 시점의 기록이다. 현재 진행 중인 연구, 아직 발표되지 않은 발견, 분야의 최신 동향은 사람을 통해 전해진다. 학회 커피 브레이크에서 나누는 대화가 최신 리뷰 논문보다 빠른 정보를 줄 수 있다.
 
-취업과 진로에 직접적으로 연결된다. 학계든 산업계든, 많은 채용이 공개 채용보다 네트워크를 통해 이루어진다. 포닥 자리, 연구원 채용, 기업 R&D 직무 — 네트워크를 통해 먼저 정보를 얻고, 추천을 받는 경우가 많다.
+취업과 진로에 직접적으로 연결된다. 학계든 산업계든, 많은 채용이 공개 채용보다 네트워크를 통해 이루어진다. 포닥 자리, 연구원 채용, 기업 R&D 직무 등에서 네트워크를 통해 먼저 정보를 얻고, 추천을 받는 경우가 많다.
 
 추천서를 받을 수 있다. 지도교수 외에 자신을 아는 외부 연구자가 있으면, 취업이나 진학 시 추가 추천서를 요청할 수 있다. 다양한 관점에서의 추천서는 지원서를 훨씬 강력하게 만든다.
 
@@ -154,7 +154,7 @@ ORCID는 연구자의 고유 식별자다. 동명이인 문제를 해결하고, 
 
 구체적인 예시가 도움이 될 것이다.
 
-"Dear Prof. Kim, It was a pleasure meeting you at the ASCE conference in Chicago last week. I really enjoyed our discussion about using physics-informed neural networks for structural health monitoring — your point about the challenge of limited sensor data was very insightful and directly relevant to my current work. I've attached the paper I mentioned during our conversation about transfer learning approaches for sparse data. I would love to stay in touch and explore potential synergies between our research. Best regards, [이름]"
+"Dear Prof. Kim, It was a pleasure meeting you at the ASCE conference in Chicago last week. I really enjoyed our discussion about using physics-informed neural networks for structural health monitoring. Your point about the challenge of limited sensor data was very insightful and directly relevant to my current work. I've attached the paper I mentioned during our conversation about transfer learning approaches for sparse data. I would love to stay in touch and explore potential synergies between our research. Best regards, [이름]"
 
 핵심은 세 가지다. 첫째, 언제 어디서 만났는지 명시한다. 둘째, 대화의 구체적 내용을 언급한다. 셋째, 자신이 먼저 가치를 제공한다(논문 공유). 이 세 가지가 있으면, 상대방이 자신을 기억하고 답장할 가능성이 높아진다.
 
@@ -194,7 +194,7 @@ CV 첨부: 학계 연락 시 CV를 첨부하면 상대방이 자신의 배경을
 
 ### 매우 흔하다
 
-네트워킹에서 거절과 무응답은 정상이다. 이메일에 답장이 없는 것, 미팅 요청이 거절되는 것, 공동연구 제안이 받아들여지지 않는 것 — 이런 일은 매우 흔하게 일어난다.
+네트워킹에서 거절과 무응답은 정상이다. 이메일에 답장이 없는 것, 미팅 요청이 거절되는 것, 공동연구 제안이 받아들여지지 않는 것. 이런 일은 매우 흔하게 일어난다.
 
 거절의 이유는 대부분 자신과 무관하다. 상대방이 바빠서, 이미 다른 프로젝트로 가득 차서, 현재 포닥을 뽑을 계획이 없어서 등. 자신이 부족해서 거절당한 것이라고 해석하지 않아야 한다.
 
@@ -292,7 +292,7 @@ CV 첨부: 학계 연락 시 CV를 첨부하면 상대방이 자신의 배경을
 
 네트워킹의 효과는 즉시 나타나지 않는다. 학회에서 만난 사람이 3년 후에 포닥 자리를 소개해줄 수 있다. 이메일을 주고받던 연구자가 5년 후에 공동연구를 제안할 수 있다. 네트워킹은 장기 투자이고, 그 수익률은 시간이 지날수록 높아진다.
 
-대학원 초기부터 의식적으로 네트워크를 구축하면, 졸업 시점에서 훨씬 많은 선택지를 가지게 된다. 취업 정보, 포닥 기회, 공동연구 제안, 추천서 — 이 모든 것이 네트워크를 통해 흘러온다.
+대학원 초기부터 의식적으로 네트워크를 구축하면, 졸업 시점에서 훨씬 많은 선택지를 가지게 된다. 취업 정보, 포닥 기회, 공동연구 제안, 추천서 등 이 모든 것이 네트워크를 통해 흘러온다.
 
 실제 사례를 생각해보면, 많은 교수들이 자신의 현재 위치를 네트워크 덕분이라고 말한다. 학회에서 만난 사람이 교수 공고를 알려줬다거나, 포닥 시절 함께 일한 사람이 공동 연구비 신청을 제안했다거나, 대학원 동기가 산업계 자리를 소개해줬다거나. 연구 능력이 기본 조건이라면, 네트워크는 기회를 연결하는 다리다.
 
