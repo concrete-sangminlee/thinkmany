@@ -120,7 +120,7 @@ L = lambda_data * L_data + lambda_pde * L_pde + lambda_bc * L_bc + lambda_ic * L
 
 ## PINN 적용 분야
 
-PINN은 지배방정식이 알려진 모든 물리 문제에 적용할 수 있다. 현재 활발히 연구되고 있는 주요 분야를 살펴보자.
+PINN은 지배방정식이 알려진 물리 문제에 폭넓게 적용할 수 있다. 현재 활발히 연구되고 있는 주요 분야를 살펴보자.
 
 ### 열전달
 

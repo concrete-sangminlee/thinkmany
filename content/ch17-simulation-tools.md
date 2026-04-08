@@ -60,7 +60,7 @@
     <p><strong>SolidWorks Simulation</strong>: SolidWorks에 내장된 해석 모듈. CAD 모델에서 바로 응력 해석, 열 해석, 유동 해석이 가능하다. 기초적인 해석에 적합하지만, 복잡한 비선형 문제에는 한계가 있다.</p>
     <p><strong>ANSYS Mechanical</strong>: 기계 구조 해석의 강자. 정적/동적/비선형/피로/열 해석을 모두 다룬다. GUI가 직관적이고 문서가 풍부하다. 학교 라이선스가 있는 경우가 많다.</p>
     <p><strong>Abaqus</strong>: Dassault Systemes사의 범용 FEM 소프트웨어. 비선형 해석에서 특히 강하다. 대변형, 접촉 문제, 복합재료 해석에 업계 표준이다. 서브루틴(UMAT, UEL 등)을 통한 사용자 정의 재료 모델이 강력하다.</p>
-    <p><strong>LS-DYNA</strong>: 충격/충돌 해석 전문. 자동차 충돌 시뮬레이션, 폭발 해석, 고속 변형 문제에 사실상 유일한 선택지다. 양해법(explicit method) 기반으로 빠른 동적 문제에 최적화되어 있다.</p>
+    <p><strong>LS-DYNA</strong>: 충격/충돌 해석 전문. 자동차 충돌 시뮬레이션, 폭발 해석, 고속 변형 문제에 가장 널리 쓰이는 도구다. 양해법(explicit method) 기반으로 빠른 동적 문제에 최적화되어 있다.</p>
   </div>
   <div class="tab-content" id="tab-ch17-elec">
     <p><strong>SPICE / LTspice</strong>: 전자 회로 시뮬레이션의 원조. 아날로그/디지털 회로의 동작을 시뮬레이션한다. LTspice는 무료로 사용 가능하며 교육과 기초 연구에 널리 쓰인다.</p>
