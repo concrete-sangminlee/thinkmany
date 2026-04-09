@@ -9,6 +9,10 @@
   <meta property="og:title" content="대학원생 연구 가이드">
   <meta property="og:description" content="기초부터 실전까지, 연구실에서 꼭 알아야 할 모든 것을 담았다.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://concrete-sangminlee.github.io/thinkmany/">
+  <meta property="og:image" content="https://concrete-sangminlee.github.io/thinkmany/assets/favicon.svg">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://concrete-sangminlee.github.io/thinkmany/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -16,10 +20,20 @@
   <link rel="icon" href="assets/favicon.svg">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 </head>
 <body>
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">본문으로 건너뛰기</a>
+
   <!-- Progress Bar -->
-  <div id="progress-bar"></div>
+  <div id="progress-bar" role="progressbar" aria-label="전체 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <noscript>
+    <div style="padding:2rem;text-align:center;font-family:sans-serif;color:#555;">
+      이 사이트는 JavaScript가 필요합니다. 브라우저 설정에서 JavaScript를 활성화해 주세요.
+    </div>
+  </noscript>
 
   <!-- Top Bar -->
   <header id="topbar">
@@ -27,6 +41,7 @@
     <span class="site-title">대학원생 연구 가이드</span>
     <div class="topbar-right">
       <button id="theme-toggle" aria-label="테마 전환" title="다크/라이트 모드 전환">🌙</button>
+      <button id="print-btn" class="topbar-btn" aria-label="PDF로 저장" title="PDF로 저장">🖨</button>
       <a href="admin/" class="admin-link" title="관리자" aria-label="관리자 페이지">&#9998;</a>
     </div>
   </header>
@@ -34,7 +49,12 @@
   <!-- Sidebar -->
   <aside id="sidebar">
     <div id="search-box">
-      <input type="text" id="search-input" placeholder="목차 검색..." aria-label="목차 검색">
+      <input type="text" id="search-input" placeholder="검색 (콘텐츠 포함)..." aria-label="콘텐츠 검색">
+      <div id="search-results" class="search-results" hidden></div>
+    </div>
+    <div class="sidebar-filters">
+      <button id="bookmark-filter" class="filter-btn" aria-label="북마크 필터" title="북마크만 보기">★ 북마크</button>
+      <span id="read-progress-label" class="read-progress-label">0/0 읽음</span>
     </div>
     <nav id="toc-container" aria-label="목차"></nav>
   </aside>
@@ -77,6 +97,28 @@
       <!-- Dynamic sections rendered here -->
       <div id="sections-container"></div>
 
+      <!-- Back to Top Button -->
+      <button id="back-to-top" class="back-to-top" aria-label="맨 위로 이동" title="맨 위로">↑</button>
+
+      <!-- Keyboard Shortcuts Help Overlay -->
+      <div id="shortcuts-overlay" class="shortcuts-overlay" hidden>
+        <div class="shortcuts-modal">
+          <div class="shortcuts-header">
+            <h3>키보드 단축키</h3>
+            <button class="shortcuts-close" aria-label="닫기">&times;</button>
+          </div>
+          <div class="shortcuts-body">
+            <div class="shortcut-row"><kbd>j</kbd><span>다음 섹션</span></div>
+            <div class="shortcut-row"><kbd>k</kbd><span>이전 섹션</span></div>
+            <div class="shortcut-row"><kbd>/</kbd> 또는 <kbd>Ctrl+K</kbd><span>검색</span></div>
+            <div class="shortcut-row"><kbd>t</kbd><span>사이드바 토글</span></div>
+            <div class="shortcut-row"><kbd>d</kbd><span>테마 전환</span></div>
+            <div class="shortcut-row"><kbd>Esc</kbd><span>닫기</span></div>
+            <div class="shortcut-row"><kbd>?</kbd><span>단축키 도움말</span></div>
+          </div>
+        </div>
+      </div>
+
       <!-- Footer -->
       <footer class="site-footer">
         <p>연구 가이드북</p>
@@ -87,6 +129,11 @@
   </main>
 
   <script src="js/main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/thinkmany/sw.js').catch(() => {});
+    }
+  </script>
   <script>
     // Load config and build page dynamically
     (async function() {
@@ -141,9 +188,22 @@
         container.appendChild(sectionEl);
       });
 
-      // Load markdown content
+      // Lazy load markdown content with IntersectionObserver
       const mdContainers = document.querySelectorAll('.md-content[data-file]');
-      await Promise.all(Array.from(mdContainers).map(async el => {
+
+      // Add skeleton placeholders
+      mdContainers.forEach(el => {
+        el.innerHTML = '<div class="md-skeleton">' +
+          '<div class="md-skeleton-line"></div>'.repeat(4) +
+        '</div>';
+      });
+
+      // Search index for full-text search (populated as content loads)
+      window._searchIndex = window._searchIndex || new Map();
+
+      async function loadMarkdown(el) {
+        if (el.dataset.loaded) return;
+        el.dataset.loaded = 'true';
         const file = el.getAttribute('data-file');
         try {
           const res = await fetch('content/' + file);
@@ -151,15 +211,52 @@
           const md = await res.text();
           if (md.trim()) {
             el.innerHTML = DOMPurify.sanitize(marked.parse(md));
+            // Build search index entry
+            const subsection = el.closest('.subsection[id]');
+            if (subsection) {
+              window._searchIndex.set(subsection.id, el.textContent);
+            }
+            // Re-init reveal and post-render enhancements
+            if (typeof initReveal === 'function') initReveal();
+            if (typeof initPostRender === 'function') initPostRender();
           }
         } catch(e) {
           el.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">콘텐츠를 불러올 수 없습니다.</p>';
         }
-      }));
+      }
 
-      // Re-init main.js features after dynamic content is ready
+      // Eagerly load first section (Part 1)
+      const firstSection = container.querySelector('.section');
+      if (firstSection) {
+        const eagerEls = firstSection.querySelectorAll('.md-content[data-file]');
+        await Promise.all(Array.from(eagerEls).map(loadMarkdown));
+      }
+
+      // Lazy load remaining sections via IntersectionObserver
+      const lazyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const els = entry.target.querySelectorAll('.md-content[data-file]:not([data-loaded])');
+            els.forEach(loadMarkdown);
+            lazyObserver.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px 500px 0px' });
+
+      container.querySelectorAll('.section').forEach((sec, i) => {
+        if (i > 0) lazyObserver.observe(sec); // skip first (already loaded)
+      });
+
+      // Helper to load all content (used by search)
+      window._loadAllContent = async function() {
+        const remaining = document.querySelectorAll('.md-content[data-file]:not([data-loaded])');
+        await Promise.all(Array.from(remaining).map(loadMarkdown));
+      };
+
+      // Re-init main.js features after initial content is ready
       if (typeof initTOC === 'function') initTOC();
       if (typeof initReveal === 'function') initReveal();
+      if (typeof initPostRender === 'function') initPostRender();
     })();
   </script>
 </body>
