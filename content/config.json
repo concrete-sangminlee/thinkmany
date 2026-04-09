@@ -38,6 +38,7 @@
         { "id": "ch11", "file": "ch11-submission-review.md", "title": "투고에서 게재까지" },
         { "id": "ch12", "file": "ch12-reviewer-response.md", "title": "리뷰어 대응 전략" },
         { "id": "ch13", "file": "ch13-conference.md", "title": "학회 발표와 네트워킹" },
+        { "id": "ch36", "file": "ch36-thesis-writing.md", "title": "학위논문 작성법" },
         { "id": "ch14", "file": "ch14-qualifying-exam.md", "title": "종합시험과 학위심사" }
       ]
     },
@@ -52,7 +53,8 @@
         { "id": "ch16", "file": "ch16-git-data-mgmt.md", "title": "버전 관리와 데이터 관리" },
         { "id": "ch17", "file": "ch17-simulation-tools.md", "title": "시뮬레이션과 해석 도구" },
         { "id": "ch18", "file": "ch18-writing-tools.md", "title": "논문 작성과 생산성 도구" },
-        { "id": "ch19", "file": "ch19-no-experiment.md", "title": "실험 없이 연구하기" }
+        { "id": "ch19", "file": "ch19-no-experiment.md", "title": "실험 없이 연구하기" },
+        { "id": "ch35", "file": "ch35-statistics-experimental-design.md", "title": "통계와 실험 설계" }
       ]
     },
     {
@@ -68,7 +70,8 @@
         { "id": "ch23", "file": "ch23-ml-pipeline.md", "title": "ML 프로젝트 파이프라인" },
         { "id": "ch24", "file": "ch24-pinn-surrogate.md", "title": "물리 기반 AI와 대리 모델" },
         { "id": "ch25", "file": "ch25-cv-engineering.md", "title": "컴퓨터 비전과 공학 응용" },
-        { "id": "ch26", "file": "ch26-generative-ai.md", "title": "생성형 AI 활용법" }
+        { "id": "ch26", "file": "ch26-generative-ai.md", "title": "생성형 AI 활용법" },
+        { "id": "ch37", "file": "ch37-timeseries-signal.md", "title": "시계열과 신호 데이터 분석" }
       ]
     },
     {
@@ -90,7 +93,9 @@
       "desc": "연구자로서 지켜야 할 윤리와, 함께 연구하는 법.",
       "subsections": [
         { "id": "ch29", "file": "ch29-research-ethics.md", "title": "연구 윤리" },
-        { "id": "ch30", "file": "ch30-collaboration.md", "title": "협업과 공동연구" }
+        { "id": "ch30", "file": "ch30-collaboration.md", "title": "협업과 공동연구" },
+        { "id": "ch38", "file": "ch38-open-science.md", "title": "오픈 사이언스와 재현성" },
+        { "id": "ch40", "file": "ch40-intellectual-property.md", "title": "지식재산과 기술이전" }
       ]
     },
     {
@@ -103,7 +108,8 @@
         { "id": "ch31", "file": "ch31-advisor.md", "title": "지도교수와 소통하는 법" },
         { "id": "ch32", "file": "ch32-mental-health.md", "title": "멘탈 관리와 건강" },
         { "id": "ch33", "file": "ch33-networking.md", "title": "네트워킹과 개인 브랜딩" },
-        { "id": "ch34", "file": "ch34-career.md", "title": "졸업 후 커리어" }
+        { "id": "ch34", "file": "ch34-career.md", "title": "졸업 후 커리어" },
+        { "id": "ch39", "file": "ch39-funding-proposals.md", "title": "연구비와 제안서 작성" }
       ]
     }
   ]
