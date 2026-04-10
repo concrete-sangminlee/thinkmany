@@ -502,3 +502,87 @@ dependencies:
 **Docker: 궁극의 재현성.** 환경 재현이 정말 중요하다면(예: 논문 부록으로 코드 공개) Docker 컨테이너를 만든다. `Dockerfile`에 OS, Python 버전, 시스템 라이브러리, Python 패키지를 모두 명시하면, 누구든 `docker run`만으로 정확히 같은 환경을 띄울 수 있다. 학습 곡선이 있지만, 재현성 보장 측면에서는 가장 강력하다.
 
 **실전 추천.** 일반적인 연구 프로젝트에는 `requirements.txt` 또는 `environment.yml`로 충분하다. 논문 코드를 공개하거나 리비전에서 재현성 요구를 받으면 그때 Docker나 lock 파일까지 도입한다. 처음부터 모든 도구를 갖추려 하지 말고, 필요해진 시점에 도입한다. 그래야 도구가 짐이 되지 않는다.
+
+---
+
+## 비밀정보 관리: 절대 Git에 올리면 안 되는 것들
+
+연구 코드를 Git으로 관리하다 보면 "실수로 올리면 안 되는 것"을 올리는 사고가 반드시 한 번은 일어난다. 개인 컴퓨터에서 혼자 쓰는 코드라면 문제가 없지만, GitHub에 공개 저장소로 푸시하면 그 정보는 인터넷에 영구히 공개된 것으로 간주해야 한다. Git 히스토리에서 파일을 지운다고 해도, 이미 다른 사람이 복제했거나 검색 엔진이 색인했을 가능성을 배제할 수 없다.
+
+<div class="highlight-box highlight-warning">
+
+**한 번 푸시되면 되돌릴 수 없다.** GitHub에 공개 저장소로 올라간 파일은 수초 내에 자동 크롤러가 스캔한다. API 키가 들어 있으면 해커 봇이 수분 내로 악용을 시작한다. "급하게 지웠으니까 괜찮겠지"라는 생각은 위험하다. 사고가 났다면 키를 즉시 폐기하고 재발급해야 한다.
+
+</div>
+
+**절대 올리면 안 되는 것들의 목록.**
+
+- **API 키와 토큰**: OpenAI API 키, Google Cloud credentials, AWS access key, GitHub personal access token, Slack webhook URL 등. 월 수백만 원이 과금될 수 있다.
+- **데이터베이스 접속 정보**: 호스트, 사용자명, 비밀번호, 포트. 특히 학교 DB나 공동 연구 DB의 자격 증명.
+- **SSH 개인키(`id_rsa`, `id_ed25519` 등)**: 한 번 노출되면 접속 가능한 모든 서버가 위험해진다.
+- **이메일 계정 비밀번호와 앱 비밀번호**: 실험 알림 이메일 자동화 코드에 하드코딩하는 경우가 많다.
+- **개인정보가 포함된 데이터**: 실험 참가자 이름, 이메일, 학번, 의료 정보 등. IRB 규정 위반이 될 수 있다.
+- **라이선스 파일**: ANSYS, COMSOL, MATLAB 등 상용 소프트웨어의 라이선스 파일은 연구실 소유물이고 공개 시 계약 위반이다.
+- **산학과제 기밀 데이터**: 기업이 제공한 도면, 실험 데이터, 설계 정보. 비밀유지협약(NDA) 위반이 될 수 있다.
+- **미공개 논문 원고**: 프리프린트로 공개하기 전에 GitHub 공개 저장소에 올리면 "이중 공개" 문제가 생길 수 있다.
+
+**안전한 관리 방법 1: 환경변수.** 민감 정보는 코드가 아니라 환경변수로 관리한다.
+
+```python
+# 나쁜 예: 키가 코드에 하드코딩됨
+openai.api_key = "sk-proj-abcdef123456..."
+
+# 좋은 예: 환경변수에서 읽기
+import os
+openai.api_key = os.environ["OPENAI_API_KEY"]
+```
+
+실행 시에는 쉘에서 환경변수를 설정한다. `export OPENAI_API_KEY=sk-...` 후 코드를 실행한다. 또는 `~/.zshrc`나 `~/.bashrc`에 넣어 두면 새 터미널마다 자동으로 설정된다.
+
+**안전한 관리 방법 2: `.env` 파일 + `python-dotenv`.** 환경변수를 매번 쉘에서 설정하는 것이 번거롭다면, 프로젝트 루트에 `.env` 파일을 만든다.
+
+```
+OPENAI_API_KEY=sk-proj-abcdef123456...
+DB_PASSWORD=mysecretpass
+```
+
+그리고 반드시 `.gitignore`에 `.env`를 추가한다. Python에서는 `python-dotenv` 라이브러리로 자동 로드한다.
+
+```python
+from dotenv import load_dotenv
+load_dotenv()
+api_key = os.environ["OPENAI_API_KEY"]
+```
+
+`.env` 대신 `config/local.yaml` 같은 이름도 쓸 수 있다. 중요한 것은 이름이 무엇이든 `.gitignore`에 포함시키는 것이다.
+
+**안전한 관리 방법 3: `.env.example` 템플릿.** 다른 사람(공동연구자, 미래의 본인)이 같은 코드를 실행하려면 어떤 환경변수가 필요한지 알아야 한다. 이를 위해 `.env.example` 파일을 만들고 이것만 Git에 커밋한다.
+
+```
+# .env.example — 복사해서 .env로 저장한 후 실제 값을 채우세요
+OPENAI_API_KEY=your_api_key_here
+DB_PASSWORD=your_db_password_here
+```
+
+**실수로 비밀을 커밋해버렸을 때의 대응.** 세 가지 조치를 즉시 실행한다.
+
+1. **키 즉시 폐기와 재발급**: Git에서 파일을 지우는 것보다 먼저 해야 한다. OpenAI, AWS, GitHub 등 해당 서비스 대시보드에서 해당 키를 revoke하고 새 키를 발급받는다. 이것이 가장 중요하다. Git에서 지웠다고 해도 이미 다른 사람이 복제했을 수 있다.
+2. **히스토리에서 파일 제거**: `git filter-repo` 또는 BFG Repo-Cleaner로 해당 파일을 Git 히스토리 전체에서 제거한다. 단순히 `git rm`으로는 최근 커밋에서만 지워지고 과거 커밋에는 남아 있다.
+3. **강제 푸시와 공동연구자 알림**: 히스토리를 재작성한 후 `git push --force-with-lease`로 원격 저장소도 갱신한다. 공동연구자에게 저장소를 새로 클론하라고 알린다. 그들의 로컬 저장소에도 비밀이 남아 있을 수 있다.
+
+**사전 방어: 커밋 전 자동 스캔.** 실수를 원천 차단하려면 pre-commit hook을 설치한다. `pre-commit` 프레임워크에 `detect-secrets`, `gitleaks`, `trufflehog` 같은 도구를 추가하면 커밋 시점에 자동으로 API 키 패턴을 탐지하고 커밋을 차단한다.
+
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+```
+
+`pre-commit install`로 훅을 활성화하면 이후 모든 커밋에서 자동 스캔된다. 한 번 설정해두면 평생 보호 효과가 있다.
+
+**공개 저장소 vs 비공개 저장소의 판단.** 연구 코드 저장소를 처음 만들 때 public/private 선택에 신중해야 한다. 논문 공개 전까지는 private이 기본이다. 논문이 publish된 후 공개로 전환할 때 반드시 전체 히스토리를 훑어보고 민감 정보가 없는지 확인한다. GitHub의 "Make public" 버튼을 누르는 순간 전체 커밋 히스토리가 공개된다. 중간 커밋에 API 키가 남아 있다면 그것도 함께 공개된다. 이것을 모르고 "마지막 커밋만 깨끗하면 된다"고 생각하는 학생이 많다.
+
+> 비밀정보 관리는 한 번의 사고로 수백만 원의 손실과 연구실의 신뢰도 하락을 가져올 수 있는 영역이다. 처음 Git을 쓰기 시작할 때부터 환경변수와 `.gitignore` 습관을 들여야 한다. "나중에 공개할 때 정리하면 되지"라는 생각이 가장 위험하다. 첫 커밋부터 비밀이 없는 상태를 유지하는 것이 유일하게 안전한 전략이다.
