@@ -455,3 +455,160 @@ ch16 '버전 관리'에서 다루는 GitHub을 사용한다면, Pull Request를 
     <p>코드 리뷰를 받을 때 방어적이 되기 쉽다. "내 코드에 뭔 문제가 있다는 거야?"라는 감정이 올라올 수 있다. 하지만 리뷰의 목적은 코드를 더 좋게 만드는 것이지, 사람을 평가하는 것이 아니다. 리뷰를 줄 때도 "이 코드가 나쁘다"가 아니라 "이 부분을 이렇게 바꾸면 더 읽기 쉬울 것 같다"는 식으로 건설적으로 표현해야 한다.</p>
   </div>
 </div>
+
+---
+
+## 연구 코드의 디버깅 전략
+
+본인이 박사 과정에서 본인의 코드를 작성하는 시간보다 본인의 코드를 디버깅하는 시간이 더 많을 수 있다. 본인의 디버깅 능력이 본인의 박사 진도의 큰 부분을 결정한다. ch20에서 ML 모델의 디버깅을 다뤘다면, 이 섹션은 일반 연구 코드의 디버깅을 다룬다.
+
+<div class="highlight-box info">
+  <span class="highlight-box-icon">ℹ️</span>
+  <div class="highlight-box-content">
+    <p><strong>디버깅의 본질</strong></p>
+    <p>디버깅은 본인이 무언가에 대해 잘못 알고 있는 부분을 찾는 과정이다. 본인의 코드가 잘 작동할 것이라고 믿었지만 실제로는 다르게 작동한다. 본인의 디버깅의 목표는 본인의 가정과 본인의 실제 동작 사이의 차이를 찾는 것이다.</p>
+  </div>
+</div>
+
+**디버깅의 5가지 도구.**
+
+도구 1: **Print 디버깅**.
+
+가장 단순하고 가장 흔한 디버깅 방법. 본인이 본인의 변수의 값, 본인의 함수의 진입점, 본인의 흐름의 순서를 본인의 print로 본인의 출력. Python에서:
+
+```python
+def my_function(x, y):
+    print(f"DEBUG: x={x}, y={y}")  # 입력 확인
+    result = x * y + 1
+    print(f"DEBUG: result={result}")  # 출력 확인
+    return result
+```
+
+장점: 본인의 즉시 사용 가능. 본인의 학습 곡선 없음.
+단점: 본인의 디버깅 후 본인의 print를 본인이 본인의 모두 제거해야 한다.
+
+**팁**: 본인이 본인의 print 대신 본인의 logging 모듈을 사용하면 본인의 디버깅 후 본인이 본인의 로그 레벨만 본인이 본인의 변경하면 된다 (DEBUG → INFO).
+
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+def my_function(x, y):
+    logger.debug(f"x={x}, y={y}")
+    result = x * y + 1
+    logger.debug(f"result={result}")
+    return result
+```
+
+도구 2: **인터랙티브 디버거 (pdb / ipdb)**.
+
+본인이 본인의 코드의 특정 지점에서 본인의 실행을 멈추고 본인의 변수 상태를 본인의 검사할 수 있다. Python의 `pdb` 또는 더 사용하기 쉬운 `ipdb`.
+
+```python
+import ipdb
+
+def my_function(x, y):
+    result = x * y + 1
+    ipdb.set_trace()  # 여기서 본인의 실행이 멈춘다
+    return result
+```
+
+`ipdb.set_trace()`에서 본인이 본인의 변수를 본인의 검사하고, 본인의 한 줄씩 본인의 실행하고, 본인의 함수에 본인의 진입할 수 있다.
+
+**기본 명령어**:
+- `n` (next): 본인의 다음 줄로
+- `s` (step): 본인의 함수에 진입
+- `c` (continue): 본인의 다음 breakpoint까지 본인의 계속
+- `p variable` (print): 본인의 변수 출력
+- `q` (quit): 본인의 디버거 종료
+
+장점: 본인의 print보다 본인의 강력. 본인의 모든 변수를 본인의 즉시 검사.
+단점: 본인의 학습 곡선이 약간 있다.
+
+도구 3: **IDE 디버거**.
+
+VS Code, PyCharm 같은 IDE는 본인의 시각적 디버거를 제공. 본인이 본인의 라인 옆에 본인의 빨간 점(breakpoint)을 본인의 클릭으로 추가하고 본인의 디버거를 시작.
+
+**VS Code의 Python 디버거 설정**:
+1. Python 확장 설치
+2. 본인의 코드 라인 옆에 breakpoint 클릭
+3. F5로 디버거 시작
+4. 본인의 변수를 본인의 사이드 패널에서 본인의 검사
+
+장점: 본인의 시각적. 본인의 가장 사용하기 쉽다.
+단점: 본인의 IDE에 본인의 의존.
+
+도구 4: **로깅 (Logging)**.
+
+본인의 큰 프로젝트나 본인의 장시간 실행되는 코드(예: 본인의 시뮬레이션, 본인의 학습)에서 본인의 로깅이 본인의 디버깅의 핵심. 본인의 print는 본인의 콘솔이 사라지면 본인의 정보가 사라지지만, 본인의 로그는 본인의 파일에 저장.
+
+```python
+import logging
+
+logging.basicConfig(
+    filename='experiment.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+logger = logging.getLogger(__name__)
+
+logger.info("실험 시작")
+logger.info(f"하이퍼파라미터: lr={lr}, batch={batch}")
+# ... 실험 진행 ...
+logger.warning("loss가 발산하기 시작함")
+logger.error("학습 실패: out of memory")
+```
+
+본인이 본인의 실험 후 본인의 로그 파일을 본인의 검토하면 본인의 무엇이 본인의 잘못되었는지 본인이 본인의 안다.
+
+도구 5: **Git Bisect: 본인의 버그가 언제 들어왔는가**.
+
+본인의 코드가 본인의 어제까지 잘 작동했는데 본인의 오늘은 본인의 안 된다. 본인이 본인의 어떤 변경이 본인의 버그를 본인의 도입했는지 모른다. `git bisect`가 본인이 본인의 이진 탐색으로 본인의 버그 도입 시점을 본인의 찾는다.
+
+```bash
+git bisect start
+git bisect bad                    # 현재 commit이 문제 있음
+git bisect good a3f5b2c           # 이 commit은 정상이었음
+# Git이 중간 commit으로 자동 이동
+# 본인이 본인의 코드를 본인의 테스트하고:
+git bisect good                   # 또는 bad
+# 반복하면 본인의 버그 도입 commit이 본인의 발견됨
+git bisect reset                  # 종료
+```
+
+본인이 본인의 1000개의 commit 중 본인의 버그 commit을 본인의 10단계 안에 본인의 찾는다. ch16의 Git 고급 기법 참조.
+
+**디버깅의 5가지 원칙.**
+
+원칙 1: **본인의 가정을 의심**. 본인이 본인의 디버깅의 가장 큰 함정은 본인의 "이 부분은 분명히 맞다"는 가정. 본인의 가장 본인의 의심해야 할 부분이 본인의 본인의 가장 확신하는 부분이다.
+
+원칙 2: **본인의 단순한 사례부터**. 본인의 큰 입력으로 본인의 코드가 안 되면 본인이 본인의 작은 입력으로 본인의 시도. 본인의 작은 입력에서 본인의 버그가 본인의 더 명확히 보인다.
+
+원칙 3: **본인의 한 번에 하나만 변경**. 본인이 본인의 디버깅 중 본인의 여러 부분을 본인의 동시에 본인의 변경하면 본인이 본인의 무엇이 본인의 효과 있었는지 모른다. 본인의 한 번에 하나만 본인의 변경하고 본인의 결과 확인.
+
+원칙 4: **본인의 본인의 코드를 본인의 다른 사람에게 설명**. 본인이 본인의 코드를 본인의 동료에게 설명하면 본인이 본인의 종종 본인의 본인이 본인이 본인의 버그를 본인의 발견. 이것을 "Rubber Duck Debugging"이라고 한다 (본인이 본인의 고무 오리에게 설명해도 작동).
+
+원칙 5: **본인의 휴식 후 다시**. 본인이 본인의 디버깅에 본인의 1-2시간 본인의 막혔다면 본인이 본인의 잠시 본인의 떠난다. 본인의 산책 후 본인의 다시 보면 본인이 본인의 새 시각으로 본인의 본인의 본인의 본다.
+
+**에러 메시지 읽기.**
+
+본인의 디버깅의 첫 단계는 본인의 에러 메시지를 본인의 정확히 읽는 것이다. 본인의 박사 학생의 흔한 실수는 본인의 에러 메시지를 본인의 무시하고 본인의 추측하는 것.
+
+Python의 traceback 읽는 법:
+
+```
+Traceback (most recent call last):
+  File "main.py", line 15, in <module>
+    result = analyze(data)
+  File "analyzer.py", line 42, in analyze
+    return data.mean() / data.std()
+ZeroDivisionError: float division by zero
+```
+
+본인의 traceback의 본인의 마지막 줄이 본인의 가장 중요. `ZeroDivisionError: float division by zero`. 본인이 본인의 0으로 나눈다. 본인의 위로 올라가면 본인의 어디서 본인이 본인의 0으로 나누는지 본인이 본인의 본다 (`analyzer.py`의 42번째 줄).
+
+본인의 traceback을 본인의 처음부터 끝까지 본인의 읽는다. 본인이 본인의 에러를 본인의 검색 (Google, Stack Overflow, AI 도구)하기 전에 본인의 본인의 에러 메시지를 본인이 본인의 정확히 본인의 이해.
+
+본인의 디버깅 능력은 본인의 박사 학위의 본인의 핵심 기술 중 하나다. 본인이 본인의 박사 졸업 시점에 본인이 본인의 디버깅의 본인의 본인의 마스터가 되어 있다면, 본인이 본인의 산업체 또는 본인의 학계의 본인의 어디서나 본인의 가치 있는 사람이 된다.
