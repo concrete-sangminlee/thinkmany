@@ -77,7 +77,8 @@
         { "id": "ch24", "file": "ch24-pinn-surrogate.md", "title": "물리 기반 AI와 대리 모델" },
         { "id": "ch25", "file": "ch25-cv-engineering.md", "title": "컴퓨터 비전과 공학 응용" },
         { "id": "ch26", "file": "ch26-generative-ai.md", "title": "생성형 AI 활용법" },
-        { "id": "ch37", "file": "ch37-timeseries-signal.md", "title": "시계열과 신호 데이터 분석" }
+        { "id": "ch37", "file": "ch37-timeseries-signal.md", "title": "시계열과 신호 데이터 분석" },
+        { "id": "ch54", "file": "ch54-ai-era-phd.md", "title": "AI 시대의 박사 과정 일상" }
       ]
     },
     {
