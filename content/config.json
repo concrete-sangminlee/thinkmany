@@ -92,7 +92,8 @@
       "desc": "교과서, 강의, 데이터셋, 커뮤니티 — 연구에 필요한 자원을 어디서 찾을 것인가.",
       "subsections": [
         { "id": "ch27", "file": "ch27-learning-resources.md", "title": "교과서, 강의, 필독 논문" },
-        { "id": "ch28", "file": "ch28-datasets-communities.md", "title": "공개 데이터셋과 학술 커뮤니티" }
+        { "id": "ch28", "file": "ch28-datasets-communities.md", "title": "공개 데이터셋과 학술 커뮤니티" },
+        { "id": "ch60", "file": "ch60-schools-of-thought.md", "title": "본인의 분야의 학파와 계보 이해" }
       ]
     },
     {
