@@ -700,3 +700,262 @@ model = get_peft_model(base_model, config)
 **실전 경험담: "A100이 없다고 연구가 불가능한 것은 아니다."** 최근 ML 연구의 일부는 대기업 수준의 자원을 가정하지만, 연구실 수준의 공학 응용에서는 대부분의 문제를 RTX 3090(24GB) 또는 A100(40GB) 한 장으로 해결할 수 있다. 본인의 문제 설정을 명확히 하고, 위의 기법들을 조합하면, 제한된 자원에서도 Top 학회 수준의 연구가 가능하다. "자원 부족"을 핑계로 삼지 말자. 자원 제약 하에서 영리한 선택을 하는 것이 오히려 연구자의 중요한 역량이다.
 
 > GPU 메모리 관리는 박사생이 반드시 익혀야 할 실전 기술이다. 이 기술 없이는 본인의 연구 주제가 "GPU에 올라가는 것"으로 제한된다. Mixed Precision, Gradient Accumulation, LoRA 이 세 가지만 익혀 두어도 본인이 할 수 있는 연구의 범위가 크게 넓어진다. 이론만이 아니라 각 기법을 본인의 토이 프로젝트에 한 번씩 적용해 보는 것이 실력이 되는 길이다.
+
+---
+
+## 모델 추론 최적화 — 학습한 모델을 빠르고 작게 만들기
+
+ML 연구의 많은 부분이 "모델 학습"에 집중되지만, 실제 사용에서 중요한 것은 **추론(inference)**이다. 학습은 한 번 하면 끝이지만, 추론은 계속 반복된다. 학습된 모델이 1GB, 추론에 1초 걸린다면, 실제 응용(모바일, 엣지 디바이스, 실시간 시스템)에서는 사용할 수 없다. 박사 학생 대부분이 논문 실험에만 집중하고 추론 최적화를 무시하지만, 본인의 연구가 실제 세상에 적용되려면 이 기술이 필수다. 또한 리뷰어와 산업체 파트너는 종종 "이 모델이 얼마나 빠르고 작은가?"를 묻는다.
+
+<div class="highlight-box highlight-important">
+
+**학습과 추론의 비대칭.** 본인이 GPU 한 장에서 며칠 동안 학습한 모델이, 추론 시에는 1,000배 더 많이 실행된다. 학습 효율은 한 번의 시간 절약이지만, 추론 효율은 10,000배, 100,000배의 시간 절약이다. 배포를 염두에 둔다면 추론 효율이 학습 효율보다 훨씬 중요하다.
+
+</div>
+
+**추론 최적화의 4가지 목표.**
+
+최적화 전에 "무엇을 줄일 것인가"를 명확히 한다.
+
+1. **지연 시간(Latency)**: 한 입력에 대한 응답 시간. 실시간 시스템(자율주행, AR/VR)에서 가장 중요.
+2. **처리량(Throughput)**: 초당 처리할 수 있는 입력 수. 대규모 시스템(추천, 검색)에서 중요.
+3. **모델 크기(Model Size)**: 디스크/메모리 공간. 모바일, 엣지 디바이스에서 중요.
+4. **에너지 소비(Energy)**: 전력 사용량. 배터리 기반 디바이스와 환경 고려 시 중요.
+
+이 4가지는 서로 연관되지만 정확히 같지는 않다. 본인의 응용에 따라 우선순위가 다르다. 논문을 쓸 때도 이 중 어느 것을 개선했는지 명시한다.
+
+**기법 1: 양자화 (Quantization).**
+
+가장 단순하고 효과적인 방법. 32비트 부동소수점(fp32)으로 저장된 모델을 8비트 정수(int8) 또는 16비트 부동소수점(fp16/bf16)으로 변환.
+
+**효과**:
+- 모델 크기 75% 감소 (int8)
+- 추론 속도 2-4배 향상 (CPU/특수 하드웨어)
+- 정확도 손실: 보통 0.5-2% (잘 하면 거의 없음)
+
+**종류**:
+- **Post-Training Quantization (PTQ)**: 이미 학습된 모델에 사후 적용. 가장 간단.
+- **Quantization-Aware Training (QAT)**: 학습 중 양자화 영향을 고려. 정확도 손실 최소화.
+- **Dynamic Quantization**: 추론 시점에 동적 결정. 구현 쉬움.
+
+**PyTorch 구현 (PTQ)**:
+```python
+import torch
+from torch.ao.quantization import quantize_dynamic
+
+model = MyModel()
+model.load_state_dict(torch.load('model.pt'))
+model.eval()
+
+quantized_model = quantize_dynamic(
+    model, {torch.nn.Linear}, dtype=torch.qint8
+)
+
+# 크기 비교
+torch.save(model.state_dict(), 'original.pt')
+torch.save(quantized_model.state_dict(), 'quantized.pt')
+# 일반적으로 4배 크기 감소
+```
+
+**주의**: 모델 구조에 따라 양자화 효과가 다르다. Linear/Conv 계층은 잘 양자화되지만, 일부 정규화나 활성화는 어렵다. CNN은 보통 잘 되고, Transformer는 약간 더 주의 필요.
+
+**기법 2: 가지치기 (Pruning).**
+
+학습된 모델의 가중치 중 0에 가까운 것들을 제거. "작은 가중치는 중요도가 낮다"는 가정.
+
+**종류**:
+- **Magnitude Pruning**: 가중치의 절대값이 작은 것 제거 (가장 단순)
+- **Structured Pruning**: 전체 채널/레이어/필터 제거 (속도 향상에 유리)
+- **Unstructured Pruning**: 개별 가중치 제거 (크기 감소에 유리, 속도는 어려움)
+
+**PyTorch 예시**:
+```python
+import torch.nn.utils.prune as prune
+
+# Magnitude Pruning (30% 가중치 제거)
+prune.l1_unstructured(model.layer1, name='weight', amount=0.3)
+
+# 영구화 (pruned 가중치 제거)
+prune.remove(model.layer1, 'weight')
+```
+
+**효과**: 모델 크기 30-80% 감소 가능. 속도는 structured pruning이어야 실제로 빨라진다.
+
+**주의**: Pruning 후 미세조정(fine-tuning)이 거의 항상 필요하다. Pruning만 하고 재학습 없이 쓰면 성능이 크게 떨어진다.
+
+**Lottery Ticket Hypothesis**: Frankle & Carbin (2019)의 유명한 발견. 큰 모델 안에 작은 "당첨 티켓"이 있어서, 적절히 찾으면 원본의 10-20% 크기로도 원본 성능을 낼 수 있다. 연구 주제로도 활발하다.
+
+**기법 3: 지식 증류 (Knowledge Distillation).**
+
+큰 "교사 모델(teacher)"의 지식을 작은 "학생 모델(student)"에 전달. 학생 모델은 교사의 출력을 모방하도록 학습된다.
+
+**원리**:
+```python
+# 교사 모델의 soft prediction
+teacher_output = teacher(x)
+teacher_probs = F.softmax(teacher_output / T, dim=1)  # T는 temperature
+
+# 학생 모델 학습
+student_output = student(x)
+student_probs = F.log_softmax(student_output / T, dim=1)
+
+# KL divergence loss
+distillation_loss = F.kl_div(student_probs, teacher_probs, reduction='batchmean') * T**2
+
+# 실제 라벨 loss와 결합
+total_loss = alpha * distillation_loss + (1 - alpha) * F.cross_entropy(student_output, y)
+```
+
+**효과**:
+- 학생 모델 크기 10-50%로 축소 가능
+- 정확도 손실 1-3% 정도
+- 학생을 처음부터 작게 학습하는 것보다 훨씬 좋은 성능
+
+**응용 사례**: BERT → DistilBERT (40% 작음, 97% 성능), T5 → T5-small, GPT → TinyGPT.
+
+**Knowledge Distillation의 변형들**:
+- **Self-Distillation**: 같은 모델이 교사와 학생. 일종의 정규화.
+- **Feature Distillation**: 출력뿐 아니라 중간 특징도 모방.
+- **Relation Distillation**: 샘플 간 관계를 전달.
+
+**기법 4: 모델 컴파일과 그래프 최적화.**
+
+학습한 모델을 "실행 그래프"로 변환하고 최적화한다.
+
+**주요 도구**:
+
+- **PyTorch의 `torch.compile` (PyTorch 2.0+)**: 한 줄로 모델을 컴파일. 10-30% 속도 향상 가능.
+  ```python
+  model = torch.compile(model)
+  ```
+
+- **TorchScript**: PyTorch 모델을 정적 그래프로 변환. C++ 환경에서 실행 가능.
+  ```python
+  traced_model = torch.jit.trace(model, example_input)
+  traced_model.save('model.pt')
+  ```
+
+- **ONNX (Open Neural Network Exchange)**: 프레임워크 독립적 모델 포맷. PyTorch → ONNX → 다양한 런타임(ONNX Runtime, TensorRT).
+  ```python
+  torch.onnx.export(model, example_input, 'model.onnx')
+  ```
+
+- **TensorRT (NVIDIA)**: GPU 추론 최적화의 최고 성능. INT8 양자화, 커널 fusion 등 자동 적용. 2-10배 속도 향상.
+
+- **OpenVINO (Intel)**: Intel CPU에서의 추론 최적화.
+
+- **TFLite (TensorFlow Lite)**: 모바일/임베디드 환경의 추론 전용 런타임.
+
+**선택 기준**:
+- 연구 프로토타입: `torch.compile` (가장 간단)
+- 서버 배포: ONNX Runtime 또는 TorchScript
+- GPU 고성능 추론: TensorRT
+- 모바일: TFLite 또는 CoreML
+- 엣지 디바이스: ONNX Runtime, OpenVINO
+
+**기법 5: 배치 처리와 병렬화.**
+
+여러 입력을 한 번에 처리하여 GPU 활용도를 높인다.
+
+**원칙**:
+- **Batch 크기 증가**: 한 번의 forward pass로 많은 샘플 처리
+- **Dynamic Batching**: 들어오는 요청을 일정 시간 대기 후 묶어서 처리
+- **Pipeline Parallelism**: 여러 단계의 연산을 파이프라인화
+
+**도구**:
+- **Triton Inference Server** (NVIDIA): 동적 배칭, 여러 모델 동시 서빙
+- **TorchServe**: PyTorch 모델 서빙
+- **BentoML**: 모델 패키징과 배포의 일반 프레임워크
+
+**기법 6: 효율적 아키텍처 선택.**
+
+처음부터 효율적인 모델을 설계하면 나중의 최적화 부담이 줄어든다.
+
+**효율적 아키텍처의 예시**:
+- **MobileNet (v1/v2/v3)**: 모바일 특화 CNN, Depthwise Separable Convolution
+- **EfficientNet**: Neural Architecture Search로 발견된 효율적 구조
+- **SqueezeNet**: 작은 크기 지향
+- **ShuffleNet**: 채널 셔플링으로 효율성
+- **DistilBERT, TinyBERT**: 작은 Transformer
+- **MobileViT**: 모바일용 Vision Transformer
+
+이들은 표준 모델보다 10-100배 작으면서도 적절한 성능을 보인다. 연구 초기부터 "최종 배포"를 고려한다면 이런 아키텍처 계열로 시작한다.
+
+**기법 7: 조건부 계산 (Conditional Computation).**
+
+모든 입력에 같은 계산을 하지 말고, 입력에 따라 필요한 부분만 계산.
+
+**예시**:
+- **Early Exit**: 쉬운 입력은 얕은 층에서 종료. 어려운 입력만 깊게.
+- **Mixture of Experts (MoE)**: 여러 전문가 중 관련 있는 것만 활성화. GPT-4, Mixtral 등에서 사용.
+- **Dynamic Networks**: 입력의 난이도에 따라 네트워크 일부만 실행.
+
+이것은 더 고급 기법이지만, 올바르게 구현하면 평균 속도가 크게 향상된다.
+
+**추론 최적화의 체크리스트.**
+
+본인의 모델을 최적화할 때 다음 순서로 시도한다.
+
+<div class="highlight-box highlight-info">
+
+**추론 최적화 실전 순서**
+
+1. **프로파일링**: 어디가 병목인가? `torch.profiler`로 측정.
+2. **FP16/BF16 변환**: 가장 쉬운 2-4배 속도 향상.
+3. **`torch.compile` 적용**: 10-30% 추가 향상.
+4. **불필요한 후처리 제거**: 모델 외부의 Python 코드 최적화.
+5. **배치 크기 최적화**: 하드웨어에 맞는 크기 찾기.
+6. **양자화 (INT8)**: 4배 크기 감소, 2-4배 속도 향상.
+7. **가지치기 + 미세조정**: 추가 30-50% 크기 감소.
+8. **지식 증류**: 더 작은 모델로 재학습.
+9. **ONNX Runtime 또는 TensorRT**: 추가 속도 향상.
+10. **아키텍처 재설계**: 처음부터 효율적 모델로 (최후 수단).
+
+</div>
+
+각 단계 후 정확도와 속도를 측정하여 트레이드오프를 본다.
+
+**측정의 중요성.**
+
+"최적화했다"고 말할 때 반드시 측정이 필요하다.
+
+**측정할 지표**:
+- **Latency**: 한 입력의 처리 시간 (평균, 중앙값, 99 percentile)
+- **Throughput**: 초당 입력 수
+- **Model Size**: 파일 크기, 메모리 사용량
+- **Accuracy**: 최적화 전후 정확도 차이
+- **Energy**: 전력 측정 도구 사용
+
+**공정한 측정**:
+- 같은 하드웨어에서 측정
+- 워밍업 후 측정 (첫 몇 번의 실행은 제외)
+- 여러 번 측정하여 평균과 분산
+- 실제 데이터 분포에서 측정
+
+논문에 추론 최적화를 보고할 때 이 지표들을 표로 제시한다. "우리 모델이 빠르다"는 주장이 숫자로 뒷받침되어야 한다.
+
+**추론 최적화 논문 작성의 팁.**
+
+본인이 추론 최적화를 연구 주제로 삼거나 논문에 포함할 때.
+
+1. **Pareto Frontier 그리기**: 정확도와 속도(또는 크기)의 trade-off를 시각화. 본인의 방법이 Pareto frontier를 확장한다면 가치 있다.
+
+2. **다양한 하드웨어에서 평가**: 한 GPU에서만 빠른 것은 우연일 수 있다. CPU, GPU, 모바일 등 여러 플랫폼에서 측정.
+
+3. **실제 응용 시나리오 제시**: "이 최적화로 우리는 실제 자율주행 시스템에서 30fps를 30fps로 유지할 수 있었다"처럼 구체적 임팩트.
+
+4. **코드 공개**: 최적화 연구는 재현성이 특히 중요. 최적화된 모델과 벤치마크 스크립트를 함께 공개.
+
+**연구실 vs 산업체의 관점 차이.**
+
+학계는 종종 "정확도 0.1% 향상"에 집중하지만, 산업체는 "정확도를 유지하면서 10배 빠르게"를 원한다. 본인의 연구가 산업 응용 가능성을 가지려면 후자의 관점을 일부 받아들여야 한다.
+
+산학 협력 연구나 산업체 인턴십을 하면 이 관점을 직접 배울 수 있다. 순수 학계에만 있으면 이 감각을 놓치기 쉽다.
+
+**오해: "학생은 학습만 잘하면 된다".**
+
+많은 박사 학생이 "추론 최적화는 엔지니어의 일이고 나는 연구자다"라고 생각한다. 이것은 현대 ML 연구의 현실과 맞지 않다. 최근 많은 Top 학회 논문이 "효율성"을 주요 기여로 한다. EfficientNet, DistilBERT, MobileViT, Flash Attention 등. 추론 최적화는 이제 연구의 주류 주제 중 하나다.
+
+본인이 학습 중심 연구를 하더라도, 최소한의 추론 최적화 지식은 갖추는 것이 유리하다. "이 모델이 배포 가능한가?"를 답할 수 있어야 한다.
+
+> 추론 최적화는 학습과 연구의 부록이 아니라 핵심 기술의 하나다. 박사 과정 중 최소 한 번은 본인의 모델을 양자화하고, 가지치고, 증류해 본다. 이 경험이 본인의 연구를 "논문용 실험"에서 "실제 쓸 수 있는 시스템"으로 한 단계 올려준다. 학습 효율에 투자한 시간만큼 추론 효율에도 투자한다. 미래의 본인과 본인의 모델을 쓸 사람들이 감사할 것이다.
