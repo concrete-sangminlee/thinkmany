@@ -699,3 +699,335 @@ ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(
 전처리 단계를 코드 한 곳에 모아 클래스화하고, 학습과 추론 모두 이 클래스를 사용하도록 한다. 전처리 버그는 발견이 어렵기로 악명 높다.
 
 > 모델 알고리즘에 시간을 쓰는 것만큼 이미지 획득과 전처리에 시간을 써야 한다. 많은 박사생이 "모델 개선"에 6개월을 쓰지만 데이터 수집 조건 개선에는 이틀도 쓰지 않는다. 이것이 현장 배포 실패의 가장 큰 원인이다. 본인의 CV 연구가 실험실 데이터셋을 넘어서려면, 이미지 자체를 잘 찍는 법을 배워야 한다. 카메라, 조명, 캘리브레이션은 선택이 아니라 필수다.
+
+---
+
+## Vision Foundation Models 활용 — SAM, DINO, CLIP을 연구에 쓰는 법
+
+2023년 이후 컴퓨터 비전 연구의 풍경이 근본적으로 바뀌었다. Meta의 SAM (Segment Anything Model), DINO, OpenAI의 CLIP 같은 **Vision Foundation Models**가 등장하면서, "모델을 처음부터 학습"한다는 전통 접근이 점점 낡아지고 있다. 이 모델들은 수십억 개의 이미지로 사전학습되어, 본인이 한 번도 본 적 없는 도메인에서도 놀라운 성능을 보인다. 공학 박사 학생이 이 도구들을 모르면 2020년 스타일의 연구를 하게 된다. 이 섹션은 주요 Foundation Models를 공학 연구에 실제로 활용하는 방법을 다룬다.
+
+<div class="highlight-box highlight-important">
+
+**"처음부터 학습"의 종말.** 5년 전이라면 본인의 균열 탐지 모델을 ResNet을 처음부터(또는 ImageNet pretrained에서) 학습시켰을 것이다. 2026년에는 다르다. SAM으로 segmentation을 거의 무료로 얻고, CLIP으로 제로샷 분류를 하고, DINOv2의 feature를 few-shot classifier에 사용한다. 이것이 이제 표준이다. "데이터가 부족해서 못 한다"는 변명이 더 이상 통하지 않는다.
+
+</div>
+
+**주요 Vision Foundation Models의 개요.**
+
+**1. SAM (Segment Anything Model, Meta, 2023).**
+Meta가 발표한 "segmentation의 GPT"다. 어떤 이미지에서도 객체를 분할할 수 있는 범용 모델. 11억 개의 마스크로 학습되었다.
+
+**주요 특징**:
+- **프롬프트 기반**: 점, 박스, 텍스트를 프롬프트로 받아 그에 해당하는 객체를 분할
+- **제로샷**: 학습 데이터에 없던 도메인에서도 작동
+- **인터랙티브**: 사용자가 클릭한 위치의 객체를 즉시 분할
+
+**공학 활용 사례**:
+- 균열 탐지: "균열이 있는 지점을 클릭 → SAM이 균열 전체를 분할"
+- 부품 계수: 이미지의 각 부품을 자동 분할하여 카운트
+- 결함 위치 파악: "결함 의심 부위를 박스로 지정 → SAM이 정확한 경계 추출"
+
+**SAM 사용 예시 (Python)**:
+```python
+from segment_anything import SamPredictor, sam_model_registry
+
+sam = sam_model_registry["vit_h"](checkpoint="sam_vit_h.pth")
+predictor = SamPredictor(sam)
+
+import numpy as np
+from PIL import Image
+
+image = np.array(Image.open("crack_image.jpg"))
+predictor.set_image(image)
+
+# 점 프롬프트
+input_point = np.array([[500, 375]])  # 균열이 있는 픽셀
+input_label = np.array([1])  # 1 = foreground
+
+masks, scores, _ = predictor.predict(
+    point_coords=input_point,
+    point_labels=input_label,
+    multimask_output=True
+)
+
+# 최고 점수 마스크 선택
+best_mask = masks[np.argmax(scores)]
+```
+
+SAM 2 (2024 버전)는 비디오 분할도 지원한다.
+
+**2. DINO / DINOv2 (Meta, 2021-2023).**
+자기지도 학습(self-supervised learning)으로 학습된 Vision Transformer. 라벨 없이 학습되었음에도 뛰어난 특징(feature)을 추출한다.
+
+**주요 특징**:
+- **범용적 특징 추출기**: 본인이 fine-tuning 없이 사용할 수 있는 강력한 feature
+- **도메인 전이 우수**: 의료, 위성, 산업 등 다양한 도메인에서 잘 작동
+- **Attention 시각화**: 모델이 주목한 영역을 자동으로 보여줌
+
+**공학 활용 사례**:
+- Few-shot 분류: 몇 개의 예시 이미지만으로 새 클래스 인식
+- 이상 탐지: DINOv2 feature의 분포에서 벗어난 샘플 탐지
+- 이미지 검색: 유사한 결함이나 패턴 찾기
+- 클러스터링: 라벨 없이 이미지 그룹화
+
+**DINOv2 사용 예시**:
+```python
+import torch
+from transformers import AutoImageProcessor, AutoModel
+
+processor = AutoImageProcessor.from_pretrained("facebook/dinov2-base")
+model = AutoModel.from_pretrained("facebook/dinov2-base")
+
+image = Image.open("part_image.jpg")
+inputs = processor(images=image, return_tensors="pt")
+
+with torch.no_grad():
+    outputs = model(**inputs)
+    features = outputs.last_hidden_state[:, 0, :]  # CLS token
+    # features: [1, 768] 차원의 이미지 특징
+```
+
+이 features를 classifier나 clustering에 사용할 수 있다.
+
+**3. CLIP (OpenAI, 2021).**
+이미지와 텍스트를 공유 공간에 매핑하는 모델. 4억 개의 (이미지, 텍스트) 쌍으로 학습.
+
+**주요 특징**:
+- **제로샷 분류**: 텍스트 설명만으로 이미지 분류
+- **멀티모달**: 이미지와 텍스트 양방향 검색
+- **범용성**: 어떤 분야의 이미지라도 적용 가능
+
+**공학 활용 사례**:
+- 제로샷 결함 분류: "이것은 균열이다" vs "이것은 정상이다"
+- 이미지 검색: 텍스트로 이미지 데이터베이스 검색
+- 데이터 큐레이션: "이 이미지가 정말 내 연구와 관련 있는가"를 자동 필터링
+
+**CLIP 제로샷 분류 예시**:
+```python
+import clip
+import torch
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model, preprocess = clip.load("ViT-B/32", device=device)
+
+image = preprocess(Image.open("structure.jpg")).unsqueeze(0).to(device)
+
+# 텍스트 프롬프트
+text = clip.tokenize([
+    "a photo of a concrete surface with cracks",
+    "a photo of an intact concrete surface",
+    "a photo of a rusted steel surface"
+]).to(device)
+
+with torch.no_grad():
+    image_features = model.encode_image(image)
+    text_features = model.encode_text(text)
+    
+    # 유사도 계산
+    similarities = (image_features @ text_features.T).softmax(dim=-1)
+```
+
+학습 데이터 0장으로 분류가 된다.
+
+**4. SAM2, MAE, BLIP, LLaVA 등.**
+다른 주요 모델들.
+
+- **SAM 2 (2024)**: SAM의 비디오 버전. 시간축 추적.
+- **MAE (Masked Autoencoder)**: 자기지도 사전학습. DINOv2와 경쟁.
+- **BLIP / BLIP-2**: 이미지-텍스트 생성 (캡션, VQA).
+- **LLaVA**: 멀티모달 LLM. 이미지에 대한 질의응답 가능.
+- **Grounding DINO**: 텍스트로 객체 탐지.
+
+이들은 각각 특정 작업에 강점이 있다. 본인의 응용에 맞는 것을 선택한다.
+
+**공학 연구에서의 활용 패턴 5가지.**
+
+**패턴 1: Foundation Model의 Feature로 Downstream Task.**
+가장 일반적인 패턴. Foundation Model을 고정하고, 그 feature 위에 작은 classifier를 올린다.
+
+```python
+# DINOv2로 feature 추출
+features_train = [model(img) for img in train_images]
+features_test = [model(img) for img in test_images]
+
+# 단순 classifier (Logistic Regression, SVM 등)
+from sklearn.linear_model import LogisticRegression
+clf = LogisticRegression()
+clf.fit(features_train, labels_train)
+accuracy = clf.score(features_test, labels_test)
+```
+
+**이점**: 수천 장의 학습 데이터가 수십 장으로 줄어든다. 학습 시간이 짧다.
+**한계**: Foundation Model이 본인의 도메인을 잘 이해해야 함.
+
+**패턴 2: SAM으로 자동 라벨링.**
+라벨링 시간을 극단적으로 줄이는 방법.
+
+```
+워크플로:
+1. 대상 이미지를 SAM에 입력
+2. SAM이 자동으로 모든 객체를 분할
+3. 사람이 관심 있는 분할만 선택 (몇 초)
+4. 선택된 분할이 본인의 학습 라벨이 됨
+```
+
+전통적으로 한 이미지당 5-10분 걸리던 라벨링이 SAM으로 30초-1분으로 단축.
+
+**패턴 3: CLIP으로 데이터 큐레이션.**
+본인이 수집한 수천 장의 이미지 중 어느 것이 정말 유용한가? CLIP으로 자동 필터링.
+
+```python
+# "useful" vs "not useful" 기준 텍스트
+useful_text = clip.tokenize([
+    "a clear photo of structural damage",
+    "a photo of a bridge surface"
+])
+not_useful_text = clip.tokenize([
+    "a blurry photo",
+    "a photo with no visible features"
+])
+
+# 각 이미지의 "유용성 점수" 계산
+for image in dataset:
+    image_feat = model.encode_image(image)
+    useful_score = (image_feat @ useful_text.T).mean()
+    not_useful_score = (image_feat @ not_useful_text.T).mean()
+    is_useful = useful_score > not_useful_score
+```
+
+이것이 수동 큐레이션의 시간을 1/10로 줄인다.
+
+**패턴 4: Foundation Model + Fine-tuning.**
+Foundation Model을 초기화로 사용하고 본인의 데이터로 미세조정. 처음부터 학습하는 것보다 훨씬 빠르고 정확.
+
+```python
+model = AutoModel.from_pretrained("facebook/dinov2-base")
+
+# 분류 헤드 추가
+classifier = nn.Sequential(
+    nn.Linear(768, 256),
+    nn.ReLU(),
+    nn.Linear(256, num_classes)
+)
+
+# Backbone 가중치도 학습 (full fine-tuning)
+# 또는 backbone을 고정하고 classifier만 학습 (linear probing)
+```
+
+LoRA (ch22 참조)로 효율적 fine-tuning도 가능.
+
+**패턴 5: 여러 Foundation Models의 조합.**
+실전에서는 하나의 모델로 모든 것을 하지 않는다.
+
+**예시 파이프라인 (결함 검사)**:
+1. **CLIP**: 각 이미지가 "결함 후보"인지 필터링
+2. **Grounding DINO**: 결함의 대략적 위치 탐지
+3. **SAM**: 결함의 정확한 마스크 추출
+4. **DINOv2 feature**: 결함 유형 분류
+5. **LLaVA**: 결함에 대한 설명 자동 생성
+
+5개 모델의 조합이 한 모델보다 훨씬 강력하다.
+
+**공학 도메인 적응의 현실.**
+
+Foundation Models는 자연 이미지에 최적화되어 있다. 공학 도메인(X-ray, 열화상, 초음파, 현미경 이미지)에서는 성능이 떨어질 수 있다. 이에 대한 대응.
+
+**대응 1: 도메인 특화 Foundation Models 찾기.**
+- **RemoteCLIP**: 위성 이미지 특화
+- **BiomedCLIP**: 의료 이미지 특화
+- **GeoCLIP**: 지리 이미지 특화
+
+본인의 도메인에 특화된 모델이 이미 있는지 먼저 검색.
+
+**대응 2: Continual Pre-training.**
+범용 Foundation Model을 본인의 도메인 데이터로 추가 사전학습. 수천 장의 라벨 없는 이미지로도 가능.
+
+**대응 3: Prompt Engineering.**
+CLIP이나 비슷한 모델에서 프롬프트 텍스트를 본인의 도메인 용어로 조정.
+
+```python
+# 나쁜 프롬프트
+"a crack"
+
+# 좋은 프롬프트
+"a hairline crack on a concrete surface with visible pattern"
+```
+
+**대응 4: Few-shot Adaptation.**
+소량의 라벨된 데이터로 모델을 빠르게 적응. LoRA나 Linear Probing.
+
+**Foundation Models의 한계와 주의사항.**
+
+마냥 만능은 아니다. 한계를 이해해야 한다.
+
+**한계 1: 세밀한 정확도 부족.**
+SAM은 "대략" 분할하지만 픽셀 단위의 정확도가 필요한 응용(정밀 측정, 미세 결함)에서는 부족할 수 있다. 미세조정이 필요.
+
+**한계 2: 드문 도메인에서의 취약성.**
+자연 이미지와 크게 다른 이미지(전자 현미경, 적외선, 레이저 스캔)에서는 성능이 떨어진다.
+
+**한계 3: 편향과 공정성.**
+학습 데이터의 편향이 모델에 반영된다. 특정 조건, 인종, 환경에서 성능이 다를 수 있다. 공학 응용에서도 주의가 필요.
+
+**한계 4: 계산 비용.**
+SAM, DINOv2 같은 모델은 추론에 상당한 계산 자원이 필요하다. 엣지 디바이스나 실시간 응용에는 경량화 버전(Mobile SAM 등) 사용.
+
+**한계 5: 모델 크기와 저장.**
+SAM-ViT-H는 2.4GB. DINOv2-large는 수백 MB. 본인의 저장소와 대역폭을 고려.
+
+**한계 6: 논문 평가의 어려움.**
+"우리는 SAM을 사용했다"는 기여가 아니다. Foundation Model 위에서 무엇을 새롭게 했는지가 중요.
+
+**논문에서 Foundation Models 사용의 올바른 프레이밍.**
+
+본인이 SAM이나 CLIP을 사용한 논문을 쓸 때, 평가자가 높이 평가할 프레이밍.
+
+**나쁜 프레이밍**: "We used SAM for segmentation."
+이것은 기여가 아니다. SAM 사용은 이제 표준이다.
+
+**좋은 프레이밍**:
+- "We propose a novel prompting strategy that adapts SAM to the specific characteristics of X-ray defect detection."
+- "We identify three failure modes of DINOv2 in microscopy imaging and propose a fine-tuning protocol that addresses them."
+- "We combine SAM with physics-informed priors to improve segmentation accuracy in low-contrast concrete surfaces by 15%."
+
+즉, "Foundation Model을 단순히 썼다"가 아니라 "Foundation Model의 한계를 해결하거나 특정 도메인에 적응시키는 새 방법"이 기여가 된다.
+
+**Foundation Models가 없는 시대와 있는 시대의 연구 차이.**
+
+구체적으로 연구가 어떻게 바뀌는지 비교.
+
+| 측면 | Pre-Foundation Era | Post-Foundation Era |
+|------|-------------------|-------------------|
+| 학습 데이터 필요량 | 수천-수만 장 | 수십-수백 장 |
+| 학습 시간 | 며칠-몇 주 | 몇 시간 |
+| 라벨링 시간 | 몇 달 | 며칠 |
+| 연구 초점 | 아키텍처 설계 | 응용과 평가 |
+| 도메인 전이 | 어려움 | 상대적으로 쉬움 |
+| 논문 기여 | 새 모델 | 새 응용/프롬프팅/적응 |
+
+본인의 연구 초점을 이 새 시대에 맞춰 조정해야 한다.
+
+**공학 박사 학생을 위한 Foundation Model 학습 로드맵.**
+
+체계적 학습 경로.
+
+**1주차**: SAM 튜토리얼 (공식 GitHub). 본인의 도메인 이미지 5장에 시도.
+**2주차**: CLIP으로 제로샷 분류. 본인의 분류 문제에 적용.
+**3주차**: DINOv2 feature로 few-shot classifier 학습. Logistic Regression으로 시작.
+**4주차**: SAM으로 데이터 라벨링 파이프라인 구축. 실제로 본인 데이터 라벨링에 사용.
+**5-6주차**: Grounding DINO, BLIP, LLaVA 등 추가 도구 탐색.
+**7-8주차**: Fine-tuning 실험 (LoRA 또는 full FT).
+**9주차 이후**: 본인의 박사 주제와 연결. 논문 계획 수립.
+
+이 2-3개월의 투자가 본인의 CV 연구의 가능성을 크게 넓힌다.
+
+**학습 자원.**
+
+- **Segment Anything 논문과 GitHub**: github.com/facebookresearch/segment-anything
+- **DINOv2 논문과 Hugging Face**: huggingface.co/facebook/dinov2-base
+- **CLIP 공식 코드**: github.com/openai/CLIP
+- **Hugging Face Transformers**: 대부분의 Foundation Models를 쉽게 사용
+- **"Awesome Foundation Models" GitHub 리스트**: 최신 모델 추적
+- **Papers with Code**: 각 모델의 최신 논문과 벤치마크
+
+> 2026년 기준, Vision Foundation Models를 모르고 CV 연구를 하는 것은 GPS 없이 산행하는 것과 같다. 이 도구들이 본인의 연구 가능성을 크게 넓히고, 데이터 부족이라는 벽을 상당히 낮춘다. 본인이 CV 분야 박사라면 2-3개월을 투자해서 SAM, DINO, CLIP을 깊이 익히는 것을 강력히 권한다. 이 투자가 나머지 박사 과정의 생산성을 결정한다.
