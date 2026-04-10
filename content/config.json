@@ -114,7 +114,8 @@
         { "id": "ch34", "file": "ch34-career.md", "title": "졸업 후 커리어" },
         { "id": "ch39", "file": "ch39-funding-proposals.md", "title": "연구비와 제안서 작성" },
         { "id": "ch41", "file": "ch41-mentoring-leadership.md", "title": "후배 멘토링과 연구실 리더십" },
-        { "id": "ch43", "file": "ch43-first-year-after-phd.md", "title": "박사 학위 후 첫 1년" }
+        { "id": "ch43", "file": "ch43-first-year-after-phd.md", "title": "박사 학위 후 첫 1년" },
+        { "id": "ch46", "file": "ch46-academic-job-market.md", "title": "학계 임용 시장" }
       ]
     }
   ]
