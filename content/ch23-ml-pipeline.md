@@ -685,3 +685,231 @@ error_samples = {
 **오류 분석의 함정: "너무 완벽한 오류 분석"의 위험.** 간혹 오류 분석이 너무 치밀해서 모델의 한계가 너무 많이 드러난 경우, 저자가 이를 두려워하여 논문이 약해 보이지 않을까 고민한다. 이것은 잘못된 걱정이다. 리뷰어는 한계가 **없는** 논문을 신뢰하지 않는다. 모든 방법에는 한계가 있고, 저자가 이를 정직하게 인정하는 것이 오히려 신뢰를 높인다. "본인의 방법은 모든 경우에 잘 작동한다"는 서술이 있는 논문은 리뷰어가 즉시 의심한다.
 
 > 오류 분석은 본인의 모델과 진지하게 마주하는 시간이다. 90%의 성공보다 10%의 실패가 더 많은 것을 가르친다. 그 10%를 무시하고 논문을 쓰면 본인의 연구가 표면적이 된다. 오류 분석에 며칠을 투자하는 것이 본인의 논문의 깊이를 결정한다. 이 기술은 박사 과정 초기에 익히는 것이 늦을수록 손해다.
+
+---
+
+## 데이터 분할의 함정 — 무작위 분할이 해가 될 때
+
+ML 프로젝트에서 가장 기본적이면서도 가장 자주 잘못되는 단계가 **데이터 분할**이다. 대부분의 튜토리얼은 `train_test_split(X, y, test_size=0.2)`로 시작하고 끝낸다. 무작위 80/20 분할이 모든 경우에 통한다고 가정한다. 그러나 공학 데이터의 상당수는 이 단순한 가정이 성립하지 않는다. 잘못된 분할은 모델이 실제로는 작동하지 않는데 **테스트 세트에서 높은 성능**을 보이는 데이터 누출(data leakage)을 만든다. 이것은 논문 리젝의 가장 흔한 원인 중 하나다.
+
+<div class="highlight-box highlight-warning">
+
+**"무작위 분할이면 안전하다"는 치명적 오해.** 본인이 90% 정확도를 보고했는데 리뷰어가 "무작위 분할 때문에 누출이 있었던 것 아닌가"라고 지적하면, 본인의 전체 실험을 다시 해야 한다. 최악의 경우 논문이 철회된다. 데이터 분할은 "단순한 1줄의 코드"가 아니라 **본인 연구의 가장 중요한 설계 결정 중 하나**로 대해야 한다.
+
+</div>
+
+**데이터 누출(Data Leakage)의 6가지 종류.**
+
+**1. 시간적 누출 (Temporal Leakage).**
+시계열 데이터에서 미래 데이터가 학습에 사용되는 경우. 본인이 2020년 데이터로 학습한 모델로 2019년을 "예측"하면 의미 없다. 무작위 분할은 이것을 알지 못하고 섞는다.
+
+**예시**: 주가 예측, 날씨 예측, 센서 이상 탐지.
+
+**2. 그룹 누출 (Group Leakage).**
+같은 "개체"의 여러 샘플이 train과 test에 분산된다. 한 환자의 MRI 여러 장을 무작위로 분할하면, 같은 환자의 이미지가 양쪽에 들어간다. 모델이 "이 환자"를 기억할 수 있다.
+
+**예시**: 의료 이미지, 사람 재식별, 반복 측정 데이터.
+
+**3. 공간적 누출 (Spatial Leakage).**
+공간적으로 인접한 샘플이 train과 test에 분산. 한 도시의 인접 픽셀을 무작위로 나누면, 주변 상황이 거의 같은 두 픽셀이 양쪽에 들어간다.
+
+**예시**: 원격 탐사, 지질 데이터, 의료 영상의 인접 슬라이스.
+
+**4. 중복 누출 (Duplicate Leakage).**
+데이터에 중복 또는 거의 동일한 샘플이 있는데 무작위 분할로 같은 것이 양쪽에 들어간다.
+
+**예시**: 웹에서 크롤링한 이미지, 뉴스 기사 모음.
+
+**5. 특징 누출 (Feature Leakage).**
+목표 변수와 너무 직접 연관된 특징이 입력에 포함된다. 본인이 "A 환자가 B 질병에 걸릴까"를 예측하는데 입력에 "B 질병 치료제 복용 여부"가 있으면, 모델이 100% 정확도를 낸다.
+
+**6. 전처리 누출 (Preprocessing Leakage).**
+데이터를 분할하기 **전**에 정규화나 평균 제거를 수행한다. 이때 테스트 데이터의 통계가 학습에 스며든다. **올바른 순서**: 분할을 먼저, 학습 세트의 통계로 양쪽을 정규화.
+
+**잘못된 분할의 실제 사례.**
+
+**사례 1: 의료 영상 분류.**
+한 연구팀이 "폐 X-ray로 폐렴을 95% 정확도로 진단"을 발표. 그러나 데이터셋은 100명 환자의 5000장 이미지였고, 무작위 분할로 같은 환자의 이미지가 양쪽에 들어갔다. 환자별 분할로 재실험하니 70%로 떨어졌다.
+
+**사례 2: 주식 예측.**
+학생이 5년 데이터를 무작위 80/20으로 분할하여 98% 정확도. 시간순 분할로 재실험하니 52%(랜덤 수준)로 떨어졌다.
+
+**사례 3: 원격 탐사 지표 분류.**
+위성 이미지를 픽셀 단위로 무작위 분할하여 93% 정확도. 인접 지역으로 분할하니 75%로 떨어졌다.
+
+**사례 4: 재료 물성 예측.**
+같은 조성의 여러 샘플을 무작위 분할. 94% 정확도. 조성별 분할로 재실험하니 68%.
+
+**올바른 분할 전략 — 데이터 종류별.**
+
+**전략 1: 시간적 분할.**
+```python
+# 잘못됨
+train, test = train_test_split(data, test_size=0.2, random_state=42)
+
+# 올바름
+data_sorted = data.sort_values('timestamp')
+split_idx = int(len(data_sorted) * 0.8)
+train = data_sorted[:split_idx]
+test = data_sorted[split_idx:]
+```
+
+교차검증에는 `TimeSeriesSplit`을 사용.
+```python
+from sklearn.model_selection import TimeSeriesSplit
+
+tscv = TimeSeriesSplit(n_splits=5)
+for train_idx, test_idx in tscv.split(X):
+    X_train, X_test = X[train_idx], X[test_idx]
+    y_train, y_test = y[train_idx], y[test_idx]
+```
+
+**전략 2: 그룹별 분할.**
+```python
+from sklearn.model_selection import GroupKFold
+
+gkf = GroupKFold(n_splits=5)
+for train_idx, test_idx in gkf.split(X, y, groups=patient_ids):
+    # 같은 환자의 데이터는 한 쪽에만
+    ...
+```
+
+**전략 3: 공간적 분할.**
+```python
+# 위도 기준 분할
+north_region = data[data['lat'] > 37.5]  # 학습
+south_region = data[data['lat'] <= 37.5]  # 테스트
+```
+
+원격 탐사, 지질 조사에 필수. Block Cross-Validation이 더 엄격한 방법.
+
+**전략 4: 계층적 분할 (Stratified Split).**
+불균형 데이터에서 클래스 분포를 유지. 다른 전략과 결합 사용.
+
+```python
+from sklearn.model_selection import StratifiedKFold
+
+skf = StratifiedKFold(n_splits=5, shuffle=True)
+for train_idx, test_idx in skf.split(X, y):
+    ...
+```
+
+**전략 5: 중복 제거 후 분할.**
+```python
+import hashlib
+data['hash'] = data['content'].apply(lambda x: hashlib.md5(x.encode()).hexdigest())
+unique_data = data.drop_duplicates(subset='hash')
+train, test = train_test_split(unique_data, test_size=0.2)
+```
+
+이미지나 텍스트는 정확 중복뿐 아니라 near-duplicate도 문제. Perceptual hash, MinHash 등 fuzzy 매칭이 필요.
+
+**전략 6: 도메인별 분할 (Domain-Based Split).**
+데이터를 수집한 조건(센서, 실험실, 환경)별로 분할.
+
+```python
+# 실험실 A에서 학습, 실험실 B에서 테스트
+train = data[data['lab'] == 'A']
+test = data[data['lab'] == 'B']
+```
+
+이 분할이 가장 엄격하고 실용적이다. 모델이 한 환경에서 다른 환경으로 얼마나 잘 전이되는지 확인.
+
+**여러 분할 전략의 결합.**
+
+때로는 여러 전략을 동시에 적용해야 한다. 예: 의료 데이터에서 시간과 환자 모두 중요한 경우.
+- 먼저 시간 순으로 분할 (2020년까지 학습, 2021년 테스트)
+- 동시에 환자별 분리 (같은 환자가 양쪽에 없도록)
+- 두 조건을 모두 만족하는 샘플만 사용
+
+**교차검증의 고급 형태.**
+
+**Nested Cross-Validation**: 외부 루프는 모델 평가, 내부 루프는 하이퍼파라미터 튜닝. 가장 엄격한 평가.
+
+```python
+# 외부 5-fold
+outer_cv = KFold(n_splits=5)
+for train_idx, test_idx in outer_cv.split(X):
+    X_train, X_test = X[train_idx], X[test_idx]
+    
+    # 내부 3-fold (하이퍼파라미터 튜닝)
+    inner_cv = KFold(n_splits=3)
+    best_model = find_best_model(X_train, y_train, inner_cv)
+    
+    # 외부 테스트
+    score = best_model.score(X_test, y_test)
+```
+
+**Leave-One-Out 변형**: 데이터 수가 적을 때(N < 100). Leave-One-Group-Out, Leave-One-Subject-Out 등.
+
+**Repeated Cross-Validation**: 같은 분할을 여러 시드로 반복. 분산 추정용.
+
+**분할의 검증 — "분할이 올바른가"를 확인하는 법.**
+
+**검증 1: Train/Test 통계 비교.**
+두 세트의 기본 통계(평균, 분산, 클래스 분포)가 비슷해야 한다.
+
+**검증 2: 베이스라인 모델의 성능.**
+단순 모델(Logistic Regression, Random Forest)로 먼저 돌려본다. 비현실적으로 높으면(99%) 누출 가능성이 높다. **"너무 좋은 결과는 의심하라"**.
+
+**검증 3: 반대 방향 예측.**
+"train과 test를 구분할 수 있는가"를 확인. 두 세트를 합쳐 "train이냐 test냐"를 예측하는 classifier를 학습. 50% 근처(랜덤)면 분할이 잘 되었다. 90%면 두 세트가 시스템적으로 다르다는 뜻.
+
+**검증 4: 시간 순서 확인 (시계열).**
+```python
+assert test['timestamp'].min() > train['timestamp'].max(), "Temporal leakage!"
+```
+
+**검증 5: 그룹 ID 확인.**
+```python
+assert len(set(train['patient_id']) & set(test['patient_id'])) == 0
+```
+
+이런 assertion을 코드에 넣어 두면 실수가 즉시 드러난다.
+
+**논문에서의 분할 보고.**
+
+**필수 정보**:
+- 분할 전략 (temporal, group, spatial 등)
+- 선택 이유
+- Train/val/test 크기와 비율
+- 교차검증 fold 수
+- 랜덤 시드
+
+**예시 서술**:
+> "We used a temporal split: data from 2018-2022 for training, 2023 for validation, and 2024 for testing. This prevents future information from leaking into training. Additionally, we ensured that the same measurement session was not split across sets, addressing group leakage."
+
+**분할 전 체크리스트.**
+
+<div class="highlight-box highlight-info">
+
+**데이터 분할 전 체크리스트**
+
+- [ ] 데이터에 시간 순서가 있는가? → Temporal split
+- [ ] 데이터에 개체 ID가 있는가? → Group split
+- [ ] 데이터가 공간적으로 분포하는가? → Spatial split
+- [ ] 데이터에 중복 가능성이 있는가? → Duplicate removal
+- [ ] 데이터가 여러 도메인에서 수집되었는가? → Domain split
+- [ ] 클래스 불균형이 있는가? → Stratified split 추가
+- [ ] 전처리를 분할 전에 하고 있지 않은가?
+- [ ] 특징 중에 목표와 너무 연관된 것이 있는가?
+- [ ] Train/test 분포가 비슷한가?
+- [ ] 베이스라인 성능이 비현실적이지 않은가?
+
+</div>
+
+**리뷰어의 흔한 지적.**
+
+1. "How did you split the data? Random split seems inappropriate for this problem."
+2. "Is there temporal/group leakage in your setup?"
+3. "Your results seem too good. Can you verify with a more rigorous split?"
+4. "Please provide an ablation study with different splitting strategies."
+5. "How do you ensure generalization to unseen [patients/locations/time periods]?"
+
+이런 질문들에 대한 답을 미리 준비해두면 리젝 위험이 크게 줄어든다.
+
+**Kaggle과 학계의 차이.**
+
+Kaggle에서는 무작위 분할이 흔하지만, 학술 논문에서는 더 엄격한 분할이 기대된다. Kaggle 경험만으로 학술 논문을 쓰면 "이것은 Kaggle 스타일이지 과학적 평가가 아니다"라는 지적을 받을 수 있다.
+
+> 데이터 분할은 "1줄의 코드"가 아니라 본인의 연구의 과학적 유효성을 결정하는 설계다. 본인의 데이터에 적합한 분할을 선택하고, 누출이 없는지 검증하고, 논문에 상세히 보고한다. 이것을 소홀히 한 수백 편의 논문이 "재현 실패"로 비판받고 있다. 본인의 논문이 그 중 하나가 되지 않도록, 분할에 며칠을 투자한다.
