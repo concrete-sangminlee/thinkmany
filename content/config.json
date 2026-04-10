@@ -109,7 +109,8 @@
         { "id": "ch32", "file": "ch32-mental-health.md", "title": "멘탈 관리와 건강" },
         { "id": "ch33", "file": "ch33-networking.md", "title": "네트워킹과 개인 브랜딩" },
         { "id": "ch34", "file": "ch34-career.md", "title": "졸업 후 커리어" },
-        { "id": "ch39", "file": "ch39-funding-proposals.md", "title": "연구비와 제안서 작성" }
+        { "id": "ch39", "file": "ch39-funding-proposals.md", "title": "연구비와 제안서 작성" },
+        { "id": "ch41", "file": "ch41-mentoring-leadership.md", "title": "후배 멘토링과 연구실 리더십" }
       ]
     }
   ]
