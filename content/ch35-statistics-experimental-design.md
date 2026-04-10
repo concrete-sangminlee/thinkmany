@@ -538,3 +538,379 @@ print(f"95% CI: [{V_95[0]:.1f}, {V_95[1]:.1f}] cm³")
 - **한국표준과학연구원(KRISS) 자료**: 한국어로 된 측정 표준 자료.
 
 > 측정 불확실성은 "번거로운 추가 작업"이 아니라 본인의 측정의 정체성이다. 불확실성 없이 보고된 숫자는 과학이 아니라 의견이다. 박사 과정에서 본인의 모든 실험 측정에 불확실성을 함께 보고하는 습관을 들이면, 본인의 연구는 자연스럽게 국제 표준을 만족한다. 이것이 본인을 "잘 측정하는 연구자"로 만들고, 그 평판은 졸업 후에도 오래 남는다.
+
+---
+
+## 부트스트랩과 몬테카를로 — 분포 가정 없이 통계를 다루는 법
+
+전통 통계는 **분포 가정**(정규 분포, t-분포 등)에 의존한다. "데이터가 정규 분포를 따른다고 가정하고..."로 시작하는 많은 검정. 그러나 현실의 공학 데이터는 종종 이 가정을 만족하지 않는다. 비대칭 분포, 이상치, 작은 표본. 이런 상황에서 전통 통계는 잘못된 결론을 준다. **부트스트랩(Bootstrap)**과 **몬테카를로(Monte Carlo) 방법**은 분포 가정 없이 통계적 추론을 할 수 있게 해준다. 박사 과정 학생이 이 방법을 익히면 많은 "통계적 고민"이 해결된다.
+
+<div class="highlight-box highlight-important">
+
+**"정규성 가정의 착각"**. 많은 학생이 t-test를 맹목적으로 사용하면서 "정규성 검정을 통과했다"고 넘어간다. 그러나 작은 표본(N < 30)에서 정규성 검정은 검출력이 낮아 "정규가 아닌 것을 정규로" 잘못 판단한다. 큰 표본(N > 1000)에서는 반대로 작은 편차도 "정규가 아니다"라고 판단한다. 어느 쪽이든 정규성 검정에 의존하는 것은 위험. 부트스트랩은 이 가정 자체를 없앤다.
+
+</div>
+
+**부트스트랩의 핵심 아이디어.**
+
+부트스트랩은 Bradley Efron이 1979년 제안한 방법이다. 핵심 아이디어는 놀랍게 단순하다.
+
+**"본인의 데이터를 모집단처럼 취급하고, 거기서 반복 재샘플링한다."**
+
+본인이 100개의 측정값을 가지고 있다면, 이 100개에서 **복원 추출**로 100개를 다시 뽑는다. 원래 샘플과 약간 다른 새 "가상의 샘플"이 생긴다. 이것을 1000번, 10000번 반복. 매번 다른 가상의 샘플에서 통계량(평균, 중앙값, 회귀 계수 등)을 계산. 이 통계량들의 분포가 **부트스트랩 분포**다.
+
+**놀라운 사실**: 이 부트스트랩 분포가 "진짜 통계량의 분포"를 매우 잘 근사한다. 왜? Glivenko-Cantelli 정리에 의해 경험 분포가 모집단 분포를 점근적으로 수렴하기 때문. 수학적으로 엄밀히 증명된 사실.
+
+**부트스트랩의 기본 예시.**
+
+**문제**: 본인이 50개 샘플의 콘크리트 압축 강도를 측정했다. 평균의 95% 신뢰 구간을 알고 싶다.
+
+**전통 방법 (t-분포 가정)**:
+```python
+import numpy as np
+from scipy import stats
+
+data = np.array([25.3, 26.1, 24.8, ...])  # 50개
+mean = data.mean()
+se = data.std(ddof=1) / np.sqrt(len(data))
+ci = stats.t.interval(0.95, len(data)-1, loc=mean, scale=se)
+# 95% CI: (24.5, 26.8)
+```
+
+**이 방법의 가정**: 데이터가 정규 분포. 작은 샘플에서는 위험.
+
+**부트스트랩 방법**:
+```python
+import numpy as np
+
+data = np.array([25.3, 26.1, 24.8, ...])
+n_bootstrap = 10000
+bootstrap_means = []
+
+for _ in range(n_bootstrap):
+    # 복원 추출로 50개 재샘플링
+    sample = np.random.choice(data, size=len(data), replace=True)
+    bootstrap_means.append(sample.mean())
+
+bootstrap_means = np.array(bootstrap_means)
+ci_lower = np.percentile(bootstrap_means, 2.5)
+ci_upper = np.percentile(bootstrap_means, 97.5)
+# 95% CI: (24.6, 26.7)
+```
+
+**결과**: 두 방법이 비슷한 CI를 준다. 그런데 부트스트랩은 **가정 없음**. 데이터가 정규가 아니어도, 비대칭이어도, 이상치가 있어도 작동한다.
+
+**부트스트랩이 빛나는 상황.**
+
+**상황 1: 복잡한 통계량의 신뢰 구간.**
+평균은 전통 방법으로 쉽게 CI를 계산한다. 그러나 **중앙값, 분위수, 표준편차, 상관계수, 회귀 계수**의 CI는 전통 방법으로 복잡하다. 부트스트랩은 어느 통계량에도 동일하게 적용 가능.
+
+```python
+# 중앙값의 95% CI
+medians = [np.median(np.random.choice(data, len(data), replace=True))
+           for _ in range(10000)]
+print(np.percentile(medians, [2.5, 97.5]))
+
+# 상관계수의 95% CI
+def bootstrap_correlation(x, y, n=10000):
+    corrs = []
+    for _ in range(n):
+        idx = np.random.choice(len(x), len(x), replace=True)
+        corrs.append(np.corrcoef(x[idx], y[idx])[0, 1])
+    return np.percentile(corrs, [2.5, 97.5])
+```
+
+**상황 2: 작은 표본.**
+N=10, N=15 같은 작은 표본에서 전통 t-분포 가정은 약하다. 부트스트랩은 여전히 작동한다(다만 매우 작은 표본에서는 정확도가 낮을 수 있음).
+
+**상황 3: 비대칭 또는 두꺼운 꼬리 분포.**
+공학 데이터에서 자주 발생. 예: 피로 수명, 고장 시간, 균열 길이. 로그 정규, 지수, Weibull 분포. 부트스트랩은 이들에 모두 작동.
+
+**상황 4: 두 그룹 비교.**
+t-test의 부트스트랩 대안.
+
+```python
+# 두 그룹의 평균 차이에 대한 신뢰 구간
+group_a = [...]  # 처리군
+group_b = [...]  # 대조군
+
+def bootstrap_diff(a, b, n=10000):
+    diffs = []
+    for _ in range(n):
+        sample_a = np.random.choice(a, len(a), replace=True)
+        sample_b = np.random.choice(b, len(b), replace=True)
+        diffs.append(sample_a.mean() - sample_b.mean())
+    return diffs
+
+diffs = bootstrap_diff(group_a, group_b)
+ci = np.percentile(diffs, [2.5, 97.5])
+if ci[0] > 0 or ci[1] < 0:
+    print("두 그룹 유의미한 차이")
+```
+
+**상황 5: 회귀 계수의 신뢰 구간.**
+비선형 회귀나 복잡한 모델에서 해석적 CI가 어렵다. 부트스트랩은 단순.
+
+```python
+from sklearn.linear_model import LinearRegression
+
+def bootstrap_regression(X, y, n=1000):
+    coefs = []
+    for _ in range(n):
+        idx = np.random.choice(len(X), len(X), replace=True)
+        model = LinearRegression().fit(X[idx], y[idx])
+        coefs.append(model.coef_)
+    return np.array(coefs)
+
+coefs = bootstrap_regression(X, y)
+for i in range(coefs.shape[1]):
+    print(f"Coef {i}: {coefs[:, i].mean():.3f} "
+          f"({np.percentile(coefs[:, i], 2.5):.3f}, "
+          f"{np.percentile(coefs[:, i], 97.5):.3f})")
+```
+
+**부트스트랩의 변형들.**
+
+기본 부트스트랩 외에 더 정교한 변형이 있다.
+
+**1. Percentile Bootstrap.**
+가장 단순. 부트스트랩 분포의 2.5%, 97.5% 분위수를 CI로 사용. 위에서 본 예시.
+
+**2. BCa (Bias-Corrected and accelerated) Bootstrap.**
+편향과 비대칭을 보정. 더 정확한 CI. Python의 `scipy.stats.bootstrap`에서 제공.
+
+```python
+from scipy.stats import bootstrap
+
+data = np.array([...])
+rng = np.random.default_rng()
+
+res = bootstrap((data,), np.mean, confidence_level=0.95,
+                method='BCa', random_state=rng)
+print(res.confidence_interval)
+```
+
+**3. Block Bootstrap.**
+시계열 데이터용. 인접한 샘플을 "블록"으로 묶어 재샘플링. 시간적 의존성 보존.
+
+**4. Residual Bootstrap.**
+회귀 모델에서 잔차를 부트스트랩. 예측의 불확실성 추정에 사용.
+
+**5. Wild Bootstrap.**
+이분산성(heteroskedasticity)이 있을 때 사용. 회귀 모델에 적용.
+
+**부트스트랩의 주의사항.**
+
+**주의 1: "마법이 아니다".**
+부트스트랩이 모든 통계 문제를 해결하지 않는다. 데이터 자체가 편향되어 있으면 부트스트랩도 편향된 추정을 준다. "쓰레기 입력 = 쓰레기 출력".
+
+**주의 2: 최소 샘플 크기.**
+N=5, N=10 같은 매우 작은 샘플에서는 부트스트랩의 정확도가 떨어진다. 최소 N=30을 권장. N=50-100이 안전.
+
+**주의 3: 반복 횟수.**
+일반적으로 1,000-10,000번의 재샘플링. 간단한 통계(평균)는 1,000으로 충분. 복잡한 통계나 극단 분위수는 10,000 이상 필요.
+
+**주의 4: 복원 추출.**
+부트스트랩은 **복원 추출**(with replacement). 비복원 추출로 하면 같은 샘플이 나온다. Python `np.random.choice`의 `replace=True` 사용.
+
+**주의 5: 계산 비용.**
+부트스트랩은 계산이 많다. 10,000번 반복 × 복잡한 모델 = 시간이 오래 걸릴 수 있다. 병렬 처리나 GPU 가속 고려.
+
+**몬테카를로 방법.**
+
+부트스트랩이 "데이터에서 재샘플링"이라면, 몬테카를로는 "가정된 분포에서 샘플링"이다.
+
+**기본 아이디어**: 본인이 분포를 안다면, 그 분포에서 많은 샘플을 뽑아 통계량의 분포를 추정.
+
+**예시 1: π의 추정.**
+고전적 예시. 단위 정사각형에 무작위 점을 뿌리고, 원 안에 들어가는 비율로 π를 추정.
+
+```python
+import numpy as np
+
+n = 1000000
+x = np.random.uniform(-1, 1, n)
+y = np.random.uniform(-1, 1, n)
+inside = (x**2 + y**2) < 1
+pi_estimate = 4 * inside.mean()
+print(pi_estimate)  # 약 3.14
+```
+
+**예시 2: 불확실성 전파.**
+입력 파라미터의 분포를 알 때, 출력의 분포 계산. ch35의 "측정 불확실성" 섹션과 연결.
+
+```python
+# 원통의 부피 V = π r² h
+# r과 h의 불확실성이 있을 때 V의 분포
+
+n = 10000
+r_samples = np.random.normal(5.0, 0.1, n)  # r = 5.0 ± 0.1
+h_samples = np.random.normal(10.0, 0.2, n)  # h = 10.0 ± 0.2
+
+V_samples = np.pi * r_samples**2 * h_samples
+
+print(f"V = {V_samples.mean():.1f} ± {V_samples.std():.1f}")
+print(f"95% CI: {np.percentile(V_samples, [2.5, 97.5])}")
+```
+
+**예시 3: 검정력 분석.**
+"본인의 실험이 실제 효과를 탐지할 수 있을 확률은?" 몬테카를로로 시뮬레이션.
+
+```python
+def power_simulation(effect_size, n_per_group, n_sim=10000):
+    p_values = []
+    for _ in range(n_sim):
+        group1 = np.random.normal(0, 1, n_per_group)
+        group2 = np.random.normal(effect_size, 1, n_per_group)
+        _, p = stats.ttest_ind(group1, group2)
+        p_values.append(p)
+    power = np.mean(np.array(p_values) < 0.05)
+    return power
+
+# N=20 per group, effect size = 0.5 (medium)
+print(power_simulation(0.5, 20))  # 약 0.34
+# 검정력 34%. 작음. N을 늘려야 함.
+```
+
+**예시 4: 복잡한 확률 모델.**
+해석적 해가 없는 확률 문제. 예: 여러 부품의 고장 확률이 주어졌을 때 전체 시스템의 고장 확률.
+
+**몬테카를로의 장점**:
+- 어떤 복잡한 문제에도 적용 가능
+- 구현이 단순
+- 결과 해석이 직관적
+
+**몬테카를로의 단점**:
+- 정확도가 샘플 수에 비례 (√n)
+- 계산 비용 큼
+- 분포 가정이 필요 (부트스트랩은 데이터만 사용)
+
+**부트스트랩 vs 몬테카를로의 차이.**
+
+| 측면 | 부트스트랩 | 몬테카를로 |
+|------|-----------|-----------|
+| 기원 | 실제 데이터 | 가정된 분포 |
+| 가정 | 데이터가 모집단 대표 | 분포 형태 |
+| 사용 시기 | 분포 모름 | 분포 알거나 가정 |
+| 예 | 실험 측정 CI | 불확실성 전파 |
+
+두 방법은 상호 보완적이다. 본인의 상황에 따라 선택.
+
+**부트스트랩과 몬테카를로의 공학 연구 활용.**
+
+**활용 1: 실험 데이터의 불확실성 정량화.**
+여러 번 측정한 데이터의 평균/중앙값/분위수의 CI를 부트스트랩으로 계산.
+
+**활용 2: 시뮬레이션 결과의 불확실성.**
+입력 파라미터의 불확실성을 몬테카를로로 출력에 전파. PINN이나 FEM 시뮬레이션에 적용.
+
+**활용 3: 모델 성능의 CI.**
+ML 모델의 정확도/F1 score의 신뢰 구간을 부트스트랩으로. "우리 모델은 92% ± 2% 정확도"처럼 보고.
+
+```python
+def bootstrap_accuracy(y_true, y_pred, n=1000):
+    accuracies = []
+    for _ in range(n):
+        idx = np.random.choice(len(y_true), len(y_true), replace=True)
+        acc = (y_true[idx] == y_pred[idx]).mean()
+        accuracies.append(acc)
+    return np.percentile(accuracies, [2.5, 97.5])
+```
+
+**활용 4: 두 모델 비교의 통계적 유의성.**
+"모델 A가 모델 B보다 정말 더 좋은가?" 부트스트랩으로 확인.
+
+**활용 5: 희귀 사건 분석.**
+구조물 파괴 확률, 장비 고장률 같은 희귀 사건의 확률 추정.
+
+**활용 6: 역문제의 parameter 추정.**
+ch24의 PINN 역문제와 연결. 파라미터의 posterior 분포를 추정.
+
+**논문에서의 부트스트랩/몬테카를로 보고.**
+
+논문에 이 방법을 사용했을 때 보고할 정보.
+
+**필수 정보**:
+- 방법 이름 (Bootstrap, Monte Carlo)
+- 재샘플링/샘플링 횟수 (예: 10,000회)
+- 신뢰 수준 (95%)
+- 어떤 통계량을 부트스트랩했는지
+- 사용한 변형 (Percentile, BCa 등)
+- 시드 (재현성)
+
+**예시 서술**:
+> "We computed 95% confidence intervals for the mean using
+> non-parametric bootstrap with 10,000 resamples. The BCa
+> method was used to correct for bias and asymmetry. All
+> computations used a fixed random seed (42) for
+> reproducibility."
+
+**부트스트랩과 전통 통계의 조화.**
+
+부트스트랩이 있다고 전통 통계를 버리는 것은 아니다. 두 방법을 **상호 검증**에 사용.
+
+```python
+# 전통 t-test
+t_stat, p_traditional = stats.ttest_ind(group_a, group_b)
+
+# 부트스트랩 p-value
+def bootstrap_p_value(a, b, n=10000):
+    observed = a.mean() - b.mean()
+    combined = np.concatenate([a, b])
+    diffs = []
+    for _ in range(n):
+        np.random.shuffle(combined)
+        diffs.append(combined[:len(a)].mean() - combined[len(a):].mean())
+    p_boot = np.mean(np.abs(diffs) >= np.abs(observed))
+    return p_boot
+
+print(f"Traditional p: {p_traditional:.4f}")
+print(f"Bootstrap p: {bootstrap_p_value(group_a, group_b):.4f}")
+```
+
+두 p-value가 비슷하면 전통 방법의 가정이 맞다는 증거. 크게 다르면 전통 방법을 의심하고 부트스트랩을 신뢰.
+
+**Python 라이브러리.**
+
+부트스트랩을 쉽게 할 수 있는 라이브러리들.
+
+**1. scipy.stats.bootstrap (Python).**
+표준 구현. Percentile, BCa, basic 방법 지원.
+
+```python
+from scipy.stats import bootstrap
+
+data = (np.array([...]),)
+res = bootstrap(data, np.mean, n_resamples=10000,
+                confidence_level=0.95, method='BCa')
+```
+
+**2. bootstrapped (Python).**
+더 유연한 커스텀 부트스트랩.
+
+```python
+import bootstrapped.bootstrap as bs
+import bootstrapped.stats_functions as bs_stats
+
+data = np.array([...])
+ci = bs.bootstrap(data, stat_func=bs_stats.mean,
+                   num_iterations=10000)
+```
+
+**3. R의 boot 패키지.**
+R에서는 boot이 표준. 기능이 풍부.
+
+**학습 자원.**
+
+- **Efron & Tibshirani, "An Introduction to the Bootstrap"**: 고전 교과서. 수학적으로 엄밀.
+- **Davison & Hinkley, "Bootstrap Methods and their Application"**: 응용 중심.
+- **"Statistical Rethinking" (McElreath)**: 부트스트랩과 Bayesian의 연결.
+- **scipy 공식 문서**: 실전 코드 예시.
+
+**통계 교육의 미래.**
+
+현대 통계 교육은 점점 부트스트랩과 시뮬레이션 기반으로 이동하고 있다. Tim Hesterberg의 "What Teachers Should Know About the Bootstrap"은 이 변화를 보여준다. "정규 분포 가정"의 한계를 인식하고, 계산 능력을 활용한 직관적 방법으로 전환.
+
+본인이 박사 과정에서 부트스트랩을 익히면, 통계의 직관을 훨씬 빠르게 발전시킬 수 있다. t-분포의 공식을 외우는 대신 "재샘플링으로 무슨 일이 일어나는지"를 직접 본다. 이것이 통계에 대한 더 깊은 이해를 준다.
+
+> 부트스트랩과 몬테카를로는 현대 통계의 "보편적 도구"다. 본인이 이 두 방법을 익히면, 정규 분포 가정이 맞는지 불안해할 필요 없이, 어떤 데이터에도 통계적 추론을 할 수 있다. 전통 통계의 공식들이 "특수 상황의 지름길"이라면, 부트스트랩은 "일반 상황의 직접 해결책"이다. 박사 과정 학생이 이 두 관점을 모두 갖는 것이 현대적 통계 사고다.
