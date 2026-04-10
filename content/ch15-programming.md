@@ -460,21 +460,20 @@ ch16 '버전 관리'에서 다루는 GitHub을 사용한다면, Pull Request를 
 
 ## 연구 코드의 디버깅 전략
 
-본인이 박사 과정에서 본인의 코드를 작성하는 시간보다 본인의 코드를 디버깅하는 시간이 더 많을 수 있다. 본인의 디버깅 능력이 본인의 박사 진도의 큰 부분을 결정한다. ch20에서 ML 모델의 디버깅을 다뤘다면, 이 섹션은 일반 연구 코드의 디버깅을 다룬다.
+박사 과정에서 코드를 작성하는 시간보다 디버깅하는 시간이 더 많을 수 있다. 디버깅 능력이 연구 진도의 큰 부분을 결정한다. ch20에서 ML 모델의 디버깅을 다뤘다면, 이 섹션은 일반 연구 코드의 디버깅을 다룬다.
 
 <div class="highlight-box info">
   <span class="highlight-box-icon">ℹ️</span>
   <div class="highlight-box-content">
     <p><strong>디버깅의 본질</strong></p>
-    <p>디버깅은 본인이 무언가에 대해 잘못 알고 있는 부분을 찾는 과정이다. 본인의 코드가 잘 작동할 것이라고 믿었지만 실제로는 다르게 작동한다. 본인의 디버깅의 목표는 본인의 가정과 본인의 실제 동작 사이의 차이를 찾는 것이다.</p>
+    <p>디버깅은 본인이 무언가에 대해 잘못 알고 있는 부분을 찾는 과정이다. 코드가 잘 작동할 것이라고 믿었지만 실제로는 다르게 작동한다. 디버깅의 목표는 본인의 가정과 실제 동작 사이의 차이를 찾는 것이다.</p>
   </div>
 </div>
 
 **디버깅의 5가지 도구.**
 
-도구 1: **Print 디버깅**.
-
-가장 단순하고 가장 흔한 디버깅 방법. 본인이 본인의 변수의 값, 본인의 함수의 진입점, 본인의 흐름의 순서를 본인의 print로 본인의 출력. Python에서:
+**도구 1: Print 디버깅.**
+가장 단순하고 흔한 방법. 변수 값, 함수 진입점, 흐름 순서를 print로 출력한다.
 
 ```python
 def my_function(x, y):
@@ -484,10 +483,10 @@ def my_function(x, y):
     return result
 ```
 
-장점: 본인의 즉시 사용 가능. 본인의 학습 곡선 없음.
-단점: 본인의 디버깅 후 본인의 print를 본인이 본인의 모두 제거해야 한다.
+장점: 즉시 사용 가능, 학습 곡선 없음.
+단점: 디버깅 후 print를 모두 제거해야 한다.
 
-**팁**: 본인이 본인의 print 대신 본인의 logging 모듈을 사용하면 본인의 디버깅 후 본인이 본인의 로그 레벨만 본인이 본인의 변경하면 된다 (DEBUG → INFO).
+**팁**: print 대신 logging 모듈을 사용하면 디버깅 후 로그 레벨만 변경하면 된다 (DEBUG → INFO).
 
 ```python
 import logging
@@ -501,47 +500,44 @@ def my_function(x, y):
     return result
 ```
 
-도구 2: **인터랙티브 디버거 (pdb / ipdb)**.
-
-본인이 본인의 코드의 특정 지점에서 본인의 실행을 멈추고 본인의 변수 상태를 본인의 검사할 수 있다. Python의 `pdb` 또는 더 사용하기 쉬운 `ipdb`.
+**도구 2: 인터랙티브 디버거 (pdb / ipdb).**
+코드의 특정 지점에서 실행을 멈추고 변수 상태를 검사할 수 있다. Python의 `pdb` 또는 더 사용하기 쉬운 `ipdb`를 쓴다.
 
 ```python
 import ipdb
 
 def my_function(x, y):
     result = x * y + 1
-    ipdb.set_trace()  # 여기서 본인의 실행이 멈춘다
+    ipdb.set_trace()  # 여기서 실행이 멈춘다
     return result
 ```
 
-`ipdb.set_trace()`에서 본인이 본인의 변수를 본인의 검사하고, 본인의 한 줄씩 본인의 실행하고, 본인의 함수에 본인의 진입할 수 있다.
+`ipdb.set_trace()`에서 변수를 검사하고, 한 줄씩 실행하고, 함수에 진입할 수 있다.
 
 **기본 명령어**:
-- `n` (next): 본인의 다음 줄로
-- `s` (step): 본인의 함수에 진입
-- `c` (continue): 본인의 다음 breakpoint까지 본인의 계속
-- `p variable` (print): 본인의 변수 출력
-- `q` (quit): 본인의 디버거 종료
+- `n` (next): 다음 줄로
+- `s` (step): 함수에 진입
+- `c` (continue): 다음 breakpoint까지 계속
+- `p variable` (print): 변수 출력
+- `q` (quit): 디버거 종료
 
-장점: 본인의 print보다 본인의 강력. 본인의 모든 변수를 본인의 즉시 검사.
-단점: 본인의 학습 곡선이 약간 있다.
+장점: print보다 강력, 모든 변수를 즉시 검사.
+단점: 약간의 학습 곡선.
 
-도구 3: **IDE 디버거**.
-
-VS Code, PyCharm 같은 IDE는 본인의 시각적 디버거를 제공. 본인이 본인의 라인 옆에 본인의 빨간 점(breakpoint)을 본인의 클릭으로 추가하고 본인의 디버거를 시작.
+**도구 3: IDE 디버거.**
+VS Code, PyCharm 같은 IDE는 시각적 디버거를 제공한다. 라인 옆에 빨간 점(breakpoint)을 클릭으로 추가하고 디버거를 시작한다.
 
 **VS Code의 Python 디버거 설정**:
 1. Python 확장 설치
-2. 본인의 코드 라인 옆에 breakpoint 클릭
+2. 코드 라인 옆에 breakpoint 클릭
 3. F5로 디버거 시작
-4. 본인의 변수를 본인의 사이드 패널에서 본인의 검사
+4. 변수를 사이드 패널에서 검사
 
-장점: 본인의 시각적. 본인의 가장 사용하기 쉽다.
-단점: 본인의 IDE에 본인의 의존.
+장점: 시각적이고 사용하기 쉽다.
+단점: IDE에 의존.
 
-도구 4: **로깅 (Logging)**.
-
-본인의 큰 프로젝트나 본인의 장시간 실행되는 코드(예: 본인의 시뮬레이션, 본인의 학습)에서 본인의 로깅이 본인의 디버깅의 핵심. 본인의 print는 본인의 콘솔이 사라지면 본인의 정보가 사라지지만, 본인의 로그는 본인의 파일에 저장.
+**도구 4: 로깅 (Logging).**
+큰 프로젝트나 장시간 실행되는 코드(시뮬레이션, 학습)에서는 로깅이 디버깅의 핵심이다. print는 콘솔이 사라지면 정보가 사라지지만, 로그는 파일에 저장된다.
 
 ```python
 import logging
@@ -561,40 +557,35 @@ logger.warning("loss가 발산하기 시작함")
 logger.error("학습 실패: out of memory")
 ```
 
-본인이 본인의 실험 후 본인의 로그 파일을 본인의 검토하면 본인의 무엇이 본인의 잘못되었는지 본인이 본인의 안다.
+실험 후 로그 파일을 검토하면 무엇이 잘못되었는지 알 수 있다.
 
-도구 5: **Git Bisect: 본인의 버그가 언제 들어왔는가**.
-
-본인의 코드가 본인의 어제까지 잘 작동했는데 본인의 오늘은 본인의 안 된다. 본인이 본인의 어떤 변경이 본인의 버그를 본인의 도입했는지 모른다. `git bisect`가 본인이 본인의 이진 탐색으로 본인의 버그 도입 시점을 본인의 찾는다.
+**도구 5: Git Bisect — 버그가 언제 들어왔는가.**
+어제까지 잘 작동하던 코드가 오늘은 안 된다. 어떤 변경이 버그를 도입했는지 모를 때, `git bisect`가 이진 탐색으로 버그 도입 시점을 찾아준다.
 
 ```bash
 git bisect start
 git bisect bad                    # 현재 commit이 문제 있음
 git bisect good a3f5b2c           # 이 commit은 정상이었음
 # Git이 중간 commit으로 자동 이동
-# 본인이 본인의 코드를 본인의 테스트하고:
+# 코드를 테스트하고:
 git bisect good                   # 또는 bad
-# 반복하면 본인의 버그 도입 commit이 본인의 발견됨
+# 반복하면 버그 도입 commit이 발견됨
 git bisect reset                  # 종료
 ```
 
-본인이 본인의 1000개의 commit 중 본인의 버그 commit을 본인의 10단계 안에 본인의 찾는다. ch16의 Git 고급 기법 참조.
+1000개의 commit 중 버그 commit을 10단계 안에 찾을 수 있다. ch16의 Git 고급 기법 참조.
 
 **디버깅의 5가지 원칙.**
 
-원칙 1: **본인의 가정을 의심**. 본인이 본인의 디버깅의 가장 큰 함정은 본인의 "이 부분은 분명히 맞다"는 가정. 본인의 가장 본인의 의심해야 할 부분이 본인의 본인의 가장 확신하는 부분이다.
-
-원칙 2: **본인의 단순한 사례부터**. 본인의 큰 입력으로 본인의 코드가 안 되면 본인이 본인의 작은 입력으로 본인의 시도. 본인의 작은 입력에서 본인의 버그가 본인의 더 명확히 보인다.
-
-원칙 3: **본인의 한 번에 하나만 변경**. 본인이 본인의 디버깅 중 본인의 여러 부분을 본인의 동시에 본인의 변경하면 본인이 본인의 무엇이 본인의 효과 있었는지 모른다. 본인의 한 번에 하나만 본인의 변경하고 본인의 결과 확인.
-
-원칙 4: **본인의 본인의 코드를 본인의 다른 사람에게 설명**. 본인이 본인의 코드를 본인의 동료에게 설명하면 본인이 본인의 종종 본인의 본인이 본인이 본인의 버그를 본인의 발견. 이것을 "Rubber Duck Debugging"이라고 한다 (본인이 본인의 고무 오리에게 설명해도 작동).
-
-원칙 5: **본인의 휴식 후 다시**. 본인이 본인의 디버깅에 본인의 1-2시간 본인의 막혔다면 본인이 본인의 잠시 본인의 떠난다. 본인의 산책 후 본인의 다시 보면 본인이 본인의 새 시각으로 본인의 본인의 본인의 본다.
+1. **가정을 의심하라**: 디버깅의 가장 큰 함정은 "이 부분은 분명히 맞다"는 가정. 가장 확신하는 부분이 가장 의심해야 할 부분이다.
+2. **단순한 사례부터**: 큰 입력으로 안 되면 작은 입력으로 시도한다. 작은 입력에서 버그가 더 명확히 보인다.
+3. **한 번에 하나만 변경**: 여러 부분을 동시에 바꾸면 무엇이 효과 있었는지 모른다. 한 번에 하나씩 변경하고 결과를 확인한다.
+4. **코드를 다른 사람에게 설명**: 코드를 동료에게 설명하다 보면 종종 본인이 직접 버그를 발견한다. 이것을 "Rubber Duck Debugging"이라고 한다(고무 오리에게 설명해도 작동한다).
+5. **휴식 후 다시**: 1-2시간 막혔다면 잠시 떠난다. 산책 후 다시 보면 새 시각으로 보인다.
 
 **에러 메시지 읽기.**
 
-본인의 디버깅의 첫 단계는 본인의 에러 메시지를 본인의 정확히 읽는 것이다. 본인의 박사 학생의 흔한 실수는 본인의 에러 메시지를 본인의 무시하고 본인의 추측하는 것.
+디버깅의 첫 단계는 에러 메시지를 정확히 읽는 것이다. 박사 학생의 흔한 실수는 에러 메시지를 무시하고 추측하는 것이다.
 
 Python의 traceback 읽는 법:
 
@@ -607,8 +598,249 @@ Traceback (most recent call last):
 ZeroDivisionError: float division by zero
 ```
 
-본인의 traceback의 본인의 마지막 줄이 본인의 가장 중요. `ZeroDivisionError: float division by zero`. 본인이 본인의 0으로 나눈다. 본인의 위로 올라가면 본인의 어디서 본인이 본인의 0으로 나누는지 본인이 본인의 본다 (`analyzer.py`의 42번째 줄).
+traceback의 마지막 줄이 가장 중요하다. `ZeroDivisionError: float division by zero` — 0으로 나누고 있다. 위로 올라가면 어디서 0으로 나누는지 보인다(`analyzer.py`의 42번째 줄).
 
-본인의 traceback을 본인의 처음부터 끝까지 본인의 읽는다. 본인이 본인의 에러를 본인의 검색 (Google, Stack Overflow, AI 도구)하기 전에 본인의 본인의 에러 메시지를 본인이 본인의 정확히 본인의 이해.
+traceback을 처음부터 끝까지 읽는다. 에러를 검색(Google, Stack Overflow, AI 도구)하기 전에 먼저 에러 메시지를 정확히 이해한다.
 
-본인의 디버깅 능력은 본인의 박사 학위의 본인의 핵심 기술 중 하나다. 본인이 본인의 박사 졸업 시점에 본인이 본인의 디버깅의 본인의 본인의 마스터가 되어 있다면, 본인이 본인의 산업체 또는 본인의 학계의 본인의 어디서나 본인의 가치 있는 사람이 된다.
+디버깅 능력은 박사 학위의 핵심 기술 중 하나다. 박사 졸업 시점에 디버깅의 마스터가 되어 있다면, 산업체든 학계든 어디서나 가치 있는 사람이 된다.
+
+---
+
+## 연구 코드의 성능 프로파일링 — 느린 코드를 빠르게
+
+본인의 연구 코드가 작동은 하지만 너무 느려서 실험을 돌릴 수 없다. 시뮬레이션이 3일 걸리고, 파라미터 스터디를 시도하면 한 달이 넘는다. 이런 상황에서 많은 학생이 "더 빠른 컴퓨터가 필요하다"고 생각하지만, 대부분의 경우 **코드 자체에 10-100배 속도 향상의 여지**가 있다. 필요한 것은 더 빠른 하드웨어가 아니라 **프로파일링(profiling)** 기술이다. 어디가 느린지 측정하고, 그 부분만 최적화하는 것이다.
+
+<div class="highlight-box highlight-important">
+
+**"빠를 것 같은 부분"은 틀리기 쉽다.** 본인이 "이 부분이 느릴 것 같다"고 추측한 것이 실제로는 전체 실행 시간의 5%만 차지하고, "빠를 것 같다"고 생각한 부분이 80%를 차지하는 경우가 매우 흔하다. Donald Knuth의 유명한 격언 "premature optimization is the root of all evil"이 이것을 경계한다. 추측 대신 측정한다.
+
+</div>
+
+**프로파일링의 3단계.**
+
+**1단계: 전체 실행 시간 측정.**
+먼저 본인의 코드가 실제로 얼마나 걸리는지 기록한다. 간단한 타이머로 충분하다.
+
+```python
+import time
+start = time.time()
+main()
+print(f"Total: {time.time() - start:.2f}s")
+```
+
+이것이 기준선(baseline)이다. 최적화 후 이 수치와 비교하여 효과를 측정한다.
+
+**2단계: 함수 수준 프로파일링.**
+어느 함수가 시간을 많이 쓰는지 파악한다. Python은 `cProfile`이 표준이다.
+
+```python
+import cProfile
+import pstats
+
+profiler = cProfile.Profile()
+profiler.enable()
+main()
+profiler.disable()
+
+stats = pstats.Stats(profiler)
+stats.sort_stats('cumulative')
+stats.print_stats(20)  # 상위 20개 함수
+```
+
+출력 예시:
+```
+ncalls  tottime  percall  cumtime  percall filename:lineno
+  1000    5.234    0.005   12.456    0.012 analyze.py:45(process_batch)
+  1000    3.123    0.003    3.123    0.003 numpy.py:123(dot)
+ 10000    0.123    0.000    4.567    0.000 utils.py:12(normalize)
+```
+
+- **tottime**: 이 함수 자체에서 쓴 시간 (호출한 하위 함수 제외).
+- **cumtime**: 이 함수와 그 하위 호출의 누적 시간.
+- **ncalls**: 호출 횟수.
+
+가장 먼저 봐야 할 것은 **cumtime이 큰 함수**다. 그 함수가 본인의 코드의 병목(bottleneck)이다.
+
+**3단계: 라인 수준 프로파일링.**
+병목 함수 안에서도 어느 **줄**이 느린지 알고 싶다. `line_profiler`를 쓴다.
+
+```bash
+pip install line_profiler
+```
+
+```python
+@profile  # 함수에 데코레이터 추가
+def process_batch(data):
+    result = np.zeros(len(data))
+    for i in range(len(data)):
+        result[i] = expensive_computation(data[i])
+    return result
+```
+
+```bash
+kernprof -l -v my_script.py
+```
+
+출력이 각 줄의 시간을 보여준다.
+
+```
+Line #   Hits  Time    Per Hit  % Time  Line Contents
+    15   1000    45      0.05    0.5   result = np.zeros(len(data))
+    16   1000    23      0.02    0.3   for i in range(len(data)):
+    17 100000  8234      0.08   95.0   result[i] = expensive_computation(data[i])
+    18   1000    12      0.01    0.1   return result
+```
+
+17번 줄이 95%를 차지한다. 최적화의 대상이 명확해진다.
+
+**메모리 프로파일링.**
+
+시간뿐 아니라 메모리 사용도 프로파일링할 수 있다. `memory_profiler`를 쓴다.
+
+```bash
+pip install memory_profiler
+```
+
+```python
+@profile
+def my_function():
+    a = [1] * 1000000
+    b = [2] * 2000000
+    del b
+    return a
+```
+
+```bash
+python -m memory_profiler my_script.py
+```
+
+메모리 부족(Out of Memory) 문제가 있을 때 특히 유용하다.
+
+**가장 흔한 성능 문제 5가지와 해결.**
+
+**1. Python 루프 대신 NumPy 벡터화.**
+Python의 for 루프는 느리다. 같은 연산을 NumPy로 벡터화하면 10-100배 빨라진다.
+
+```python
+# 느림 (Python 루프)
+result = np.zeros(len(data))
+for i in range(len(data)):
+    result[i] = data[i] ** 2 + 3 * data[i] + 1
+
+# 빠름 (NumPy 벡터화)
+result = data ** 2 + 3 * data + 1
+```
+
+**2. 반복 계산 캐싱.**
+같은 값을 여러 번 계산하지 말고 한 번 계산하여 저장한다.
+
+```python
+# 느림: 같은 값을 매번 다시 계산
+for x in data:
+    process(x, get_threshold())  # get_threshold()가 매번 호출됨
+
+# 빠름: 한 번만 계산
+threshold = get_threshold()
+for x in data:
+    process(x, threshold)
+```
+
+Python의 `@functools.lru_cache` 데코레이터로 함수 결과를 자동 캐싱할 수도 있다.
+
+**3. 잘못된 자료구조.**
+리스트에서 멤버십 검사(`x in list`)는 O(n)이지만, 집합(set)에서는 O(1)이다.
+
+```python
+# 느림: O(n) per check
+visited = []
+for item in items:
+    if item not in visited:  # O(n)
+        visited.append(item)
+        process(item)
+
+# 빠름: O(1) per check
+visited = set()
+for item in items:
+    if item not in visited:  # O(1)
+        visited.add(item)
+        process(item)
+```
+
+**4. 불필요한 복사.**
+NumPy 배열이나 큰 자료구조를 복사하는 것은 비싸다. 필요하지 않으면 피한다.
+
+```python
+# 느림: 전체 배열 복사
+result = big_array.copy()
+result[0] = 1
+
+# 빠름: 뷰 사용 (가능한 경우)
+big_array[0] = 1
+```
+
+**5. I/O 병목.**
+파일 읽기/쓰기가 계산보다 느릴 때가 있다. 한 번에 많은 데이터를 읽는 것이 작게 여러 번 읽는 것보다 빠르다.
+
+```python
+# 느림: 매 루프마다 디스크 접근
+for i in range(1000):
+    data = np.load(f"file_{i}.npy")
+    process(data)
+
+# 빠름: 한 번에 많은 데이터를 로드
+all_data = [np.load(f"file_{i}.npy") for i in range(1000)]
+for data in all_data:
+    process(data)
+```
+
+**병렬화 (Parallelization).**
+
+단일 코드가 충분히 최적화된 후에도 느리다면 병렬화를 고려한다. Python은 GIL(Global Interpreter Lock) 때문에 스레드 병렬화가 제한적이다. 프로세스 병렬화가 일반적이다.
+
+```python
+from multiprocessing import Pool
+
+def process_one(item):
+    return expensive_computation(item)
+
+if __name__ == '__main__':
+    with Pool(8) as pool:  # 8개 프로세스
+        results = pool.map(process_one, items)
+```
+
+8개 코어로 돌리면 이론적으로 8배 빨라진다. 실제로는 프로세스 시작 비용과 통신 오버헤드 때문에 5-6배 정도가 일반적이다.
+
+NumPy 내부 연산은 이미 BLAS 라이브러리로 병렬화되어 있으므로, 수치 계산 코드에서는 명시적 병렬화가 필요 없을 수 있다. `np.dot()`, `np.linalg.solve()` 같은 함수는 내부적으로 여러 코어를 사용한다.
+
+**GPU 가속의 판단.**
+
+계산이 매우 많고 벡터화 가능한 경우 GPU로 옮기면 10-50배 빨라질 수 있다. 다만 GPU로 옮기는 데 드는 노력과 학습 곡선을 고려한다.
+
+- **CuPy**: NumPy와 거의 같은 API로 GPU 연산. 기존 NumPy 코드를 최소한의 변경으로 GPU로 옮길 수 있다.
+- **PyTorch / JAX**: 자동 미분과 GPU 가속을 모두 제공. 과학 계산에 점점 많이 쓰인다.
+- **Numba**: Python 코드를 JIT(Just-In-Time) 컴파일하여 CPU 또는 GPU에서 가속. `@njit` 데코레이터 하나로 10배 향상이 가능.
+
+**"최적화하지 말아야 할 코드".**
+
+모든 코드를 최적화할 필요는 없다. 다음 기준을 따른다.
+
+1. **일회성 스크립트**: 한 번만 돌릴 코드는 최적화할 필요가 없다. 1시간 돌려서 끝나면 그걸로 충분.
+2. **디버깅 중인 코드**: 아직 정확성이 확립되지 않은 코드를 최적화하면, 최적화가 버그를 숨긴다. 먼저 정확성을 확보하고 그 다음 성능.
+3. **가독성 희생이 큰 최적화**: 10% 향상을 위해 코드를 읽기 어렵게 만드는 것은 나쁜 거래다. 미래의 본인(또는 후배)이 이해할 수 없으면 유지보수가 불가능해진다.
+
+최적화는 본인의 코드의 1-10%에 집중한다. 나머지는 읽기 쉽게 유지한다.
+
+**프로파일링과 최적화의 반복 주기.**
+
+최적화는 한 번에 끝나지 않는다. 다음 주기를 반복한다.
+
+1. **측정**: 현재 속도 기록.
+2. **프로파일링**: 가장 느린 부분 식별.
+3. **가설**: 왜 느린지 이유 추정.
+4. **수정**: 개선 시도.
+5. **재측정**: 실제로 빨라졌는지 확인.
+6. **반복**: 다른 병목으로 이동.
+
+각 주기마다 "몇 %나 빨라졌는가"를 기록한다. 때로는 수정이 오히려 느리게 만들거나 미미한 효과만 있다. 그것도 데이터다.
+
+> 프로파일링은 박사 과정에서 많이 쓰이지 않지만, 알면 강력한 도구다. 본인의 시뮬레이션이나 분석이 느려서 진도가 안 나간다면, 하드웨어 탓을 하기 전에 1-2시간의 프로파일링을 해본다. 대부분의 경우 코드의 한두 부분만 수정해도 전체가 10배 빨라진다. 이 시간 절약이 박사 과정의 나머지 시간을 훨씬 여유 있게 만든다.
