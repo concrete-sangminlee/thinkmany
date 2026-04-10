@@ -959,3 +959,343 @@ total_loss = alpha * distillation_loss + (1 - alpha) * F.cross_entropy(student_o
 본인이 학습 중심 연구를 하더라도, 최소한의 추론 최적화 지식은 갖추는 것이 유리하다. "이 모델이 배포 가능한가?"를 답할 수 있어야 한다.
 
 > 추론 최적화는 학습과 연구의 부록이 아니라 핵심 기술의 하나다. 박사 과정 중 최소 한 번은 본인의 모델을 양자화하고, 가지치고, 증류해 본다. 이 경험이 본인의 연구를 "논문용 실험"에서 "실제 쓸 수 있는 시스템"으로 한 단계 올려준다. 학습 효율에 투자한 시간만큼 추론 효율에도 투자한다. 미래의 본인과 본인의 모델을 쓸 사람들이 감사할 것이다.
+
+---
+
+## 사전학습 모델 활용 — Hugging Face와 Transfer Learning의 실전
+
+2020년대 중반 이후 딥러닝 연구의 지배적 패러다임은 "본인이 본인의 모델을 처음부터 학습"이 아니라 "본인의 사전학습(pre-trained) 모델을 본인의 문제에 fine-tuning"이다. 본인이 본인의 박사 연구에서 본인의 신경망을 밑바닥부터 학습하는 것이 본인의 시간 낭비일 수 있다. 본인의 Hugging Face, timm, torchvision의 본인의 사전학습 모델이 본인의 출발점을 크게 높인다. 본인이 본인의 사전학습 모델을 본인의 효율적으로 활용하는 법을 학습해야 한다.
+
+<div class="highlight-box info">
+  <span class="highlight-box-icon">ℹ️</span>
+  <div class="highlight-box-content">
+    <p><strong>사전학습의 시대</strong></p>
+    <p>본인이 ResNet, BERT, GPT, ViT, CLIP 같은 모델을 본인이 처음부터 학습하는 것은 본인의 수천 달러의 GPU 비용과 본인의 수주의 시간이 필요하다. 그리고 본인이 본인의 처음부터 학습해도 본인의 결과가 본인의 사전학습된 공개 모델보다 나쁘다. 이유는 본인의 사전학습 모델이 본인의 수백만-수십억 장의 이미지 또는 본인의 수백억 개의 토큰에서 학습되었고, 본인이 본인의 작은 박사 연구실의 데이터셋으로 본인의 같은 규모의 학습을 할 수 없기 때문이다. 본인이 본인의 사전학습 모델을 본인의 출발점으로 사용하면 본인의 박사 연구의 본인의 실험이 본인의 수백 배 빨라진다.</p>
+  </div>
+</div>
+
+### 사전학습 모델의 4가지 활용 패턴
+
+본인의 사전학습 모델을 본인의 박사 연구에 활용하는 4가지 주요 방식.
+
+**패턴 1: Feature Extractor로 사용**
+
+본인의 사전학습 모델의 본인의 레이어를 본인의 고정(freeze). 본인의 모델의 본인의 출력을 본인의 특성 벡터로 사용. 본인의 특성 벡터 위에 본인의 작은 분류기 (로지스틱 회귀, SVM)를 학습.
+
+사용 조건:
+- 본인의 데이터가 매우 작다 (100-1000 샘플).
+- 본인의 컴퓨팅 자원이 제한적이다.
+- 본인의 모델의 본인의 내부를 본인이 이해하고 싶을 때.
+
+예시 (PyTorch):
+```python
+import torch
+from torchvision.models import resnet50, ResNet50_Weights
+
+# 사전학습 모델 로드
+weights = ResNet50_Weights.IMAGENET1K_V2
+model = resnet50(weights=weights)
+model.eval()
+
+# 마지막 FC 층을 Identity로 교체 (특성 추출)
+model.fc = torch.nn.Identity()
+
+# 본인의 데이터에 적용
+with torch.no_grad():
+    features = model(images)  # (batch, 2048) 특성 벡터
+
+# 간단한 분류기 학습
+from sklearn.linear_model import LogisticRegression
+clf = LogisticRegression(max_iter=1000)
+clf.fit(features.numpy(), labels.numpy())
+```
+
+장점: 본인의 학습이 빠르다. 본인의 과적합 위험이 적다.
+단점: 본인의 정확도가 fine-tuning보다 낮을 수 있다.
+
+**패턴 2: Fine-tuning (전체 또는 일부)**
+
+본인의 사전학습 모델의 본인의 모든 또는 일부 레이어를 본인의 재학습. 본인의 작은 학습률로 본인의 신중하게.
+
+Fine-tuning의 3가지 전략:
+
+*전략 A: 전체 fine-tuning*
+- 본인의 모든 레이어를 재학습.
+- 본인의 학습률: 1e-4 ~ 1e-5 (사전학습된 것을 파괴하지 않기 위해 매우 작게).
+- 본인의 데이터가 충분할 때 (수천-수만 샘플).
+
+*전략 B: 마지막 N 레이어만 fine-tuning*
+- 본인의 앞 레이어 고정, 본인의 마지막 N 레이어만 재학습.
+- 본인의 계산 효율과 본인의 정확도의 절충.
+- 본인의 데이터가 중간 크기 (수백-수천 샘플).
+
+*전략 C: 계층적 학습률*
+- 본인의 앞 레이어는 매우 작은 학습률, 본인의 뒤 레이어는 더 큰 학습률.
+- 본인의 사전학습의 본인의 일반 특성을 보존하면서 본인의 특정 문제에 적응.
+
+예시:
+```python
+# 전체 fine-tuning
+from torch.optim import AdamW
+
+model = resnet50(weights=ResNet50_Weights.IMAGENET1K_V2)
+# 마지막 FC 층을 본인의 클래스 수에 맞게 교체
+model.fc = torch.nn.Linear(2048, num_classes)
+
+optimizer = AdamW(model.parameters(), lr=1e-4, weight_decay=0.01)
+# 본인의 표준 학습 루프
+```
+
+**패턴 3: Adapter와 LoRA (파라미터 효율적 fine-tuning)**
+
+본인의 사전학습 모델의 본인의 파라미터를 고정하고 본인의 작은 새 파라미터(adapter)만 학습.
+
+LoRA (Low-Rank Adaptation): 본인의 가중치 행렬 W를 본인의 작은 저차원 업데이트 ΔW = AB (A, B는 작은 행렬)로 본인이 본인의 표현. 본인이 본인의 전체 모델의 파라미터 중 0.1-1%만 학습.
+
+사용 조건:
+- 본인의 매우 큰 모델 (LLM, ViT-Large).
+- 본인의 GPU 메모리가 제한적.
+- 본인의 여러 태스크에 본인의 같은 기본 모델을 본인의 사용 (각 태스크마다 작은 adapter).
+
+예시 (Hugging Face PEFT):
+```python
+from transformers import AutoModelForSequenceClassification
+from peft import LoraConfig, get_peft_model, TaskType
+
+model = AutoModelForSequenceClassification.from_pretrained("bert-base-uncased")
+
+lora_config = LoraConfig(
+    task_type=TaskType.SEQ_CLS,
+    r=8,  # LoRA rank
+    lora_alpha=16,
+    lora_dropout=0.1,
+    target_modules=["query", "value"]
+)
+
+model = get_peft_model(model, lora_config)
+model.print_trainable_parameters()
+# 예: trainable params: 294,912 || all params: 109,778,940 || trainable%: 0.27
+```
+
+장점: 본인의 메모리 사용이 크게 줄어든다. 본인의 여러 태스크에 본인의 효율적.
+단점: 본인의 복잡도가 본인의 약간 증가.
+
+**패턴 4: Zero-shot과 Prompting**
+
+본인의 사전학습 모델을 본인이 본인의 학습 없이 본인의 바로 사용. 본인의 언어 모델(GPT, Claude)의 본인의 프롬프트로 본인의 원하는 결과를 유도.
+
+사용 조건:
+- 본인의 매우 큰 언어 모델 (GPT-4, Claude 4.5).
+- 본인의 학습 데이터가 거의 없다.
+- 본인의 빠른 프로토타이핑.
+
+예시:
+- 본인의 텍스트 분류를 본인의 GPT에 "다음 문장을 [A/B/C] 중 하나로 분류하라: {text}"라는 프롬프트로.
+- 본인의 이미지 분류를 본인의 CLIP에 "a photo of a {class}" 같은 본인의 텍스트 프롬프트로.
+
+장점: 본인의 학습 불필요. 본인의 즉시 사용 가능.
+단점: 본인의 특화된 성능이 fine-tuning보다 낮을 수 있다.
+
+### 사전학습 모델 선택 가이드
+
+본인의 태스크에 본인의 맞는 사전학습 모델을 선택.
+
+**이미지 분류**
+- ResNet (고전, 강력한 baseline)
+- ViT (Vision Transformer, 현대 표준)
+- EfficientNet (효율적)
+- ConvNeXt (최신 CNN)
+- 본인의 선택: timm 라이브러리의 본인의 리더보드에서 본인의 사이즈/성능 균형을 본인의 본다.
+
+**객체 탐지**
+- YOLO 시리즈 (실시간)
+- DETR (Transformer 기반)
+- Mask R-CNN (세그멘테이션 포함)
+
+**세그멘테이션**
+- U-Net (의료, 공학)
+- SegFormer (Transformer 기반)
+- SAM (Segment Anything Model, 범용)
+
+**자연어 처리**
+- BERT, RoBERTa (이해 태스크)
+- GPT, Llama, Mistral (생성 태스크)
+- T5 (일반 텍스트-텍스트)
+
+**시계열**
+- Temporal Fusion Transformer (TFT)
+- Time-Series Transformer
+- Foundation Time Series Models (2024년 이후)
+
+**멀티모달**
+- CLIP (이미지-텍스트)
+- BLIP (이미지 캡션)
+- Flamingo (소수 샷)
+
+**과학/공학**
+- ChemBERTa (분자)
+- MaterialsBERT (재료)
+- GraphCast (기상)
+- ClimaX (기후)
+- ESMFold (단백질)
+
+본인의 분야의 본인의 특화된 사전학습 모델이 있으면 본인이 본인의 먼저 확인.
+
+### Hugging Face의 실전 활용
+
+본인의 Hugging Face Hub는 본인의 수십만 개의 사전학습 모델을 본인의 제공하는 플랫폼. 본인이 본인의 박사 연구에 Hugging Face를 본인의 활용하는 법.
+
+**단계 1: 본인의 모델 찾기**
+
+본인의 Hugging Face Hub (huggingface.co/models)에서 본인의 태스크와 본인의 분야로 필터링. 본인의 다운로드 수와 본인의 최근 업데이트로 본인의 평판을 본다.
+
+**단계 2: 본인의 모델 로드**
+
+```python
+from transformers import AutoModel, AutoTokenizer
+
+model_name = "bert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModel.from_pretrained(model_name)
+```
+
+본인의 모델의 본인의 문서(Model Card)를 본인의 먼저 읽기. 본인의 허가 조건, 본인의 학습 데이터, 본인의 성능 보고.
+
+**단계 3: 본인의 Dataset 활용**
+
+```python
+from datasets import load_dataset
+
+dataset = load_dataset("imagenet-1k")
+# 본인의 자동 다운로드와 캐싱
+```
+
+Hugging Face Datasets는 본인의 수천 개의 공개 데이터셋을 본인의 한 줄로 로드.
+
+**단계 4: 본인의 Trainer API**
+
+```python
+from transformers import Trainer, TrainingArguments
+
+training_args = TrainingArguments(
+    output_dir="./results",
+    num_train_epochs=3,
+    per_device_train_batch_size=16,
+    learning_rate=2e-5,
+    evaluation_strategy="epoch",
+    save_strategy="epoch",
+    load_best_model_at_end=True,
+)
+
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=val_dataset,
+    tokenizer=tokenizer,
+    compute_metrics=compute_metrics,
+)
+
+trainer.train()
+```
+
+Trainer API가 본인의 학습 루프, 본인의 평가, 본인의 체크포인트 저장을 본인의 자동화.
+
+**단계 5: 본인의 모델 공유**
+
+본인의 박사 연구의 본인의 모델을 본인의 Hugging Face Hub에 공개.
+
+```python
+trainer.push_to_hub("my-thesis-model")
+```
+
+본인의 후속 연구자가 본인의 모델을 본인의 직접 사용할 수 있다. 본인의 박사 학위의 한 기여.
+
+### 사전학습 모델 활용의 5가지 함정
+
+**함정 1: 본인의 Model Card를 읽지 않음**
+
+본인이 본인의 모델의 Model Card를 본인이 본인의 읽지 않고 본인의 사용. 본인의 모델의 본인의 학습 데이터의 편향이 본인의 박사 연구의 결과에 영향. 본인의 모델의 본인의 라이선스를 본인이 본인의 위반할 수 있다.
+
+방지: 본인의 모델 사용 전에 본인의 Model Card를 본인의 읽고, 본인의 학습 데이터, 본인의 편향, 본인의 라이선스를 본인이 본인의 확인. ch28(데이터셋 문서화)과 연결.
+
+**함정 2: 본인의 fine-tuning의 과적합**
+
+본인이 본인의 작은 데이터로 본인의 큰 모델을 본인의 전체 fine-tuning. 본인의 모델이 본인의 훈련 데이터에 과적합. 본인의 사전학습의 본인의 일반 특성을 파괴.
+
+방지: 본인의 작은 학습률, 본인의 early stopping, 본인의 정규화 (weight decay, dropout), 본인의 계층적 fine-tuning.
+
+**함정 3: 본인의 도메인 불일치**
+
+본인의 사전학습 모델이 본인의 자연 이미지 (ImageNet)에서 학습. 본인의 박사 연구가 본인의 의료 영상 또는 본인의 위성 영상. 본인의 도메인 불일치로 본인의 transfer가 제한적.
+
+방지: 본인의 도메인 특화 사전학습 모델을 본인이 본인의 우선. 본인의 분야의 논문에서 본인의 어떤 사전학습 모델이 본인의 사용되는지 본인의 조사.
+
+**함정 4: 본인의 재현성 상실**
+
+본인이 본인의 Hugging Face의 본인의 한 모델 버전을 사용. 본인의 6개월 후 본인의 모델이 본인의 업데이트되어 본인의 결과가 달라진다. 본인의 박사 논문의 재현이 어렵다.
+
+방지: 본인의 특정 모델 revision을 명시.
+```python
+model = AutoModel.from_pretrained("bert-base-uncased", revision="abc123")
+```
+본인의 revision 해시를 본인의 박사 논문에 명시.
+
+**함정 5: 본인의 상업적 사용의 금지를 놓침**
+
+본인의 일부 모델 (특히 LLM)이 본인의 비상업적 사용만 허용. 본인이 본인의 박사 논문 후에 본인의 모델을 본인의 상업적으로 사용하려 하면 본인의 라이선스 위반.
+
+방지: 본인의 라이선스를 본인의 미리 확인. 본인의 상업적 사용 가능한 모델 (Apache, MIT) 우선. 본인의 불확실하면 본인의 학교의 본인의 법률 자문.
+
+---
+
+## 사전학습 시대의 박사 연구의 본인의 기여
+
+본인이 "본인이 본인의 사전학습 모델을 본인의 사용한다면 본인의 박사 기여가 무엇인가?"라고 본인이 본인에게 물을 수 있다. 본인의 답은 본인의 기여가 본인의 모델 자체가 아니라 본인의 "본인의 모델을 본인의 적용하는 방식"에 있다는 것이다.
+
+### 사전학습 시대의 5가지 박사 기여 방식
+
+**방식 1: 본인의 새 태스크에 본인의 적용**
+
+본인의 사전학습 모델을 본인의 분야의 본인의 아직 시도되지 않은 태스크에 본인이 본인의 적용. 본인의 "BERT를 본인의 콘크리트 균열 예측에", "CLIP을 본인의 재료 특성 예측에" 같은 본인의 적용이 본인의 박사 기여.
+
+**방식 2: 본인의 Fine-tuning 전략의 개선**
+
+본인의 특정 태스크에 본인의 효과적인 fine-tuning 전략을 본인의 개발. 본인의 "본인의 의료 영상에 본인의 계층적 LoRA가 전체 fine-tuning보다 나은 이유" 같은 본인의 연구.
+
+**방식 3: 본인의 도메인 특화 사전학습**
+
+본인의 분야의 본인의 데이터로 본인의 새 사전학습 모델을 본인의 학습. 본인의 "본인의 재료 과학용 BERT", "본인의 건설 도면용 ViT". 본인의 새 사전학습 모델이 본인의 분야의 한 자원이 된다.
+
+**방식 4: 본인의 평가와 벤치마킹**
+
+본인의 여러 사전학습 모델을 본인의 분야의 본인의 표준 벤치마크에서 본인의 체계적으로 비교. 본인의 결과가 본인의 분야의 본인의 모델 선택 가이드가 된다.
+
+**방식 5: 본인의 이론적 분석**
+
+본인의 사전학습 모델의 본인의 내부 (attention 패턴, 특성 표현)를 본인의 분석. 본인의 "본인의 ViT의 어떤 층이 본인의 재료 구조를 이해하는가" 같은 본인의 연구.
+
+### 본인의 박사 논문의 사전학습 모델 섹션
+
+본인이 본인의 박사 논문에 본인의 사전학습 모델의 본인의 사용을 본인이 본인의 명시.
+
+**명시할 항목**:
+- 본인의 모델 이름과 버전 (revision 해시)
+- 본인의 사전학습 데이터의 소스
+- 본인의 fine-tuning 전략 (전체/부분/LoRA/zero-shot)
+- 본인의 하이퍼파라미터
+- 본인의 fine-tuning 데이터
+- 본인의 baseline 비교 (본인의 처음부터 학습 vs 본인의 사전학습 사용)
+- 본인의 라이선스
+
+본인의 명시가 본인의 박사 논문의 투명성과 재현성을 보장. ch38(오픈 사이언스)과 연결.
+
+---
+
+## 마지막 — 사전학습 시대의 박사 연구의 새 균형
+
+본인이 박사 과정에서 "모든 것을 밑바닥부터 학습해야 한다"는 과거의 믿음을 내려놓는다. 본인의 사전학습 모델이 본인의 도구라는 것을 본인이 본인의 인정한다. 본인의 박사 연구의 본인의 기여가 본인의 모델을 본인이 본인의 어떻게 활용하는가에 있다.
+
+본인이 박사 1-2년차에 사전학습 모델의 활용을 배운다. Hugging Face Transformers, timm, torchvision의 튜토리얼을 완성. 박사 중반에 여러 사전학습 모델을 비교. 박사 후반에 본인의 분야의 고유한 적용을 만든다.
+
+본인의 사전학습 모델이 본인의 박사의 기여를 본인의 감소시키지 않는다. 본인의 기여의 본인의 위치를 본인이 본인의 이동시킨다. 본인의 박사 졸업 시점에 본인이 본인의 사전학습 모델의 본인의 전문가이면서 본인의 분야의 본인의 고유한 적용의 본인의 주인공이 된다. 본인의 박사 학위가 본인의 "모델을 만든 사람"이 아니라 본인의 "모델을 본인의 분야에 가져온 사람"의 본인의 증거가 된다.
