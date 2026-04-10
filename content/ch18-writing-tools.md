@@ -631,3 +631,308 @@ research-vault/
 **도구 라이선스와 계정의 중앙 관리.** 여러 프로젝트를 돌리다 보면 Overleaf, Grammarly, DeepL Pro, Adobe Acrobat 등 다양한 유료 도구를 쓰게 된다. 각 도구의 계정, 구독 상태, 공유 링크를 별도의 노트 파일(예: `~/research/tools.md`)에 중앙 관리한다. 프로젝트별로 어떤 Overleaf 프로젝트 링크를 쓰는지, 공저자가 누구에게 초대되었는지 기록한다. 프로젝트가 끝난 후에도 구독을 계속 내고 있지는 않은지 점검한다.
 
 > 동시 여러 논문 관리는 박사 후반과 포닥 시기에 본격화되는 기술이다. 이 기술 없이 2-3개의 동시 프로젝트를 운영하면, 실제 연구 시간보다 "어디까지 했더라" 찾는 시간이 더 길어진다. 조기에 표준 폴더 구조, README 습관, 주간 리뷰 루틴을 몸에 익히는 것이 장기적으로 가장 큰 생산성 향상을 가져온다. 도구는 단순해도 된다. 중요한 것은 일관성이다.
+
+---
+
+## 저널 포맷 변환의 지옥과 탈출 — 리젝 후 재투고 실전
+
+박사 과정에서 가장 감정적으로 지치는 순간 중 하나는 논문이 리젝된 후 다른 저널에 투고할 때다. 리젝 자체의 실망감도 크지만, **새 저널의 포맷으로 논문을 전부 다시 맞추는 작업**은 연구 자체보다 더 지치는 경우가 많다. IEEE 형식에서 Elsevier 형식으로, 또는 double-column에서 single-column으로 바꾸는 데 하루 이상이 걸린다. 이 섹션은 포맷 변환의 고통을 최소화하는 전략을 다룬다.
+
+<div class="highlight-box highlight-warning">
+
+**포맷 변환의 숨은 비용.** 논문 한 편이 리젝되고 다른 저널에 투고될 때까지의 평균 "포맷 변환 시간"은 공학 분야에서 8-16시간이다. 본인이 박사 5년 동안 5편의 논문을 각각 2-3번씩 투고한다면, 포맷 변환에만 총 100-200시간(약 2-4주)을 쓴다. 이것이 모두 생산적인 작업이 아니라 "다시 맞추기"에 쓰인 시간이다. 포맷 변환 전략을 알면 이 시간을 절반 이하로 줄일 수 있다.
+
+</div>
+
+**포맷 변환이 왜 이렇게 어려운가.**
+
+각 저널은 자체 LaTeX 클래스(`.cls`) 파일을 요구하고, 이 클래스들은 다음 항목에서 서로 다르다.
+
+- **열 구조**: single-column, double-column, 또는 하이브리드
+- **글꼴과 크기**: Times, Computer Modern, Helvetica 등
+- **여백과 페이지 크기**: letter, A4, 사용자 정의
+- **인용 스타일**: 숫자, 저자-연도, 각주
+- **그림과 표의 위치**: inline, top/bottom, 별도 페이지
+- **섹션 번호**: 1, 1.1 vs 1.A, Section 1
+- **수식 번호**: (1), [1], 1
+- **초록의 위치와 형식**: 제목 위/아래, 키워드 포함 여부
+- **저자 정보**: 이름 위치, affiliation 형식, 이메일 각주
+- **참고문헌 포맷**: 수많은 변종
+
+이 모든 항목이 저널마다 미묘하게 다르다. 하나하나 수정하는 것이 시간 낭비다.
+
+**전략 1: "저널-불가지론적" LaTeX 소스 작성.**
+
+가장 강력한 전략은 **처음부터 저널에 특화되지 않은 소스를 작성**하는 것이다. 이것이 무슨 말인지 구체적으로 본다.
+
+**잘못된 접근**:
+```latex
+\documentclass[twocolumn,10pt]{IEEEtran}
+\usepackage{cite}
+...
+\title{My Paper}
+\author{Me\thanks{Korea University}}
+
+% 본문에서 IEEE 특화 명령어 사용
+\begin{IEEEbiography}...\end{IEEEbiography}
+```
+
+**올바른 접근**:
+```latex
+\documentclass[11pt]{article}  % 단순한 article 클래스
+\usepackage{natbib}  % 범용 인용 패키지
+...
+\title{My Paper}
+\author{Me\\ Korea University \and Co-author\\ Another University}
+
+% 저널 특화 명령어 없음
+```
+
+본인의 메인 소스는 단순한 `article` 클래스로 작성한다. 이것은 어느 저널에도 쉽게 변환할 수 있는 "중립 소스"다. 특정 저널에 투고할 때만 그 저널의 클래스를 적용한다.
+
+**전략 2: 래퍼(wrapper) 파일 사용.**
+
+한 단계 더 나아가, 본문 내용과 저널 포맷을 완전히 분리할 수 있다.
+
+**파일 구조**:
+```
+paper/
+├── content.tex           # 본문 내용 (중립)
+├── references.bib        # 참고문헌
+├── figures/              # 그림
+├── ieee_wrapper.tex      # IEEE 투고용
+├── elsevier_wrapper.tex  # Elsevier 투고용
+├── springer_wrapper.tex  # Springer 투고용
+└── acm_wrapper.tex       # ACM 투고용
+```
+
+각 wrapper는 다음과 같이 구성된다.
+
+**`ieee_wrapper.tex`**:
+```latex
+\documentclass[twocolumn,10pt]{IEEEtran}
+\usepackage{cite}
+% IEEE 특화 설정
+
+\begin{document}
+\title{\input{title.tex}}
+\author{\input{authors_ieee.tex}}
+\maketitle
+\begin{abstract}
+\input{abstract.tex}
+\end{abstract}
+\input{content.tex}
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}
+```
+
+**`elsevier_wrapper.tex`**:
+```latex
+\documentclass[review]{elsarticle}
+\usepackage{lineno}
+% Elsevier 특화 설정
+
+\begin{document}
+\begin{frontmatter}
+\title{\input{title.tex}}
+\author{\input{authors_elsevier.tex}}
+\begin{abstract}
+\input{abstract.tex}
+\end{abstract}
+\end{frontmatter}
+\input{content.tex}
+\bibliographystyle{elsarticle-num}
+\bibliography{references}
+\end{document}
+```
+
+본문 `content.tex`는 모든 wrapper에서 동일하게 사용된다. 저널을 바꿀 때는 wrapper 파일만 바꾸면 된다. 본문 변경이 없다.
+
+**저자 정보는 별도 파일로**: 저자 정보의 포맷이 저널마다 크게 다르므로 `authors_ieee.tex`, `authors_elsevier.tex` 등으로 분리한다. 이 작은 파일만 관리하면 된다.
+
+**전략 3: LaTeX 매크로로 저널 차이 흡수.**
+
+저널 특화 명령어를 매크로로 추상화한다. 본문에서는 항상 같은 명령어를 쓰고, wrapper에서 그 명령어의 정의를 저널에 맞게 바꾼다.
+
+```latex
+% content.tex에서는 항상 이것 사용
+Figure~\figref{overview} shows our architecture.
+
+% ieee_wrapper.tex의 정의
+\newcommand{\figref}[1]{\ref{fig:#1}}
+
+% 다른 저널 wrapper의 정의 (예: nature)
+\newcommand{\figref}[1]{Fig.~\ref{fig:#1}}
+```
+
+이것이 수십 개의 작은 차이를 한 곳에서 관리할 수 있게 한다.
+
+**전략 4: Pandoc으로 Markdown → LaTeX 변환.**
+
+급진적 접근: 본인이 LaTeX을 직접 쓰지 않고 **Markdown으로 작성**한 다음, Pandoc으로 LaTeX으로 변환한다.
+
+**워크플로**:
+1. `paper.md`를 Markdown으로 작성
+2. `pandoc paper.md --template=ieee.template -o paper.tex`로 변환
+3. 저널 바꿀 때는 template만 변경
+
+Markdown은 매우 단순하고 "저널 중립적"이다. 모든 저널 특화 요소는 template에서 처리된다.
+
+**장점**: 본인이 Markdown만 알면 되고, 변환이 자동.
+**단점**: 복잡한 수식이나 표는 결국 LaTeX 문법을 섞어 써야 한다. 완전히 "LaTeX 없이" 하기는 어렵다.
+
+이 접근은 수식이 많지 않은 분야(컴퓨터 과학 일부, 응용 분야)에 더 적합하다.
+
+**전략 5: Quarto 사용.**
+
+Quarto는 Pandoc 기반의 과학 문서 작성 도구로, LaTeX, Word, HTML 등 다양한 출력을 지원한다. Jupyter 통합도 우수하다.
+
+**장점**:
+- 하나의 `.qmd` 파일로 여러 포맷 출력
+- 코드, 그림, 수식, 참고문헌 통합
+- 저널별 template 증가 중
+- 차세대 연구 문서 도구
+
+**단점**:
+- 아직 LaTeX만큼 저널 template이 풍부하지 않음
+- 공학 분야에서는 아직 주류가 아님
+
+현재(2026년)는 전통 LaTeX이 안전한 선택이지만, Quarto를 조금씩 익혀두면 미래 대비가 된다.
+
+**참고문헌의 저널 간 변환.**
+
+참고문헌은 저널마다 포맷이 가장 다르다. 수동으로 수정하면 실수가 많다.
+
+**원칙 1: `.bib` 파일 유지.**
+모든 참고문헌을 `.bib` 파일(BibTeX 포맷)로 관리한다. 이것이 저널 간 변환의 기반이다.
+
+**원칙 2: 저널별 `.bst` 파일 사용.**
+`.bst` 파일이 참고문헌 포맷을 결정한다. 각 저널 template에 포함된 `.bst` 파일을 쓰면 된다.
+
+**원칙 3: 수동으로 `\bibitem` 쓰지 말기.**
+많은 학생이 LaTeX에서 `\begin{thebibliography}`를 직접 쓰는데, 이것은 저널 변환의 지옥이다. 항상 BibTeX를 쓴다.
+
+**원칙 4: Zotero/Mendeley와 연동.**
+참고문헌 관리 도구에서 `.bib` 파일을 자동 생성하고, 논문 프로젝트 폴더에 링크. 본인이 수동으로 `.bib` 파일을 편집하지 않는다.
+
+**포맷 변환의 단계별 체크리스트.**
+
+새 저널로 변환할 때 다음 순서로 작업한다.
+
+**1단계: 저널 template 다운로드.**
+- 저널 공식 사이트에서 최신 LaTeX template을 다운로드
+- Overleaf를 쓴다면 "Journal Templates" 섹션에서 검색
+- 오래된 template을 쓰면 문제가 생기므로 항상 최신 버전
+
+**2단계: Wrapper 파일 생성.**
+- template을 복사하여 본인의 `journal_wrapper.tex`로 저장
+- `\input{content.tex}` 등으로 본문 연결
+- 본인의 기존 wrapper를 참고하여 구조 통일
+
+**3단계: 저자 정보 맞추기.**
+- `authors_{journal}.tex`를 만든다
+- 각 저자의 이름, 소속, 이메일을 저널 형식으로
+- Corresponding author 표시
+
+**4단계: 컴파일과 오류 수정.**
+- 처음 컴파일은 거의 확실히 오류가 난다
+- 가장 흔한 오류: 저널이 특정 패키지를 요구하거나 금지
+- Log를 읽고 하나씩 해결
+
+**5단계: 그림 크기 조정.**
+- 저널의 column width에 맞게 그림 크기 조정
+- `\includegraphics[width=\columnwidth]{...}` 또는 `\textwidth`
+- 해상도 확인 (저널이 요구하는 dpi)
+
+**6단계: 참고문헌 스타일 확인.**
+- `.bst` 파일이 저널과 맞는지 확인
+- `\bibliographystyle{...}` 변경
+- 참고문헌이 제대로 나오는지 전체 확인
+
+**7단계: 최종 PDF 검토.**
+- 페이지 수가 저널 제한 내인지 확인
+- 그림과 표의 위치가 합리적인지
+- 오버플로우, 잘린 수식 등이 없는지
+- Line number가 필요하면 활성화
+
+이 체크리스트대로 하면 변환 시간이 크게 줄어든다. 처음에는 여전히 4-6시간 걸리지만, 익숙해지면 1-2시간 내로 가능하다.
+
+**Overleaf의 저널 template 기능 활용.**
+
+Overleaf는 수백 개 저널의 template을 제공한다.
+
+**사용법**:
+1. Overleaf 홈페이지 → Templates → Journal
+2. 본인의 타겟 저널 검색
+3. "Open as Template" 클릭 → 새 프로젝트 생성
+4. 본인의 content.tex를 복사하여 붙여넣기
+
+이것이 처음부터 template을 찾는 것보다 훨씬 빠르다. 특히 Elsevier, Springer, Wiley 같은 주요 출판사의 저널들은 거의 다 있다.
+
+**주의**: Overleaf의 template은 때때로 저널 공식보다 약간 오래되었을 수 있다. 최종 투고 전에 저널 공식 사이트의 template과 비교한다.
+
+**Word로 작성하는 경우의 포맷 변환.**
+
+일부 저널은 Word 파일도 받는다. 한국 학생 중 일부는 LaTeX 대신 Word를 선호한다. Word의 포맷 변환 전략.
+
+**전략 1: 스타일(Styles) 적극 사용.**
+모든 제목, 본문, 캡션에 Word의 "스타일"을 적용한다. 저널을 바꿀 때 스타일만 수정하면 전체 문서가 자동 변환된다. 수동으로 폰트 크기나 색을 바꾸지 않는다.
+
+**전략 2: 저널 template의 "스타일 복사".**
+저널에서 Word template을 제공하면, 그 template의 스타일을 본인의 문서에 "스타일 가져오기"로 적용한다. 이것이 수동 변환보다 훨씬 빠르다.
+
+**전략 3: Word 매크로.**
+반복 작업(그림 크기 조정, 참고문헌 번호 재정렬 등)을 매크로로 자동화한다. VBA 학습 곡선이 있지만 장기적으로 시간을 절약한다.
+
+**전략 4: 참고문헌 도구 사용.**
+Zotero, EndNote의 Word 플러그인으로 참고문헌을 관리한다. 스타일만 바꾸면 모든 인용이 자동 재포맷된다. 수동으로 수정하지 않는다.
+
+**변환 중 발견되는 "숨겨진 문제들".**
+
+포맷 변환 중에 본인의 원고의 숨겨진 문제가 드러나는 경우가 있다.
+
+- **긴 수식의 overflow**: 다른 column 폭에서는 수식이 페이지를 벗어난다. 수식을 나누거나 축약한다.
+- **그림의 해상도 부족**: 저널이 요구하는 dpi에 맞지 않아 흐릿하게 나온다. 원본 그림을 다시 생성.
+- **표가 깨짐**: 열 수가 많은 표가 좁은 column에 안 들어간다. 표를 회전시키거나 내용을 줄인다.
+- **페이지 수 초과**: 새 저널의 페이지 제한이 이전보다 작다. 내용을 압축해야 한다.
+- **저자 수 초과**: 일부 저널은 저자 수에 제한이 있다. 공저자 순서와 역할 재검토.
+
+이런 문제는 변환의 "숨은 이익"이 되기도 한다. 본인의 원고를 다시 검토하는 기회가 된다.
+
+**페이지 제한을 맞추는 압축 기법.**
+
+새 저널의 페이지 제한이 본인의 원고보다 작을 때의 압축 기법.
+
+1. **여러 그림을 하나로 통합**: 3개의 그림을 3개 subplot이 있는 하나의 Figure로.
+2. **Introduction 축약**: 배경 설명을 줄이고 본인의 기여에 집중.
+3. **Related Work 압축**: 개별 논문 설명 대신 그룹화하여 서술.
+4. **표를 그림으로**: 표 대신 바 차트로 정보 압축.
+5. **Supplementary로 이동**: 부수적 실험, 긴 유도식, 추가 세부사항을 Supplementary로.
+6. **긴 문장 나누기/압축**: 두 문장을 한 문장으로, 또는 두 단락을 한 단락으로.
+7. **수식 간소화**: 여러 단계로 유도한 식을 핵심 결과만.
+8. **참고문헌 줄이기**: 50개 중에서 진짜 필요한 것만 남김.
+
+한 편의 논문에서 1-2 페이지를 줄이는 것은 보통 어렵지 않다. 5 페이지 이상 줄이는 것은 본인의 기여를 재구성해야 한다.
+
+**변환 작업의 감정 관리.**
+
+포맷 변환은 지적으로 도전적이지 않지만 감정적으로 지치는 일이다. 리젝의 실망감이 겹치면서 "왜 이 일을 또 해야 하나"라는 생각이 든다. 대응.
+
+- **한 번에 다 하지 말기**: 하루에 2-3시간씩 나누어 한다. 8시간 연속으로 하면 실수가 늘고 지친다.
+- **쉬운 부분부터**: 그림 크기 조정 같은 기계적 작업부터 시작. 진도감이 생긴다.
+- **리젝과 분리**: 리젝의 감정 처리는 ch12의 "감정 관리"에서 다룬 대로 하고, 변환 작업은 그것과 분리한다.
+- **작은 축하**: 변환 완료 후 본인에게 작은 보상(맛있는 저녁, 산책 등).
+
+**변환의 "두 번째 기회" 가치.**
+
+포맷 변환 중에 본인의 원고를 다시 읽게 된다. 이것을 단순한 작업으로 보지 말고 **원고 개선의 기회**로 본다.
+
+- **논리의 빈틈 발견**: 본인이 몇 주 전에 쓴 글을 새 눈으로 읽으면 약점이 보인다.
+- **표현 다듬기**: 어색한 문장이나 모호한 부분을 수정.
+- **그림 재검토**: 이 그림이 정말 핵심을 전달하는지 재평가.
+- **참고문헌 업데이트**: 리젝 후 몇 달이 지났다면 새로 나온 관련 논문 추가.
+
+이렇게 개선된 원고가 새 저널에서 더 나은 결과를 낳는다. "같은 원고를 그대로 재투고"보다 "개선된 원고를 재투고"가 훨씬 나은 전략이다.
+
+> 저널 포맷 변환은 박사 과정의 숨겨진 시간 소비자다. 전략 없이 접근하면 논문 한 편당 수십 시간을 낭비한다. Wrapper 파일, 매크로, 자동화 도구를 배우는 데 몇 시간을 투자하면, 본인의 박사 5년 동안 수백 시간을 절약한다. 더 중요한 것은 변환의 감정적 피로를 줄이는 것이다. 리젝 후 빠르게 재투고할 수 있는 능력이 본인의 박사 과정의 속도를 결정한다.
