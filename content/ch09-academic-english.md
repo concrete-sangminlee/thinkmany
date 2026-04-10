@@ -1077,3 +1077,587 @@ Toastmasters International 같은 스피킹 동아리. 비학술적이지만 대
 이것이 현실적이다. 하룻밤에 원어민이 되지는 않지만, 꾸준히 하면 반드시 개선된다.
 
 > 학술 영어 스피킹은 박사 과정의 또 다른 필수 역량이다. 글쓰기만 잘해서는 국제 무대에서 완전한 연구자가 될 수 없다. 부끄러워하지 말고, 실수를 두려워하지 말고, 매일 조금씩 말하는 연습을 한다. 박사 과정 5-6년은 영어 말하기를 마스터하기에 충분한 시간이다. 중요한 것은 "시작"과 "지속"이다. 본인의 박사 졸업 시점에 영어로 자유롭게 토론하는 연구자가 되는 것을 목표로 삼는다.
+
+---
+
+## 학술 이메일 작성의 기술 — 10가지 상황별 영어 템플릿
+
+박사 과정에서 본인은 수많은 학술 이메일을 써야 한다. 잠재 지도교수에게 연구실 참여 요청, 저자에게 논문 질문, 학회 조직자에게 문의, 리뷰어 추천, 포닥 지원, 추천서 요청. 한국어로도 공식적인 이메일을 쓰기 어려운데, 영어로 쓰는 것은 더 어렵다. 많은 학생이 "그냥 보내면 되겠지"라고 생각해서 실수를 저지르고, 답장을 받지 못한다. 이 섹션은 박사 과정에서 자주 마주치는 10가지 상황에 대한 영어 이메일 템플릿과 원칙을 다룬다.
+
+<div class="highlight-box highlight-important">
+
+**이메일 하나가 경력을 바꾼다.** 본인이 학회에서 만난 유명 교수에게 보내는 cold email, 포닥 자리를 문의하는 첫 연락, 리뷰어 추천 요청. 이 짧은 이메일들이 본인의 경력의 방향을 결정할 수 있다. 이메일이 잘 쓰이면 응답률이 3-5배 올라간다. 잘 쓰인다는 것은 "격식 있음"이 아니라 "상대방이 읽고 답하기 쉬움"이다.
+
+</div>
+
+**학술 이메일의 기본 원칙.**
+
+모든 학술 이메일에 공통되는 원칙.
+
+**원칙 1: 짧고 명확하게.**
+교수는 바쁘다. 하루에 100개 이상의 이메일을 받기도 한다. 본인의 이메일이 3-4 단락을 넘으면 나중에 읽으려고 미루다가 잊는다. **5-7 문장이 이상적**. 중요한 내용을 첫 문단에.
+
+**원칙 2: 명확한 Subject.**
+제목에서 "무엇에 관한 이메일인가"가 드러나야 한다.
+
+**좋은 예**:
+- "Request for guidance on [topic]"
+- "Question about your 2024 PINN paper"
+- "PhD application - Inquiry about lab availability"
+
+**나쁜 예**:
+- "Hello Professor"
+- "Question"
+- "Need your help"
+
+**원칙 3: 본인 소개부터.**
+받는 사람이 본인을 모를 수 있다. 첫 문장에 누구인지 밝힘.
+
+```
+"My name is [Name], a [year] PhD student at [University], 
+working on [topic] under Prof. [Advisor]."
+```
+
+**원칙 4: 구체적 요청.**
+"도와주세요"가 아니라 "이것에 대해 X 조언이 필요합니다". 구체적일수록 답변이 쉽다.
+
+**원칙 5: 존중하지만 비굴하지 않게.**
+"Dear Prof. [Name]"은 기본. 하지만 과도하게 굽실거리면 부자연스럽다. "I would greatly appreciate..."는 좋지만 "I am not worthy but..."는 과함.
+
+**원칙 6: 읽기 쉬운 구조.**
+- 인사
+- 본인 소개
+- 목적
+- 구체적 내용
+- 요청
+- 감사와 서명
+
+이 구조가 깨지지 않게.
+
+**원칙 7: 감사 표현.**
+상대방의 시간을 빼앗는 것이므로 감사 표현. 하지만 3-4번 반복하면 과함.
+
+**원칙 8: 답장 받을 것을 기대하지 말기.**
+응답이 없어도 상처받지 말기. 교수의 80% 이상이 cold email에 답하지 않는다.
+
+**상황 1: Cold Email — 잠재 지도교수에게 PhD 지원 문의.**
+
+가장 흔하지만 가장 어려운 이메일. 많은 학생이 여기서 실수.
+
+```
+Subject: PhD Application Inquiry - [Your Name] - [Your 
+Research Interest]
+
+Dear Prof. [Last Name],
+
+I am [Name], a final-year master's student at [University]
+in [Department], working under Prof. [Your Advisor]. 
+I am interested in applying to your research group for 
+a PhD position starting [Year/Semester].
+
+I read your recent paper "[Paper Title]" ([Year]), and 
+I was particularly intrigued by [specific aspect that 
+connects to your work]. My own research on [your topic] 
+has led me to wonder about [specific question related 
+to their work].
+
+My current work focuses on [brief description, 2-3 
+sentences]. I have [1-2 concrete accomplishments, e.g., 
+"published a paper at X conference" or "developed a 
+system that achieved Y"].
+
+I would be grateful if you could share whether you will 
+be accepting new PhD students for [Year]. I have attached 
+my CV for your reference. I would also be happy to discuss 
+my research interests in more detail if you have time.
+
+Thank you very much for your time.
+
+Best regards,
+[Your Name]
+[Your Email]
+[Attachment: CV.pdf]
+```
+
+**핵심 요소**:
+- 구체적 논문 언급 (그들이 본인이 자신의 연구를 읽었음을 알게)
+- 본인의 업적 (짧지만 구체적)
+- 명확한 요청 (accepting students?)
+- CV 첨부
+
+**흔한 실수**:
+- "Dear Prof [full name with title]" 어색함, "Dear Prof. [Last name]"
+- 그들의 연구에 대한 언급 없음
+- 본인의 이야기만 길게
+- "I am honored to contact you..." 과도한 겸손
+- 여러 교수에게 동일 이메일 보내는 티 남
+
+**상황 2: 논문 저자에게 질문 또는 자료 요청.**
+
+본인이 읽은 논문의 저자에게 질문.
+
+```
+Subject: Question about your paper "[Short Title]"
+
+Dear Prof. [Last Name],
+
+I am a PhD student at [University] working on [related 
+topic]. I recently read your 2024 paper "[Full Title]" 
+with great interest.
+
+I have a specific question about [specific section/method]. 
+In [Section X], you describe [their method]. I am trying 
+to apply this to [your problem], but I am unclear about 
+[specific point]. Could you clarify whether [specific 
+question]?
+
+Additionally, I was wondering if the code for [specific 
+component] is publicly available. If not, would it be 
+possible to obtain a copy for academic research purposes?
+
+Thank you for your time. Your work has been very useful 
+for our research.
+
+Best regards,
+[Your Name]
+[Affiliation]
+```
+
+**핵심 요소**:
+- 구체적 섹션과 질문
+- 본인의 맥락 (왜 이 질문을 하는지)
+- 코드나 데이터 요청은 "for academic research"
+
+**상황 3: 공동 연구자와의 업무 이메일.**
+
+진행 중인 공동 연구의 일상 소통.
+
+```
+Subject: [Project Name] - Week 12 Update
+
+Hi [Name],
+
+Hope you're doing well. Here's this week's progress:
+
+1. Completed the baseline experiments on Dataset A. 
+   Results attached (results_week12.pdf).
+2. Identified an issue with the loss function — details 
+   in the attached note.
+3. Drafted Section 3 of the paper (commented in the 
+   shared doc).
+
+Next week I plan to:
+- Rerun the experiments with the fix
+- Complete Section 4
+
+Do you have any questions or feedback? Happy to discuss 
+in our Friday meeting.
+
+Best,
+[Your Name]
+```
+
+**핵심 요소**:
+- 간결한 인사
+- 진도 요약 (숫자화)
+- 다음 계획
+- 피드백 요청
+- "Best" (가까운 관계에 적합)
+
+**상황 4: 추천서 요청.**
+
+본인의 교수에게 추천서 요청.
+
+```
+Subject: Recommendation Letter Request - [Deadline] - 
+[Program Name]
+
+Dear Prof. [Last Name],
+
+I hope this email finds you well. I am writing to 
+respectfully request a letter of recommendation for my 
+application to [Program/Position] at [Institution]. The 
+deadline is [Date].
+
+Based on my work in your [course/research group], I 
+believe you can speak to my [specific qualities — e.g., 
+"research abilities, independence, and technical skills"]. 
+I am particularly hoping that your letter can highlight 
+[specific achievements that you want emphasized].
+
+To make the process easier, I have attached:
+- My CV
+- My statement of purpose (draft)
+- The program description
+- A list of specific points you might consider 
+  highlighting (based on the program's focus)
+
+Please let me know if you would be willing to write this 
+letter, and if there is any additional information I 
+can provide. I would be very grateful for your support.
+
+Thank you very much for your time and consideration.
+
+Best regards,
+[Your Name]
+```
+
+**핵심 요소**:
+- 충분한 시간 여유 (최소 3-4주 전)
+- 필요한 자료 모두 첨부
+- 추천서가 강조했으면 하는 포인트 제안
+- "Would be willing" (강제가 아님)
+
+**상황 5: 학회 조직자에게 문의.**
+
+학회 참가, 포스터 제출, 특별 상황에 대한 문의.
+
+```
+Subject: [Conference Name] 2026 - Question about poster 
+submission
+
+Dear [Conference Name] Organizers,
+
+I am [Name], a PhD student at [University]. I plan to 
+submit a poster to [Conference] this year. I have a 
+question about [specific policy or procedure].
+
+Specifically, [detailed question]. The deadline is 
+[date], so I would appreciate your response as soon as 
+possible.
+
+Thank you for your time.
+
+Best regards,
+[Your Name]
+[Affiliation]
+```
+
+**핵심 요소**:
+- 구체적 질문
+- 데드라인 언급 (급박함)
+- 짧고 직접적
+
+**상황 6: 포닥 지원 이메일.**
+
+본인이 포닥 자리를 찾을 때.
+
+```
+Subject: Postdoctoral Position Inquiry - [Your Name] - 
+[Research Area]
+
+Dear Prof. [Last Name],
+
+I am finishing my PhD at [University] under the 
+supervision of Prof. [Advisor]. My dissertation focuses 
+on [brief description]. I am writing to inquire about 
+potential postdoctoral opportunities in your group.
+
+I am particularly interested in your recent work on 
+[specific topic], which resonates with my research on 
+[your topic]. I believe my expertise in [skills] could 
+contribute to [specific project or direction].
+
+I have attached my CV and a list of publications for 
+your review. I would be grateful for the opportunity 
+to discuss potential projects further. I am available 
+to meet in person or virtually at your convenience.
+
+Thank you for considering my inquiry.
+
+Best regards,
+[Your Name]
+[Email]
+[Attachments: CV.pdf, publication_list.pdf]
+```
+
+**핵심 요소**:
+- 박사 지도교수 언급 (평판)
+- 그들의 연구와의 연결
+- 본인의 기여 가능성
+- CV와 출판 목록
+
+**상황 7: 에디터에게 이메일 (리비전/문의).**
+
+논문 리비전이나 저널 에디터에게 문의.
+
+```
+Subject: [Manuscript ID] - Request for Extension
+
+Dear Dr. [Editor Name],
+
+I am the corresponding author of manuscript [ID], 
+"[Title]", which received major revision comments on 
+[Date]. The current revision deadline is [Date].
+
+After carefully reviewing the reviewers' comments, I 
+found that addressing the request for [specific 
+experiment] will require additional time. I would like 
+to request a [X-week] extension of the revision deadline. 
+This would allow us to fully address this valuable 
+feedback.
+
+If this is not feasible, we will provide a partial 
+response within the original deadline.
+
+Thank you for your consideration.
+
+Sincerely,
+[Your Name]
+Corresponding Author
+```
+
+**핵심 요소**:
+- Manuscript ID 명시
+- 구체적 이유
+- 대안 제시 (부분 응답)
+- 정중한 어조
+
+**상황 8: 논문 저자 순서 논의.**
+
+공동 연구에서 저자 순서에 대한 민감한 대화.
+
+```
+Subject: [Project Name] - Authorship discussion
+
+Dear [Names],
+
+As we near the submission of our paper on [topic], I 
+think it would be helpful to explicitly discuss 
+authorship.
+
+Based on the CRediT taxonomy, I believe the 
+contributions have been as follows:
+- [Name 1]: [their contributions]
+- [Name 2]: [their contributions]
+- [Your Name]: [your contributions]
+
+Given these contributions, I propose the following 
+author order: [proposed order]. I am happy to discuss 
+if anyone has a different view.
+
+Please let me know your thoughts at your earliest 
+convenience, so we can finalize this before submission.
+
+Best,
+[Your Name]
+```
+
+**핵심 요소**:
+- CRediT taxonomy 언급 (객관성)
+- 구체적 제안
+- 토론 의지
+- 사전 정리 (투고 직전 아님)
+
+**상황 9: 실수 인정과 사과.**
+
+본인이 실수를 저질렀을 때의 사과 이메일.
+
+```
+Subject: Apology regarding [specific matter]
+
+Dear [Name],
+
+I am writing to apologize for [specific issue]. I 
+realize that [explain what went wrong and its impact].
+
+I understand this has caused [specific inconvenience]. 
+I take full responsibility for this, and I am committed 
+to ensuring it does not happen again. Specifically, 
+I will [concrete corrective action].
+
+Please let me know if there is anything else I can do 
+to address this situation. I value our working 
+relationship and appreciate your patience.
+
+Sincerely,
+[Your Name]
+```
+
+**핵심 요소**:
+- 즉각적 사과
+- 구체적 실수 인정
+- 책임 회피 없음
+- 구체적 시정 조치
+- 관계 유지 의지
+
+**상황 10: 거절 이메일.**
+
+본인이 요청을 거절할 때.
+
+```
+Subject: Re: [Original request]
+
+Dear [Name],
+
+Thank you for reaching out and considering me for 
+[request]. I am honored by your invitation.
+
+Unfortunately, due to [specific reason — e.g., "current 
+research commitments" or "prior obligations"], I am 
+unable to [accept/participate/commit]. I wish I could 
+be more helpful at this time.
+
+If [alternative — e.g., "there is another way I could 
+contribute" or "I can recommend a colleague"], I would 
+be happy to discuss. Otherwise, I hope we can 
+collaborate on a future opportunity.
+
+Thank you again for thinking of me.
+
+Best regards,
+[Your Name]
+```
+
+**핵심 요소**:
+- 감사 표현
+- 구체적이지만 간결한 이유
+- 대안 제시 (있으면)
+- 미래의 가능성 열어둠
+
+**이메일 톤의 조정.**
+
+상대방에 따라 톤을 조정.
+
+**매우 공식적 (첫 접촉, 고위 인사)**:
+- "Dear Prof. [Last Name]"
+- "I would be most grateful..."
+- "Thank you very much for your consideration."
+- "Sincerely," 또는 "Best regards,"
+
+**중간 공식 (지인, 정기 소통)**:
+- "Dear [Dr./Prof. First Name]" 또는 "Hi [Name]"
+- "I hope this email finds you well."
+- "Thanks,"
+- "Best,"
+
+**비공식 (가까운 동료)**:
+- "Hi [First Name]"
+- "Hope you're well"
+- "Thanks!"
+- "Cheers," 또는 "Best,"
+
+처음에는 공식적으로 시작하고, 상대방의 답장 톤에 맞춰 점차 편안해진다. "Hi"로 답장이 오면 다음부터 "Hi"로.
+
+**이메일의 시간 관리.**
+
+**언제 보낼지**:
+- **평일 오전**: 가장 좋음. 상대방이 하루를 시작하며 읽음.
+- **평일 오후**: 괜찮음.
+- **평일 저녁**: 다음 날 아침에 읽힐 가능성.
+- **금요일 오후**: 주말에 묻힘. 피하기.
+- **월요일 오전**: 지난 주말 이메일 속에 묻힘. 피하기.
+- **주말**: 비공식 관계가 아니면 피하기.
+
+**언제 답장 기대할지**:
+- 영업일 기준 2-3일이 일반적
+- 1주일 이상 답 없으면 한 번 리마인더 (1회만)
+- 2주 없으면 포기 또는 다른 경로 시도
+
+**Follow-up 이메일**.
+응답이 없을 때 한 번 다시 보내는 경우.
+
+```
+Subject: Re: [Original Subject]
+
+Dear Prof. [Name],
+
+I hope you are doing well. I am following up on my 
+previous email from [date] regarding [topic]. I 
+understand you are very busy, but I wanted to check 
+if you had a chance to consider my inquiry.
+
+[Brief restatement of original ask, 1-2 sentences]
+
+Please let me know if there is a better time to discuss 
+or if additional information would be helpful.
+
+Thank you for your time.
+
+Best regards,
+[Your Name]
+```
+
+**원칙**: Follow-up은 1회만. 2번 이상 보내면 부담이 됨.
+
+**첨부 파일의 원칙.**
+
+- **파일명**: `Firstname_Lastname_CV_2026.pdf`처럼 구체적
+- **형식**: PDF 우선 (Word는 포맷 변질 위험)
+- **크기**: 10 MB 이하. 큰 파일은 클라우드 링크
+- **언급**: 본문에 "I have attached [specific files]"
+
+**BCC와 CC의 사용**.
+
+- **CC**: 정보만 공유. 답장 기대 없음 (예: 본인의 지도교수에게 cc로 진행 상황 공유)
+- **BCC**: 숨은 참조. 사용 신중 (프라이버시 이슈 있음)
+- **TO**: 주 수신자. 이 사람에게 답장 기대
+
+**이메일 언어의 레벨 조정.**
+
+**TOEFL 80-90 수준 (기본)**:
+```
+"I am writing to ask about..."
+"Thank you for your time."
+"I appreciate your help."
+```
+
+**TOEFL 100+ (중급)**:
+```
+"I am reaching out regarding..."
+"I would greatly appreciate..."
+"I look forward to your response."
+```
+
+**원어민 수준 (고급)**:
+```
+"I hope this finds you well."
+"Any insight you could offer would be valuable."
+"I would welcome the opportunity to discuss further."
+```
+
+본인의 수준보다 약간 높은 것을 시도. 점차 발전.
+
+**AI 도구의 활용**.
+
+ChatGPT, Claude, Grammarly가 이메일 작성에 매우 유용.
+
+**활용 방법**:
+1. 본인이 한국어로 초안 작성
+2. 영어로 번역 요청 (본인이 직접 하는 것이 더 좋음)
+3. AI에 교정 요청: "Please correct any grammatical errors and improve the tone to be more professional"
+4. 본인이 최종 검토
+
+**주의**:
+- AI의 답변을 그대로 복사하지 말 것. 너무 "AI스럽다"
+- 본인의 목소리를 유지
+- 과도하게 공식적인 표현 제거
+
+**학습 자원**.
+
+- **"English for Writing Research Papers" (Adrian Wallwork)**: 학술 영어 이메일 장이 있음
+- **Grammarly**: 무료 교정
+- **DeepL**: 번역 참고용
+- **ChatGPT/Claude**: 교정과 다양한 표현
+- **academicphrasebank.manchester.ac.uk**: 학술 영어 표현 데이터베이스
+
+**박사 과정의 영어 이메일 실력 발전**.
+
+**1년차**: 간단한 요청 이메일. 실수 많지만 괜찮음.
+**2년차**: 다양한 상황에 대응. 템플릿 활용.
+**3-4년차**: 상황에 맞는 톤 조정. 미묘한 차이 이해.
+**5-6년차**: 자연스럽고 효과적. 자신감.
+
+**첫 이메일의 두려움 극복**.
+
+많은 한국 학생이 "영어 이메일을 보내는 것"에 과도한 부담을 느낀다. 며칠 동안 쓰고 다시 쓰고. 이것은 완벽주의다.
+
+**현실**: 상대방은 본인의 영어 문법을 꼼꼼히 검사하지 않는다. 의미가 전달되면 충분하다. 작은 실수는 허용된다.
+
+**조언**:
+- 2-3회 검토 후 보내기
+- 동료에게 한 번 읽히기
+- 보내고 넘어가기 ("완벽하지 않지만 충분히 좋다")
+- 응답이 없어도 본인의 잘못은 아님
+
+> 학술 이메일은 박사 과정의 숨은 기술이다. 박사 과정 내내 본인은 수백 통의 이메일을 보낼 것이고, 그 중 일부가 본인의 경력을 결정한다. 이메일 하나하나가 본인의 "명함"이다. 완벽한 영어를 쓸 필요는 없지만 명확하고 정중해야 한다. 본인의 박사 초기에 이 기술에 투자하면, 이후 모든 이메일이 더 쉬워진다. 그리고 응답률이 훨씬 높아진다.
