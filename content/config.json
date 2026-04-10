@@ -57,7 +57,8 @@
         { "id": "ch17", "file": "ch17-simulation-tools.md", "title": "시뮬레이션과 해석 도구" },
         { "id": "ch18", "file": "ch18-writing-tools.md", "title": "논문 작성과 생산성 도구" },
         { "id": "ch19", "file": "ch19-no-experiment.md", "title": "실험 없이 연구하기" },
-        { "id": "ch35", "file": "ch35-statistics-experimental-design.md", "title": "통계와 실험 설계" }
+        { "id": "ch35", "file": "ch35-statistics-experimental-design.md", "title": "통계와 실험 설계" },
+        { "id": "ch50", "file": "ch50-information-overload.md", "title": "정보 과부하 관리" }
       ]
     },
     {
