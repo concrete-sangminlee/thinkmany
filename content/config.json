@@ -29,7 +29,8 @@
         { "id": "ch07", "file": "ch07-paper-types.md", "title": "논문의 종류와 출판 전략" },
         { "id": "ch08", "file": "ch08-paper-writing.md", "title": "논문 작성법: 구조에서 완성까지" },
         { "id": "ch09", "file": "ch09-academic-english.md", "title": "영어 학술 글쓰기" },
-        { "id": "ch10", "file": "ch10-figures-tables.md", "title": "논문 그림과 표 만들기" }
+        { "id": "ch10", "file": "ch10-figures-tables.md", "title": "논문 그림과 표 만들기" },
+        { "id": "ch59", "file": "ch59-korean-academic-writing.md", "title": "한국어 학술 글쓰기" }
       ]
     },
     {
