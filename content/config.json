@@ -118,6 +118,7 @@
         { "id": "ch32", "file": "ch32-mental-health.md", "title": "멘탈 관리와 건강" },
         { "id": "ch48", "file": "ch48-physical-health.md", "title": "박사 과정의 신체 건강 관리" },
         { "id": "ch51", "file": "ch51-marriage-family-phd.md", "title": "박사 과정 중 결혼과 가족" },
+        { "id": "ch55", "file": "ch55-handling-crises.md", "title": "박사 과정 중 갑작스런 변화 대응" },
         { "id": "ch33", "file": "ch33-networking.md", "title": "네트워킹과 개인 브랜딩" },
         { "id": "ch34", "file": "ch34-career.md", "title": "졸업 후 커리어" },
         { "id": "ch39", "file": "ch39-funding-proposals.md", "title": "연구비와 제안서 작성" },
