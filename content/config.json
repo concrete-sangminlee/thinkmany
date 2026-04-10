@@ -96,7 +96,8 @@
         { "id": "ch30", "file": "ch30-collaboration.md", "title": "협업과 공동연구" },
         { "id": "ch38", "file": "ch38-open-science.md", "title": "오픈 사이언스와 재현성" },
         { "id": "ch40", "file": "ch40-intellectual-property.md", "title": "지식재산과 기술이전" },
-        { "id": "ch42", "file": "ch42-peer-review-service.md", "title": "피어 리뷰와 학술 봉사" }
+        { "id": "ch42", "file": "ch42-peer-review-service.md", "title": "피어 리뷰와 학술 봉사" },
+        { "id": "ch44", "file": "ch44-science-communication.md", "title": "과학 커뮤니케이션과 연구 outreach" }
       ]
     },
     {
