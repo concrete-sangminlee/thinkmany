@@ -352,3 +352,162 @@ ResearchGate에 논문을 업로드하고, 간단한 요약을 작성한다. Lin
 논문 한 편이 게재되면, 두 번째 논문은 훨씬 수월하다. 투고 시스템도 익숙하고, 심사 과정도 이해하고, 리뷰어 코멘트도 예측할 수 있게 된다. 첫 번째가 가장 어렵다. 그리고 그 첫 번째를 통과하기 위해 이 장이 도움이 되길 바란다.
 
 연구는 혼자 하는 것이 아니다. 지도교수, 공동저자, 동료 대학원생과 함께한다. 투고와 심사 과정에서도 마찬가지다. 혼자 고민하지 말고, 경험이 있는 사람들에게 조언을 구하는 것이 현명하다. 모든 연구자가 같은 과정을 거쳤고, 같은 좌절을 경험했다. 당신만 겪는 일이 아니다.
+
+---
+
+## 커버레터 실전 템플릿
+
+앞에서 좋은 커버레터의 원칙을 다뤘다. 여기서는 실제로 사용할 수 있는 구체적인 템플릿을 제공한다. 빈칸을 자신의 정보로 채우면 된다.
+
+<div class="highlight-box info">
+  <span class="highlight-box-icon">ℹ️</span>
+  <div class="highlight-box-content">
+    <p><strong>커버레터의 황금 구조</strong></p>
+    <p><strong>1단락</strong>: 인사 + 투고 의사 표명 + 논문 정보 (제목, 유형). <strong>2단락</strong>: 연구의 핵심 문제와 기여 (3-5문장). <strong>3단락</strong>: 왜 이 저널인지 (저널의 scope, 최근 관련 논문 1-2편 인용). <strong>4단락</strong>: 의무 선언 (이중 투고 없음, 모든 저자 동의). <strong>5단락</strong>: 마무리 인사 + 교신저자 정보. 전체 1페이지를 넘지 않는다.</p>
+  </div>
+</div>
+
+**실전 템플릿.**
+
+```
+[Date]
+
+Dr. [Editor's Name, if known]
+Editor-in-Chief
+[Journal Name]
+
+Dear Dr. [Editor's Name] / Dear Editor,
+
+We are pleased to submit our manuscript titled "[Paper Title]" for
+consideration as an original research article in [Journal Name].
+
+In this work, we address [specific problem] in [field/application].
+Existing approaches face the limitation that [gap]. We propose
+[your method], which [key innovation in one sentence]. Our
+experimental/numerical results demonstrate that [main finding 1] and
+[main finding 2]. To the best of our knowledge, this is the first
+study to [novel contribution].
+
+We believe this work is well-suited for [Journal Name] given the
+journal's focus on [scope alignment]. Our findings extend the recent
+work by [Author et al., Year] published in your journal, which
+addressed [related topic], by [your unique contribution].
+
+This manuscript has not been published previously and is not under
+consideration by any other journal. All co-authors have read the
+manuscript and agreed to its submission. We declare no conflicts
+of interest related to this work.
+
+We thank you for considering our submission and look forward to
+your response.
+
+Sincerely,
+
+[Corresponding Author Name]
+[Affiliation]
+[Email]
+[ORCID]
+```
+
+**템플릿 사용 시 주의점.** 첫째, **빈칸 채우기에 그치지 말고 본인의 언어로 다듬는다**. 너무 형식적으로 보이면 오히려 역효과다. 둘째, **저널 이름을 반드시 한 번 더 확인한다**. 다른 저널 이름이 그대로 남아 있는 실수가 의외로 흔하고, 그 즉시 desk reject로 이어진다. 셋째, **2단락의 핵심 기여 설명이 가장 중요하다**. 여기에 가장 많은 시간을 쓴다. 에디터가 이 단락만 읽고 "이 논문은 우리 저널에 적합한가"를 판단한다.
+
+---
+
+## CRediT: 저자 기여도 명시
+
+최근 많은 저널이 단순한 저자 순서 기재를 넘어 **CRediT(Contributor Roles Taxonomy)** 형식의 기여도 명시를 요구한다. CRediT는 14가지 표준 역할 카테고리로, 각 저자가 어떤 부분에 기여했는지 명확하게 보여주는 시스템이다. Cell Press, PLOS, Elsevier 다수, Springer Nature 등이 이를 채택했다.
+
+**CRediT의 14가지 역할.**
+
+| 역할 | 설명 |
+|------|------|
+| Conceptualization | 연구 아이디어의 발상, 핵심 가설 수립 |
+| Methodology | 연구 방법론 설계 |
+| Software | 코드 작성, 알고리즘 구현 |
+| Validation | 결과의 검증, 재현성 확인 |
+| Formal analysis | 통계 분석, 수학적 분석 |
+| Investigation | 실험 수행, 데이터 수집 |
+| Resources | 시약, 장비, 데이터 등 자원 제공 |
+| Data Curation | 데이터 정리, 메타데이터 작성 |
+| Writing - Original Draft | 초고 작성 |
+| Writing - Review &amp; Editing | 원고 검토 및 수정 |
+| Visualization | 시각화, 그림/표 제작 |
+| Supervision | 지도, 멘토링 |
+| Project administration | 프로젝트 관리, 일정 조율 |
+| Funding acquisition | 연구비 확보 |
+
+**CRediT 작성 예시.**
+
+> "**Author A**: Conceptualization, Methodology, Investigation, Formal analysis, Writing - Original Draft, Visualization. **Author B**: Software, Validation, Data Curation, Writing - Review &amp; Editing. **Author C** (corresponding): Conceptualization, Supervision, Funding acquisition, Writing - Review &amp; Editing."
+
+**왜 중요한가.** 첫째, 저자 간 기여도 분쟁을 사전에 방지한다. 모든 저자가 자신의 기여를 명시적으로 선언하므로, 나중에 "내가 더 많이 했다"는 분쟁이 줄어든다. 둘째, 박사학위 심사나 임용 심사 시 본인의 구체적 기여를 입증하는 자료가 된다. "공저자 5명 중 본인의 역할이 무엇인가"를 명확히 보여준다. 셋째, 학계의 투명성을 높인다. 누가 무엇을 했는지 공개되므로, "유령 저자"나 "선물 저자"(실제 기여 없이 이름만 올린 저자)를 줄인다.
+
+**작성 시 원칙.** 모든 저자가 최소 한 가지 역할에는 해당해야 한다. 어떤 역할에도 해당하지 않으면 저자가 될 자격이 없다(ch29의 저자 자격 원칙과 일치한다). 동시에, 한 저자가 너무 많은 역할(예: 14개 모두)을 차지하면 다른 저자의 기여가 가려진다. 정직하게 본인이 실질적으로 한 일만 표시한다. CRediT 명시는 투고 시스템의 별도 양식으로 입력하거나, 논문 끝 "Author Contributions" 섹션에 텍스트로 작성한다.
+
+---
+
+## 의무 Statement: Data Availability, Code Availability, Ethics
+
+최근 5-10년 사이 저널들이 요구하는 의무적인 statement가 크게 늘었다. 단순히 논문 본문만 잘 쓰는 것으로는 부족하고, 별도로 작성해야 하는 선언문들이 있다. 투고 시점에 누락하면 desk reject 사유가 된다.
+
+**Data Availability Statement (DAS).** 본인의 연구에 사용된 데이터를 어떻게 접근할 수 있는지 명시하는 선언문이다. 거의 모든 주요 저널이 이를 요구한다. 표준 표현은 다음과 같다.
+
+- 공개 가능한 경우: "The data that support the findings of this study are openly available in [repository name] at [DOI/URL]." (예: Zenodo, figshare, GitHub)
+- 요청 시 제공: "The data that support the findings of this study are available from the corresponding author upon reasonable request."
+- 공개 불가: "The data are not publicly available due to [privacy/ethical/proprietary] restrictions."
+
+가장 권장되는 것은 첫 번째 형태(완전 공개)다. ch38(오픈 사이언스)에서 다룬 것처럼 Zenodo에 데이터를 올리고 DOI를 받으면 가장 깔끔하다.
+
+**Code Availability Statement.** 코드가 연구의 핵심 구성요소인 경우(특히 ML/시뮬레이션 연구), 코드 공개 여부도 명시한다. "All code used in this study is available at https://github.com/[username]/[repo] under [license]." 코드 공개는 점점 표준이 되고 있다. 공개를 거부할 합리적 이유가 없다면 공개한다.
+
+**Ethics Statement.** 인간이나 동물을 대상으로 하는 연구의 경우 IRB(Institutional Review Board) 또는 IACUC(Institutional Animal Care and Use Committee) 승인을 받았음을 명시한다. "All experimental procedures involving human subjects were approved by the [Institution] IRB (Protocol #XXXX) and conducted in accordance with the Declaration of Helsinki." 공학 연구라도 인간 데이터(설문, 사진, 음성)를 사용하면 해당된다(ch29 참조).
+
+**Conflict of Interest 재확인.** 앞서 다룬 이해충돌 선언과 별도로, 본문 끝에도 같은 내용을 명시하는 경우가 많다. "The authors declare no competing financial or non-financial interests."
+
+**Funding Statement.** 연구비 출처를 명시한다. "This work was supported by [Agency Name] under Grant No. [Number]." 연구비 지원이 없었다면 "This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors."라고 적는다. ch39(연구비)에서 다룬 것처럼 연구비 보고는 의무다.
+
+---
+
+## 투고 후 에디터와의 의사소통
+
+투고하면 보통 3-6개월간 결과를 기다린다. 이 기간 동안 에디터에게 언제, 어떻게 연락해도 되는지가 의외로 잘 알려지지 않은 영역이다.
+
+**기다리는 것이 기본.** 첫 번째 원칙은 "에디터를 재촉하지 않는다"다. 에디터는 이미 수십 편의 투고를 처리하고 있고, 본인의 논문도 그 중 하나일 뿐이다. 정기적으로 진행 상황을 묻는 이메일은 에디터에게 부담이 되고, 좋지 않은 인상을 남길 수 있다. 인내심이 필요한 영역이다.
+
+**언제 연락해도 되는가.**
+
+첫째, **저널이 명시한 평균 심사 기간을 2-3개월 초과**했을 때. 예를 들어, 저널 웹사이트에 "first decision in 2 months"라고 적혀 있는데 5개월이 지났다면, 정중한 문의 메일을 보낼 수 있다. 저널마다 평균 심사 기간이 공개되어 있다.
+
+둘째, **투고 시스템 상태가 비정상적으로 오래 멈춰 있을 때**. 예를 들어, "Under Review" 상태가 6개월 이상 지속되거나, "Awaiting Editor Decision" 상태가 한 달 이상 지속될 때. 시스템 오류일 수도 있고, 에디터가 잊은 것일 수도 있다.
+
+셋째, **본인의 지원이나 졸업 일정에 영향을 미치는 긴급한 상황**. 예를 들어, 박사 졸업 자격으로 게재 확정이 필요한데 마감이 다가오는 경우. 이때는 솔직하게 사정을 설명한다.
+
+**문의 메일 작성법.** 짧고 정중하게 쓴다. 구체적인 정보(투고일, 원고 번호, 제목)를 제공한다. 재촉하는 어투를 피한다.
+
+```
+Subject: Inquiry about manuscript [Manuscript ID] - [Short Title]
+
+Dear Editor,
+
+I am writing to politely inquire about the status of our manuscript
+"[Title]" (Manuscript ID: [ID]), which was submitted to [Journal Name]
+on [Submission Date]. According to the journal's website, the average
+time to first decision is [X months], and our manuscript has been
+under review for [Y months] now.
+
+I would greatly appreciate any update you might be able to provide.
+I understand that the review process takes time, and I do not wish
+to rush you. I am simply trying to plan my upcoming activities
+[mention specific reason if applicable, e.g., dissertation defense,
+job application].
+
+Thank you very much for your time and consideration.
+
+Sincerely,
+[Your Name]
+[Affiliation]
+```
+
+**에디터가 응답하지 않을 때.** 답이 없으면 2-3주 후 한 번 더 보낸다. 그래도 답이 없으면 저널의 Editorial Office(에디터가 아닌 사무국)에 문의한다. 사무국은 일반적으로 더 빠르게 응답한다. 그래도 해결되지 않으면, 정말 마지막 수단으로 논문을 철회(withdraw)하고 다른 저널에 다시 투고하는 것도 검토할 수 있다. 다만 이는 극단적 경우(8-12개월 이상 진행 없음)에만 한다.
+
+**좋은 소식이든 나쁜 소식이든 빠른 응답이 의무.** 에디터의 결정 통보가 오면, 24-48시간 안에 짧은 확인 답장을 보낸다. Accept이면 감사 인사, Major Revision이면 "we will work on the revisions and submit by [date]", Reject이면 "thank you for your consideration" 정도면 충분하다. 무응답은 무례하게 비친다.
