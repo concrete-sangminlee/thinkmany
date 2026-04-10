@@ -412,3 +412,73 @@ Reject을 받은 후의 현실적 대처를 단계별로 정리한다.
 **5단계: 커버레터에 이전 피드백 반영 여부 판단.** 새 저널에 투고할 때, "이전 투고에서 받은 피드백을 반영했다"고 커버레터에 명시할 수 있다. 이것은 에디터에게 "이미 피어 리뷰를 거쳐 개선된 원고"라는 인상을 준다. 다만, 이전 저널명을 구체적으로 밝힐 필요는 없다. "This manuscript has been substantially revised based on feedback from a previous peer review process"라고 적는 정도면 충분하다. 이 전략이 모든 저널에서 효과적인 것은 아니므로, 지도교수와 상의하여 판단한다.
 
 기억해야 할 것은 이것이다. Reject은 연구의 끝이 아니다. 오히려 Reject 후 개선 과정을 거친 논문이 최종적으로 더 좋은 논문이 되는 경우가 많다. 3번의 Reject과 3번의 개선을 거친 논문은, 처음 투고 때와는 비교할 수 없을 정도로 탄탄해진다. 포기하지 말고, 한 단계씩 개선해 나가면 된다.
+
+---
+
+## 부당한 리뷰를 받았을 때
+
+대부분의 리뷰는 부족하거나 까다롭더라도 결국 건설적이다. 하지만 가끔은 명백히 부당하거나, 적대적이거나, 사실 관계가 틀린 리뷰를 받게 된다. 이 경우 어떻게 대응할 것인가는 별개의 기술이다.
+
+<div class="highlight-box warning">
+  <span class="highlight-box-icon">⚠️</span>
+  <div class="highlight-box-content">
+    <p><strong>"부당한 리뷰"의 정의는 신중해야 한다</strong></p>
+    <p>리뷰어가 까다롭다고 해서 부당한 것이 아니다. 리뷰어가 추가 실험을 요구한다고 해서 부당한 것이 아니다. 리뷰어가 본인 논문을 인용하라고 한다고 해서 곧바로 부당한 것이 아니다(그것이 정말 관련이 없을 때만 문제다). "부당한 리뷰"는 분명한 사실관계 오류, 명백한 편견, 모욕적 언사, 본인의 경쟁 관계에서 비롯된 악의적 비판을 포함할 때 적용되는 단어다.</p>
+  </div>
+</div>
+
+**부당한 리뷰의 유형.**
+
+첫째, **사실관계 오류**가 있는 경우다. 예를 들어, 리뷰어가 "저자는 X라는 방법을 사용하지 않았다"고 비판했는데, 본문 3.2절에 명확히 X를 사용했다고 쓰여 있는 경우다. 리뷰어가 논문을 제대로 읽지 않았거나, 이해하지 못한 것이다.
+
+둘째, **본인 논문 인용 강요(coercive citation)**다. 리뷰어가 "이 논문과 이 논문, 그리고 이 논문도 인용해야 한다"며 5개 이상의 논문을 추가하라고 요구하고, 그 논문들이 모두 같은 저자(아마도 리뷰어 본인)의 것인 경우다. 자기 인용을 강요하는 것은 학술 윤리 위반이다.
+
+셋째, **경쟁 관계에서 오는 악의적 비판**이다. 리뷰어가 본인의 연구와 직접 경쟁하는 논문을 받아 의도적으로 부정적으로 평가하는 경우다. 이런 경우 비판이 구체적이지 않고 "이 연구는 가치가 없다", "novelty가 없다" 같은 모호한 비난이 반복된다.
+
+넷째, **모욕적이거나 차별적인 언사**다. 리뷰어가 저자의 영어, 출신국, 소속 기관을 폄하하는 경우다. 이것은 어떤 학술적 맥락에서도 정당화될 수 없다.
+
+**1단계 대응: 그래도 일단 정중하게.** 부당하다고 느꼈을 때 가장 먼저 해야 할 일은 침착하게 응답서(Response Letter)를 작성하는 것이다. 사실관계 오류는 정중하게 정정한다. "We thank the reviewer for this comment. We would like to clarify that the use of X is described in detail in Section 3.2 (lines 145-160), where we explain..." 이렇게 인용하면 리뷰어가 자신의 오해를 인정하기 쉽다. 리뷰어를 공격하지 않고, 사실만 명확히 보여준다.
+
+**2단계 대응: 편집장에게 정식으로 알리기.** 응답서로 해결되지 않거나, 리뷰어의 행동이 명백히 윤리적 선을 넘었다고 판단되면, 응답서와 별도로 편집장에게 보내는 짧은 메모(cover letter)에 상황을 설명할 수 있다. "While we have addressed all reviewer comments in detail, we respectfully bring to the editor's attention that Reviewer 2's comments on points X and Y appear to contain factual errors regarding our methodology, which we have clarified in our response. We trust the editor's judgment in evaluating these points." 편집장은 보통 이런 신호에 민감하게 반응한다.
+
+---
+
+## 편집장에게 호소(Appeal)하는 절차
+
+논문이 Reject되었는데, 그 결정이 명백히 부당하다고 판단되는 경우 편집장에게 공식적인 호소(Appeal)를 제기할 수 있다. 단, 이것은 매우 신중하게 사용해야 하는 카드다. 잘못 사용하면 본인의 평판에 더 부정적 영향을 줄 수 있다.
+
+**언제 Appeal을 고려할 수 있는가.** Appeal이 정당한 경우는 매우 제한적이다. 다음 중 하나에 해당해야 한다. 첫째, 리뷰어가 명백한 사실관계 오류를 근거로 Reject 결정을 내렸을 때. 둘째, 리뷰어가 논문을 제대로 읽지 않은 것이 명백할 때(예: 리뷰의 비판이 전혀 다른 논문에 대한 것 같을 때). 셋째, 리뷰어 사이에 명백한 모순이 있는데 편집장이 더 부정적인 의견만 받아들였을 때. 넷째, 리뷰 과정에 명백한 윤리 위반(예: 본인 논문 인용 강요, 모욕적 언사, 이해상충 미공개)이 있을 때.
+
+**언제 Appeal하면 안 되는가.** "내 논문이 더 가치 있다고 생각한다", "리뷰어의 판단에 동의할 수 없다", "이 정도면 충분히 좋다고 생각한다" 같은 주관적 의견은 Appeal의 근거가 되지 않는다. 또한 "추가 실험을 더 할 수 있다"는 것도 Appeal 사유가 아니다(그것은 다른 저널에 새로 투고하면 된다). Appeal은 절차상의 문제나 명백한 오류를 시정하는 도구이지, 리뷰어의 판단을 뒤집는 도구가 아니다.
+
+**Appeal 작성의 원칙.** 첫째, 짧고 객관적이어야 한다. 1-2페이지를 넘지 않는다. 둘째, 사실에 근거한 구체적인 지적만 담는다. "리뷰어의 X 비판은 본문 Y절(line Z)에 명확히 답이 있다"는 식으로 인용한다. 셋째, 감정적 표현을 절대 쓰지 않는다. "unfair", "biased", "wrong" 같은 단어는 피한다. 대신 "factually inaccurate", "appears to overlook", "respectfully request reconsideration" 같은 정중한 표현을 쓴다. 넷째, 결론적으로 무엇을 요청하는지 명시한다. "재심사 요청", "다른 리뷰어 추가 배정 요청", "결정 재고 요청" 등.
+
+**Appeal 절차의 현실.** 대부분의 저널은 공식적인 Appeal 절차를 운영한다. 저널 웹사이트의 "Appeals Policy"를 검색하면 절차를 확인할 수 있다. 일반적으로 편집장에게 직접 이메일을 보내거나, 투고 시스템에 "Appeal" 옵션을 통해 제출한다. Appeal이 받아들여질 확률은 낮다(20% 미만이라고 알려져 있다). 받아들여진 경우에도, 결정이 뒤집히는 경우는 더 드물다. 대부분은 새로운 리뷰어에게 재심사를 받거나, 동일한 결정이 유지된다. 그래도 명백한 오류가 있다면 Appeal할 가치가 있다. 적어도 본인의 판단을 기록으로 남길 수 있고, 운이 좋으면 결정을 뒤집을 수 있다.
+
+<div class="highlight-box important">
+  <span class="highlight-box-icon">🔴</span>
+  <div class="highlight-box-content">
+    <p><strong>Appeal 전에 반드시 지도교수와 상의하라</strong></p>
+    <p>Appeal은 단순한 절차가 아니다. 본인의 평판, 지도교수의 평판, 연구실의 평판이 모두 걸린 행위다. 부당한 리뷰를 받아 화가 났더라도, 즉시 Appeal을 제기하지 않는다. 24시간을 기다린 후, 지도교수와 상의하여 정말 Appeal할 만한 사안인지 함께 판단한다. 지도교수가 "이 정도는 그냥 다른 저널에 투고하는 것이 낫다"고 한다면, 그 판단을 존중한다. 경험 많은 연구자는 어떤 싸움이 가치 있고 어떤 싸움이 시간 낭비인지 안다.</p>
+  </div>
+</div>
+
+---
+
+## 리뷰어가 명백히 틀렸을 때
+
+부당한 의도가 아니더라도, 리뷰어가 단순히 잘못 알고 있는 경우가 있다. 이것은 부당한 리뷰가 아니라 단순한 지식 부족이나 오해다. 이런 경우의 대응은 다르다.
+
+**전형적인 사례.** 리뷰어가 "이 방법은 X 조건에서 작동하지 않는다는 것이 알려져 있다"고 비판한다. 그런데 그 "알려진 사실"은 10년 전 논문에 근거한 것이고, 최근 5년간의 연구는 그 주장을 반박해 왔다. 리뷰어가 최신 문헌을 따라잡지 못한 것이다. 또는 리뷰어가 "이 결과는 보존 법칙에 위배된다"고 주장하는데, 사실 그 주장 자체가 잘못된 물리적 직관에 기반한 것이다.
+
+**대응 방법: 권위 있는 인용으로 반박하라.** 리뷰어를 "당신이 틀렸다"고 직접 반박하지 않는다. 대신 "리뷰어의 우려에 감사드린다. 이 점에 대해서는 다음과 같은 최근 연구들이 다른 결론을 보여준다"라며 권위 있는 출처(SCI 저널의 최근 논문, 표준 교과서)를 인용하여 반박한다. 핵심은 "리뷰어 vs 저자"의 대립이 아니라 "기존 통념 vs 최신 연구"의 학술적 토론처럼 보이게 만드는 것이다.
+
+**예시 응답 문장.**
+
+> "We thank the reviewer for raising this concern. The notion that method X fails under condition Y was indeed accepted until the early 2010s. However, recent studies (Smith et al., 2020; Lee et al., 2022; Kim et al., 2023) have demonstrated that this limitation can be overcome by [구체적 방법]. We have added this discussion to Section 4.3 (lines 280-295) and clarified the relevant references in our revised manuscript."
+
+이런 응답은 세 가지를 동시에 달성한다. 첫째, 리뷰어를 공격하지 않는다. 둘째, 본인의 입장을 권위 있는 근거로 뒷받침한다. 셋째, 리뷰어가 자신의 오해를 인정할 수 있는 출구를 열어준다(자존심을 건드리지 않는다).
+
+**그래도 리뷰어가 고집한다면.** 2차 리비전에서도 같은 비판이 반복되면, 편집장에게 정중하게 호소할 수 있다. "We have provided peer-reviewed evidence supporting our position in our previous response. We respectfully request the editor's judgment on this technical disagreement, as we believe further iteration with Reviewer 2 may not be productive on this specific point." 편집장은 최종 판단권을 가지므로, 이 호소가 받아들여질 수도 있다.
+
+**기억할 원칙.** 리뷰어가 틀렸다고 해서 본인이 자동으로 옳은 것은 아니다. 리뷰어가 틀렸다고 확신하기 전에, 동료나 지도교수에게 상황을 설명하고 객관적 의견을 구한다. "내가 정말 옳은가, 아니면 내가 보지 못하는 부분이 있는가"를 점검한다. 학술적 토론에서 가장 위험한 것은 "내가 분명히 옳다"는 확신이다.
