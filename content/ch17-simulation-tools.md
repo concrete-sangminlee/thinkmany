@@ -694,3 +694,457 @@ Physical Surface("plate") = {1};
 학생들은 보통 이 시간을 과소평가한다. "이틀이면 될 것"이라고 생각한 메쉬가 2주가 걸린다. 프로젝트 계획을 세울 때 메쉬 시간을 넉넉히 잡는다.
 
 > 메쉬 생성은 지루하고 눈에 띄지 않는 작업이지만, 시뮬레이션 연구의 근본이다. 본인이 박사 과정 중 한 번은 메쉬 생성을 진지하게 공부하는 시간을 갖는 것을 권한다. 상용 도구의 자동 메쉬만 쓰던 학생이 Gmsh 스크립팅이나 ICEM 구조화 메쉬를 배우면, 본인의 시뮬레이션 능력이 완전히 다른 수준으로 올라간다. 이 투자는 졸업 후에도 평생 유용하다. 좋은 메쉬를 만들 줄 아는 사람은 산업계에서도 매우 가치 있는 자원이다.
+
+---
+
+## 시뮬레이션 데이터 관리 — 테라바이트급 결과를 다루는 법
+
+시뮬레이션 연구가 어느 정도 규모가 되면, 학생이 예상치 못한 장벽에 부딪힌다. **데이터 관리**다. 3D 유동 시뮬레이션 한 번에 50 GB, 전체 파라미터 스터디로 500 GB가 쌓이는 것은 흔하다. 본인의 노트북 SSD가 500 GB인데 한 프로젝트가 이걸 다 채운다. 저장소 문제로 이전 결과를 삭제하다가 재현 불가능해지고, 분석 속도가 느려지고, 논문 Figure를 다시 그릴 수 없게 된다. 이것이 "시뮬레이션 데이터 위기"다. 체계적인 데이터 관리 전략이 없으면 박사 과정 후반에 큰 대가를 치른다.
+
+<div class="highlight-box highlight-important">
+
+**데이터 폭발의 현실.** CFD 시뮬레이션 한 번에 얼마나 많은 데이터가 나오는지 체감해보자. 중간 크기의 3D 유동(예: 500만 메쉬 셀)에서 1000 시간 스텝 저장 시, 한 파라미터 세트당 50-200 GB다. 파라미터를 10개 변화시키면 500 GB~2 TB. 민감도 분석을 하면 5-10 TB. 박사 5년 동안의 누적 데이터는 수십 TB가 될 수 있다. 이것을 "컴퓨터에 저장"할 생각이면 실패한다. 처음부터 저장 전략이 필요하다.
+
+</div>
+
+**저장 계층(Storage Tier)의 이해.**
+
+모든 데이터를 한 곳에 저장하지 말고, 사용 빈도에 따라 계층화한다.
+
+**Tier 1: 핫 스토리지 (Hot Storage).**
+자주 접근하는 데이터. 빠른 SSD.
+- 본인의 현재 작업 중인 파일
+- 최근 1주일 내 분석한 시뮬레이션 결과
+- 용량: 100-500 GB
+- 예: 본인의 노트북 SSD, 연구실 서버의 NVMe
+
+**Tier 2: 웜 스토리지 (Warm Storage).**
+가끔 접근하는 데이터. 일반 HDD.
+- 최근 1-3개월 프로젝트의 완료된 시뮬레이션
+- 비교 실험용 벤치마크 데이터
+- 용량: 1-10 TB
+- 예: 연구실의 NAS, 학교 스토리지 서버
+
+**Tier 3: 콜드 스토리지 (Cold Storage).**
+거의 접근하지 않는 데이터. 대용량 저렴한 저장소.
+- 졸업 논문에 쓴 실험의 원본 데이터
+- 오래된 완료 프로젝트
+- 법적 보존 의무가 있는 데이터
+- 용량: 10-100 TB 이상
+- 예: 테이프 백업, Glacier, 학교 아카이브
+
+**Tier 4: 재생 가능 데이터 (Reproducible Data).**
+저장하지 않고 **재생성**하는 것이 더 효율적인 데이터.
+- 시뮬레이션 설정 스크립트 + 결과 생성 코드
+- 중간 결과는 폐기, 원본만 유지
+- Git에 저장 (용량 작음)
+
+원본 시뮬레이션 파일 1 TB vs 재생성 스크립트 1 KB. 스크립트만 저장하고 필요할 때 재실행하는 것이 훨씬 효율적이다. 다만 시간이 오래 걸리는 시뮬레이션은 재생성이 비현실적.
+
+**"저장 vs 재생성"의 판단 기준.**
+
+각 데이터에 대해 "저장할 것인가, 스크립트만 남기고 재생성할 것인가"를 결정한다.
+
+**저장해야 할 것**:
+- 재생성 시간이 1주 이상인 결과
+- 재생성에 특수 장비(HPC)가 필요한 결과
+- 파라미터와 초기값을 완벽히 기록하지 못하는 실험적 결과
+- 논문에 직접 쓰이는 최종 결과
+
+**재생성해도 되는 것**:
+- 재생성 시간이 1시간 이내
+- 단순한 파라미터 스윕
+- 중간 체크포인트
+- 탐색 단계의 실패한 시도들
+
+이 판단이 저장소 용량을 크게 줄인다.
+
+**데이터 압축의 전략.**
+
+시뮬레이션 데이터는 압축 가능성이 높다. 특히 격자 기반 데이터.
+
+**압축 방법 1: 일반 압축 (gzip, bzip2, zstd).**
+```bash
+# gzip (빠름, 중간 압축)
+gzip simulation_result.vtk
+
+# bzip2 (느림, 더 좋은 압축)
+bzip2 simulation_result.vtk
+
+# zstd (빠르고 높은 압축)
+zstd simulation_result.vtk
+```
+
+3D 메쉬 데이터는 보통 50-80% 압축된다.
+
+**압축 방법 2: 도메인 특화 포맷 (HDF5, NetCDF).**
+- **HDF5**: 과학 데이터의 표준. 내장 압축, 부분 읽기, 메타데이터 지원
+- **NetCDF**: 기후/유체 분야 표준. HDF5 기반
+- **Parquet**: 표 형식 데이터에 최적
+
+이런 포맷은 내장 압축이 있어서 일반 압축보다 효율적이다.
+
+**HDF5 예시 (Python)**:
+```python
+import h5py
+import numpy as np
+
+# 쓰기 (압축)
+with h5py.File('simulation.h5', 'w') as f:
+    f.create_dataset('velocity',
+                      data=velocity_array,
+                      compression='gzip',
+                      compression_opts=9)
+    f.create_dataset('pressure',
+                      data=pressure_array,
+                      compression='gzip',
+                      compression_opts=9)
+    # 메타데이터
+    f.attrs['reynolds_number'] = 1000
+    f.attrs['mesh_size'] = 5000000
+    f.attrs['timestamp'] = '2026-06-15'
+
+# 읽기 (필요한 부분만)
+with h5py.File('simulation.h5', 'r') as f:
+    # 전체가 아니라 특정 시간 스텝만 읽기
+    velocity_t100 = f['velocity'][100, :, :, :]
+```
+
+HDF5의 강점은 **부분 읽기**. 100 GB 파일에서 필요한 5 GB만 메모리에 올릴 수 있다.
+
+**압축 방법 3: 손실 압축 (Lossy Compression).**
+일부 정확도를 희생하고 큰 압축률을 얻는다. 과학 데이터에 특화된 도구.
+
+- **ZFP**: 부동소수점 데이터의 손실 압축. 사용자가 오차 한계 지정.
+- **SZ**: 또 다른 손실 압축 라이브러리. 10-100배 압축 가능.
+- **FPZIP**: 부동소수점 특화.
+
+**사용 시 주의**: 논문의 최종 결과는 무손실로 저장. 중간 결과나 시각화용 데이터에만 손실 압축 사용.
+
+**데이터 포맷 선택의 원칙.**
+
+**원칙 1: 도메인 표준을 따른다.**
+- CFD: VTK, ENSIGHT, HDF5
+- 구조 해석: ODB (Abaqus), RST (ANSYS), HDF5
+- 기후/해양: NetCDF
+- 천문학: FITS
+- 범용: HDF5, Parquet
+
+도메인 표준을 사용하면 다른 도구와 호환이 쉽다.
+
+**원칙 2: 텍스트 대신 바이너리.**
+CSV, XML 같은 텍스트 포맷은 사람이 읽기 편하지만 크기가 크고 느리다. 큰 데이터는 바이너리 포맷(HDF5, Parquet)을 사용.
+
+**원칙 3: 메타데이터를 함께 저장.**
+파일명에 정보를 인코딩하지 말고(예: `result_re1000_t100.h5`), 파일 내부 메타데이터로 저장. HDF5의 attrs 기능 활용.
+
+**원칙 4: 독점 포맷 주의.**
+일부 상용 도구의 독점 포맷(ANSYS CDB, Abaqus FIL)은 그 도구 없이 읽을 수 없다. 장기 보존이 필요하면 표준 포맷(HDF5, VTK)으로 변환 저장.
+
+**폴더 구조의 표준화.**
+
+하나의 프로젝트 내에서 일관된 구조를 유지한다.
+
+```
+project_name/
+├── 01_config/              # 시뮬레이션 설정 파일
+│   ├── input.yaml
+│   └── mesh_config.json
+├── 02_mesh/                # 메쉬 파일
+│   ├── mesh_v1.msh
+│   └── mesh_v2.msh
+├── 03_scripts/             # 자동화 스크립트
+│   ├── run_simulation.py
+│   ├── postprocess.py
+│   └── plot_figures.py
+├── 04_raw_data/            # 원본 시뮬레이션 결과 (Tier 2)
+│   ├── case_01/
+│   ├── case_02/
+│   └── ...
+├── 05_processed/           # 후처리된 데이터 (Tier 1)
+│   ├── velocity_means.h5
+│   └── pressure_stats.h5
+├── 06_figures/             # 논문용 그림
+│   ├── fig1.pdf
+│   └── fig2.pdf
+├── 07_docs/                # 문서
+│   ├── README.md
+│   └── methodology.md
+└── 08_archive/             # 이전 버전 (Tier 3 대상)
+    └── old_results/
+```
+
+이 구조를 모든 프로젝트에 일관되게 적용한다. 선배가 떠나도 후배가 쉽게 이해할 수 있다.
+
+**파일명 규칙.**
+
+시뮬레이션 데이터의 파일명은 중요한 메타데이터를 포함해야 한다.
+
+**좋은 파일명**:
+```
+case001_re1000_ma03_20260615_v2.h5
+```
+- `case001`: 케이스 ID
+- `re1000`: Reynolds number = 1000
+- `ma03`: Mach number = 0.3
+- `20260615`: 날짜
+- `v2`: 버전
+
+**나쁜 파일명**:
+- `result.h5` (정보 없음)
+- `test_final_FINAL_v3_really_final.h5` (버전 관리 실패)
+- `untitled1.h5` (기본값)
+
+**명명 규칙의 원칙**:
+- 소문자와 숫자만 (공백 없음)
+- 언더스코어(_)로 구분
+- 가장 중요한 정보부터
+- 날짜는 YYYYMMDD 형식 (정렬 용이)
+- 버전 번호 명시
+
+**데이터 색인과 메타데이터 관리.**
+
+파일이 수백 개가 되면 "어느 파일이 어떤 조건인지" 기억이 어렵다. 색인 파일을 유지한다.
+
+**색인 방법 1: CSV/Excel.**
+```csv
+case_id,filename,reynolds,mach,angle,date,size_GB,status
+001,case001_re1000_ma03_v1.h5,1000,0.3,5.0,2026-06-15,2.3,completed
+002,case002_re1000_ma05_v1.h5,1000,0.5,5.0,2026-06-16,2.4,completed
+003,case003_re2000_ma03_v1.h5,2000,0.3,5.0,2026-06-17,2.5,running
+```
+
+**색인 방법 2: SQLite 데이터베이스.**
+파일이 수백 개 이상이면 SQLite가 효율적.
+
+```python
+import sqlite3
+
+conn = sqlite3.connect('simulation_index.db')
+c = conn.cursor()
+c.execute('''CREATE TABLE IF NOT EXISTS cases
+             (id INTEGER PRIMARY KEY,
+              filename TEXT, reynolds REAL, mach REAL,
+              angle REAL, date TEXT, size_gb REAL, status TEXT)''')
+
+# 새 케이스 추가
+c.execute("INSERT INTO cases VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+          (1, 'case001.h5', 1000, 0.3, 5.0, '2026-06-15', 2.3, 'completed'))
+conn.commit()
+
+# 쿼리
+c.execute("SELECT filename FROM cases WHERE reynolds >= 1000 AND mach < 0.5")
+results = c.fetchall()
+```
+
+SQL 쿼리로 "Reynolds 1000 이상, Mach 0.5 미만 케이스"를 즉시 찾을 수 있다.
+
+**색인 방법 3: 구조화된 디렉토리.**
+파일 시스템 자체를 색인으로 사용.
+
+```
+results/
+├── re1000/
+│   ├── ma03/
+│   │   ├── angle05.h5
+│   │   └── angle10.h5
+│   └── ma05/
+│       └── angle05.h5
+└── re2000/
+    ...
+```
+
+단순하지만 파라미터 수가 많아지면 디렉토리가 깊어져 관리가 어렵다.
+
+**데이터 처리의 효율성.**
+
+TB급 데이터를 다룰 때 처리 속도도 문제다.
+
+**기법 1: 청킹 (Chunking).**
+전체를 메모리에 올리지 말고 청크 단위로 처리.
+
+```python
+import h5py
+
+with h5py.File('huge_simulation.h5', 'r') as f:
+    total_time_steps = f['velocity'].shape[0]
+    chunk_size = 100
+    
+    for start in range(0, total_time_steps, chunk_size):
+        end = min(start + chunk_size, total_time_steps)
+        chunk = f['velocity'][start:end, :, :, :]
+        process(chunk)
+```
+
+**기법 2: 병렬 처리.**
+여러 파일을 동시에 처리.
+
+```python
+from multiprocessing import Pool
+
+def process_case(filename):
+    # 한 케이스 처리
+    return result
+
+with Pool(8) as p:
+    results = p.map(process_case, all_filenames)
+```
+
+**기법 3: Dask와 Xarray.**
+과학 데이터의 대용량 처리를 위한 Python 라이브러리.
+
+```python
+import xarray as xr
+
+# HDF5/NetCDF 파일을 지연 로드
+ds = xr.open_dataset('huge_simulation.h5', chunks={'time': 100})
+
+# 청크 단위로 자동 처리
+result = ds['velocity'].mean(dim='time').compute()
+```
+
+Dask는 메모리보다 큰 데이터를 자동으로 청킹하여 처리.
+
+**기법 4: 사전 집계 (Pre-aggregation).**
+원본 데이터를 매번 다시 처리하지 말고, 자주 쓰이는 통계(평균, 분산, 분위수)를 미리 계산해서 저장.
+
+```python
+# 원본 (TB 단위)
+raw_data = load_full_simulation()
+
+# 사전 집계 (MB 단위)
+stats = {
+    'mean': raw_data.mean(axis=0),
+    'std': raw_data.std(axis=0),
+    'max': raw_data.max(axis=0),
+    'min': raw_data.min(axis=0)
+}
+save_to_h5('precomputed_stats.h5', stats)
+```
+
+이후 분석은 작은 통계 파일만 로드. 원본은 특별한 경우에만.
+
+**백업 전략의 실전.**
+
+시뮬레이션 데이터의 3-2-1 백업 원칙.
+
+- **3 복사본**: 원본 + 2개의 백업
+- **2 매체**: 2가지 다른 저장 매체 (SSD와 HDD, 또는 로컬과 클라우드)
+- **1 오프사이트**: 1개는 물리적으로 다른 장소에 (화재, 도난 대비)
+
+**실전 구현**:
+1. **원본**: 본인의 작업 컴퓨터 SSD
+2. **로컬 백업**: 외장 HDD 또는 연구실 NAS
+3. **오프사이트**: 학교 클라우드, 구글 드라이브, 또는 KISTI 아카이브
+
+**백업 스케줄**:
+- 진행 중 데이터: 매일 (또는 실시간 동기화)
+- 중요 결과: 주 단위
+- 최종 결과: 달 단위 + 이중 검증
+
+**자동화 도구**:
+```bash
+# rsync로 자동 백업
+rsync -av --delete /home/user/project/ /backup/project/
+
+# 또는 cron으로 매일 자동
+0 2 * * * rsync -av /home/user/project/ /backup/project/
+```
+
+**클라우드 저장소의 전략적 활용.**
+
+TB급 데이터를 클라우드에 저장하는 것은 비용이 들지만, 특정 상황에서는 가치가 있다.
+
+**저장소 옵션**:
+- **Google Drive**: 개인 또는 학교 계정. 학교 제공 시 대용량 무료.
+- **Dropbox**: 유료. 안정적.
+- **AWS S3**: 매우 저렴 ($0.023/GB/월), 대용량 적합
+- **AWS Glacier**: 장기 보관 ($0.004/GB/월), 읽기가 느림
+- **Backblaze B2**: S3 대안, 더 저렴
+- **학교 클라우드**: 대부분 무료, 용량 제한 있음
+
+**비용 계산**:
+- 10 TB를 S3에 저장: 월 $230 = 연간 $2,760
+- 10 TB를 Glacier에 저장: 월 $40 = 연간 $480
+
+학생 예산으로는 부담이 된다. 학교 자원 활용이 우선.
+
+**전략**: 활발한 데이터는 로컬, 완료된 것은 학교 클라우드, 논문용 최종 결과는 Zenodo에 공개 (ch38 참조).
+
+**데이터 관리의 장기 관점.**
+
+박사 과정 5-6년 동안의 데이터 관리 전략.
+
+**1-2년차 (탐색 단계)**:
+- 데이터가 상대적으로 작다 (< 1 TB)
+- 로컬 SSD + 주간 외장 HDD 백업으로 충분
+- 폴더 구조와 명명 규칙을 정착시킨다
+
+**3-4년차 (본격 생산)**:
+- 데이터가 폭증 (수십 TB)
+- 학교 NAS 활용 필수
+- 색인 데이터베이스 도입
+- 오래된 데이터의 아카이브 전략 필요
+
+**5-6년차 (마무리)**:
+- 논문용 데이터만 선별 보존
+- 나머지는 콜드 스토리지로 이동
+- Zenodo에 공개 데이터셋으로 배포 (ch38 참조)
+- 졸업 후 1-2년 보관 의무 이행
+
+졸업 후에도 데이터를 버리지 말고, 최소 5-10년 보관한다. 본인의 논문에 대한 재현성 요청이 나중에 올 수 있다.
+
+**흔한 실수와 해결.**
+
+**실수 1: "나중에 정리하면 되겠지".**
+박사 과정 동안 데이터가 쌓이면서 "정리"가 불가능한 상태가 된다. **해결**: 매주 1시간씩 정리 시간 배정.
+
+**실수 2: 파일명에 의존.**
+`final_v2_latest_really_final.h5` 같은 파일들이 쌓인다. **해결**: 버전 관리는 Git이나 메타데이터로. 파일명은 내용 설명만.
+
+**실수 3: 압축 안 함.**
+원본 VTK 파일을 그대로 저장. **해결**: 항상 HDF5 + 압축.
+
+**실수 4: 메타데이터 없음.**
+6개월 후 "이 파일이 어떤 조건이었지?" 기억 안 남. **해결**: 항상 메타데이터 함께 저장.
+
+**실수 5: 단일 백업 (또는 백업 없음).**
+"컴퓨터가 고장나면 끝". **해결**: 3-2-1 원칙.
+
+**실수 6: 중복 저장.**
+같은 데이터가 여러 폴더에 복사되어 있음. **해결**: 심볼릭 링크 또는 하나의 정본(source of truth).
+
+**DVC (Data Version Control)의 활용.**
+
+시뮬레이션 데이터에 Git 같은 버전 관리를 적용하는 도구. 대용량 파일을 효율적으로 다룬다.
+
+```bash
+pip install dvc
+
+# 초기화
+dvc init
+
+# 큰 데이터 파일을 추적
+dvc add simulation_results/
+
+# Git에는 메타데이터만 들어감
+git add simulation_results.dvc .gitignore
+
+# 원격 저장소 설정 (S3, Google Drive 등)
+dvc remote add -d myremote s3://mybucket/dvc
+
+# 원격으로 푸시
+dvc push
+```
+
+DVC는 "무엇을 언제 계산했는지"를 추적하고, 데이터 파이프라인을 정의할 수 있다. 연구실 수준의 시뮬레이션 프로젝트에 적합.
+
+**학습 자원.**
+
+- **"Data Management for Researchers"** (Kristin Briney): 포괄적 가이드
+- **DVC 공식 튜토리얼**: dvc.org
+- **HDF5 공식 문서**: docs.h5py.org
+- **Zarr**: HDF5의 현대적 대안 (클라우드 친화)
+- **ESGF (Earth System Grid Federation)**: 기후 시뮬레이션 데이터 관리의 모범 사례
+
+> 시뮬레이션 데이터 관리는 지루한 주제지만, 박사 과정의 효율성을 크게 좌우한다. "데이터가 쌓이기 전에" 전략을 세우는 것이 핵심이다. 처음에는 몇 GB에서 시작해도 금방 몇 TB가 된다. 본인의 박사 1-2년차에 저장 계층, 폴더 구조, 명명 규칙, 백업을 정착시키면, 5-6년차에 압도당하지 않는다. 좋은 데이터 관리 습관이 본인을 "체계적인 연구자"로 만든다. 이것은 특정 분야를 넘어 평생 유용한 역량이다.
