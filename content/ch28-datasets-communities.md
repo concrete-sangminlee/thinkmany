@@ -564,3 +564,315 @@ ML 분야에서는 공개 데이터셋이 종종 벤치마크 역할을 한다. 
 **실전 팁: 사용 전 기록하기.** 본인이 사용하는 모든 데이터셋의 라이선스, 사용 범위, 인용 정보를 별도의 문서(예: `datasets_used.md`)에 기록해 둔다. 프로젝트 시작 시 5분의 기록이 논문 제출 시 "이 데이터 써도 되나?"라고 급히 확인하는 시간을 절약한다. 이 문서는 또한 연구실에 남는 자산이 된다. 후배가 같은 데이터를 쓸 때 참고할 수 있다.
 
 > 데이터 라이선스는 박사 과정에서 가장 지루하지만 가장 기본적인 주제 중 하나다. 대부분의 경우 문제가 발생하지 않지만, 한 번의 실수가 논문 철회로 이어진다. 데이터를 다운로드하기 전에 5분만 라이선스를 읽는 습관을 들이면 평생 안전하다. 이 5분이 본인의 연구자로서의 신뢰성을 지킨다.
+
+---
+
+## 데이터셋 문서화 — Datasheets for Datasets와 Model Cards
+
+본인이 새 데이터셋이나 모델을 공개할 때, **어떻게 문서화할 것인가?** 많은 학생이 README 파일에 몇 줄만 쓰고 끝낸다. 이것은 2020년 이전의 관행이다. 2021년 이후 ML/AI 커뮤니티는 **Datasheets for Datasets**와 **Model Cards**라는 표준화된 문서 형식을 도입했다. 주요 저널(Nature Machine Intelligence, TMLR)과 학회(NeurIPS, ACL)는 이미 이 문서화를 요구한다. 본인이 이것을 모르면 투고 시 문제가 된다.
+
+<div class="highlight-box highlight-important">
+
+**문서화는 "추가 작업"이 아니라 "연구의 일부"다.** Gebru et al. (2018)의 "Datasheets for Datasets" 논문이 이 흐름의 시작이었다. 데이터셋의 목적, 구성, 수집 과정, 한계, 편향을 체계적으로 기록하는 것이 데이터셋 자체만큼 중요하다는 것이 핵심 주장이다. 이것 없이 공개된 데이터셋은 다른 연구자가 안전하게 사용할 수 없고, 따라서 과학적 가치가 반감된다.
+
+</div>
+
+**Datasheet for Datasets의 구조.**
+
+Gebru et al.의 원 논문이 제안한 7개 섹션.
+
+**1. Motivation (동기).**
+- 이 데이터셋은 왜 만들어졌는가?
+- 어떤 문제를 해결하려 했는가?
+- 누가 만들었는가? (개인, 연구실, 회사, 정부 기관)
+- 누가 자금을 제공했는가?
+
+이 섹션이 데이터셋의 "원점"을 보여준다. 목적을 모르면 적절한 사용이 어렵다.
+
+**2. Composition (구성).**
+- 각 인스턴스가 무엇을 나타내는가? (이미지? 문장? 측정값?)
+- 총 몇 개의 인스턴스가 있는가?
+- 데이터가 전체 모집단의 샘플인가, 전부인가?
+- 각 인스턴스는 어떤 데이터로 구성되어 있는가? (이미지 + 라벨? 텍스트 + 메타데이터?)
+- 레이블은 어떻게 정의되어 있는가?
+- 결측 정보가 있는가?
+- 인스턴스 간 관계가 명시되어 있는가?
+- 훈련/검증/테스트 분할이 권장되는가?
+- 노이즈나 오류가 알려져 있는가?
+- 외부 리소스에 의존하는가?
+- 기밀 정보나 개인정보가 포함되는가?
+
+이 섹션이 가장 길고 중요하다. 사용자가 "이 데이터가 나에게 맞는가"를 판단하는 핵심 정보.
+
+**3. Collection Process (수집 과정).**
+- 데이터는 어떻게 수집되었는가?
+- 어떤 메커니즘이나 절차가 사용되었는가? (수동 수집? 자동 크롤링? 센서?)
+- 전체 모집단에서 일부만 샘플링되었는가? 어떤 방법으로?
+- 누가 수집에 참여했는가? (연구자? 크라우드워커?)
+- 수집에 얼마나 오래 걸렸는가?
+- 윤리 심의(IRB 등)가 필요했는가? 있었는가?
+
+이 섹션이 데이터의 **가능한 편향 원천**을 드러낸다.
+
+**4. Preprocessing/Cleaning/Labeling (전처리/정제/라벨링).**
+- 원시 데이터에 어떤 전처리가 적용되었는가?
+- 원시 데이터가 보존되어 있는가? (원래 형태로 복원 가능한가?)
+- 라벨은 어떻게 생성되었는가? (전문가? 크라우드? 자동?)
+- 라벨러 간 일치도(inter-rater agreement)는 측정되었는가?
+- 사용된 소프트웨어는? (open source? 독점?)
+
+**5. Uses (용도).**
+- 이 데이터셋이 이미 사용된 작업은? (기존 논문 인용)
+- 어떤 다른 작업에 사용될 수 있는가?
+- 구성이나 수집 방식이 미래의 사용을 제한하는가?
+- 사용하지 말아야 할 작업이 있는가? (예: 얼굴 데이터를 감시에 쓰지 말 것)
+
+이 섹션이 **의도된 사용과 의도되지 않은 사용**을 구분한다.
+
+**6. Distribution (배포).**
+- 어디서 배포되는가? (웹사이트, 리포지토리)
+- 어떻게 배포되는가? (API, 다운로드, DOI)
+- 언제부터 배포되는가?
+- 라이선스는? (ch28의 라이선스 섹션 참조)
+- 제3자의 지적재산권 제약이 있는가?
+- 수출 통제 대상인가? (일부 데이터는 국제 수출이 제한됨)
+
+**7. Maintenance (유지보수).**
+- 누가 데이터셋을 유지보수하는가?
+- 연락처는?
+- 업데이트 계획이 있는가?
+- 기존 사용자가 어떻게 업데이트를 통보받는가?
+- 오류 신고는 어떻게?
+- 데이터셋에 기여(contribution)할 수 있는가?
+
+**Datasheet 작성의 실전 길이.**
+
+이 7개 섹션이 많아 보이지만, 각 섹션은 1-2단락이면 충분하다. 전체 Datasheet는 3-10 페이지 정도. 본인의 논문 Appendix에 포함하거나 별도 PDF로 공개한다.
+
+**간략한 Datasheet 예시 — "Korean Concrete Crack Dataset"**:
+
+```
+Dataset: Korean Concrete Crack Dataset
+Authors: Kim et al., Korea University
+
+1. Motivation
+이 데이터셋은 한국의 콘크리트 구조물(교량, 고가도로, 건물)의
+균열 이미지 1만 장을 포함한다. 한국 특유의 기후와 시공 방식
+하에서의 균열 패턴을 다루기 위해 만들어졌다. 기존 데이터셋
+(Crack500, DeepCrack 등)은 주로 유럽과 북미 데이터였다.
+국토교통부의 연구 과제로 자금이 지원되었다.
+
+2. Composition
+- 인스턴스: RGB 이미지 + 픽셀 단위 segmentation mask
+- 수: 10,000장 (학습 8000, 검증 1000, 테스트 1000)
+- 해상도: 1024×1024
+- 수집 지역: 서울, 부산, 광주의 15개 현장
+- 라벨: 균열/비균열 + 폭/깊이 카테고리
+- 결측: 일부 이미지에 깊이 라벨이 없음 (약 10%)
+- 개인정보: 없음 (사람이나 번호판이 보이는 이미지는 제거)
+
+3. Collection Process
+2022년 3월 - 2023년 6월 동안 연구자 5명이 DSLR 카메라로
+수집. 각 현장당 평균 600장. 촬영 조건(조명, 각도, 날씨)는
+다양하지만 햇빛이 있는 낮 시간에 집중되어 있다.
+야간/우천 조건은 현재 포함되지 않음.
+
+4. Preprocessing/Labeling
+JPEG 압축 없이 원본 TIFF로 저장. 라벨링은 3명의 구조공학
+박사과정 학생이 수행. 각 이미지는 2명 이상이 라벨링하고
+불일치 시 토론으로 해결. Cohen's kappa = 0.87.
+
+5. Uses
+- 적합: 균열 탐지, 분할, 폭 측정
+- 부적합: 비콘크리트 구조물, 실내 벽체, 극단 조명
+- 이미 사용: Kim et al. 2024 (Elsevier Construction &
+  Building Materials)
+
+6. Distribution
+- 위치: Zenodo (DOI: 10.5281/zenodo.XXXXX)
+- 라이선스: CC BY 4.0
+- 배포 시작: 2024-09-01
+- 재배포: 허용 (인용 필수)
+
+7. Maintenance
+- 관리자: Kim et al., Korea University
+- 이메일: kim@ku.edu
+- 업데이트 계획: 2025년에 야간 이미지 2000장 추가 예정
+- 오류 신고: GitHub Issues
+```
+
+이 예시가 3페이지 미만이다. 본인의 데이터셋에 맞게 조정한다.
+
+**Model Cards의 구조.**
+
+Datasheet이 데이터셋 문서라면, **Model Cards** (Mitchell et al. 2019)는 모델 문서다. Google이 주도하여 만들었고 현재 표준.
+
+**Model Card의 9개 섹션**:
+
+**1. Model Details.**
+- 모델 이름, 버전
+- 저자와 소속
+- 개발 시점
+- 모델 유형 (CNN, Transformer 등)
+- 참고 논문
+- 라이선스
+
+**2. Intended Use.**
+- 주요 의도된 사용처
+- 의도된 사용자
+- 사용하지 말아야 할 상황 (out-of-scope)
+
+**3. Factors.**
+- 성능에 영향을 주는 요인 (인구통계, 환경, 장비)
+- 어떤 요인에 대해 평가되었는가?
+
+**4. Metrics.**
+- 사용한 평가 지표
+- 왜 이 지표인가?
+- 임계값(thresholds)과 의미
+
+**5. Evaluation Data.**
+- 어떤 데이터로 평가했는가?
+- 왜 이 데이터인가?
+- 전처리는?
+
+**6. Training Data.**
+- 어떤 데이터로 학습했는가?
+- 학습 데이터의 분포
+
+**7. Quantitative Analyses.**
+- 다양한 조건에서의 성능 (subset별)
+- 공정성(fairness) 분석
+
+**8. Ethical Considerations.**
+- 이 모델의 윤리적 고려 사항
+- 잠재적 편향
+- 오용 가능성
+
+**9. Caveats and Recommendations.**
+- 사용자에게 경고
+- 권장 사항
+
+**Model Card 예시 — "Crack Segmentation Model v2.0"**:
+
+```
+Model: Crack Segmentation Model v2.0
+Architecture: U-Net with EfficientNet-B4 encoder
+Authors: Lee et al., KAIST
+
+1. Intended Use
+- Primary: Segmentation of cracks in concrete structures
+  from RGB images
+- Users: Structural inspectors, civil engineering researchers
+- Out-of-scope: Microcrack detection (<0.1 mm),
+  non-concrete materials, underwater structures
+
+2. Training Data
+- Source: Korean Concrete Crack Dataset (see Datasheet)
+- Size: 8,000 images for training
+- Split: 80% train, 10% validation, 10% test
+
+3. Metrics
+- IoU: 0.82 (test set)
+- Dice: 0.89
+- Precision: 0.91, Recall: 0.88
+
+4. Quantitative Analyses
+- Daylight: IoU 0.85
+- Shadow: IoU 0.76
+- Close-up (<1m): IoU 0.88
+- Far-distance (>5m): IoU 0.71
+
+5. Ethical Considerations
+- 본 모델은 안전 점검 도구이지 자동 결정 시스템이
+  아니다. 최종 판단은 인간 전문가가 내려야 한다.
+- 위양성(false positive)은 수리 비용을 증가시키고,
+  위음성(false negative)은 안전 위험을 증가시킨다.
+- 본 모델은 한국의 콘크리트 구조물에 최적화되어 있어,
+  다른 지역에서는 재검증이 필요하다.
+
+6. Caveats
+- 야간 이미지에 대한 성능은 검증되지 않음
+- 극단 날씨(폭우, 강풍)에서의 성능은 알려지지 않음
+- 본 모델은 연구용이며 상업적 사용 시 추가 검증 필요
+```
+
+**표준 도구와 템플릿.**
+
+문서화를 처음부터 쓰지 말고 기존 템플릿을 활용한다.
+
+**1. Hugging Face의 Datasets와 Models.**
+Hugging Face는 Datasheet과 Model Card의 표준 템플릿을 제공한다. `huggingface-cli dataset create`로 데이터셋 repo를 만들면 템플릿이 자동 생성된다.
+
+**2. Papers with Code의 Datasets.**
+Papers with Code에 데이터셋을 등록하면 구조화된 메타데이터 입력을 요청한다. 이것이 자연스럽게 Datasheet의 일부가 된다.
+
+**3. Google의 Model Card Toolkit.**
+`pip install model-card-toolkit`로 자동화 도구 사용 가능.
+
+**4. Markdown 템플릿.**
+GitHub에서 "datasheet-template" 또는 "model-card-template"을 검색하면 여러 오픈소스 템플릿이 있다.
+
+**박사 학생이 Datasheet/Model Card를 작성하는 실전 절차.**
+
+**1단계: 데이터/모델 수집 시 노트.**
+데이터 수집이나 모델 학습을 시작할 때부터 **노트를 작성**한다. 나중에 Datasheet을 쓸 때 이 노트가 재료가 된다. "누가, 언제, 어떻게, 왜"를 기록.
+
+**2단계: 중간 Datasheet 초안.**
+데이터 수집이 절반쯤 진행되었을 때 Datasheet 초안을 쓴다. 이때 자주 "이것도 기록해야겠다"는 것이 드러난다.
+
+**3단계: 논문 투고 직전 완성.**
+논문 완성 시점에 Datasheet을 최종화한다. 논문의 Appendix나 별도 Supplementary로 포함.
+
+**4단계: 공개와 유지.**
+공개 후에도 주기적으로(6개월마다) 업데이트한다. 사용자 피드백이 있으면 반영.
+
+**저널별 요구사항.**
+
+주요 저널/학회가 데이터셋/모델 문서화를 어떻게 요구하는지.
+
+- **Nature Machine Intelligence**: Datasheet 강력 권장
+- **TMLR (Transactions on ML Research)**: Datasheet과 Model Card 필수
+- **NeurIPS (Datasets and Benchmarks Track)**: Datasheet 필수
+- **ACL, EMNLP**: Responsible NLP Checklist (관련 항목 포함)
+- **CVPR, ICCV**: 공식 요구는 아니지만 점점 표준이 됨
+
+본인이 투고할 저널의 최신 가이드라인을 확인한다.
+
+**문서화의 실제 영향.**
+
+잘 작성된 Datasheet/Model Card가 본인의 연구에 미치는 영향.
+
+**1. 인용 증가.**
+사용자가 "이 데이터가 나에게 맞는가"를 빠르게 판단할 수 있다. 부적합한 데이터를 사용해 실패하는 것을 방지한다. 잘 문서화된 데이터셋이 더 자주 인용된다.
+
+**2. 리뷰 통과 확률 증가.**
+리뷰어가 "저자가 투명하다"고 느낀다. 방법론에 대한 질문이 줄어든다.
+
+**3. 윤리적 신뢰성.**
+AI 윤리의 기본 요건. 본인의 연구가 윤리적으로 수행되었음을 보여준다.
+
+**4. 재현성.**
+Datasheet의 모든 정보가 있으면 다른 연구자가 본인의 실험을 재현할 수 있다.
+
+**5. 법적 보호.**
+데이터의 출처와 라이선스를 명시하면 나중의 법적 분쟁을 방지.
+
+**문서화의 흔한 실수.**
+
+**실수 1: "다 기억하니까 나중에 쓰면 된다".**
+3개월 후 본인도 세부사항을 잊는다. 수집 시점부터 기록한다.
+
+**실수 2: 한계와 편향을 숨김.**
+"이 데이터셋에 야간 이미지가 없다"를 언급하지 않음. 나중에 발견되면 신뢰성이 무너진다.
+
+**실수 3: 너무 짧게.**
+"concrete cracks, 10000 images" 같은 한 줄 설명. 사용자가 판단할 수 없다.
+
+**실수 4: 너무 길게.**
+50 페이지의 상세한 설명. 아무도 읽지 않는다. 5-10 페이지가 적정.
+
+**실수 5: 최신 정보 부재.**
+v1 Datasheet이 v2 데이터셋에 안 맞는 정보. 업데이트하지 않음.
+
+> 데이터셋과 모델의 문서화는 박사 과정에서 점점 필수 기술이 되고 있다. 본인이 이것을 무시하면 2025년 이후의 저널과 학회에서 어려움을 겪는다. 데이터셋을 수집할 때부터 Datasheet을 염두에 두고, 모델을 학습할 때부터 Model Card를 염두에 두는 습관을 들인다. 이 문서화 자체가 본인의 연구를 더 명료하고 신뢰할 수 있게 만든다. 추가 작업이 아니라 연구의 필수 부분으로 대한다.
