@@ -848,3 +848,568 @@ Sincerely,
 이런 사전 대응이 잘 되어 있으면 리비전에서 새 실험 요구가 줄어든다.
 
 > 리비전의 새 실험 요구는 박사 과정에서 가장 스트레스가 큰 순간 중 하나다. 그러나 본인이 이를 전략적으로 다룰 수 있다면, 본인의 논문이 더 강해지고 본인의 연구자로서의 성숙도가 올라간다. "모든 요구를 들어줄 필요 없다"는 것과 "모든 요구를 거절하라"는 것 사이의 균형을 찾는 것이 기술이다. 본인의 첫 리비전에서 이 균형을 완벽히 찾지 못해도 괜찮다. 세 번째, 다섯 번째 리비전부터는 자연스러워진다.
+
+---
+
+## 리뷰 대응의 시각적 도구 — 리뷰어가 확인하기 쉽게 만들기
+
+리비전 작업의 숨은 성공 요인은 **리뷰어가 본인의 수정을 쉽게 확인할 수 있게 만드는 것**이다. 많은 학생이 수정 내용만 글로 쓰고 끝낸다. "X 섹션을 수정했습니다"라고만 쓰고 리뷰어가 스스로 찾게 만든다. 이것은 리뷰어에게 부담이 된다. 바쁜 리뷰어는 짜증을 내고, 대충 읽고, 부정적으로 평가할 수 있다. 반대로 **시각적 도구를 잘 활용**하면 리뷰어가 5분 만에 본인의 수정을 확인할 수 있고, 이것이 긍정적 인상으로 이어진다.
+
+<div class="highlight-box highlight-important">
+
+**"리뷰어의 시간 = 본인의 운명".** 리뷰어는 본인의 리비전에 30분-2시간을 쓴다. 이 짧은 시간에 본인이 "모든 코멘트에 적절히 대응했다"고 판단해야 한다. 시각적 도구가 이 판단을 쉽게 만든다. 색상 하이라이트, 페이지 번호 참조, Before/After 비교. 이런 작은 기술들이 리비전의 결과를 크게 바꾼다.
+
+</div>
+
+**리비전 대응의 3가지 문서.**
+
+리비전 제출 시 본인이 만들어야 할 3가지 문서.
+
+**문서 1: Revised Manuscript (수정된 원고).**
+원래 논문에 수정을 반영한 버전.
+
+**문서 2: Response Letter (응답 편지).**
+리뷰어의 각 코멘트에 대한 본인의 답변.
+
+**문서 3: Tracked Changes Version (변경 추적 버전).**
+수정 사항이 하이라이트된 버전.
+
+많은 학생이 1과 2만 제출하고 3을 빠뜨린다. 3이 없으면 리뷰어가 "무엇이 바뀌었는지" 일일이 찾아야 한다.
+
+**Tracked Changes 버전의 중요성.**
+
+LaTeX와 Word 모두 변경 추적 기능이 있다.
+
+**LaTeX의 경우**:
+
+패키지 사용:
+```latex
+\usepackage[final]{changes}
+
+\definechangesauthor[name={Author 1}, color=blue]{a1}
+
+% 본문에서
+Old text \added[id=a1]{new added text}.
+\deleted[id=a1]{Deleted text.}
+Changed \replaced[id=a1]{new text}{old text}.
+```
+
+또는 `latexdiff` 도구로 두 버전의 차이를 자동 생성:
+```bash
+latexdiff old_version.tex new_version.tex > diff.tex
+pdflatex diff.tex
+```
+
+이 명령어 하나가 깔끔한 tracked changes PDF를 만든다.
+
+**Word의 경우**:
+- "검토" 탭 → "변경 내용 추적" 활성화
+- 수정하면 자동으로 변경 표시
+- 최종 제출 시 "모든 변경 내용 표시"로 설정
+
+**양쪽 버전 제출**:
+- **Clean version**: 최종본 (수정 표시 없음)
+- **Tracked version**: 변경 추적 버전
+
+일부 저널은 tracked version을 요구, 일부는 clean만. 요구하지 않아도 둘 다 제공하면 좋다.
+
+**Response Letter의 시각적 구조.**
+
+Response Letter도 시각적으로 명확해야 한다.
+
+**기본 구조**:
+
+```
+Dear Editor and Reviewers,
+
+We thank the reviewers for their thoughtful comments. 
+We have carefully addressed all points and believe the 
+manuscript is significantly improved. Below, we respond 
+to each comment in detail.
+
+For clarity:
+- Reviewer comments are in blue italics.
+- Our responses are in black regular text.
+- Specific changes in the manuscript are highlighted 
+  in yellow and indicated by page/line numbers.
+
+==================================================
+RESPONSES TO REVIEWER 1
+==================================================
+
+COMMENT 1.1: [Reviewer's original comment in blue italics]
+
+RESPONSE: Thank you for this comment. We agree that...
+[본인의 응답]
+
+CHANGES IN MANUSCRIPT: 
+- Added a new paragraph on page 5, lines 120-140.
+- Updated Figure 3 with the requested comparison.
+- See highlighted text in the tracked version.
+
+==================================================
+
+COMMENT 1.2: [다음 코멘트]
+
+RESPONSE: ...
+
+==================================================
+```
+
+**핵심 요소**:
+1. **코멘트 번호**: `1.1`, `1.2` (리뷰어 1의 첫 번째, 두 번째 코멘트)
+2. **리뷰어 원문**: 그대로 복사 (블루 이탤릭)
+3. **본인의 응답**: 명확한 답변
+4. **수정 사항 명시**: 페이지, 줄 번호
+5. **구분선**: 각 코멘트 사이
+
+**색상의 사용.**
+
+Response Letter와 tracked manuscript에서 색상을 전략적으로 사용.
+
+**Response Letter의 색상**:
+- **파랑 (이탤릭)**: 리뷰어의 원문
+- **검정 (일반)**: 본인의 응답
+- **노랑 배경**: 중요한 변경 사항 또는 인용문
+
+**Tracked Manuscript의 색상**:
+- **빨강 (줄이 그어짐)**: 삭제된 텍스트
+- **파랑**: 새로 추가된 텍스트
+- **노랑 배경**: 수정 또는 강조된 부분
+
+이런 색상 체계가 일관되면 리뷰어가 빠르게 인식한다.
+
+**페이지 번호와 줄 번호 참조.**
+
+"수정했습니다"만으로는 부족. 구체적 위치를 말해야 한다.
+
+**좋은 예**:
+```
+RESPONSE: We have added a paragraph explaining the 
+assumption, as requested. The new text appears on 
+page 7, lines 180-195 of the revised manuscript.
+```
+
+**나쁜 예**:
+```
+RESPONSE: We added a paragraph.
+```
+
+**팁**: LaTeX의 `lineno` 패키지로 줄 번호를 자동 생성.
+```latex
+\usepackage{lineno}
+\linenumbers
+```
+
+이 패키지가 모든 줄에 번호를 붙인다. 리뷰어가 쉽게 참조 가능.
+
+**인용 표시의 활용.**
+
+수정된 텍스트를 Response Letter에 직접 인용하면 리뷰어가 확인하기 쉽다.
+
+**예시**:
+```
+RESPONSE: We have added the following paragraph to 
+address this concern:
+
+> "Our method assumes stationarity of the underlying 
+> distribution. This assumption holds for our target 
+> applications [citations], but may fail in cases of 
+> rapid distribution shift. We discuss this limitation 
+> in Section 5.2."
+
+This now appears on page 8, lines 220-225.
+```
+
+리뷰어가 원고를 열지 않고도 새 내용을 확인할 수 있다. 매우 편리함.
+
+**Before / After 비교.**
+
+중요한 수정의 경우 이전과 이후를 명확히 비교.
+
+**예시**:
+```
+RESPONSE: We have revised the problem statement to 
+be clearer.
+
+BEFORE (original):
+> "We consider the problem of X in various settings."
+
+AFTER (revised):
+> "We consider the problem of predicting X from 
+> multivariate time series, specifically focusing on 
+> non-stationary signals with missing values."
+```
+
+Before/After가 있으면 리뷰어가 "변경이 정말 일어났음"을 즉시 확인한다.
+
+**Side-by-Side 표.**
+
+여러 작은 수정을 한 번에 보여줄 때 표가 효과적.
+
+```
+| Reviewer Comment          | Location        | Action Taken                    |
+|---------------------------|-----------------|---------------------------------|
+| 1.1: Clarify notation     | Section 3.1     | Added notation table (Table 1)  |
+| 1.2: Missing baseline     | Section 4.2     | Added Method X comparison       |
+| 1.3: Grammar issue        | Abstract        | Fixed (line 15)                 |
+| 1.4: Figure 2 unclear     | Page 6          | Redesigned with clearer labels  |
+| 1.5: Reference missing    | Section 2       | Added [Smith 2024]              |
+```
+
+이 표가 Response Letter 끝에 있으면 리뷰어가 전체 수정을 한눈에 볼 수 있다.
+
+**새 그림과 결과의 삽입.**
+
+리뷰어가 추가 그림이나 결과를 요청한 경우.
+
+**원칙 1: Response Letter에 그림 포함.**
+새 그림을 Response Letter 본문에 직접 삽입.
+
+```
+RESPONSE: As requested, we have added an ablation 
+study. The results are shown below:
+
+[Figure 1: Ablation study results]
+
+This new figure also appears in the manuscript as 
+Figure 6, page 14.
+```
+
+리뷰어가 원고를 열지 않고도 새 결과를 볼 수 있다.
+
+**원칙 2: 표도 포함.**
+새 비교 표도 Response Letter에 직접 삽입.
+
+**원칙 3: 해석 제공.**
+그림/표만 보여주지 말고 "무엇을 의미하는가"도 설명.
+
+**"Extra 섹션"의 활용.**
+
+요청 받지 않았지만 추가한 내용도 적극 알린다.
+
+```
+RESPONSE: In addition to addressing the specific 
+comments, we have made the following improvements:
+
+1. Added a new discussion of related work in 
+   Section 2.3.
+2. Reorganized Section 4 for better flow.
+3. Corrected minor grammatical errors throughout.
+
+We hope these improvements further strengthen the 
+manuscript.
+```
+
+이것이 리뷰어에게 "저자가 정말 신경 썼구나"라는 인상을 준다.
+
+**응답의 톤.**
+
+시각적 도구뿐 아니라 언어의 톤도 중요.
+
+**원칙 1: 감사로 시작.**
+각 코멘트에 대한 응답은 "Thank you for..." 또는 "We appreciate..."로 시작.
+
+**원칙 2: 동의 표시.**
+리뷰어가 지적한 것에 동의할 때 명시.
+```
+"We fully agree with the reviewer's concern..."
+"The reviewer raises an important point..."
+```
+
+**원칙 3: 부분 동의.**
+완전 동의는 아니지만 일부 수용할 때.
+```
+"We agree with the spirit of this comment. While 
+[specific point], we have addressed the core concern 
+by..."
+```
+
+**원칙 4: 정중한 이의 제기.**
+동의하지 않을 때도 정중하게.
+```
+"We thank the reviewer for this suggestion. However, 
+we respectfully disagree because [specific reason]. 
+To address the underlying concern, we have [alternative]."
+```
+
+**피해야 할 어투**:
+- "The reviewer is wrong"
+- "This is obviously..."
+- "As stated in the paper..."
+- 방어적, 공격적 표현
+
+**시각적 구조화의 체크리스트.**
+
+리비전 제출 전 시각적 측면 확인.
+
+<div class="highlight-box highlight-info">
+
+**시각적 리비전 체크리스트**
+
+- [ ] 모든 리뷰 코멘트에 번호가 매겨졌는가? (1.1, 1.2, 2.1, ...)
+- [ ] 리뷰어 원문과 본인 응답이 색/스타일로 구분되는가?
+- [ ] 수정 사항의 페이지/줄 번호가 명시되었는가?
+- [ ] Tracked changes 버전이 별도로 제공되는가?
+- [ ] 중요한 수정은 Before/After로 보여지는가?
+- [ ] 새 그림/표가 Response Letter에 직접 포함되는가?
+- [ ] 전체 수정 요약 표가 있는가?
+- [ ] 요청받지 않은 추가 개선도 명시되는가?
+- [ ] 각 응답이 감사 표현으로 시작하는가?
+- [ ] 정중하고 전문적인 톤이 유지되는가?
+
+</div>
+
+이 10가지가 리비전의 시각적 품질을 보장한다.
+
+**Long Response Letter vs Short Response Letter.**
+
+리비전의 길이에 대한 판단.
+
+**Long Response (20+ 페이지)**:
+- Major revision이 많을 때
+- 리뷰어 여러 명의 상세한 코멘트
+- 새 실험과 분석이 많을 때
+- 장점: 완전함, 성의
+- 단점: 리뷰어 피로
+
+**Short Response (5-10 페이지)**:
+- Minor revision
+- 간단한 수정만 있을 때
+- 장점: 리뷰어 편함
+- 단점: 성의 부족으로 느껴질 수 있음
+
+**원칙**: 길이보다 **효율성**이 중요. 필요한 만큼만, 구조화되게.
+
+**언어 선택: 영어 수준.**
+
+Response Letter의 영어 수준.
+
+**기본 수준 (TOEFL 90+)**: 문법적으로 맞는 영어.
+
+**향상된 수준**: 외교적 표현과 정중한 어투.
+
+**함정**:
+- 과도하게 복잡한 문장
+- 어색한 번역
+- 한국어 말투의 직역
+
+**팁**: Grammarly나 AI 도구로 교정. 단, 톤을 잃지 않도록 주의.
+
+**다중 리뷰어의 조율.**
+
+리뷰어들의 의견이 다르면 Response에서 명확히 해야 한다.
+
+**예시**:
+```
+RESPONSE TO REVIEWER 1.3 AND REVIEWER 2.5:
+
+Reviewer 1 suggested X, while Reviewer 2 suggested 
+the opposite (Y). We carefully considered both 
+viewpoints. After analysis, we chose [X/Y/middle 
+ground] because [reason]. We have noted this 
+trade-off explicitly in Section Z.
+
+We hope this addresses the concerns of both reviewers.
+```
+
+이것이 "우리는 생각했다"는 신호. 에디터도 이것을 보고 안심.
+
+**새 리뷰어 등장 대응.**
+
+2차 리뷰에서 새 리뷰어가 추가되면 어려운 상황.
+
+**원칙**:
+- 새 리뷰어의 코멘트를 기존처럼 다룸
+- "이 논문은 이미 수정되었다"를 명시
+- 1차 리비전의 주요 변경 사항을 간단히 요약
+- 새 코멘트를 모두 다룸
+
+이 시각적 도구가 새 리뷰어도 이해하게 돕는다.
+
+**Co-author와의 시각적 협업.**
+
+여러 저자가 함께 리비전할 때의 시각적 도구.
+
+**도구 1: 공유 구글 독스.**
+- Response Letter를 공동 편집
+- 코멘트 기능으로 의견 교환
+- 변경 추적 활성화
+
+**도구 2: Overleaf.**
+- LaTeX 공동 편집
+- 버전 비교
+- 여러 저자의 역할 분담
+
+**도구 3: GitHub / GitLab.**
+- 논문을 Git으로 관리
+- 변경 이력 추적
+- PR로 검토
+
+**원칙**: 한 명이 최종 통합자 역할. 너무 많은 수정이 동시에 일어나면 혼란.
+
+**리비전 제출 전 시각적 최종 점검.**
+
+제출 전 마지막 점검.
+
+**점검 1: 인쇄해서 확인.**
+PDF를 인쇄하여 물리적으로 확인. 화면에서 보이지 않던 문제들이 드러남.
+
+**점검 2: 다른 사람에게 보여주기.**
+동료나 지도교수에게 Response Letter를 보여주고 "이해가 되는지" 확인.
+
+**점검 3: 24시간 후 재검토.**
+제출 전에 하루 쉬고 다시 보기. 새로운 눈으로 점검.
+
+**점검 4: 파일 검증.**
+- 모든 파일이 제대로 업로드되었는가?
+- 파일명이 맞는가?
+- PDF가 손상되지 않았는가?
+- 링크가 작동하는가?
+
+**점검 5: 버전 관리.**
+본인의 최종 버전과 제출한 버전이 같은가? 실수로 이전 버전을 보내는 것은 흔한 실수.
+
+**리비전 제출 시 커버레터.**
+
+리비전에도 커버레터가 필요 (첫 투고와 다름).
+
+**리비전 커버레터의 요소**:
+```
+Dear Dr. [Editor],
+
+We thank you and the reviewers for the thoughtful 
+and constructive comments on our manuscript "[Title]" 
+(ID: [number]). We have carefully addressed all 
+comments and believe the manuscript is significantly 
+improved.
+
+The main changes include:
+1. [주요 변경 1]
+2. [주요 변경 2]
+3. [주요 변경 3]
+
+We have attached:
+- Clean revised manuscript
+- Tracked changes version
+- Point-by-point response letter
+
+We hope the revisions meet with your approval. 
+Please feel free to contact us if further 
+clarifications are needed.
+
+Sincerely,
+[Authors]
+```
+
+**핵심**: 에디터에게 "주요 변경의 요약"을 한눈에. 에디터가 전체 Response Letter를 읽지 않아도 핵심을 파악.
+
+**전략적 시각화의 가치.**
+
+리비전의 시각적 품질에 1-2일 더 투자하면 무엇이 얻어지는가?
+
+**기대 효과**:
+- **Accept 확률 증가**: 리뷰어가 "저자가 성의 있다"고 느낌
+- **빠른 결정**: 리뷰어가 쉽게 확인할 수 있어 빠른 응답
+- **긍정적 톤**: 다음 라운드에서 덜 비판적
+- **에디터의 호감**: "프로페셔널한 저자"의 인식
+
+**투자 vs 수익**:
+- 추가 시간: 8-16시간
+- 결과: 채택 가능성 크게 증가
+
+ROI가 매우 높다.
+
+**흔한 시각화 실수.**
+
+**실수 1: 모든 것이 빨강/노랑**.
+너무 많은 색 사용으로 눈이 피곤. 핵심만 강조.
+
+**실수 2: 일관성 없는 스타일**.
+한 부분은 이탤릭, 다른 부분은 볼드. 스타일을 정하고 일관.
+
+**실수 3: 페이지 번호 없음**.
+"수정했습니다"만 있고 어디인지 모름.
+
+**실수 4: Tracked 버전 없음**.
+수정을 글로만 설명하고 시각적 증거 없음.
+
+**실수 5: 너무 긴 인용**.
+Response에 원고 전체를 복사. 필요한 부분만.
+
+**실수 6: 단조로운 구조**.
+한 덩어리의 글. 구조와 구분 없음.
+
+이런 실수를 피하면 리비전의 품질이 크게 올라간다.
+
+**LaTeX 기반 리비전의 구체적 기법.**
+
+LaTeX 사용자를 위한 구체적 팁.
+
+**기법 1: `changes` 패키지**:
+```latex
+\usepackage[markup=underlined]{changes}
+\definechangesauthor[name={Revision}, color=blue]{r}
+
+% 수정 표시
+\added[id=r]{New text.}
+\deleted[id=r]{Old text.}
+```
+
+**기법 2: `latexdiff`**:
+```bash
+# 두 버전의 차이를 자동 생성
+latexdiff old.tex new.tex > diff.tex
+pdflatex diff.tex
+```
+
+자동화되어 편리. 스크립트로 빌드 시스템에 통합 가능.
+
+**기법 3: `soul` 패키지로 하이라이트**:
+```latex
+\usepackage{soul}
+\usepackage{xcolor}
+
+% 노란 배경
+\hl{This is highlighted text.}
+```
+
+**기법 4: 줄 번호**:
+```latex
+\usepackage{lineno}
+\linenumbers  % 본문 시작 부분
+\nolinenumbers  % 필요 시 끄기
+```
+
+이 도구들을 조합하면 전문적 리비전 문서를 만들 수 있다.
+
+**Word 기반 리비전의 기법.**
+
+Word 사용자를 위한 팁.
+
+**기법 1: 변경 내용 추적**:
+- 검토 탭 → "변경 내용 추적" 활성화
+- 모든 수정이 자동 기록
+- "모든 변경 내용 표시"로 제출
+
+**기법 2: 하이라이트**:
+- 형광펜 도구로 중요 부분 표시
+- 색으로 수정 유형 구분
+
+**기법 3: 코멘트**:
+- 마진에 코멘트 추가
+- 리뷰어에게 설명
+
+**기법 4: 버전 비교**:
+- 검토 → 비교 → 두 문서 비교
+- 차이점 자동 표시
+
+**학습 자원.**
+
+- **"Writing the Successful Research Paper" (여러 저자)**: 리비전 전략
+- **latexdiff 공식 문서**: 자동 diff 생성
+- **Overleaf 템플릿**: "Response to Reviewers" 템플릿
+- **Grammarly**: 영어 교정
+- **본인의 분야의 성공한 리비전**: 공개된 리비전을 읽고 배우기
+
+> 리비전의 시각적 품질은 내용만큼 중요하다. 리뷰어는 본인의 "성의"를 시각적으로 판단한다. 잘 구조화된 Response Letter, 깔끔한 tracked changes, 정확한 위치 참조, 명확한 Before/After. 이런 작은 기술들이 리비전의 결과를 결정한다. 본인이 이 기술을 익히면, 같은 수정 내용도 더 좋은 결과를 얻는다. "내용 + 형식 = 성공"의 방정식이 리비전에 완벽히 적용된다.
