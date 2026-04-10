@@ -549,3 +549,377 @@ y_pred, y_pis = mapie.predict(X_test, alpha=0.05)
 **실수 5**: 분포 가정을 맹목적으로 사용. "정규 분포" 가정이 비대칭 분포(예: 극단 기상 현상)에 맞지 않을 수 있다. 실제 잔차 분포를 확인한다.
 
 > 점 예측은 쉽지만 거짓된 정확성을 준다. 확률적 예측은 약간 더 복잡하지만 정직하다. 본인이 박사 연구에서 시계열 예측을 다룬다면, 최소 한 편의 논문에 확률적 예측을 포함하는 것을 권한다. 이 작은 노력이 본인의 연구를 "숫자 한 개를 내는 모델"에서 "의사결정에 쓸 수 있는 시스템"으로 격상시킨다. 공학은 결국 의사결정을 위한 학문이고, 의사결정은 불확실성을 알 때 더 좋다.
+
+---
+
+## 변화점 탐지 — 언제 시스템이 달라지는가
+
+시계열 데이터를 분석할 때 자주 나오는 질문: **"언제 시스템의 행동이 변했는가?"** 구조물의 손상 시점, 기계의 고장 전조, 공정의 이상 발생, 환경 조건의 급변, 자산 가격의 레짐 전환. 이런 "변화의 순간"을 탐지하는 것이 **변화점 탐지(Change Point Detection, CPD)**다. 박사 연구에서 시계열을 다룬다면 이 기법을 알아야 할 가능성이 높다. 많은 공학 응용의 핵심 질문이 "정상 상태에서 언제 벗어났는가"이기 때문이다.
+
+<div class="highlight-box highlight-important">
+
+**변화점 탐지 vs 이상 탐지**. 두 개념이 비슷해 보이지만 다르다. **이상 탐지**는 "단일 이상한 점"을 찾는다(스파이크, 아웃라이어). **변화점 탐지**는 "통계적 성질의 지속적 변화"를 찾는다(평균이 올라감, 변동성이 커짐). 예: 교량의 한 순간 충격은 이상 탐지의 대상이지만, 교량이 점진적으로 약해지는 것은 변화점 탐지의 대상이다.
+
+</div>
+
+**변화점의 유형.**
+
+변화점에도 여러 종류가 있다. 무엇을 찾을지 먼저 정의해야 한다.
+
+**1. 평균 변화 (Mean Shift).**
+시계열의 평균 수준이 갑자기 달라짐. 가장 흔한 유형.
+- 예: 공정 파라미터 변경, 센서 재교정
+- 탐지 쉬움
+
+**2. 분산 변화 (Variance Shift).**
+평균은 같지만 변동성이 달라짐.
+- 예: 기계 마모로 진동 증가, 시장 변동성 증가
+- 평균만 보면 놓침
+
+**3. 추세 변화 (Trend Change).**
+시계열의 증가/감소 추세가 달라짐.
+- 예: 재료의 노화, 기후 변화
+- 장기 관찰 필요
+
+**4. 주파수 구조 변화 (Spectral Change).**
+주파수 내용이 달라짐. 시간 영역으로는 보기 어렵지만 스펙트럼 분석으로 드러남.
+- 예: 구조물의 고유 주파수 변화(손상 지표)
+- 전문 기법 필요
+
+**5. 분포 변화 (Distribution Change).**
+평균/분산이 아닌 전체 분포 형태의 변화.
+- 예: 정규 → 이중 모드, 대칭 → 비대칭
+- 가장 일반적이고 어려움
+
+**6. 상관 구조 변화 (Correlation Change).**
+여러 변수 간의 상관이 달라짐.
+- 예: 두 센서 간 동기화 손실
+- 다변량 시계열 분석 필요
+
+각 유형은 다른 탐지 방법이 필요하다.
+
+**온라인 vs 오프라인 탐지.**
+
+**오프라인 (Offline / Retrospective).**
+전체 시계열을 사후에 분석. "과거에 언제 변화가 있었나?"
+- 예: 이미 수집된 데이터의 분석
+- 전체 시계열 활용 가능
+- 정확도 높음
+
+**온라인 (Online / Sequential).**
+실시간으로 탐지. "지금 막 변화가 발생했는가?"
+- 예: 모니터링 시스템
+- 미래 데이터 사용 불가
+- 지연(delay)과 오탐(false alarm)의 균형
+
+두 접근은 다른 알고리즘을 쓴다. 본인의 응용이 어느 쪽인지 먼저 정한다.
+
+**오프라인 탐지의 주요 방법.**
+
+**방법 1: CUSUM (Cumulative Sum).**
+가장 고전적인 방법(Page 1954). 누적 합 통계량을 계산하여 일정 임계값을 넘으면 변화점으로 판단.
+
+```python
+import numpy as np
+
+def cusum(data, threshold, drift):
+    """
+    data: 시계열
+    threshold: 변화로 판단할 임계값
+    drift: 작은 변동 허용 범위
+    """
+    n = len(data)
+    s_pos = np.zeros(n)
+    s_neg = np.zeros(n)
+    change_points = []
+    
+    mean_init = data[:20].mean()  # 초기 평균
+    
+    for i in range(1, n):
+        s_pos[i] = max(0, s_pos[i-1] + data[i] - mean_init - drift)
+        s_neg[i] = max(0, s_neg[i-1] - data[i] + mean_init - drift)
+        
+        if s_pos[i] > threshold or s_neg[i] > threshold:
+            change_points.append(i)
+            s_pos[i] = 0
+            s_neg[i] = 0
+    
+    return change_points
+```
+
+장점: 단순, 빠름, 이론적 기반 탄탄
+단점: 평균 변화만 탐지, 임계값 튜닝 필요
+
+**방법 2: PELT (Pruned Exact Linear Time).**
+동적 프로그래밍 기반. 최적 변화점을 선형 시간에 찾음. 여러 변화점을 동시에 탐지.
+
+**사용법 (Python `ruptures` 라이브러리)**:
+```python
+import ruptures as rpt
+import numpy as np
+
+signal = np.array([...])  # 시계열
+
+# PELT with L2 cost (평균 변화)
+algo = rpt.Pelt(model="l2").fit(signal)
+change_points = algo.predict(pen=10)
+
+# 다른 cost function
+# "l1": 평균 변화 (강건)
+# "l2": 평균 변화 (표준)
+# "rbf": 일반 분포 변화
+# "normal": 평균과 분산 동시
+algo = rpt.Pelt(model="rbf").fit(signal)
+change_points = algo.predict(pen=5)
+```
+
+장점: 빠름, 정확, 여러 변화점 지원
+단점: penalty 파라미터 튜닝 필요
+
+**방법 3: Binary Segmentation.**
+가장 큰 변화점을 먼저 찾고, 그 양쪽에서 재귀적으로 반복. 간단하지만 최적이 아님.
+
+```python
+algo = rpt.Binseg(model="l2").fit(signal)
+change_points = algo.predict(n_bkps=5)  # 5개의 변화점
+```
+
+**방법 4: Window-Based Methods.**
+슬라이딩 윈도로 통계를 계산하고, 윈도 간 차이가 클 때 변화점.
+
+```python
+from scipy.stats import ks_2samp
+
+def sliding_ks_test(data, window_size):
+    n = len(data)
+    statistics = np.zeros(n)
+    for i in range(window_size, n - window_size):
+        left = data[i-window_size:i]
+        right = data[i:i+window_size]
+        stat, _ = ks_2samp(left, right)
+        statistics[i] = stat
+    return statistics
+```
+
+통계가 큰 지점이 변화점 후보.
+
+**방법 5: Bayesian Online Change Point Detection.**
+Adams & MacKay (2007)의 방법. 각 시점에서 "마지막 변화 이후 얼마나 지났는가"의 posterior 분포를 계산.
+
+장점: 온라인, 불확실성 제공
+단점: 구현 복잡, 계산 비용
+
+**온라인 탐지의 주요 방법.**
+
+**방법 1: EWMA (Exponentially Weighted Moving Average).**
+최근 데이터에 더 큰 가중치. 평균이 기대값에서 멀어지면 경고.
+
+```python
+def ewma_detection(data, alpha, threshold):
+    ewma = data[0]
+    variance = 0
+    alerts = []
+    for i in range(1, len(data)):
+        ewma = alpha * data[i] + (1 - alpha) * ewma
+        variance = alpha * (data[i] - ewma)**2 + (1 - alpha) * variance
+        z = (data[i] - ewma) / np.sqrt(variance + 1e-6)
+        if abs(z) > threshold:
+            alerts.append(i)
+    return alerts
+```
+
+**방법 2: Shewhart Chart (통계적 공정 관리).**
+고전적 공정 관리 도구. 평균 ± 3σ를 벗어나면 경고.
+
+**방법 3: 온라인 CUSUM.**
+오프라인 CUSUM의 실시간 버전.
+
+**방법 4: Adaptive Threshold.**
+임계값을 동적으로 조정. 환경 변화에 적응.
+
+**심층 학습 기반 변화점 탐지.**
+
+최근에는 DL 기반 방법도 활발.
+
+**방법 1: Autoencoder-based.**
+정상 데이터로 autoencoder를 학습. 재구성 오차가 큰 구간을 변화로 탐지.
+
+```python
+import torch
+import torch.nn as nn
+
+class TimeSeriesAutoencoder(nn.Module):
+    def __init__(self, input_dim, hidden_dim):
+        super().__init__()
+        self.encoder = nn.LSTM(input_dim, hidden_dim, batch_first=True)
+        self.decoder = nn.LSTM(hidden_dim, input_dim, batch_first=True)
+    
+    def forward(self, x):
+        encoded, _ = self.encoder(x)
+        decoded, _ = self.decoder(encoded)
+        return decoded
+
+# 학습 후
+reconstruction_error = ((x - model(x))**2).mean(dim=-1)
+change_points = (reconstruction_error > threshold).nonzero()
+```
+
+**방법 2: Predictive Approach.**
+시계열을 예측하는 모델을 학습. 예측과 실제의 차이가 클 때 변화점으로 판단.
+
+**방법 3: Contrastive Learning.**
+연속된 두 윈도가 "같은 분포"인지 "다른 분포"인지 학습. 다른 분포이면 변화점.
+
+**방법 4: TCN, Transformer 기반.**
+최신 아키텍처를 변화점 탐지에 적용. 긴 맥락을 활용.
+
+**변화점 탐지의 공학 응용.**
+
+**응용 1: 구조 건전성 모니터링 (Structural Health Monitoring).**
+교량, 건물, 풍력 발전기의 진동 데이터에서 손상 발생 시점을 탐지. 손상이 점진적으로 진행되면 평균이나 주파수 구조가 변한다.
+
+**응용 2: 산업 공정 모니터링.**
+반도체, 화학, 제약 공정에서 정상 상태에서 벗어나는 시점을 탐지. 조기 경보로 불량률 감소.
+
+**응용 3: 기계 고장 진단.**
+회전 기계(모터, 펌프, 터빈)의 진동 신호에서 고장 전조를 탐지. 예지 보전(Predictive Maintenance)의 핵심.
+
+**응용 4: 환경 모니터링.**
+대기 오염, 수질, 지진 활동의 급변을 탐지.
+
+**응용 5: 에너지 시스템.**
+전력 수요/공급, 태양광 발전의 비정상 패턴 탐지.
+
+**응용 6: 의료 모니터링.**
+심박, 혈당, 뇌파에서 이상 시점 탐지.
+
+**변화점 탐지 파이프라인의 실전.**
+
+실제 프로젝트에서 변화점 탐지를 적용하는 전체 파이프라인.
+
+**1단계: 문제 정의.**
+- 어떤 종류의 변화를 찾는가? (평균/분산/분포/상관)
+- 온라인인가 오프라인인가?
+- 원하는 탐지 지연은?
+- 허용 가능한 오탐률은?
+
+**2단계: 전처리.**
+- 노이즈 제거 (스무딩)
+- 계절성 제거 (있는 경우)
+- 정규화
+- 다변량이면 차원 축소 (PCA 등)
+
+**3단계: 방법 선택.**
+- 단순한 경우: CUSUM, PELT
+- 복잡한 분포: Bayesian, DL 기반
+- 실시간: EWMA, Shewhart
+
+**4단계: 파라미터 튜닝.**
+- Threshold 설정 (도메인 지식 활용)
+- Penalty 파라미터 (PELT)
+- Window size (window-based 방법)
+
+**5단계: 평가.**
+- Known change points가 있는 합성 데이터로 검증
+- 실제 데이터에서 전문가 검토
+- Precision, Recall, F1 계산
+- Detection delay 측정 (온라인의 경우)
+
+**6단계: 배포.**
+- 오탐에 대한 대응 프로토콜
+- 경고 시스템과 연결
+- 지속적 재학습 (concept drift)
+
+**변화점 탐지의 평가 지표.**
+
+"이 알고리즘이 얼마나 좋은가"를 평가하는 지표들.
+
+**지표 1: Accuracy (정확도).**
+정확히 맞춘 변화점의 비율. 단순하지만 "정확히"의 정의가 중요.
+
+**지표 2: Precision, Recall, F1.**
+- Precision: 탐지한 것 중 진짜 변화점 비율
+- Recall: 진짜 변화점 중 탐지한 비율
+- F1: 두 지표의 조화 평균
+
+"정확히 맞춤"이 어려우므로 "N 단위 이내"라는 tolerance를 둔다.
+
+**지표 3: Detection Delay (온라인).**
+실제 변화 시점부터 탐지까지의 지연.
+
+**지표 4: False Alarm Rate.**
+변화가 없는데 탐지한 비율. 실전에서 매우 중요 (오탐이 많으면 사용자가 무시).
+
+**지표 5: Hausdorff Distance.**
+추정된 변화점 집합과 진짜 변화점 집합의 거리.
+
+**공학 응용에서의 주의사항.**
+
+**주의 1: 임계값의 도메인 의존성.**
+"임계값 10"이 어떤 응용에서는 높고 어떤 응용에서는 낮다. 도메인 지식을 바탕으로 설정. 가능하면 자동 튜닝.
+
+**주의 2: 계절성과 주기성의 혼동.**
+매일 아침 온도가 올라가는 것은 "변화"가 아니라 "주기". 계절성을 먼저 제거한 후 변화점 탐지.
+
+**주의 3: 드문 변화점.**
+구조 손상 같은 희귀 사건은 학습 데이터가 부족. 소량 학습(few-shot) 또는 이상 탐지 접근 필요.
+
+**주의 4: 다변량 시계열.**
+여러 센서를 동시에 볼 때 단변량 방법을 나이브하게 적용하면 놓친다. PCA나 joint model 사용.
+
+**주의 5: 시간 해상도.**
+초 단위와 일 단위의 탐지는 완전히 다른 문제. 적절한 시간 스케일 선택.
+
+**주의 6: 오탐의 비용.**
+오탐의 실제 비용을 계산. 잘못된 경고로 생산 중단, 안전 대피 등의 비용이 크면 임계값을 높여야 한다.
+
+**변화점 탐지 연구의 최근 방향.**
+
+이 분야의 최신 트렌드.
+
+1. **DL 기반 방법의 발전**: Transformer, Self-supervised learning 활용.
+2. **설명 가능 CPD**: "왜 변화로 판단했는가"를 설명.
+3. **Online DL**: 딥러닝을 실시간 탐지에 적용.
+4. **Multi-modal CPD**: 여러 데이터 소스 결합.
+5. **Causal CPD**: 단순 패턴 변화를 넘어 원인까지 추론.
+
+본인이 이 분야 연구를 한다면 최신 NeurIPS, ICML, KDD 논문을 추적.
+
+**논문에서의 변화점 탐지 보고.**
+
+**필수 보고 항목**:
+- 사용한 방법과 구현
+- 파라미터 (threshold, penalty 등)
+- 평가 데이터 (합성 vs 실제)
+- 평가 지표 (Precision, Recall, Delay)
+- 실제 도메인 검증
+
+**예시 서술**:
+> "We applied PELT with RBF kernel (cost function) and
+> penalty=10 for change point detection. On the synthetic
+> dataset with 50 known change points, our method achieved
+> F1 score of 0.87 with tolerance of 5 samples. On real
+> bridge vibration data, the detected change points were
+> verified by domain experts."
+
+**Python 라이브러리 정리.**
+
+변화점 탐지에 쓸 수 있는 Python 라이브러리.
+
+- **ruptures**: 가장 인기. PELT, Binary Segmentation, Dynamic Programming 구현.
+- **bayesian-changepoint-detection**: Bayesian online 방법.
+- **changepoint (R 포팅)**: 고전 방법들.
+- **sklearn.cluster.KMeans**: 단순 클러스터링 기반 접근.
+- **PyOD**: 이상 탐지 라이브러리 (변화점과 결합).
+
+대부분의 연구용 구현은 `ruptures`로 시작하는 것이 좋다.
+
+**학습 자원.**
+
+- **"A Survey of Methods for Time Series Change Point Detection"** (Aminikhanghahi & Cook, 2017): 종합 서베이.
+- **ruptures 공식 문서**: 실전 튜토리얼.
+- **Killick et al. "Optimal detection of changepoints with a linear computational cost"**: PELT 원 논문.
+- **Adams & MacKay "Bayesian Online Changepoint Detection"**: Bayesian 방법의 표준.
+- **Truong et al. "Selective Review of Offline Change Point Detection Methods"** (2020): 최신 종합.
+
+> 변화점 탐지는 시계열 연구의 중요한 하위 분야다. 본인이 모니터링, 이상 탐지, 예지 보전 관련 연구를 한다면 이 방법들을 반드시 알아야 한다. 많은 공학 응용의 핵심 질문이 "언제 시스템이 달라졌는가"이기 때문이다. 고전 통계 방법부터 최신 DL까지 스펙트럼이 넓지만, 단순한 경우에는 단순한 방법(PELT, CUSUM)이 충분한 경우가 많다. 복잡한 방법을 먼저 시도하지 말고, 단순한 것부터 시작한다.
