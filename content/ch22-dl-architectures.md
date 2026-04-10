@@ -578,3 +578,125 @@ BN의 단점도 있다. 첫째, **작은 배치에서 불안정**. 배치 통계
 **Dropout과 다른 정규화 기법.** Dropout은 학습 시 일부 뉴런을 무작위로 0으로 만든다. 모델이 특정 뉴런에 의존하지 않게 하여 과적합을 줄인다. Dropout 비율은 보통 0.1-0.5 사이에서 선택한다. 큰 모델일수록 더 큰 dropout이 효과적. **DropPath/Stochastic Depth**: 전체 층을 무작위로 건너뛰는 방법. ResNet과 ViT에서 사용. **Mixup/CutMix**: 두 샘플을 섞어 새 학습 샘플을 만드는 데이터 증강 기법. 정규화 효과가 강력하다. **Label Smoothing**: 정답 라벨을 1.0이 아닌 0.9 정도로 만들어 over-confidence를 줄인다.
 
 **실전 추천.** 본인의 모델이 학습은 되지만 과적합이 심하면 다음 순서로 시도한다. 첫째, BN/LayerNorm 추가. 둘째, Dropout 추가 (0.2부터 시작). 셋째, Weight decay 증가 (0.01 → 0.05). 넷째, 데이터 증강 강화. 다섯째, Mixup/CutMix 시도. 여섯째, 모델 크기 축소. 이 순서가 가장 효과적이다. 한 번에 모든 것을 바꾸지 말고, 한 가지씩 변경하여 효과를 측정한다.
+
+---
+
+## 제한된 GPU 메모리에서 큰 모델 학습하기
+
+박사생이 딥러닝 연구를 할 때 가장 자주 부딪히는 벽은 "**이 모델을 내 GPU에 올릴 수 없다**"는 것이다. 연구실의 GPU는 보통 16GB에서 48GB 사이이고, 최신 모델들은 80GB H100을 기본으로 가정한다. 큰 모델을 돌릴 예산이 없다고 연구를 포기해야 할까? 다행히 몇 가지 기법으로 같은 GPU에서 훨씬 큰 모델을 학습할 수 있다.
+
+<div class="highlight-box highlight-info">
+
+**왜 GPU 메모리가 부족한가.** 학습에 필요한 메모리는 단순히 모델 파라미터 크기의 4배 이상이다. 10억 파라미터 모델은 파라미터 자체로 4GB(fp32 기준)를 차지하고, 여기에 그래디언트(4GB), Optimizer 상태(Adam은 8GB), 그리고 활성화 값(배치 크기에 비례, 보통 10-30GB)이 더해진다. 합치면 30-50GB가 쉽게 된다. 이것이 "파라미터 수 × 20"이 실질 메모리 요구치라는 어림치의 배경이다.
+
+</div>
+
+**전략 1: Mixed Precision Training (혼합 정밀도 학습).**
+
+가장 먼저 시도할 기법이다. 가중치와 연산을 fp32(32비트)가 아닌 fp16/bf16(16비트)로 수행하면 메모리 사용량이 절반으로 줄고 연산 속도도 2배 빨라진다. 현대 GPU(A100, H100, RTX 30/40 시리즈)는 16비트 연산을 하드웨어로 가속한다.
+
+```python
+# PyTorch에서 Mixed Precision 사용
+from torch.cuda.amp import autocast, GradScaler
+
+scaler = GradScaler()
+for inputs, targets in dataloader:
+    optimizer.zero_grad()
+    with autocast():
+        outputs = model(inputs)
+        loss = criterion(outputs, targets)
+    scaler.scale(loss).backward()
+    scaler.step(optimizer)
+    scaler.update()
+```
+
+코드 변경이 10줄 미만이고 효과가 즉각적이다. 주의점은 fp16은 수치 범위가 좁아 손실이 NaN이 될 수 있다는 것이다. 이 경우 bf16을 쓰면 대부분 해결된다. A100/H100은 bf16을 네이티브로 지원한다.
+
+**전략 2: Gradient Accumulation (그래디언트 누적).**
+
+배치 크기를 16으로 하고 싶지만 GPU 메모리가 4만 허용한다면? 배치 4로 4번 순전파/역전파를 돌리고, 그래디언트를 누적한 후 한 번에 업데이트한다. 효과적으로 배치 16과 같은 결과를 얻을 수 있다.
+
+```python
+accumulation_steps = 4
+for i, (inputs, targets) in enumerate(dataloader):
+    outputs = model(inputs)
+    loss = criterion(outputs, targets) / accumulation_steps
+    loss.backward()
+    if (i + 1) % accumulation_steps == 0:
+        optimizer.step()
+        optimizer.zero_grad()
+```
+
+대가는 학습 시간이 배치 크기 비율만큼 늘어난다는 것이다. 하지만 학습 자체가 불가능한 것보다는 훨씬 낫다. BN을 사용하는 경우에만 주의가 필요하다 — BN은 실제 배치 통계에 의존하므로 gradient accumulation으로는 "진짜 큰 배치" 효과를 얻을 수 없다. 이 경우 LayerNorm이나 GroupNorm으로 대체하는 것을 고려한다.
+
+**전략 3: Gradient Checkpointing (그래디언트 체크포인팅).**
+
+순전파 중에 중간 활성화 값을 저장하지 않고, 역전파 때 필요한 부분만 다시 계산한다. 메모리 사용량을 크게 줄이지만(30-50%), 계산 시간은 20-30% 증가한다. Hugging Face Transformers는 한 줄로 활성화할 수 있다.
+
+```python
+model.gradient_checkpointing_enable()
+```
+
+PyTorch 네이티브에서는 `torch.utils.checkpoint.checkpoint`로 특정 층에만 적용할 수도 있다. 보통 Transformer 계열 모델에서 가장 효과가 크다.
+
+**전략 4: Optimizer 선택의 메모리 영향.**
+
+Adam/AdamW는 각 파라미터마다 두 개의 모멘텀 상태를 유지하므로, 파라미터 크기의 2배 메모리가 추가로 필요하다. SGD + momentum은 1배만 필요하다. 메모리가 정말 부족하면 Adam 대신 SGD나 8-bit Adam(`bitsandbytes` 라이브러리)을 고려한다. 8-bit Adam은 Optimizer 상태를 8비트로 저장하여 메모리를 75% 줄인다.
+
+```python
+# bitsandbytes 사용
+import bitsandbytes as bnb
+optimizer = bnb.optim.Adam8bit(model.parameters(), lr=1e-4)
+```
+
+다만 SGD는 Adam보다 학습률 튜닝이 더 섬세해야 하고 수렴이 느릴 수 있다. 먼저 Mixed Precision + Gradient Accumulation으로 충분한지 확인한 후 이 전략을 고려한다.
+
+**전략 5: LoRA와 파라미터 효율 파인튜닝(PEFT).**
+
+사전학습된 대형 모델(예: ResNet-152, BERT, LLaMA)을 본인의 작은 데이터셋에 파인튜닝할 때, 전체 가중치를 업데이트할 필요가 없다. **LoRA(Low-Rank Adaptation)**는 원본 가중치를 고정하고, 각 층에 작은 저차원 행렬(rank 4-16)만 추가하여 학습한다. 학습 가능한 파라미터가 원본의 0.1-1%로 줄어들어, 메모리와 계산 시간 모두 극적으로 감소한다.
+
+```python
+# Hugging Face PEFT 라이브러리
+from peft import LoraConfig, get_peft_model
+
+config = LoraConfig(
+    r=8, lora_alpha=16, target_modules=["q_proj", "v_proj"],
+    lora_dropout=0.1
+)
+model = get_peft_model(base_model, config)
+```
+
+공학 연구에서는 최근 사전학습된 Transformer/PINN 계열 모델이 늘어나고 있어서, LoRA가 점점 중요해지고 있다. 전체 파인튜닝과 거의 같은 성능을 훨씬 적은 자원으로 달성한다.
+
+**전략 6: 모델 자체를 작게.**
+
+위 기법들을 다 동원했는데도 부족하다면, 본인의 연구 범위에서 더 작은 모델로 충분한지 재검토한다. 파라미터 수 10억 대신 1억 모델로 본인의 문제를 풀 수 있다면, 그것이 최선이다. 실제로 공학 문제의 상당수는 거대 모델이 필요하지 않다. 데이터 크기가 중소규모(<10만 샘플)라면 대형 모델은 과적합만 일으킬 뿐이다. "큰 모델이 항상 좋다"는 것은 NLP/비전의 대규모 벤치마크에서나 맞는 이야기고, 공학 도메인에서는 종종 반대다.
+
+**전략 7: 무료/저렴한 외부 GPU 활용.**
+
+본인의 연구실 GPU로 불가능하다면 외부 자원을 활용한다.
+
+- **Google Colab Free**: T4 GPU, 약 12시간 세션. 학습 중간 결과를 자주 저장해야 한다.
+- **Google Colab Pro ($10/월)**: 더 긴 세션과 더 나은 GPU. 학생에게 가장 실용적인 옵션.
+- **Kaggle Kernels**: 주당 30시간 GPU 무료. T4 x2 또는 P100.
+- **학교/기관 HPC**: ch17에서 다룬 Slurm 기반 클러스터. 대부분 무료.
+- **KISTI 슈퍼컴퓨팅 (한국)**: 학생 연구자에게 무료 할당.
+- **AWS/GCP 학생 크레딧**: 첫 가입 시 $300-1000 무료 크레딧. 소량 실험에 충분.
+
+여러 자원을 병행하여 사용하는 것이 일반적이다. 개발과 디버깅은 로컬 GPU, 본격 학습은 HPC, 발표 직전 파인튜닝은 Colab Pro 같은 식이다.
+
+**디버깅 순서의 원칙.** 메모리 부족 오류(`CUDA out of memory`)가 나면 다음 순서로 시도한다.
+
+1. 배치 크기 절반으로 (즉시 효과)
+2. Mixed Precision 적용 (코드 10줄)
+3. Gradient Accumulation으로 원래 유효 배치 크기 복원
+4. Gradient Checkpointing 추가
+5. LoRA 또는 Optimizer 변경
+6. 모델 크기 자체를 줄이기
+7. 외부 자원으로 이동
+
+1-4는 한두 시간 안에 시도할 수 있는 변경이다. 먼저 이 네 가지로 충분한지 확인한 후 더 복잡한 변경을 고려한다.
+
+**실전 경험담: "A100이 없다고 연구가 불가능한 것은 아니다."** 최근 ML 연구의 일부는 대기업 수준의 자원을 가정하지만, 연구실 수준의 공학 응용에서는 대부분의 문제를 RTX 3090(24GB) 또는 A100(40GB) 한 장으로 해결할 수 있다. 본인의 문제 설정을 명확히 하고, 위의 기법들을 조합하면, 제한된 자원에서도 Top 학회 수준의 연구가 가능하다. "자원 부족"을 핑계로 삼지 말자. 자원 제약 하에서 영리한 선택을 하는 것이 오히려 연구자의 중요한 역량이다.
+
+> GPU 메모리 관리는 박사생이 반드시 익혀야 할 실전 기술이다. 이 기술 없이는 본인의 연구 주제가 "GPU에 올라가는 것"으로 제한된다. Mixed Precision, Gradient Accumulation, LoRA 이 세 가지만 익혀 두어도 본인이 할 수 있는 연구의 범위가 크게 넓어진다. 이론만이 아니라 각 기법을 본인의 토이 프로젝트에 한 번씩 적용해 보는 것이 실력이 되는 길이다.
