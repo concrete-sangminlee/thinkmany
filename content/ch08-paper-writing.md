@@ -719,3 +719,443 @@ Discussion 초안을 쓴 후 다음 질문으로 본인이 검토한다.
 이 다섯 질문에 모두 "예"라고 답할 수 있으면 본인의 Discussion은 평균 이상이다.
 
 > Discussion은 본인이 "데이터를 수집하는 사람"에서 "데이터를 해석하는 사람"으로 올라가는 섹션이다. 박사 과정의 본질적 성장도 이와 같다. 학부생은 계산을 하고, 석사는 실험을 하고, 박사는 결과를 해석한다. Discussion 섹션에 본인의 시간의 상당 부분을 쓰는 것이 박사급 연구자가 되는 길이다. 다른 섹션은 기술이지만, Discussion은 사고다.
+
+---
+
+## Related Work 섹션 작성의 기술 — 문헌을 지도로 만들기
+
+박사 학생의 논문에서 **가장 대충 쓰이는 섹션**이 Related Work다. "관련된 논문 나열" 정도로 인식하고, 각 논문을 한두 문장으로 요약한다. "A et al. [1] proposed X. B et al. [2] proposed Y. C et al. [3] proposed Z." 이것이 Related Work라고 믿는다. 그러나 좋은 Related Work는 단순한 목록이 아니라 **본인의 분야를 이해시키는 지도**다. 이 지도가 독자에게 "본인의 연구가 어디에 있고, 왜 중요한지"를 보여준다. Related Work를 잘 쓰면 리뷰어의 첫인상이 근본적으로 달라진다.
+
+<div class="highlight-box highlight-important">
+
+**"목록 vs 지도"의 차이**. 관광 가이드북을 생각해보자. 단순 목록은 "서울에는 경복궁, 남산, 한강이 있다"라고 말한다. 지도는 "경복궁은 북쪽 중심에, 남산은 중앙에, 한강은 도시를 남북으로 가르며 흐른다. 이들의 관계가 서울의 지리를 만든다"라고 설명한다. 독자가 원하는 것은 목록이 아니라 지도다. 본인의 Related Work도 마찬가지. 논문들의 **관계**를 보여주는 것이 핵심이다.
+
+</div>
+
+**Related Work의 5가지 기능.**
+
+좋은 Related Work가 수행하는 역할.
+
+**1. 분야의 지도 제공.**
+독자(리뷰어 포함)가 본인의 분야의 전체 풍경을 이해하게 한다. 어떤 접근들이 있고, 어떻게 분류되는지.
+
+**2. 본인의 연구 위치 지정.**
+"본인의 연구가 이 지도의 어디에 있는가"를 명확히 한다. 빈 공간을 채우는가, 기존 접근을 개선하는가, 완전히 새로운 영역을 여는가.
+
+**3. 차별점 강조.**
+본인의 연구가 기존 연구와 어떻게 다른지. 단순히 다른 것이 아니라 왜 다른지가 중요.
+
+**4. 신뢰성 확립.**
+본인이 분야를 깊이 안다는 것을 증명. 주요 논문을 빠뜨리지 않고, 올바르게 이해하고 있음을 보여준다.
+
+**5. 리뷰어 설득.**
+리뷰어는 종종 "이 저자가 내 분야를 제대로 이해하고 있는가?"를 Related Work로 판단한다. 약하면 나머지가 아무리 좋아도 의심받는다.
+
+**Related Work의 3가지 구조 패턴.**
+
+잘 쓰인 Related Work는 다음 3가지 구조 중 하나를 따른다.
+
+**패턴 1: 주제별 그룹화 (Thematic).**
+관련 연구를 주제별로 묶어 각 그룹을 서브섹션으로.
+
+```
+2. Related Work
+  2.1 Approach A (전통적 방법)
+      - 특징 설명
+      - 대표 연구들 [1-5]
+      - 한계
+  2.2 Approach B (최근 방법)
+      - 특징 설명
+      - 대표 연구들 [6-10]
+      - 한계
+  2.3 Approach C (하이브리드)
+      - 특징 설명
+      - 대표 연구들 [11-15]
+      - 한계
+  2.4 본인 위치
+```
+
+**장점**: 독자가 분야의 구조를 이해. 본인의 방법이 어느 그룹에 속하는지 명확.
+
+**사용 시기**: 분야에 명확한 접근 카테고리가 있을 때.
+
+**패턴 2: 시간순 (Chronological).**
+분야의 발전을 시간 순으로 서술.
+
+```
+2. Related Work
+  The early work on X focused on [approach A]. 
+  Starting in [year], researchers shifted to [approach B] because [reason]. 
+  Recent years have seen the emergence of [approach C], driven by [advance]. 
+  Our work builds on this trajectory by [contribution].
+```
+
+**장점**: 분야의 발전 내러티브를 보여줌. 본인의 연구가 자연스러운 다음 단계로 느껴짐.
+
+**사용 시기**: 분야의 역사가 명확하고 발전 방향이 뚜렷할 때.
+
+**패턴 3: 차원별 (Dimensional).**
+여러 축(차원)에 따라 기존 연구를 분류.
+
+```
+2. Related Work
+  We compare existing methods along three dimensions:
+  - Accuracy vs Speed
+  - Supervision level
+  - Scalability
+  
+  Methods that prioritize accuracy [1, 2, 3]
+  Methods that prioritize speed [4, 5, 6]
+  ...
+  
+  Table 1 summarizes these trade-offs. Our work 
+  achieves [X] by [Y].
+```
+
+**장점**: 복잡한 풍경을 체계화. 표가 유용함.
+
+**사용 시기**: 분야가 복잡하고 여러 차원이 얽혀 있을 때.
+
+**어느 패턴이든 목록 나열은 피한다.** 단순한 "A가 이걸 했다, B가 저걸 했다"는 Related Work가 아니라 참고문헌 덤프다.
+
+**Related Work의 길이.**
+
+학생들이 흔히 묻는 질문: "얼마나 길게 써야 하나?"
+
+**일반적 가이드라인**:
+- **Full paper (10-12 pages)**: 1-2 페이지
+- **Short paper (4-6 pages)**: 0.5-1 페이지
+- **학위논문 챕터**: 20-40 페이지 (ch36 참조)
+
+**원칙**:
+- 너무 짧으면 분야를 모른다는 인상
+- 너무 길면 본인의 연구가 희석됨
+- 모든 관련 논문을 다룰 필요 없음 (대표만)
+
+**나쁜 Related Work의 5가지 신호.**
+
+본인의 Related Work가 다음 신호를 보이면 재작성 필요.
+
+**신호 1: 나열뿐.**
+"A did X. B did Y. C did Z." 관계 없음, 구조 없음.
+
+**신호 2: 본인의 연구와의 연결 부재.**
+기존 연구를 설명하지만 "그래서 본인의 연구와 뭐가 다른가"가 없음.
+
+**신호 3: 핵심 논문 누락.**
+분야의 가장 중요한 논문이 없음. 리뷰어가 즉시 알아챔.
+
+**신호 4: 오래된 논문만.**
+최근 2-3년의 중요 논문이 없음. 분야를 쫓지 못한다는 인상.
+
+**신호 5: 오해 또는 왜곡.**
+다른 연구자의 방법을 잘못 설명. 원 저자가 리뷰어면 치명적.
+
+**Related Work의 핵심 기법.**
+
+잘 쓰인 Related Work의 실전 기법.
+
+**기법 1: "Zoom In" 구조.**
+넓은 범위에서 시작해서 본인의 연구와 가까운 범위로 좁혀 들어간다.
+
+```
+이 분야 전체의 문제 → 하위 분야 A → 특정 방법 → 본인의 연구
+```
+
+**예시**:
+```
+"Machine learning for structural health monitoring has evolved 
+over the past decade. Early work used handcrafted features with 
+traditional classifiers [1-5]. The rise of deep learning enabled 
+end-to-end approaches [6-10]. Recently, physics-informed 
+methods have gained attention [11-15]. Within physics-informed 
+approaches, [specific technique] has been particularly promising 
+[16-20]. Our work extends this line by [contribution]."
+```
+
+이 구조가 독자를 본인의 연구 자리까지 자연스럽게 안내.
+
+**기법 2: "Gap Identification" (빈 공간 찾기).**
+기존 연구의 어떤 부분이 해결되지 않았는지 명시.
+
+**예시**:
+```
+"While [Method A] achieves high accuracy on X, it fails on Y. 
+[Method B] addresses Y but requires large amounts of labeled data. 
+[Method C] reduces the data requirement but cannot handle Z. 
+Thus, there remains a gap: no existing method handles X, Y, 
+and Z simultaneously with minimal supervision. Our work fills 
+this gap."
+```
+
+**주의**: "Gap"이 너무 작위적이면 안 됨. 진짜 빈 공간이어야.
+
+**기법 3: 비교 표 (Comparison Table).**
+복잡한 분야에서 한 장의 표로 요약.
+
+```
+| Method     | Accuracy | Speed | Data | Assumption |
+|------------|----------|-------|------|------------|
+| [A] [1]    | High     | Low   | Lots | Smooth     |
+| [B] [2]    | Med      | High  | Few  | Smooth     |
+| [C] [3]    | Low      | High  | Few  | None       |
+| Ours       | High     | High  | Few  | None       |
+```
+
+이 표가 100 줄의 글보다 효과적. 본인의 연구의 장점이 즉각 드러남.
+
+**기법 4: "직접 비교" 표현.**
+특정 논문을 직접 참조하여 본인과의 차이 설명.
+
+**예시**:
+```
+"The closest work to ours is [Smith et al., 2024]. They proposed 
+[their method] for [their problem]. However, their approach 
+assumes [limitation], which does not hold in [our setting]. 
+We address this by [our approach]."
+```
+
+가장 가까운 선행 연구 1-2편을 이렇게 직접 비교.
+
+**기법 5: "상위 분류 + 하위 디테일".**
+먼저 큰 카테고리로 묶고, 각 카테고리 안의 대표 논문들.
+
+**예시**:
+```
+"Existing approaches fall into three categories: (1) rule-based 
+methods [1, 2], (2) statistical methods [3-5], and (3) 
+learning-based methods [6-10]. Rule-based methods are 
+interpretable but limited in complex scenarios. Statistical 
+methods handle uncertainty well but assume specific 
+distributions. Learning-based methods are flexible but 
+require large datasets."
+```
+
+**기법 6: 인용 밀도 조절.**
+핵심 논문은 자세히, 주변 논문은 짧게.
+
+```
+"[Smith et al., 2024] introduced the first framework for X, 
+showing that [key insight]. This opened up a new direction of 
+research [3-8]. Subsequent work has explored various extensions 
+[9-12], including [specific example]. Our approach differs 
+from these in two key ways..."
+```
+
+핵심 논문(Smith)은 이름과 내용을 풀어 쓰고, 주변 논문은 번호로만.
+
+**Related Work 작성의 실전 단계.**
+
+**1단계: 논문 수집.**
+Google Scholar, Semantic Scholar에서 관련 논문 수집. 30-50편의 후보.
+
+**2단계: 분류.**
+수집한 논문을 카테고리로 분류. 3-5개 카테고리. 이것이 Related Work의 뼈대.
+
+**3단계: 핵심 논문 선정.**
+각 카테고리에서 2-4편의 대표 논문. 총 10-20편이 Related Work의 주연.
+
+**4단계: 관계 그림 그리기.**
+종이에 논문들과 그들 사이의 관계를 그려본다. 누가 누구를 기반으로 했는지, 어떤 아이디어가 어떻게 발전했는지.
+
+**5단계: 본인의 위치 결정.**
+이 지도에서 본인의 연구가 어디에 있는지 표시. 기존 연구와의 관계를 명확히.
+
+**6단계: 초안 작성.**
+위의 구조 패턴 중 하나를 선택하여 초안. 의식적으로 "관계"를 서술.
+
+**7단계: 수정과 다듬기.**
+초안을 여러 번 수정. 각 문장이 필요한지, 관계가 명확한지.
+
+**8단계: 동료 검토.**
+같은 분야의 동료에게 읽혀보고 "분야가 잘 이해되는가?"를 묻기.
+
+**"직접 인용" vs "간접 언급"의 선택.**
+
+**직접 인용**: 저자 이름을 풀어서 쓰기. "Smith et al. proposed..."
+
+**간접 언급**: 번호로만 언급. "Previous work [1] proposed..."
+
+**사용 규칙**:
+
+- **중요 논문**: 직접 인용. 저자의 기여를 인정. 1-5편.
+- **연관 논문**: 간접 언급. 맥락 제공. 10-20편.
+- **주변 논문**: 번호 나열. "[11-15]". 필요 시.
+
+**예시**:
+```
+"Building on the seminal work of Smith et al. [1], several 
+researchers have explored extensions [2-8]. Most notably, 
+Jones et al. [5] introduced [specific technique]. Our work 
+differs from these by..."
+```
+
+Smith와 Jones는 직접 인용 (중요), 나머지는 번호.
+
+**인용 윤리의 기본.**
+
+Related Work에서 특히 중요한 윤리.
+
+**원칙 1: 누락 금지.**
+본인이 알고 있는 중요 논문을 고의로 누락하지 말 것. "경쟁자의 논문을 인용하고 싶지 않다"는 생각은 위험. 리뷰어가 누락을 즉시 지적.
+
+**원칙 2: 오해 금지.**
+다른 논문의 내용을 과장하거나 축소하지 말 것. 정확히 요약.
+
+**원칙 3: 자기 인용 남용 금지.**
+본인의 이전 논문을 과도하게 인용하지 말 것. 관련성이 있어야 인용.
+
+**원칙 4: "Cite-to-flatter" 금지.**
+편집자나 심사위원의 논문을 억지로 인용해서 환심을 사려 하지 말 것. 들킨다.
+
+**원칙 5: Fair Credit.**
+어떤 아이디어가 누구의 것인지 정확히 표시. "이것은 [원 저자]의 아이디어이며, 우리는 이를 확장했다"처럼.
+
+**Related Work의 리뷰어 관점.**
+
+리뷰어가 Related Work를 읽을 때 찾는 것.
+
+**리뷰어의 체크리스트**:
+1. 분야의 주요 논문이 있는가?
+2. 저자가 분야를 올바르게 이해하고 있는가?
+3. 본인의 연구와 기존 연구의 차이가 명확한가?
+4. 분류와 설명이 정확한가?
+5. 리뷰어 자신의 논문이 있는가? (농담 아님, 실제로 확인)
+6. 최근 논문이 포함되어 있는가?
+
+이 체크리스트에 맞추어 Related Work를 작성하면 리뷰어의 첫 인상이 좋아진다.
+
+**리뷰어의 논문 언급.**
+학계의 작은 비밀: 리뷰어는 종종 본인의 논문이 인용되었는지 확인한다. 잠재적 리뷰어를 예상해서 그들의 관련 논문을 포함하는 것은 합리적. 이것은 조작이 아니라 "좋은 Related Work가 자연스럽게 하는 일".
+
+**Top 저널과 컨퍼런스의 기대 수준.**
+
+저널별로 Related Work의 기대 수준이 다르다.
+
+**Top journals (Nature, Science 등)**:
+- 분야 외 독자를 위한 넓은 맥락
+- 최신 주요 논문 포함
+- 본인의 연구의 큰 그림 의의
+
+**Specialized journals**:
+- 더 깊은 기술적 비교
+- 구체적 방법 차이
+- 전문가 독자를 가정
+
+**Conference papers (CVPR, NeurIPS 등)**:
+- 간결하지만 완전
+- 최신 2-3년 집중
+- 경쟁 방법과의 명확한 비교
+
+본인의 타겟 저널에 맞게 조정.
+
+**박사 학위논문의 Related Work 챕터.**
+
+학위논문의 Related Work는 학술 논문의 Related Work보다 훨씬 길고 깊다 (20-40 페이지).
+
+**차이점**:
+- 논문의 Related Work: 1-2 페이지, 핵심만
+- 학위논문 Related Work: 상세한 문헌 조사, 본인이 분야를 마스터했음을 증명
+
+**학위논문 Related Work의 구조**:
+- 분야의 역사 (배경)
+- 주요 접근들의 상세 설명
+- 각 접근의 수학적/기술적 기초
+- 접근들 간의 관계와 비교
+- 본인의 연구가 이 맥락에서 위치
+- 남아 있는 문제들
+
+ch36에서 더 자세히 다룸.
+
+**Related Work의 업데이트.**
+
+논문을 쓴 후에도 Related Work는 업데이트되어야 한다.
+
+**언제 업데이트?**
+- 투고 전: 최신 논문 추가
+- 리비전 때: 리뷰어가 지적한 누락 추가
+- 출판 전: 마지막 몇 주간 출판된 논문 확인
+
+논문 투고 후 6개월이면 새 관련 논문이 10-20편 더 나올 수 있다. 이것이 리뷰에서 지적될 수 있음. 투고 직전까지 업데이트.
+
+**도구의 활용.**
+
+Related Work를 효율적으로 쓰는 도구.
+
+**1. Zotero**: 참고문헌 관리의 표준. 태그, 노트 기능.
+
+**2. Connected Papers (connectedpapers.com)**: 한 논문을 입력하면 관련 논문 그래프를 보여줌. 빠른 문헌 맵핑.
+
+**3. Semantic Scholar**: AI 기반 논문 검색. 관련성 추천.
+
+**4. ResearchRabbit**: 논문 기반 추천 시스템.
+
+**5. Litmaps**: 문헌 네트워크 시각화.
+
+**6. ChatGPT/Claude**: Related Work 초안 작성 보조. 단 출력을 그대로 쓰지 말 것. 확인과 수정 필수 (ch29 참조).
+
+**Related Work 작성의 흔한 함정.**
+
+**함정 1: "모든 것을 인용".**
+50-100편을 나열. 읽기 힘들고 본인의 연구가 희석됨.
+
+**해결**: 20-30편의 핵심만. 나머지는 "[추가 참고 문헌 12-20]" 수준으로.
+
+**함정 2: "단순 요약".**
+각 논문을 한 문장으로 요약만. 관계 없음.
+
+**해결**: 논문들의 **관계**와 **본인과의 차이**에 집중.
+
+**함정 3: "비판 없음".**
+기존 연구를 모두 칭찬만. "A는 좋다, B도 좋다, C도 좋다".
+
+**해결**: 각 방법의 한계를 명시. 이것이 본인 연구의 필요성을 만든다.
+
+**함정 4: "분야 밖 논문 인용".**
+관련 없는 분야의 논문을 "다양성"을 위해 포함.
+
+**해결**: 핵심 관련 논문만. 분야 외 연결이 중요하면 명확히 설명.
+
+**함정 5: "최신만 또는 오래된 것만".**
+균형 없음.
+
+**해결**: 고전 + 최근 5년의 핵심 논문.
+
+**함정 6: "언어의 과장".**
+"Revolutionary", "groundbreaking" 같은 과장된 표현.
+
+**해결**: 객관적이고 중립적 언어.
+
+**Related Work 품질 체크리스트.**
+
+본인의 Related Work를 완성한 후 점검.
+
+<div class="highlight-box highlight-info">
+
+**Related Work 품질 체크리스트**
+
+- [ ] 논문들이 의미 있는 카테고리로 그룹화되어 있는가?
+- [ ] 각 카테고리의 특징과 한계가 설명되어 있는가?
+- [ ] 핵심 논문 (top 2-3개 per category)이 포함되어 있는가?
+- [ ] 본인 연구와 가장 가까운 논문 1-2편은 직접 비교되었는가?
+- [ ] 본인의 연구의 위치와 차별점이 명확한가?
+- [ ] 최근 2-3년의 중요 논문이 있는가?
+- [ ] 잠재 리뷰어의 논문이 있는가?
+- [ ] 분량이 적절한가? (풀 페이퍼 기준 1-2 페이지)
+- [ ] 각 문장이 관계를 설명하는가? (단순 요약 아님)
+- [ ] 언어가 객관적이고 정확한가?
+- [ ] 비교 표가 있다면 본인의 장점이 드러나는가?
+
+</div>
+
+이 11개 항목을 모두 만족하면 본인의 Related Work는 리뷰어에게 인상을 남길 수 있다.
+
+**학습 자원.**
+
+- **"Writing Science" (Joshua Schimel)**: 과학 글쓰기의 고전
+- **"How to Write a Better Thesis" (Evans, Gruba, Zobel)**: 학위논문의 Related Work
+- **PhD Comics의 Related Work 패러디**: 웃으면서 배우기
+- **Top 저널의 최근 논문**: 본인의 분야 논문들의 Related Work를 읽으며 학습
+- **ch36**: 학위논문의 Related Work 챕터
+
+> Related Work는 "목록"이 아니라 "지도"다. 본인이 이 차이를 이해하고 Related Work를 지도로 쓰는 순간, 본인의 논문의 품질이 한 단계 올라간다. 리뷰어의 첫인상이 긍정적이 되고, 본인의 기여가 명확해지고, 독자가 본인의 분야를 이해하게 된다. Related Work에 논문 작성 시간의 20-30%를 투자하는 것이 박사급 논문의 기본이다. 이것을 "마지막에 대충 쓰는 섹션"으로 두지 말자.
