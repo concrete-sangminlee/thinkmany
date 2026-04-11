@@ -1317,4 +1317,527 @@ build/
 
 본인이 박사 중반부터 본인의 박사 학위 논문의 LaTeX 프로젝트를 본인의 천천히 본인이 본인의 시작한다. 본인의 디렉토리 구조, 본인의 매크로, 본인의 참고문헌 시스템을 본인의 미리 구축. 본인의 박사 후반에 본인의 집중 집필의 시기가 오면 본인이 본인의 시스템 위에서 본인의 집필에만 집중할 수 있다. 본인의 시스템 구축에 본인의 미리 투자한 본인의 시간이 본인의 집필의 본인의 수백 시간을 본인의 절약한다.
 
+## 수식과 표의 고급 LaTeX — 공학 박사의 필수 조판 기술
+
+공학 박사 논문의 페이지마다 수식과 표가 있다. 단순한 `$a+b$` 수준이 아니라 여러 줄의 정렬된 수식, 행렬, 미분 방정식, 복잡한 데이터 표. 이것을 깔끔하게 조판하는 것은 논문의 완성도를 결정한다. 그런데 많은 박사생이 LaTeX의 수식과 표에 대한 피상적 지식만 가지고, 매번 어려움을 겪으며 미숙하게 처리한다. 결과는 읽기 어려운 수식과 정렬이 맞지 않는 표, 그리고 심사에서의 지적이다. 이 섹션은 공학 박사 논문에 자주 등장하는 수식과 표의 고급 LaTeX 기법을 체계적으로 다룬다.
+
+<div class="highlight-box highlight-important">
+
+**"수식과 표의 품질이 논문의 인상을 결정한다".** 독자는 논문을 읽기 전에 먼저 훑어본다. 수식과 표가 엉성하면 "이 저자는 LaTeX를 모르는구나"라는 첫 인상이 생기고, 이것이 내용의 신뢰도에도 영향을 미친다. 반대로 잘 조판된 수식과 표는 "이 논문은 품질이 높다"는 인상을 만든다. 내용이 같아도 조판의 차이가 논문의 수용률을 바꾼다. 박사 과정에서 이 기술에 투자하는 것은 본인의 모든 논문에 복리로 돌아온다.
+
+</div>
+
+**수식 환경의 선택.**
+
+LaTeX의 수식 환경은 여러 가지가 있고, 각각의 용도가 다르다.
+
+**인라인 수식**: `$...$` 또는 `\(...\)`
+본문에 포함되는 짧은 수식. `\(f(x) = ax + b\)`.
+
+**디스플레이 수식 (번호 없음)**: `\[...\]` 또는 `$$...$$`
+별도 줄로 표시되지만 번호가 없는 수식. 짧은 독립 수식.
+
+**equation**: `\begin{equation}...\end{equation}`
+번호 있는 단일 수식. 논문에서 가장 흔한 형태.
+
+**align**: `\begin{align}...\end{align}` (amsmath 패키지)
+여러 줄의 수식을 정렬. 각 줄에 번호 부여 가능.
+
+**gather**: `\begin{gather}...\end{gather}`
+여러 수식을 중앙 정렬하되 서로 정렬 없이.
+
+**split**: `\begin{split}...\end{split}` (equation 내부)
+긴 수식을 여러 줄로 나누되 하나의 번호.
+
+**cases**: `\begin{cases}...\end{cases}`
+조건별 정의. 예: `f(x) = \begin{cases} x, & x \geq 0 \\ -x, & x < 0 \end{cases}`.
+
+**원칙**: equation과 align이 가장 많이 쓰인다. 단순 수식은 equation, 여러 줄은 align.
+
+**align 환경의 활용.**
+
+align은 박사 논문에서 가장 유용한 환경이다. 정렬 기준이 `&`다.
+
+**기본 예시**:
+```latex
+\begin{align}
+f(x) &= ax^2 + bx + c \\
+f'(x) &= 2ax + b \\
+f''(x) &= 2a
+\end{align}
+```
+
+`=` 기호가 정렬된다. 독자가 변화를 따라가기 쉽다.
+
+**복잡한 유도**:
+```latex
+\begin{align}
+\int f(x) \, dx &= \int (ax^2 + bx + c) \, dx \\
+&= \frac{ax^3}{3} + \frac{bx^2}{2} + cx + C \\
+&= \frac{1}{6}(2ax^3 + 3bx^2 + 6cx) + C
+\end{align}
+```
+
+두 번째와 세 번째 줄은 LHS 없이 시작. `&=`로 정렬.
+
+**번호 제어**:
+- 특정 줄만 번호: `\nonumber` 또는 `\notag`를 해당 줄 끝에
+- 전체 환경 번호 없이: `align*`
+
+**align 내 텍스트**:
+```latex
+\begin{align}
+E &= mc^2 && \text{(아인슈타인 공식)} \\
+F &= ma && \text{(뉴턴 제2법칙)}
+\end{align}
+```
+
+`&&`로 텍스트 정렬.
+
+**수식 내 복잡한 표현.**
+
+공학에서 자주 쓰는 복잡한 표현의 LaTeX.
+
+**행렬**:
+```latex
+\begin{pmatrix} a & b \\ c & d \end{pmatrix}
+\begin{bmatrix} a & b \\ c & d \end{bmatrix}
+\begin{vmatrix} a & b \\ c & d \end{vmatrix}
+```
+
+각각 괄호, 대괄호, 행렬식 표시.
+
+**긴 행렬**: `smallmatrix` 또는 `array`
+```latex
+\left(\begin{array}{cccc}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{array}\right)
+```
+
+**편미분 방정식**:
+```latex
+\frac{\partial u}{\partial t} = \alpha \frac{\partial^2 u}{\partial x^2}
+```
+
+더 예쁘게는 `\dfrac`을 사용해 크기 유지.
+
+**적분**:
+```latex
+\int_{0}^{\infty} e^{-x^2} \, dx = \frac{\sqrt{\pi}}{2}
+\iint_{D} f(x,y) \, dA
+\oint_{C} \mathbf{F} \cdot d\mathbf{r}
+```
+
+`\,`는 미분의 앞 공백. 생략하면 `dx`가 `\int`에 붙어 보기 안 좋다.
+
+**합과 곱**:
+```latex
+\sum_{i=1}^{n} x_i
+\prod_{i=1}^{n} x_i
+\lim_{x \to \infty} f(x)
+```
+
+**수식 내 텍스트**:
+```latex
+\[
+f(x) = \begin{cases} 
+x^2 & \text{if } x \geq 0 \\
+-x^2 & \text{if } x < 0
+\end{cases}
+\]
+```
+
+수식 모드에서 텍스트는 `\text{}` 또는 `\mathrm{}`.
+
+**단위와 숫자.**
+
+공학 논문에서 단위 표기가 중요하다. `siunitx` 패키지를 사용.
+
+```latex
+\usepackage{siunitx}
+
+% 숫자
+\num{1234567}  % 1,234,567
+\num{1.23e-4}  % 1.23 × 10^-4
+
+% 단위
+\si{\meter\per\second\squared}  % m/s²
+\si{\kilo\gram\meter\per\second\squared}  % kg·m/s²
+
+% 숫자와 단위 결합
+\SI{9.81}{\meter\per\second\squared}  % 9.81 m/s²
+\SI{1.5e3}{\volt}  % 1.5 × 10³ V
+
+% 범위
+\SIrange{10}{20}{\meter}  % 10 m to 20 m
+```
+
+이렇게 하면 단위가 일관되게 포맷되고, 숫자 구분자가 통일된다. 표에도 적용 가능.
+
+**수식의 참조.**
+
+수식에 레이블을 붙이고 참조한다.
+
+```latex
+\begin{equation}
+E = mc^2 \label{eq:einstein}
+\end{equation}
+
+본문에서 Eq.~\eqref{eq:einstein} 또는 
+식 (\ref{eq:einstein})을 참조...
+```
+
+`\eqref`를 쓰면 자동으로 괄호가 붙는다 (`(1)` 형식). `\ref`는 번호만.
+
+**권장 명명 규칙**: `eq:설명`, `fig:설명`, `tab:설명`, `sec:설명` 등 prefix를 붙여 구분.
+
+**매크로로 가독성 향상.**
+
+반복되는 수식 표현을 매크로로 만든다. Preamble에 정의.
+
+```latex
+% 일반적인 매크로
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\T}{\mathsf{T}}  % 전치
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle}
+
+% 도메인 특화
+\newcommand{\Reynolds}{\mathrm{Re}}
+\newcommand{\Prandtl}{\mathrm{Pr}}
+\newcommand{\Nusselt}{\mathrm{Nu}}
+
+% 예시: \norm{\mathbf{x}}를 쓰면 자동 크기 조정 ||x||
+```
+
+매크로의 장점:
+1. 일관된 표기 (매번 똑같이 쓸 수 있음)
+2. 나중에 수정 쉬움 (한 곳만 바꾸면 전체 적용)
+3. 가독성 (본인 코드가 읽기 쉬움)
+
+**수식의 포맷 팁.**
+
+1. **미분 기호**: `dx`보다 `\mathrm{d}x`가 표준. 매크로로 `\d`를 정의.
+2. **함수명**: `\sin`, `\cos`, `\log` 등 이미 정의된 함수 사용. 직접 `sin`이라 쓰면 기울임으로 나와 틀림.
+3. **볼드 벡터**: `\mathbf{x}` 또는 `\boldsymbol{x}`. 후자가 수식 모드 기울임과 결합.
+4. **공백 조절**: `\,`(얇은), `\:`(중간), `\;`(두꺼운), `\!`(음수 공백).
+5. **여러 줄 수식의 나눔**: 연산자 앞에서 나누지 뒤에서 나누지 말 것. `... \\ + b ...`가 아니라 `... + \\ b ...`.
+
+**표 환경의 선택.**
+
+LaTeX의 표 환경도 여러 가지가 있다.
+
+**tabular**: 기본 표 환경.
+**tabularx**: 지정 폭에 맞춰 열 자동 조정.
+**booktabs**: 고품질 표 (강력 권장).
+**longtable**: 여러 페이지에 걸친 표.
+**multirow**, **multicolumn**: 행/열 병합.
+**threeparttable**: 표와 설명, 주석을 함께.
+
+**booktabs로 전문적인 표 만들기.**
+
+`booktabs` 패키지가 논문 수준의 표를 만드는 표준이다.
+
+```latex
+\usepackage{booktabs}
+
+\begin{table}[t]
+\centering
+\caption{실험 결과 비교}
+\label{tab:results}
+\begin{tabular}{lccc}
+\toprule
+Method & Accuracy (\%) & F1 Score & Time (s) \\
+\midrule
+Baseline & 82.3 & 0.81 & 15.2 \\
+Method A & 87.5 & 0.86 & 18.7 \\
+Method B & 91.2 & 0.90 & 25.4 \\
+\textbf{Ours} & \textbf{93.7} & \textbf{0.93} & 22.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+```
+
+**booktabs의 규칙**:
+- **`\toprule`, `\midrule`, `\bottomrule`**만 사용. 수평 선은 이 세 개 뿐.
+- **수직 선 금지**. 세로선을 넣지 않는다. (`|`를 쓰지 말 것)
+- **행 사이 선 최소화**: 필요하면 `\cmidrule{2-3}` 같은 부분 선.
+
+이 규칙을 따르면 전문가의 표가 된다. `booktabs`를 안 쓴 표와 나란히 비교하면 차이가 확연하다.
+
+**표 정렬 — `l`, `c`, `r`, `S`**.
+
+- `l`: 왼쪽 정렬 (텍스트)
+- `c`: 가운데 정렬
+- `r`: 오른쪽 정렬 (짧은 숫자)
+- `S`: 소수점 정렬 (siunitx 패키지)
+
+**소수점 정렬의 예시**:
+```latex
+\usepackage{siunitx}
+
+\begin{tabular}{lSS}
+\toprule
+Method & {Mean} & {Std} \\
+\midrule
+Baseline & 82.3 & 2.1 \\
+Method A & 87.56 & 1.89 \\
+Method B & 91.234 & 0.567 \\
+\bottomrule
+\end{tabular}
+```
+
+`S` 열은 소수점이 정렬된다. 숫자 데이터 표에 필수.
+
+**복잡한 표 — multirow와 multicolumn**.
+
+```latex
+\usepackage{multirow}
+
+\begin{tabular}{llcc}
+\toprule
+\multirow{2}{*}{Category} & \multirow{2}{*}{Method} 
+  & \multicolumn{2}{c}{Dataset} \\
+\cmidrule{3-4}
+& & Train & Test \\
+\midrule
+\multirow{2}{*}{Linear} & A & 0.85 & 0.82 \\
+ & B & 0.87 & 0.84 \\
+\multirow{2}{*}{Nonlinear} & C & 0.91 & 0.89 \\
+ & D & 0.93 & 0.90 \\
+\bottomrule
+\end{tabular}
+```
+
+- `\multirow{2}{*}{내용}`: 2행에 걸친 셀
+- `\multicolumn{2}{c}{내용}`: 2열에 걸친 셀
+- `\cmidrule{3-4}`: 3~4열에만 선
+
+**긴 표 — longtable**.
+
+여러 페이지에 걸친 표.
+
+```latex
+\usepackage{longtable}
+
+\begin{longtable}{llcc}
+\caption{긴 실험 결과} \label{tab:long} \\
+\toprule
+A & B & C & D \\
+\midrule
+\endfirsthead
+
+\multicolumn{4}{c}{\tablename\ \thetable{} -- 계속} \\
+\toprule
+A & B & C & D \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{4}{r}{\emph{다음 페이지에 계속}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+% 여기에 데이터 행들
+1 & 2 & 3 & 4 \\
+% ...
+\end{longtable}
+```
+
+복잡하지만 한 번 설정하면 자동으로 페이지 구분.
+
+**표 배치 — `[htbp]`과 `float` 패키지**.
+
+표의 위치를 지정한다.
+
+- `[t]`: 페이지 상단
+- `[b]`: 페이지 하단
+- `[h]`: 여기 (here)
+- `[p]`: 별도 페이지
+- `[!]`: 강제 (일반적 규칙 무시)
+
+**원칙**: `[t]`를 기본으로 권장. 논문은 보통 위쪽에 표가 있다.
+
+**강제 배치 — `H` 옵션**:
+```latex
+\usepackage{float}
+\begin{table}[H]
+...
+\end{table}
+```
+
+`[H]`는 "반드시 여기에" 배치. 단, 남용하면 레이아웃이 깨진다.
+
+**표의 캡션과 주석.**
+
+표에는 캡션과 주석이 있다.
+
+```latex
+\usepackage{threeparttable}
+
+\begin{table}[t]
+\centering
+\begin{threeparttable}
+\caption{실험 결과\tnote{a}}
+\label{tab:exp}
+\begin{tabular}{lcc}
+\toprule
+Method & Accuracy & Time\tnote{b} \\
+\midrule
+Baseline & 82.3 & 15.2 \\
+Ours & 93.7 & 22.1 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item[a] 5-fold 교차 검증의 평균.
+\item[b] GPU 시간, 초 단위.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+```
+
+표 아래에 주석을 달 때 `threeparttable`을 사용.
+
+**수식과 표의 공통 실수.**
+
+박사생이 자주 하는 실수들.
+
+**수식의 실수**:
+1. 함수명에 `\` 안 붙임: `sin(x)` 대신 `\sin(x)`
+2. 변수에 `\mathrm` 사용: `\mathrm{v}`가 아닌 `v`
+3. 수식 내 한글 (예외적 상황 제외)
+4. `$$...$$` 사용 (구식, `\[...\]` 또는 환경 사용)
+5. 긴 수식을 한 줄에 붙여 씀
+6. `\left(` 없이 큰 분수에 `(` 사용
+
+**표의 실수**:
+1. 세로선 사용 (`|`)
+2. 모든 행에 수평선
+3. 숫자 정렬 안 함
+4. 폭 지정 없이 좁은 열에 긴 텍스트
+5. 캡션을 표 아래에 (표의 캡션은 위)
+6. `\bf` 같은 구식 굵게 (대신 `\textbf` 또는 `\bfseries`)
+
+**수식과 표 디버깅**.
+
+LaTeX의 수식과 표는 에러가 자주 발생한다.
+
+**흔한 에러와 해결**:
+
+1. **"Missing $ inserted"**: 본문에서 수식 모드로 전환 안 됨. `$`로 감쌈.
+2. **"Extra alignment tab"**: 표의 `&` 개수가 선언한 열 수와 안 맞음.
+3. **"Misplaced alignment tab"**: `align` 밖에서 `&` 사용.
+4. **"Package amsmath: Missing & in alignment at position X"**: align 내 `&` 누락.
+5. **표가 페이지 밖으로 나감**: 열 폭 지정 필요 (tabularx 또는 p{폭}).
+
+**디버깅 팁**:
+- 작은 예시로 시작해서 점차 추가
+- `\begin` / `\end`가 짝이 맞는지 확인
+- `%`로 일부를 주석 처리해서 에러 위치 찾기
+
+**박사 논문 수식과 표의 일관성.**
+
+박사 논문은 수십 페이지에 걸쳐 수식과 표가 등장한다. 일관성이 중요.
+
+**일관성을 위한 체크리스트**:
+- [ ] 모든 수식이 같은 번호 스타일 (예: (1.1) 또는 (1))
+- [ ] 같은 변수가 같은 기호로 표기 (x vs X)
+- [ ] 모든 표가 같은 booktabs 스타일
+- [ ] 소수점 자리수가 일관 (2자리 또는 3자리)
+- [ ] 단위 표기 통일 (siunitx 사용)
+- [ ] 참조 형식 일관 (Eq.~1, Table~1 등)
+
+Preamble에서 매크로와 설정을 정의하고 모든 곳에 동일하게 적용.
+
+**수식과 표의 효율 — 복사-붙여넣기에서 자동 생성으로**.
+
+많은 박사생이 수식과 표를 복사-붙여넣기로 만든다. 이것은 오류의 원인이 된다. 고급 방법은 자동 생성.
+
+**수식 자동 생성 — SymPy + LaTeX**:
+```python
+from sympy import symbols, integrate, latex
+
+x, a, b = symbols('x a b')
+expr = a*x**2 + b*x + 1
+integral = integrate(expr, x)
+print(latex(integral))
+# 결과: \frac{a x^{3}}{3} + \frac{b x^{2}}{2} + x
+```
+
+이 출력을 논문에 복사. 수식 오류가 크게 줄어든다.
+
+**표 자동 생성 — Pandas**:
+```python
+import pandas as pd
+
+df = pd.DataFrame({
+    'Method': ['Baseline', 'Method A', 'Ours'],
+    'Accuracy': [82.3, 87.5, 93.7],
+    'F1': [0.81, 0.86, 0.93],
+})
+
+# booktabs 스타일 표로 출력
+print(df.to_latex(
+    index=False,
+    column_format='lcc',
+    float_format='%.2f',
+))
+```
+
+이것이 실험 결과가 바뀔 때마다 표를 다시 만드는 시간을 크게 줄인다. ch16의 재현성과 연결.
+
+**공학 분야별 특화 패키지.**
+
+본인의 분야에 맞는 특수 패키지들.
+
+**화학 공학**: `chemformula`, `mhchem`
+```latex
+\usepackage{mhchem}
+\ce{H2O}  % H₂O
+\ce{2H2 + O2 -> 2H2O}  % 화학 반응식
+```
+
+**물리학**: `physics`
+```latex
+\usepackage{physics}
+\dv{f}{x}  % df/dx (미분)
+\pdv{f}{x}  % ∂f/∂x (편미분)
+\expval{x}  % ⟨x⟩ (기댓값)
+\mel{\phi}{H}{\psi}  % ⟨φ|H|ψ⟩ (행렬 요소)
+```
+
+**기계 공학**: 일반 패키지로 충분하지만 `siunitx`가 필수.
+
+**전기전자**: `circuitikz`로 회로도 그리기.
+
+본인의 분야의 표준 패키지를 알고 사용하는 것이 효율과 품질을 함께 높인다.
+
+**수식과 표 품질의 장기적 가치.**
+
+수식과 표의 조판 기술을 박사 1-2년차에 익히면 박사 전체에 복리로 돌아온다.
+
+1. **속도**: 매번 새로 배우지 않고 빠르게 작성
+2. **품질**: 리뷰어의 "수식/표 지적"이 줄어듦
+3. **일관성**: 본인의 모든 논문이 같은 스타일
+4. **자신감**: 복잡한 수식/표에 두려움 없음
+5. **후배 지도**: 본인이 후배에게 가르칠 수 있는 기술
+6. **학위 논문의 효율**: 집필 시 기술적 문제가 아닌 내용에 집중
+
+**학습 자원**:
+- **"LaTeX Companion"**: 표준 참고서
+- **Overleaf의 학습 섹션**: 대화형 튜토리얼
+- **TeX Stack Exchange**: 구체적 질문 답변
+- **본인 분야의 좋은 논문의 소스**: arXiv에서 .tex 파일 다운로드 가능
+- **TikZ 예시**: texample.net
+
+> 수식과 표의 LaTeX은 공학 박사생의 필수 도구다. 박사 과정 초반에 이 기술에 2-3일을 투자하면 이후 5-6년의 모든 논문 작성에 이익이 돌아온다. 본인의 논문의 내용이 아무리 훌륭해도 수식과 표가 엉성하면 독자의 첫 인상이 나빠진다. 반대로 깔끔하고 전문적인 수식과 표는 본인의 논문에 "품질의 후광"을 만든다. 박사 1-2년차부터 이 섹션의 원칙들을 실천하라. 모든 논문이 조금씩 더 좋아진다.
+
 본인의 박사 학위 논문의 LaTeX가 본인의 박사의 본인의 기술적 결과물의 본인의 최종 형태다. 본인이 본인의 LaTeX를 본인의 도구가 아니라 본인의 박사의 한 부분으로 본다면 본인이 본인의 박사 학위 논문을 본인의 자부심으로 완성할 수 있다.
