@@ -1070,3 +1070,381 @@ wandb.save("model.pt")
 본인이 박사 1년차에 본인의 실험 추적 도구를 본인의 설정하는 30분이 본인의 박사 5-7년의 본인의 실험 관리의 본인의 기초를 만든다. 본인이 본인의 30분을 투자하지 않으면 본인의 박사 과정의 본인의 수개월이 본인의 실험을 본인의 재실행하거나 본인의 실험 기록을 본인의 찾는 데 소비된다.
 
 본인이 선택 (MLflow, W&B, Neptune, TensorBoard, 또는 학교의 자체 도구)을 박사 1년차에 결정하고 그 도구에 일관되게 투자한다. 박사 졸업 시점에 도구가 박사의 과학적 기록의 한 부분이 된다. 박사 졸업 후에도 본인이 도구의 기록을 보관한다. 박사의 모든 실험이 본인의 평생 자산으로 유지된다.
+
+## 연구 코드의 논문 공개 준비 — 개인 저장소에서 공개 저장소로의 전환
+
+논문이 수락되고 나면 남는 작업이 있다. **코드 공개**다. 대부분의 저널과 학회가 2024-2026년에 코드 공개를 의무화하고 있고, 의무가 아니어도 공개하는 것이 표준이 되고 있다. 그런데 본인이 박사 과정 내내 개인용으로 사용해온 저장소는 공개에 적합하지 않다. 비밀 키가 섞여 있고, 폴더 구조가 난잡하고, 미완성 실험 코드가 수십 개 섞여 있고, 의존성이 명확하지 않고, 실행 방법이 본인의 머릿속에만 있다. 이 상태로 공개하면 독자가 실행할 수 없고, 본인의 평판이 오히려 떨어진다. 이 섹션은 개인 저장소를 공개 저장소로 전환하는 체계적 가이드다.
+
+<div class="highlight-box highlight-important">
+
+**"공개 저장소는 본인의 제2의 논문이다".** 많은 독자가 본인의 논문보다 본인의 코드를 먼저 본다. GitHub의 README가 본인의 연구의 첫 인상이 된다. 여기서 실패하면 논문이 아무리 좋아도 외면받는다. 반대로 깔끔하고 실행 가능한 공개 저장소는 논문 자체보다 더 큰 임팩트를 만들기도 한다. 공개 저장소의 정리에 1-2주를 투자하는 것이 수백 번의 다운로드와 인용으로 돌아온다.
+
+</div>
+
+**공개 준비의 3단계 타임라인.**
+
+공개 준비는 논문이 수락된 직후에 시작하면 늦는다. 미리 계획해야 한다.
+
+**단계 1: 논문 투고 시점.**
+이 시점에 저장소가 "리뷰어에게 보여줄 수 있는" 상태여야 한다. 완벽하진 않아도 기본적인 README와 실행 가능성은 확보. 일부 저널은 리뷰 과정에서 코드 제출을 요구한다.
+
+**단계 2: 리비전 제출 시점.**
+리뷰어의 피드백을 반영하고 코드도 함께 업데이트. 리뷰어가 실제로 실행해본 경우 피드백이 올 수 있다.
+
+**단계 3: 수락 후 최종 공개 시점.**
+여기서 본격적 정리. 논문에 인용될 영구 버전을 만든다. DOI 발급, Zenodo 연동, 라이선스 명시.
+
+각 단계의 저장소는 다른 수준의 완성도가 필요하다. 최종 공개는 최고 수준이어야 한다.
+
+**단계 3의 7단계 체크리스트.**
+
+최종 공개를 위한 구체적 정리 단계.
+
+**단계 A: 비밀 정보 스캔.**
+저장소 전체에서 비밀 정보가 없는지 철저히 확인. 이것이 가장 위험한 실수.
+
+**스캔할 항목**:
+- API 키 (AWS, Google Cloud, OpenAI, W&B 등)
+- 비밀번호
+- 개인 이메일 주소 (선택)
+- 학교 서버 주소 (내부)
+- 데이터셋의 사적 경로 (`/home/user/secret_data/`)
+- 개인 식별 정보
+
+**스캔 도구**:
+- `git-secrets`: AWS, 범용 비밀 스캔
+- `truffleHog`: 과거 커밋 히스토리까지 스캔
+- `gitleaks`: 최신이고 강력
+- GitHub의 내장 secret scanning: 공개 저장소에 자동 적용
+
+**주의**: 과거 커밋에 비밀이 있으면 git history 전체를 재작성해야 한다. `git filter-branch` 또는 BFG Repo-Cleaner 사용. 단순히 최신 커밋에서 삭제하는 것은 불충분하다.
+
+**단계 B: 폴더 구조의 재정비.**
+
+박사 과정의 폴더 구조는 보통 "시간 순 카오스"다. 공개용으로는 체계적 구조가 필요하다.
+
+**표준 구조의 예시**:
+```
+project-name/
+├── README.md              # 첫 방문자가 읽는 곳
+├── LICENSE                # 라이선스 명시
+├── CITATION.cff           # 인용 정보
+├── requirements.txt       # Python 의존성
+├── environment.yml        # Conda 환경 (선택)
+├── setup.py               # 패키지화 (선택)
+├── .gitignore
+├── docs/                  # 문서
+│   ├── installation.md
+│   └── usage.md
+├── src/                   # 소스 코드
+│   ├── models/
+│   ├── data/
+│   ├── training/
+│   └── evaluation/
+├── notebooks/             # 튜토리얼 노트북
+│   └── demo.ipynb
+├── scripts/               # 실행 스크립트
+│   ├── train.sh
+│   └── evaluate.sh
+├── configs/               # 설정 파일
+│   └── default.yaml
+├── tests/                 # 테스트
+│   └── test_models.py
+└── data/                  # 데이터 안내 (실제 데이터는 외부)
+    └── README.md          # 데이터 다운로드 방법
+```
+
+**원칙**:
+- 각 폴더의 역할이 명확
+- 깊이는 3-4단계 이하
+- 이름은 영어, 소문자, 하이픈 또는 언더스코어
+- 각 폴더에 (필요하면) README
+
+**단계 C: README의 완성.**
+
+README는 본인의 저장소의 "얼굴"이다. 5분 안에 독자가 알아야 할 것을 모두 담는다.
+
+**필수 항목**:
+1. **프로젝트 제목과 한 줄 설명**
+2. **배지 (badges)**: 라이선스, 빌드 상태, DOI 등
+3. **개요**: 무엇을 하는 코드인가 (2-3 단락)
+4. **설치 방법**: 복사-붙여넣기로 작동해야 함
+5. **빠른 시작 (Quick Start)**: 최소 예제 5-10줄
+6. **사용 예시**: 주요 기능의 사용법
+7. **데이터**: 어디서 구하는가, 어떻게 준비하는가
+8. **결과 재현**: 논문의 결과를 재현하는 구체적 명령
+9. **인용**: BibTeX 형식
+10. **라이선스**
+11. **연락처**: 이슈가 생겼을 때 어디로
+
+**README의 길이**: 500-2000 단어가 이상적. 너무 짧으면 부실, 너무 길면 읽지 않음. 상세한 것은 docs/ 폴더로.
+
+**예시 README 시작**:
+```markdown
+# PhysicsNet: Physics-Informed Neural Network for Crack Detection
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1234567.svg)](...)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)]
+
+Official implementation of the paper "PhysicsNet: ..." 
+published in Journal of X (2026).
+
+## Overview
+This repository contains the code and scripts to reproduce 
+the results of our paper on physics-informed neural 
+networks for bridge crack detection. Our method combines ...
+
+## Quick Start
+```bash
+git clone https://github.com/your-org/physicsnet
+cd physicsnet
+pip install -r requirements.txt
+python scripts/demo.py
+```
+...
+```
+
+**단계 D: 코드의 정리와 리팩터링.**
+
+개인 저장소의 코드는 공개용으로 정리가 필요하다. 단, 과도한 리팩터링은 시간 낭비이고 버그를 만든다. "최소한의 품질"을 목표로.
+
+**정리 원칙**:
+1. **죽은 코드 제거**: 주석 처리된 코드, 사용하지 않는 함수 삭제
+2. **의미 있는 이름**: `func1`, `temp`, `test2` 같은 이름을 의미 있게
+3. **Magic number 제거**: 하드코딩된 숫자를 상수나 설정 파일로
+4. **중복 제거**: 반복되는 코드를 함수로
+5. **주석 추가**: 복잡한 로직에 "왜" 설명
+6. **Type hints 추가**: Python의 경우 함수 시그니처에 타입
+
+**과도하게 하지 말 것**:
+- 완전히 다른 스타일로 재작성
+- 모든 함수를 클래스로 변환
+- 추상화 층을 여러 겹 추가
+- 본인도 이해 못하는 디자인 패턴 적용
+
+"작동하는 코드"가 "예쁜 코드"보다 중요하다. 독자는 본인의 코드를 읽기 위해서가 아니라 실행하기 위해 오는 경우가 많다.
+
+**단계 E: 의존성의 고정.**
+
+몇 년 후에도 본인의 코드가 실행될 수 있게 의존성을 명시.
+
+**Python의 경우**:
+```bash
+# 현재 환경의 정확한 버전 캡처
+pip freeze > requirements.txt
+```
+
+**더 좋은 방법**:
+```bash
+# 직접 사용하는 패키지만 명시 (minimal)
+cat > requirements.txt << EOF
+numpy>=1.21.0,<2.0
+torch>=1.12.0,<2.0
+scikit-learn>=1.0,<2.0
+matplotlib>=3.5
+EOF
+```
+
+**Conda 환경 파일**:
+```yaml
+# environment.yml
+name: physicsnet
+channels:
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pytorch=2.0
+  - numpy=1.24
+  - pip
+  - pip:
+    - timm==0.9.0
+```
+
+**Docker (고급)**:
+```dockerfile
+FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["python", "scripts/train.py"]
+```
+
+Docker는 가장 재현성이 높지만 초보자에게는 부담. 최소한 requirements.txt는 필수. ch38의 재현성 원칙과 연결.
+
+**단계 F: 데이터 접근의 명확화.**
+
+코드만 공개하고 데이터를 공개하지 않으면 실행이 불가능하다. 데이터 접근 방법을 명확히.
+
+**데이터 공개의 3가지 모드**:
+
+1. **완전 공개**: 데이터를 Zenodo, figshare, Kaggle 등에 업로드하고 코드에서 자동 다운로드.
+2. **부분 공개**: 전체 데이터셋 중 일부만 공개 (예: 민감한 부분 제외). 나머지는 요청 시 제공.
+3. **폐쇄**: 데이터는 비공개. 단, 코드의 실행 가능성을 위해 synthetic 데이터 또는 예시 데이터 제공.
+
+**README의 데이터 섹션 예시**:
+```markdown
+## Data
+
+### Public Dataset
+The main experiments use the publicly available [Dataset X](url).
+Download with:
+```bash
+python scripts/download_data.py
+```
+
+### Private Dataset
+Some experiments in Section 4.3 use an industry dataset that 
+cannot be shared publicly due to NDA. We provide a synthetic 
+dataset that mimics its properties for demonstration:
+```bash
+python scripts/generate_synthetic.py
+```
+
+### Data Structure
+```
+data/
+├── train/
+│   ├── images/
+│   └── labels.csv
+└── test/
+    └── ...
+```
+```
+
+**단계 G: 라이선스 명시.**
+
+라이선스 없는 코드는 법적으로 "사용 불가"다. 반드시 명시한다.
+
+**주요 라이선스 비교**:
+- **MIT**: 가장 자유로움. 상업 사용 가능, 수정 가능, 재배포 가능. 유일한 요구: 원 저작권 표시.
+- **Apache 2.0**: MIT와 비슷하되 특허 보호 조항 추가. 기업이 선호.
+- **GPL v3**: Copyleft. 본인의 코드를 사용하는 파생 작품도 GPL이어야 함. 상업적 제약.
+- **BSD**: MIT와 유사.
+- **CC BY 4.0**: 코드보다는 데이터/문서에 주로 사용.
+
+**선택 원칙**:
+- **학술 코드**: MIT 또는 Apache 2.0이 일반적
+- **분야 표준 따르기**: 본인의 분야에서 흔히 쓰는 라이선스
+- **학교 정책 확인**: 일부 학교가 특정 라이선스를 요구
+- **ch40의 IP 정책 확인**: 연구실의 IP 규정에 맞는지
+
+**적용 방법**:
+1. 루트 폴더에 `LICENSE` 파일 (라이선스 전문)
+2. 각 소스 파일 상단에 짧은 헤더:
+```python
+# Copyright (c) 2026 Your Name
+# Licensed under the MIT License. See LICENSE file.
+```
+
+**단계 H: DOI와 영구 아카이브.**
+
+공개 저장소는 바뀔 수 있다. 논문의 결과를 재현하려면 "특정 시점"의 코드가 필요하다. Zenodo를 사용해 영구 아카이브 생성.
+
+**Zenodo + GitHub 연동 절차**:
+1. Zenodo 계정 생성 (ORCID로 로그인)
+2. Zenodo에서 GitHub 연동 활성화
+3. 공개하려는 저장소 선택
+4. GitHub에서 Release 생성 (예: v1.0)
+5. Zenodo가 자동으로 해당 릴리즈를 아카이브하고 DOI 발급
+6. DOI를 README에 추가
+
+**효과**: 본인의 논문이 "DOI: 10.5281/zenodo.1234567"을 인용할 수 있다. 10년 후에도 정확히 그 버전을 재현 가능. ch38의 오픈 사이언스 원칙의 실천.
+
+**공개 후의 유지보수.**
+
+공개는 끝이 아니라 시작이다. 질문, 이슈, Pull Request에 대응해야 한다.
+
+**대응 수준의 선택**:
+
+**수준 1: 완전 방치.**
+이슈에 답하지 않음. 본인의 시간과 관심의 문제. 학계에서는 실망을 주지만, 감당할 수 없으면 솔직한 공지가 낫다.
+
+**수준 2: 기본 대응.**
+이슈에 월 1회 정도 답변. 기본적인 버그 수정. 대부분의 학생 연구자의 현실적 선택.
+
+**수준 3: 활발한 유지보수.**
+이슈에 주 단위 답변. 기능 추가, 버그 수정. 이것이 오픈소스 프로젝트의 표준이지만 학생에게는 부담.
+
+**현실적 권장**: 수준 2로 시작하되, 미리 README에 "이것은 학술 연구 코드이며 활발한 유지보수는 제한적입니다"를 명시. 기대치를 조정.
+
+**"Maintenance Status" 섹션 예시**:
+```markdown
+## Maintenance
+
+This is research code accompanying our paper. We welcome 
+issues and contributions but cannot guarantee immediate 
+responses. For critical bugs, please open an issue with 
+[BUG] in the title.
+
+For questions about the paper, please contact [email].
+```
+
+**박사 논문에서의 코드 섹션.**
+
+박사 학위논문에도 코드에 대한 섹션을 포함시키는 것을 권장.
+
+**포함할 내용**:
+- 코드의 GitHub URL과 DOI
+- 주요 모듈의 간략한 설명
+- 핵심 알고리즘의 구현 위치
+- 재현성 지침
+- 의존성과 요구사항
+
+**학위논문 appendix 예시**:
+```
+Appendix C: Code Availability
+
+The complete implementation is available at:
+https://github.com/your-org/physicsnet
+(DOI: 10.5281/zenodo.1234567)
+
+The main contributions of this thesis are implemented in:
+- src/models/physics_net.py (Chapter 3)
+- src/training/pinn_loss.py (Chapter 4)
+- src/evaluation/crack_metrics.py (Chapter 5)
+
+To reproduce the main experiments of this thesis:
+1. Follow installation instructions in README.md
+2. Run scripts/reproduce_thesis.sh
+```
+
+이것이 본인의 학위논문의 재현성과 투명성을 보장. ch36의 학위논문 작성과 연결.
+
+**공개의 심리적 장벽 — "내 코드가 부끄럽다".**
+
+많은 학생이 코드 공개를 망설이는 이유는 "내 코드가 예쁘지 않다"는 부끄러움이다. 이것을 극복하는 관점.
+
+**관점 1: 모든 연구자의 코드는 부끄럽다.**
+본인만 그런 것이 아니다. 유명한 논문의 공개 코드도 들여다보면 엉망인 경우가 많다. 완벽한 코드를 기다리면 영원히 공개할 수 없다.
+
+**관점 2: 공개가 오히려 품질을 올린다.**
+다른 사람이 본다는 생각이 본인의 코드를 조금씩 개선하게 만든다. 공개 자체가 품질 관리 메커니즘.
+
+**관점 3: 미완성이어도 기여다.**
+완벽하지 않은 코드도 "참고할 출발점"으로 가치가 있다. 세상의 모든 오픈소스가 완벽해서 공개된 것이 아니다.
+
+**관점 4: 사후 수정 가능.**
+공개 후에도 계속 개선할 수 있다. 첫 공개는 "현재 상태"일 뿐이다.
+
+**관점 5: 동료의 이익.**
+본인의 코드 공개가 본인의 분야의 다른 박사생들에게 시간을 절약해준다. 본인도 다른 사람의 공개 코드로 시간을 절약한 경험이 있을 것이다.
+
+이런 관점이 본인의 공개 결정을 돕는다. 부끄러움보다 기여가 크다.
+
+**공개 코드의 장기적 이익.**
+
+공개 코드는 본인의 박사 이후 경력에 큰 이익을 준다.
+
+1. **인용 증가**: 공개 코드가 있는 논문이 더 많이 인용됨 (30-50% 증가라는 연구 결과).
+2. **재현 가능성의 증거**: 본인의 연구가 신뢰받음.
+3. **포닥/취업 포트폴리오**: GitHub 프로필이 이력서의 일부.
+4. **협력 기회**: 본인의 코드를 본 다른 연구자가 협력 제안.
+5. **후속 연구의 기반**: 본인이 박사 후 다음 연구에서 계속 사용.
+6. **교육적 가치**: 후배들이 본인의 코드로 학습.
+
+이 이익들을 합치면 공개에 투자한 1-2주는 몇 배로 돌아온다.
+
+> 공개 저장소는 본인의 박사 연구의 가장 눈에 보이는 결과물이다. 논문은 읽는 사람이 한정되지만, GitHub 저장소는 검색에 잡히고, 포크되고, 스타가 찍힌다. 공개 준비에 1-2주를 투자하라. 그 시간이 본인의 연구의 장기적 임팩트를 결정한다. 부끄러움을 이기고, 불완전함을 받아들이고, 공개하라. 완벽한 코드를 기다리다가 공개하지 않은 코드는 없는 코드와 같다.
