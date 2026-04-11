@@ -2278,3 +2278,679 @@ Q&A에서 질문이 안 들리면 당황스럽다.
 이 12가지가 본인의 리스닝을 체계적으로 개선한다.
 
 > 학술 영어 리스닝은 박사 과정에서 가장 저평가된 기술 중 하나다. 본인이 아무리 좋은 논문을 쓸 수 있어도, 학회에서 다른 사람의 말을 이해 못 하면 학술 공동체에 완전히 참여할 수 없다. 리스닝은 타고난 재능이 아니라 훈련의 결과다. 박사 1-2년차에 체계적 훈련을 시작하면 박사 후반에 국제 학회에서 자신감 있는 참여자가 된다. 매일 30분의 투자가 5-6년의 학술 인생을 바꾼다. "못 알아들었다"를 부끄러워하지 말고, 훈련으로 극복하라.
+
+## 학술 영어의 논리 연결어 — 문장과 문장을 잇는 기술
+
+본인이 쓴 학술 영어 논문을 원어민이 읽고 "문법은 괜찮은데 흐름이 이상해요"라고 말한 적이 있는가? 문장 하나하나는 정확한데 전체가 어색하다. 이것은 문법의 문제가 아니라 **논리 연결어(transitions)**의 문제다. 한국 박사생이 영어 글쓰기에서 가장 약한 부분이 이것이다. 한국어에서는 문장 사이의 연결이 암시적이지만, 영어는 명시적이어야 한다. 본인이 "However", "Therefore", "Furthermore"를 아는 것만으로는 부족하다. 언제, 어떻게, 어떤 미묘한 차이로 사용하는지가 학술 영어의 품질을 결정한다. 이 섹션은 학술 영어의 논리 연결어를 체계적으로 다룬다.
+
+<div class="highlight-box highlight-important">
+
+**"문장이 좋아도 연결이 나쁘면 글이 나쁘다".** 논문의 각 문장이 완벽한 문법이어도, 문장 간의 논리 흐름이 없으면 독자가 혼란스럽다. "이 문장이 왜 여기 있지?", "이것과 저것의 관계는?", "결론은 뭐지?" 이런 질문이 독자 머릿속에 들면 본인의 글은 실패. 좋은 글은 독자가 본인의 논리를 힘들이지 않고 따라가게 한다. 그 핵심이 연결어의 숙련된 사용이다. 박사 과정에서 이것을 익히면 본인의 모든 논문의 품질이 상승.
+
+</div>
+
+**한국어와 영어의 연결의 차이**.
+
+왜 한국 박사생에게 이것이 특히 어려운가.
+
+**한국어의 특성**:
+- 연결이 암시적
+- 주어 생략 가능
+- 문장 순서로 논리 표현
+- 접속사가 상대적으로 적음
+
+**예시 (한국어)**:
+"우리는 새 방법을 제안했다. 실험 결과 정확도가 올랐다. 기존 방법보다 더 좋다."
+
+이 한국어는 자연스럽다. 연결이 암시적이지만 이해됨.
+
+**영어의 특성**:
+- 연결이 명시적
+- 주어 필수
+- 접속사로 논리 표현
+- 연결어의 풍부함
+
+**나쁜 영어 번역**:
+"We proposed a new method. Experiments showed accuracy improved. It is better than the existing method."
+
+이것은 문법적으로 맞지만 어색하다. 원어민은 "왜 이 문장들을 나열하는 거지?"라고 느낌.
+
+**좋은 영어**:
+"We proposed a new method. **To validate it,** we conducted experiments **that** showed improved accuracy. **As a result,** our method outperforms existing approaches."
+
+차이: 연결어 추가. "To validate it", "As a result" 등이 논리 관계를 명시.
+
+**핵심 교훈**: 영어에서는 논리를 "말로 표현"해야 한다. 암시적으로 두면 안 된다.
+
+**논리 연결의 9가지 유형**.
+
+학술 영어의 논리 연결 유형.
+
+**유형 1: 추가 (Addition)**.
+"더불어"의 의미.
+
+**연결어**:
+- Furthermore, Moreover, In addition
+- Additionally, Also, Besides
+- What is more, Similarly
+
+**예시**: "Our method achieves high accuracy. **Furthermore,** it is computationally efficient."
+
+**미묘한 차이**:
+- **Furthermore**: 보다 공식적
+- **Moreover**: 강조 추가
+- **In addition**: 중립적
+- **Also**: 간단함
+- **Besides**: 약간 구어적
+
+**유형 2: 대조 (Contrast)**.
+"반대로"의 의미.
+
+**연결어**:
+- However, Nevertheless, Nonetheless
+- In contrast, On the contrary
+- Yet, Still, On the other hand
+- Although, While, Whereas
+
+**예시**: "Traditional methods rely on hand-crafted features. **However,** our approach learns features automatically."
+
+**미묘한 차이**:
+- **However**: 가장 일반적
+- **Nevertheless**: 강한 대조, 예상 뒤엎음
+- **On the contrary**: 정반대 주장
+- **In contrast**: 두 대상 비교
+
+**유형 3: 원인-결과 (Cause-Effect)**.
+"그래서", "따라서"의 의미.
+
+**연결어**:
+- Therefore, Thus, Hence, Consequently
+- As a result, Accordingly
+- For this reason, Because of this
+- It follows that
+
+**예시**: "The dataset is small. **Therefore,** we use data augmentation."
+
+**미묘한 차이**:
+- **Therefore**: 논리적 결론
+- **Thus**: 공식적, 수학적
+- **Hence**: 유사 (약간 고풍)
+- **Consequently**: 결과 강조
+- **As a result**: 자연스러움
+
+**유형 4: 예시 (Example)**.
+"예를 들어"의 의미.
+
+**연결어**:
+- For example, For instance
+- Such as, Including
+- Specifically, In particular
+- To illustrate, As an illustration
+
+**예시**: "Several methods exist. **For instance,** SVM, Random Forest, and Neural Networks."
+
+**미묘한 차이**:
+- **For example**: 가장 일반적
+- **For instance**: 약간 더 공식적
+- **Such as**: 문장 중간
+- **Specifically**: 구체화
+
+**유형 5: 강조 (Emphasis)**.
+"특히", "중요하게는"의 의미.
+
+**연결어**:
+- Indeed, In fact, Importantly
+- Notably, Remarkably, Significantly
+- Above all, Most importantly
+
+**예시**: "The results are promising. **Importantly,** they are reproducible."
+
+**미묘한 차이**:
+- **Indeed**: 확인과 강조
+- **In fact**: 사실 강조
+- **Notably**: 주목할 만한
+- **Importantly**: 중요성 강조
+
+**유형 6: 시간 순서 (Sequence)**.
+"먼저", "그 다음"의 의미.
+
+**연결어**:
+- First, Second, Third, Finally
+- Initially, Subsequently, Eventually
+- Then, Next, Afterwards
+- Before, After, While
+
+**예시**: "**First,** we collect data. **Then,** we train the model. **Finally,** we evaluate it."
+
+**학술 영어**: 숫자 대신 "First, Second, Third"가 더 공식적.
+
+**유형 7: 요약 (Summary)**.
+"요약하면"의 의미.
+
+**연결어**:
+- In summary, In conclusion, To summarize
+- Overall, In brief, To conclude
+- All in all, In essence
+
+**예시**: "**In summary,** our method achieves three key improvements."
+
+**사용**: 섹션이나 논문 끝.
+
+**유형 8: 설명 (Explanation/Clarification)**.
+"즉", "다시 말해"의 의미.
+
+**연결어**:
+- That is, In other words, Namely
+- Specifically, To clarify
+- i.e., e.g. (주의: 약어)
+
+**예시**: "The model converges quickly. **That is,** it reaches optimal accuracy within 10 epochs."
+
+**주의**: "i.e." (즉)와 "e.g." (예를 들어)는 자주 혼동.
+
+**유형 9: 조건 (Condition)**.
+"만약"의 의미.
+
+**연결어**:
+- If, Unless, Provided that
+- In case, Given that
+- Assuming that, On condition that
+
+**예시**: "The method works well **provided that** the data is sufficient."
+
+**이 9가지 유형**을 모두 익히는 것이 목표.
+
+**연결어의 위치**.
+
+문장 내 어디에 두는가.
+
+**위치 1: 문장의 시작**.
+"However, this approach has limitations."
+
+**효과**: 가장 일반적. 명확한 신호.
+
+**위치 2: 주어 뒤**.
+"This approach, however, has limitations."
+
+**효과**: 더 부드러움. 덜 강조.
+
+**위치 3: 문장 끝**.
+"This approach has limitations, however."
+
+**효과**: 덜 공식적. 회화체.
+
+**학술 영어**: 위치 1-2 권장. 위치 3은 드물게.
+
+**예시**:
+
+**나쁜 (반복)**:
+"However, method A is slow. However, method B is fast. However, method C is accurate."
+
+**좋음 (다양성)**:
+"However, method A is slow. **In contrast,** method B is fast. **Meanwhile,** method C is accurate."
+
+**연결어의 반복을 피함**. 다양성 유지.
+
+**과도한 연결어의 함정**.
+
+연결어가 너무 많으면 역효과.
+
+**나쁜 예시 (과도)**:
+"We collected data. **First,** we cleaned it. **Then,** we split it. **Next,** we trained the model. **After that,** we evaluated it. **Finally,** we reported the results."
+
+**문제**: 모든 문장에 연결어. 피로감.
+
+**좋은 예시 (적절)**:
+"We collected data and cleaned it, then split it for training and testing. After training the model, we evaluated it and reported the results."
+
+**개선**: 짧은 문장들을 결합. 필요한 연결어만.
+
+**원칙**: 연결어는 필요한 곳에만. "모든 문장 시작에 연결어"는 금지.
+
+**비율**: 학술 영어 논문에서 연결어가 문장의 30-50%에 있는 것이 적당. 그 이상이면 과도.
+
+**연결어의 미묘한 차이 — "However" 계열**.
+
+대조를 표현하는 여러 방법의 차이.
+
+**However**: 가장 일반적. 학술 영어의 표준.
+"The method is accurate. However, it is slow."
+
+**Nevertheless**: 예상을 뒤집음. 강한 대조.
+"The approach has limitations. Nevertheless, it outperforms alternatives."
+
+**Nonetheless**: Nevertheless와 유사. 약간 더 문학적.
+"The data is limited. Nonetheless, our results are significant."
+
+**On the other hand**: 두 측면 비교.
+"On one hand, X is faster. On the other hand, Y is more accurate."
+
+**In contrast**: 직접적 비교.
+"Traditional methods are slow. In contrast, our approach is fast."
+
+**Whereas**: 종속절의 대조.
+"Traditional methods require labels, whereas our approach is unsupervised."
+
+**Yet**: 의외성 강조.
+"The method is simple, yet it is highly effective."
+
+**Still**: 약한 대조.
+"The method has issues. Still, it is useful."
+
+**사용 구분**: 문맥에 따라 선택. 반복 피함.
+
+**"Therefore"와 "Thus"의 차이**.
+
+원인-결과 표현의 미묘한 차이.
+
+**Therefore**: 가장 일반적. 모든 학술 영어에 적합.
+"The data is noisy. Therefore, we apply a filter."
+
+**Thus**: 더 공식적. 수학/논리 증명.
+"If A > B and B > C, thus A > C."
+
+**Hence**: Thus와 유사. 약간 고풍.
+"The equation balances. Hence, the system is stable."
+
+**Consequently**: 결과의 강조.
+"Errors propagated through the pipeline. Consequently, the final output is unreliable."
+
+**As a result**: 자연스러운 회화체.
+"The model was trained for too long. As a result, it overfits."
+
+**Accordingly**: 조정/반응의 의미.
+"The requirements changed. Accordingly, we modified the design."
+
+**It follows that**: 논리적 결론.
+"The set is closed and bounded. It follows that it is compact."
+
+**선택**: 가장 흔한 "Therefore"와 "Thus" 마스터. 나머지는 다양성용.
+
+**접속사 vs 접속 부사 vs 전치사**.
+
+문법적 차이.
+
+**접속사 (Conjunctions)**:
+두 절을 직접 연결.
+
+**예시**: and, but, or, because, since, although, while, if
+
+**문법**: 단일 문장 내부.
+"The model is accurate, **because** it uses large data."
+
+**접속 부사 (Conjunctive Adverbs)**:
+독립절을 연결 (세미콜론 또는 마침표 필요).
+
+**예시**: however, therefore, moreover, furthermore, consequently
+
+**문법**:
+"The model is accurate. **However,** it is slow." (마침표)
+"The model is accurate; **however,** it is slow." (세미콜론)
+
+**금지**:
+"The model is accurate, however, it is slow." (쉼표는 틀림)
+
+**전치사 (Prepositions)**:
+구를 연결.
+
+**예시**: despite, due to, in spite of, because of
+
+**문법**: 명사/구 연결.
+"**Despite** its simplicity, the method works."
+
+**차이 인식**: 많은 학생이 이것을 혼동. "However"를 접속사처럼 쓰는 실수.
+
+**Signposting — 독자를 안내**.
+
+학술 영어의 고급 기법.
+
+**Signposting이란**: 독자에게 글의 구조를 미리 알려주는 것.
+
+**유형 1: 섹션의 시작**.
+"In this section, we describe the experimental setup."
+"The following section presents our results."
+
+**유형 2: 논리의 전개**.
+"We will first describe X, then explain Y, and finally discuss Z."
+
+**유형 3: 목록화**.
+"There are three reasons for this: first, ...; second, ...; third, ..."
+
+**유형 4: 돌아가기**.
+"Returning to the main question, ..."
+"As mentioned earlier, ..."
+
+**유형 5: 앞으로 가기**.
+"We will return to this point in Section 5."
+"The implications will be discussed below."
+
+**이것들이 독자의 navigator**. 독자가 본인의 논리를 따라가기 쉽게.
+
+**한국 학생의 특수 함정**.
+
+한국어 사고에서 오는 영어 글쓰기 실수.
+
+**함정 1: "Also"의 남용**.
+한국어의 "또한"을 "Also"로 매번 번역.
+
+**예시**:
+"Method A is fast. Also, method A is accurate. Also, method A is simple."
+
+**개선**:
+"Method A is fast, accurate, and simple."
+
+**함정 2: "And"로 문장 시작**.
+한국어의 "그리고"를 문장 시작의 "And"로.
+
+**나쁨**: "And the results show..."
+**좋음**: "Furthermore, the results show..."
+
+**함정 3: 연결 없는 나열**.
+한국어처럼 암시적으로.
+
+**나쁨**: "We trained the model. We evaluated it. It performed well."
+**좋음**: "After training the model, we evaluated its performance, which proved satisfactory."
+
+**함정 4: "In the paper"의 과도**.
+"본 논문에서"의 번역.
+
+**나쁨**: "In the paper, we propose... In the paper, we show... In the paper, we argue..."
+**좋음**: "We propose... We show... We argue..." (한 번만 "in this paper")
+
+**함정 5: Dangling 연결어**.
+"However"로 시작했지만 대조가 아님.
+
+**나쁨**: "Our method uses deep learning. However, the implementation is in Python."
+**이유**: "However"는 대조를 예상시키지만 대조가 없음.
+
+**수정**: 연결어 제거 또는 "Also"로.
+
+**학술 영어의 "예의"**.
+
+연결어의 공손한 사용.
+
+**비판의 연결어**:
+- "However" (중립)
+- "Yet" (약간 강함)
+- "Nevertheless" (강함)
+
+**예시 — 비판**:
+"**While** Smith's approach is valuable, **it** has limitations."
+
+**"While"이 비판의 예의**. 상대의 공로를 인정하고 비판.
+
+**나쁜 비판**:
+"Smith's approach is wrong. We show X."
+
+**좋은 비판**:
+"**Although** Smith's approach works well in standard cases, **it** encounters difficulties in extreme conditions, **which** our method addresses."
+
+**원칙**: 학술 영어는 공손함을 내장. 연결어가 이것을 전달.
+
+**헤징 (Hedging)과 연결어**.
+
+확실성의 조절.
+
+**강한 주장**:
+"Our method is better."
+
+**헤징된 주장**:
+"Our method **appears to be** better, **particularly** in conditions X."
+
+**연결어의 역할**: "particularly", "in most cases", "typically" 등이 헤징.
+
+**학술 영어의 특성**: 강한 주장 피함. 증거의 범위 내에서만.
+
+**연결어와 헤징**: 둘 다 학술 영어의 품질.
+
+**섹션 간 연결**.
+
+섹션 사이의 연결.
+
+**나쁜 섹션 시작**:
+"## 4. Results"
+"We present our results."
+
+(맥락 없이 시작)
+
+**좋은 섹션 시작**:
+"## 4. Results"
+"**Building on** the methodology described in Section 3, we now present the results of our experiments. **Specifically,** we focus on three key aspects: accuracy, efficiency, and robustness."
+
+**구성**:
+1. 이전 섹션과의 연결 ("Building on")
+2. 현재 섹션의 목적
+3. 구조의 signpost
+
+**각 섹션 시작**에 이런 연결을 포함.
+
+**Paragraph Structure와 연결**.
+
+단락의 연결.
+
+**Topic Sentence**: 단락의 첫 문장. 주제 명시.
+
+**Supporting Sentences**: 설명, 증거, 예시.
+
+**Transition Sentence**: 다음 단락으로의 연결 (선택).
+
+**예시 단락**:
+"Our method offers three key advantages. **First**, it is computationally efficient, requiring only O(n) operations. **Second**, it is accurate, achieving over 95% on standard benchmarks. **Third**, it is robust, maintaining performance across varying conditions."
+
+**분석**:
+- Topic sentence: "three key advantages"
+- First, Second, Third: 열거의 연결어
+- 각 장점의 구체적 설명
+
+**단락 사이**: Transition을 통한 연결.
+
+"**In addition to these advantages**, our method has theoretical guarantees."
+
+(이전 단락의 이점을 언급하며 새 단락으로)
+
+**동의어와 다양성**.
+
+반복 피하기 위한 다양성.
+
+**같은 연결어 반복**:
+"However, X. However, Y. However, Z."
+
+**다양성**:
+"However, X. Nevertheless, Y. In contrast, Z."
+
+**원칙**: 같은 단락/인접 단락에서 같은 연결어 반복 피함.
+
+**주의**: 다양성을 위해 어색한 연결어 사용 금지. 부드러운 다양성.
+
+**학술 영어에서 피해야 할 연결어**.
+
+일부 연결어는 학술 영어에 부적합.
+
+**피해야 할**:
+- **And then**: 구어적. "Subsequently" 사용.
+- **So**: 구어적. "Therefore" 사용.
+- **Basically**: 비공식. 필요 없음.
+- **Anyway**: 구어적.
+- **Like**: 필러. "Such as" 사용.
+- **You know**: 구어 필러.
+
+**원칙**: 학술 영어는 공식적. 구어 피함.
+
+**"In order to"의 남용**.
+
+한국 학생의 흔한 실수.
+
+**나쁨**: "We applied method X **in order to** improve performance."
+**좋음**: "We applied method X **to** improve performance."
+
+**이유**: "in order to"는 공식적이지만 대부분의 경우 불필요. "to"만으로 충분.
+
+**예외**: "In order to"가 명확성을 높이는 경우.
+
+**원칙**: 간결함이 학술 영어의 덕목. 불필요한 길이 피함.
+
+**연결어 체크리스트 — 편집 시**.
+
+본인의 글을 편집할 때.
+
+**체크 1: 각 문장 사이의 연결**.
+각 문장이 이전 문장과 어떻게 연결되는가? 암시적인가 명시적인가?
+
+**체크 2: 과도 연결어**.
+모든 문장에 연결어가 있는가? 줄일 수 있는가?
+
+**체크 3: 연결어 반복**.
+같은 연결어가 여러 번 나오는가? 다양화할 수 있는가?
+
+**체크 4: 연결어 정확성**.
+"However"가 정말 대조인가? "Therefore"가 정말 원인-결과인가?
+
+**체크 5: Signposting**.
+각 섹션과 단락이 명확히 이정되어 있는가?
+
+**체크 6: 문법**.
+접속사 vs 접속 부사의 정확한 사용.
+
+**체크 7: 흐름**.
+독자가 본인의 논리를 힘들이지 않고 따라갈 수 있는가?
+
+**편집의 실전**:
+1. 본인의 문단을 소리 내어 읽음
+2. 끊기는 곳 표시
+3. 연결어 추가/수정
+4. 다시 읽음
+5. 반복
+
+**연결어의 시각적 맵**.
+
+문단의 논리 구조를 시각화.
+
+**방법**:
+- 각 연결어에 색 표시
+- 추가 = 빨강
+- 대조 = 파랑
+- 원인-결과 = 녹색
+- 예시 = 노랑
+
+**결과**: 본인의 글의 논리 구조가 보임.
+
+**너무 많은 한 색**: 단조로움. 다양화 필요.
+
+**너무 다양한 색**: 산만함. 집중화 필요.
+
+**이 시각적 연습**이 본인의 논리 감각을 기른다.
+
+**연습 방법 — 매일 30분**.
+
+연결어 숙달의 연습.
+
+**연습 1: 좋은 논문 분석**.
+본인의 분야의 top 논문. 연결어에 표시. 어떻게 사용하는지 관찰.
+
+**시간**: 주 1회, 1시간.
+
+**연습 2: 본인의 논문 재작성**.
+본인의 논문 한 단락을 연결어 다양하게 재작성.
+
+**시간**: 주 1-2회, 30분.
+
+**연습 3: 번역 연습**.
+한국어 학술 텍스트를 영어로. 연결어에 주의.
+
+**시간**: 주 1회, 30분.
+
+**연습 4: 비평 글쓰기**.
+본인의 분야의 논문을 비평. 비판의 연결어 연습.
+
+**시간**: 월 1회, 2시간.
+
+**연습 5: AI 피드백**.
+본인의 글을 AI (ChatGPT, Claude)에 제출. 연결어 개선 요청.
+
+**시간**: 매일 짧게.
+
+**ch09 앞부분의 AI 협업 원칙**과 결합.
+
+**연결어의 단계적 학습**.
+
+6개월 계획.
+
+**Month 1-2: 기초**.
+9가지 연결 유형의 각 3-5개 연결어 마스터.
+
+**Month 3-4: 심화**.
+미묘한 차이 (However vs Nevertheless 등) 학습.
+
+**Month 5-6: 응용**.
+본인의 논문에 적극 사용. 피드백 수집.
+
+**6개월 후**: 본인의 영어 글쓰기가 확연히 개선.
+
+**측정 방법**:
+- 이전 논문과 지금 논문의 비교
+- 지도교수/동료의 피드백
+- AI 도구의 평가
+
+**자원**.
+
+학습 자원.
+
+**책**:
+- **"Writing for Computer Science" (Zobel)**: 컴퓨터 과학
+- **"The Elements of Style" (Strunk & White)**: 고전
+- **"Style: Lessons in Clarity and Grace" (Williams)**: 심화
+
+**온라인**:
+- **Academic Phrasebank** (Manchester 대학): 학술 영어 표현 DB
+- **Purdue OWL**: 글쓰기 가이드
+- **Grammarly**: 실시간 피드백
+
+**학술 논문**:
+- 본인의 분야 top 5 논문 분석
+- "좋은 글"의 예시
+
+**연결어 리스트**:
+- 유형별 5-10개를 카드에 정리
+- 정기적 참고
+
+**체크리스트 — 연결어 사용**.
+
+<div class="highlight-box highlight-info">
+
+**학술 영어 연결어 체크리스트**
+
+- [ ] 9가지 연결 유형을 이해하는가?
+- [ ] 각 유형의 3-5개 연결어를 알고 있는가?
+- [ ] 한국어와 영어의 연결 차이를 인식하는가?
+- [ ] However vs Nevertheless의 차이를 아는가?
+- [ ] 접속사, 접속 부사, 전치사를 구분하는가?
+- [ ] 연결어의 위치를 다양화하는가?
+- [ ] 과도한 연결어를 피하는가?
+- [ ] Signposting을 활용하는가?
+- [ ] 한국 학생의 흔한 함정을 피하는가?
+- [ ] 구어적 연결어 ("and then", "so")를 피하는가?
+- [ ] 정기적으로 연결어 연습을 하는가?
+- [ ] 본인의 글을 편집할 때 연결어를 점검하는가?
+
+</div>
+
+이 12가지가 본인의 연결어 숙달의 기반.
+
+**장기적 효과**.
+
+연결어의 숙달은 장기적 이점.
+
+**박사 과정**:
+- 논문의 품질 상승
+- 리뷰어의 긍정적 평가
+- 학위 논문의 완성도
+
+**박사 후**:
+- 모든 학술 글쓰기에 적용
+- 제안서 작성
+- 강연 자료
+- 일반 영어 글쓰기
+
+**평생 기술**: 한 번 익히면 평생.
+
+> 학술 영어의 연결어는 작은 것처럼 보이지만 큰 차이를 만든다. 본인의 문장이 각각 완벽해도 연결이 나쁘면 글은 실패한다. 반대로 연결이 좋으면 평범한 문장도 좋은 글이 된다. 박사 과정에서 이 기술에 의식적으로 투자하면 본인의 모든 논문이 점진적으로 좋아진다. 9가지 유형을 마스터하고, 한국 학생의 함정을 피하고, 정기적으로 연습하라. 6개월 후 본인의 영어 글쓰기가 한 단계 올라간다. 이것이 평생의 학술 커리어를 뒷받침한다.
