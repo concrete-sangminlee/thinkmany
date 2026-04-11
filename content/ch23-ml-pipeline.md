@@ -1522,3 +1522,765 @@ ML 프로젝트의 교과서는 모델 아키텍처, 학습 알고리즘, 평가
 이 기법들이 본인을 라벨링 마라톤에서 완주하게 한다.
 
 > 데이터 라벨링은 공학 ML 박사의 숨은 병목이다. 모델, 알고리즘, 평가에 대한 책과 논문은 많지만 라벨링에 대한 실전 지식은 선배에게서 배우거나 스스로 고생하며 얻는다. 이 섹션의 원칙들을 일찍 적용하면 본인의 박사 ML 연구의 시간과 좌절을 크게 줄일 수 있다. 본인의 라벨셋의 품질이 본인의 박사의 품질이다. 모델보다 라벨에 먼저 투자하라.
+
+## ML 모델 버전 관리와 실험 분기 — 수백 실험의 관리
+
+박사 ML 연구의 어느 시점에 본인은 한 가지를 깨닫는다. "내가 했던 실험이 수백 개인데 어느 것이 어느 것인지 모르겠다." 모델 파일, 체크포인트, 로그, 설정 파일, 결과 그림. 모두 섞여 있고 구분할 수 없다. "3주 전 Reynolds 1000 실험"을 찾으려면 폴더 수십 개를 뒤져야 한다. "이 모델이 어떤 설정으로 훈련되었는지" 기억이 안 난다. 이 혼란이 축적되면 본인의 연구는 멈춘다. 체계적 **버전 관리와 실험 분기**가 필수다. 코드의 Git과 유사하게, ML 실험도 고유한 버전 관리가 필요하다. 이 섹션은 수백 실험을 관리하는 체계를 다룬다.
+
+<div class="highlight-box highlight-important">
+
+**"ML 실험은 코드보다 복잡하다".** 코드의 Git은 텍스트 파일의 변경을 추적한다. 그러나 ML 실험은 여러 차원을 가진다: 코드, 데이터, 하이퍼파라미터, 환경, 결과, 체크포인트. 이 모든 것이 실험의 정체성을 구성한다. 단순한 Git으로는 충분하지 않다. ML 실험 관리는 별도의 체계가 필요하다. 박사 초기에 이 체계를 구축하면 박사 5-7년 동안 수백 실험을 안전하게 관리할 수 있다. 구축하지 않으면 본인은 "어느 설정이었지?"를 반복하며 시간을 잃는다.
+
+</div>
+
+**ML 실험의 "6가지 차원"**.
+
+한 실험을 정의하는 요소들.
+
+**차원 1: 코드 버전**.
+실험 당시 사용한 코드. Git commit 해시.
+
+**차원 2: 데이터 버전**.
+훈련/테스트에 사용한 데이터의 버전. 전처리 포함.
+
+**차원 3: 하이퍼파라미터**.
+학습률, 배치 크기, 옵티마이저, 모델 크기 등.
+
+**차원 4: 환경**.
+PyTorch 버전, CUDA 버전, 의존성 라이브러리.
+
+**차원 5: 시드 (Seed)**.
+랜덤 시드. 재현성의 핵심.
+
+**차원 6: 결과**.
+메트릭, 체크포인트, 로그, 시각화.
+
+**이 6가지가 일치해야** 실험이 재현 가능하다. 하나라도 빠지면 "대략 비슷한" 결과만 가능.
+
+**문제의 규모 — 박사 과정의 실험 수**.
+
+박사 과정에서 실행하는 실험의 대략적 수.
+
+**보수적 추정**:
+- 박사 1년차: 50-100개
+- 박사 2년차: 200-500개
+- 박사 3-4년차: 500-2000개
+- 박사 5-6년차: 1000-3000개
+- **박사 전체**: 2000-5000개
+
+이 중 논문에 나오는 것은 20-50개. 나머지는 탐색, 실패, 반복.
+
+**왜 이렇게 많은가**:
+- 하이퍼파라미터 튜닝 (100-500개)
+- ablation 연구 (50-100개)
+- 랜덤 시드 반복 (각 실험 x 5)
+- 실패와 재시도 (많음)
+- 탐색적 실험 (많음)
+
+**체계 없이는** 이 많은 실험을 추적 불가능.
+
+**계층적 관리 — 실험의 구조**.
+
+실험을 계층으로 조직.
+
+**계층 1: 프로젝트 (Project)**.
+박사의 한 연구 주제. 논문 1-3편에 해당.
+
+**예시**: "PINN for crack detection"
+
+**계층 2: 실험 시리즈 (Experiment Series)**.
+한 프로젝트 내의 관련 실험들. 한 연구 질문에 답함.
+
+**예시**: 
+- "Series A: Architecture comparison"
+- "Series B: Loss weight tuning"
+- "Series C: Data size sensitivity"
+
+**계층 3: 개별 실험 (Individual Run)**.
+한 구성의 한 실행.
+
+**예시**: "Series B, λ_pde=1, λ_bc=10, seed=42"
+
+**계층 4: Epoch/Checkpoint**.
+한 실험 내의 시점.
+
+**조직 예시**:
+```
+phd-research/
+├── project-pinn-crack/
+│   ├── series-A-architecture/
+│   │   ├── run-001-resnet/
+│   │   ├── run-002-transformer/
+│   │   └── run-003-pinn/
+│   ├── series-B-loss-weights/
+│   │   ├── run-001-w1-1-w2-10/
+│   │   ├── run-002-w1-1-w2-100/
+│   │   └── ...
+│   └── README.md
+└── project-ml-fatigue/
+    └── ...
+```
+
+**원칙**: 프로젝트 → 시리즈 → 실행의 3단계. 검색과 관리가 쉬워진다.
+
+**실험의 고유 식별자**.
+
+각 실험에 고유한 이름을 부여.
+
+**좋은 이름의 요소**:
+1. **날짜**: YYYYMMDD
+2. **프로젝트**: 짧은 코드
+3. **시리즈**: 시리즈 이름
+4. **핵심 설정**: 주요 하이퍼파라미터
+5. **실행 번호**: 순서
+
+**예시**:
+```
+20260415_pinn_crack_Slw_lambda1_w10_seed42
+```
+- 날짜: 2026-04-15
+- 프로젝트: pinn_crack
+- 시리즈: Slw (Series loss weight)
+- 설정: λ1=1, λ2=10
+- 시드: 42
+
+**대안 — UUID 또는 해시**:
+```
+exp-a1b2c3d4
+```
+- 완전 고유
+- 짧음
+- 해석 불가능 (메타데이터 별도 필요)
+
+**선택**: 해석 가능한 이름이 좋음. 극단적으로 많으면 UUID.
+
+**Config 파일의 중요성**.
+
+실험의 모든 설정을 한 파일에.
+
+**나쁜 예 (하드코딩)**:
+```python
+lr = 0.001
+batch_size = 32
+model_dim = 128
+# ...
+```
+
+**좋은 예 (config 파일)**:
+```yaml
+# config.yaml
+model:
+  type: pinn
+  hidden_dim: 128
+  num_layers: 5
+training:
+  lr: 0.001
+  batch_size: 32
+  epochs: 1000
+  optimizer: adam
+data:
+  dataset: crack_2026
+  split: 0.8/0.1/0.1
+seed: 42
+```
+
+```python
+import yaml
+with open('config.yaml') as f:
+    config = yaml.safe_load(f)
+```
+
+**이점**:
+1. **실험 식별의 명확성**: config 파일 자체가 실험의 정의
+2. **재현성**: 같은 config로 재실행
+3. **비교 용이**: 두 config의 diff
+4. **버전 관리**: Git으로 추적
+5. **공유**: 동료에게 config만 주면 됨
+
+**도구**:
+- **YAML/JSON**: 간단한 config
+- **Hydra (Facebook)**: 복잡한 config 관리
+- **OmegaConf**: Hydra의 기반
+- **ml_collections (Google)**: JAX/Flax 중심
+
+**권장**: Hydra가 박사 연구에 강력. 한 번 설정하면 큰 이익.
+
+**Hydra의 기본 예시**.
+
+Hydra를 사용한 config 관리.
+
+**구조**:
+```
+project/
+├── conf/
+│   ├── config.yaml         # 메인
+│   ├── model/
+│   │   ├── pinn.yaml
+│   │   ├── cnn.yaml
+│   │   └── transformer.yaml
+│   ├── dataset/
+│   │   ├── crack.yaml
+│   │   └── fatigue.yaml
+│   └── optimizer/
+│       ├── adam.yaml
+│       └── sgd.yaml
+└── train.py
+```
+
+**메인 config**:
+```yaml
+# conf/config.yaml
+defaults:
+  - model: pinn
+  - dataset: crack
+  - optimizer: adam
+
+training:
+  epochs: 1000
+  batch_size: 32
+
+seed: 42
+```
+
+**실행**:
+```bash
+# 기본 설정으로
+python train.py
+
+# 다른 모델로
+python train.py model=transformer
+
+# 여러 변경
+python train.py model=cnn optimizer=sgd training.epochs=2000
+
+# Sweep (여러 실험 동시)
+python train.py --multirun model=pinn,cnn,transformer optimizer=adam,sgd
+```
+
+**이점**: 한 번의 명령으로 여러 실험. 각 실험이 고유 폴더에 저장.
+
+**실험 추적 도구 — MLflow, W&B, Neptune**.
+
+ch16의 실험 추적 섹션과 연결.
+
+**MLflow**:
+```python
+import mlflow
+
+with mlflow.start_run(run_name="pinn-v1"):
+    mlflow.log_params({"lr": 0.001, "batch_size": 32})
+    
+    # 훈련
+    for epoch in range(100):
+        loss = train_one_epoch()
+        mlflow.log_metric("loss", loss, step=epoch)
+    
+    mlflow.pytorch.log_model(model, "model")
+```
+
+**Weights & Biases (W&B)**:
+```python
+import wandb
+
+wandb.init(project="pinn-crack", config={"lr": 0.001})
+
+for epoch in range(100):
+    loss = train_one_epoch()
+    wandb.log({"loss": loss, "epoch": epoch})
+```
+
+**각 도구의 특징**:
+- **MLflow**: 오픈소스, 로컬 가능, 설치 쉬움
+- **W&B**: 클라우드, 시각화 강력, 학생 무료
+- **Neptune**: 유료, 팀 협업 강점
+
+**권장**: 박사 초반은 W&B (학생 무료, 강력). 나중에 MLflow.
+
+**도구의 기능**:
+1. **하이퍼파라미터 로깅**: 자동 기록
+2. **메트릭 로깅**: 실시간 그래프
+3. **아티팩트 저장**: 모델, 그림
+4. **비교**: 여러 실험 비교
+5. **검색**: 조건으로 실험 찾기
+
+**체크포인트 관리**.
+
+ML 모델의 체크포인트는 용량이 크다. 관리 필요.
+
+**체크포인트의 유형**:
+
+**유형 1: 정기 체크포인트**.
+매 N epoch마다 저장. 실패 시 재개.
+
+```python
+if epoch % 10 == 0:
+    torch.save({
+        'epoch': epoch,
+        'model_state_dict': model.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'loss': loss,
+    }, f'checkpoint_epoch_{epoch}.pt')
+```
+
+**유형 2: Best 체크포인트**.
+가장 좋은 검증 성능의 모델만.
+
+```python
+if val_loss < best_val_loss:
+    best_val_loss = val_loss
+    torch.save(model.state_dict(), 'best_model.pt')
+```
+
+**유형 3: 최종 체크포인트**.
+훈련 종료 시의 모델.
+
+**보관 전략**:
+- **Hot**: 최근 실험의 모든 체크포인트 (로컬)
+- **Warm**: 중요 체크포인트 (연구실 서버)
+- **Cold**: 논문용 최종 모델 (장기 백업)
+
+**용량 관리**:
+- 한 체크포인트: 10MB-1GB
+- 박사 과정: 총 100-1000GB
+- 정기 청소 필요
+
+**청소 기준**:
+- 실패한 실험: 즉시 삭제
+- 탐색 실험: 1개월 후 삭제
+- 논문 실험: 영구 보관
+- Best 체크포인트만 보관 (대부분의 경우)
+
+**실험 분기 (Branching)**.
+
+"실험의 분기"는 Git의 브랜치와 유사.
+
+**상황**: 본인의 실험이 두 갈래로 나뉨. "어떤 방향이 나을까?"
+
+**예시**:
+- 메인 모델: GCN 기반
+- 분기 A: GAT로 교체
+- 분기 B: GCN + attention 추가
+- 분기 C: 완전히 새로운 아키텍처
+
+**관리**:
+각 분기를 독립적으로 실행. 결과 비교 후 방향 결정.
+
+**도구**:
+- Git 브랜치 (코드의 분기)
+- 별도 config 파일 (분기별)
+- 실험 추적 도구의 그룹 (W&B의 project/group)
+
+**원칙**:
+1. 분기는 명확한 질문으로 시작
+2. 각 분기에 충분한 자원 투입
+3. 공정한 비교 (같은 시드, 같은 데이터)
+4. 결과로 결정
+5. 실패한 분기도 기록 (교훈)
+
+**분기의 보관**:
+- 선택된 분기: 주 라인으로
+- 탐색된 분기: 별도 보관 (부록이나 보충 자료)
+- 실패한 분기: 교훈 노트
+
+**실험 일지 (Experiment Log)**.
+
+실험마다 메타 정보를 기록.
+
+**일지의 구조**:
+```markdown
+# Experiment Log: 20260415_pinn_crack_Slw_001
+
+## 목적
+손실 가중치 λ_bc=10이 λ_bc=1보다 수렴을 개선하는지 확인.
+
+## 가설
+λ_bc=10이면 경계 조건 위반이 줄어 전체 오차 감소.
+
+## 설정
+- 모델: PINN 5층 MLP
+- 데이터: Crack dataset v2
+- 학습률: 0.001
+- 에포크: 1000
+- 시드: 42
+- 하드웨어: RTX 4090
+
+## 결과
+- 최종 손실: 0.0023
+- 검증 정확도: 94.2%
+- 훈련 시간: 2.5시간
+
+## 관찰
+- 수렴이 λ_bc=1 대비 빠름
+- 그러나 과적합 경향 (epoch 600 이후)
+- Best 모델: epoch 580
+
+## 결론
+λ_bc=10이 유용하나 early stopping 필요.
+
+## 다음 단계
+- λ_bc=5로도 시도
+- Regularization 추가
+```
+
+**이 일지가 없으면**: 몇 달 후 "왜 λ_bc=10을 선택했지?"에 답할 수 없다.
+
+**자동화 vs 수동**:
+- 자동: 설정, 메트릭, 시간
+- 수동: 목적, 가설, 관찰, 결론
+
+**결합 도구**: Markdown + 실험 추적 도구. Markdown으로 해석, 추적 도구로 데이터.
+
+**실험 결과의 비교**.
+
+여러 실험을 비교하는 방법.
+
+**방법 1: 추적 도구의 대시보드**.
+W&B, MLflow의 비교 뷰. 여러 실험을 나란히.
+
+**장점**: 시각적, 쉬움.
+**단점**: 깊은 분석 어려움.
+
+**방법 2: 데이터 추출 + 분석**.
+추적 도구에서 데이터를 내보내 Pandas로 분석.
+
+```python
+import pandas as pd
+
+# W&B에서 실험 가져오기
+import wandb
+api = wandb.Api()
+runs = api.runs("project-name")
+
+data = []
+for run in runs:
+    data.append({
+        'name': run.name,
+        'lr': run.config.get('lr'),
+        'batch_size': run.config.get('batch_size'),
+        'final_loss': run.summary.get('loss'),
+        'val_acc': run.summary.get('val_acc'),
+    })
+
+df = pd.DataFrame(data)
+print(df.sort_values('val_acc', ascending=False).head(10))
+```
+
+**장점**: 유연한 분석.
+**단점**: 코드 작성 필요.
+
+**방법 3: 통계적 비교**.
+여러 시드의 평균과 표준편차.
+
+```python
+# 같은 설정의 여러 시드
+runs_same_config = df[df['config_hash'] == 'abc123']
+mean_acc = runs_same_config['val_acc'].mean()
+std_acc = runs_same_config['val_acc'].std()
+print(f"Accuracy: {mean_acc:.3f} ± {std_acc:.3f}")
+```
+
+**장점**: 과학적 신뢰.
+**단점**: 많은 실행 필요.
+
+**논문용 결과의 재생산**.
+
+박사 후반의 특수한 과제: 논문에 쓴 실험을 리비전이나 심사 때 재현.
+
+**재생산의 요구 사항**:
+1. 원본 config
+2. 원본 코드 (git commit)
+3. 원본 데이터
+4. 원본 체크포인트 (옵션)
+5. 원본 환경
+
+**재생산 체크리스트**:
+- [ ] 코드 commit 해시를 기록했는가?
+- [ ] config 파일이 보존되었는가?
+- [ ] 데이터셋의 정확한 버전이 있는가?
+- [ ] 랜덤 시드가 고정되었는가?
+- [ ] 환경이 재현 가능한가 (Docker, requirements)?
+
+**이것들이 모두 있으면** 1-2시간 내 재현 가능. 하나라도 없으면 며칠 걸릴 수 있다.
+
+**논문 리비전의 경험**: "이 실험을 추가해 주세요"가 오면 이미 지나간 설정을 정확히 복원해야. 이것이 체계적 관리의 진가.
+
+**스토리지 관리 — 용량의 현실**.
+
+수백 실험은 많은 저장 공간이 필요하다.
+
+**용량 추정**:
+- 코드: < 100MB
+- 로그: 1-10MB per run
+- 메트릭: 1-10MB per run
+- 체크포인트: 10MB-10GB per run
+- 시각화: 1-100MB per run
+
+**박사 총합**: 100GB-10TB
+
+**관리 전략**:
+
+**단계 1: 계층 저장**.
+- **Hot**: 최근 1개월 (로컬 SSD)
+- **Warm**: 최근 1년 (학교 서버)
+- **Cold**: 논문용 (장기 백업)
+
+**단계 2: 정기 청소**.
+- 월 1회: 실패한 실험 삭제
+- 분기 1회: 탐색 실험 정리
+- 연 1회: 대규모 아카이브
+
+**단계 3: 선택적 보관**.
+모든 체크포인트가 아닌 핵심만:
+- Best 모델
+- 논문에 사용된 모델
+- 재현에 필요한 모델
+
+**단계 4: 압축**.
+오래된 실험의 로그를 압축:
+```bash
+tar -czf old_experiments.tar.gz old_runs/
+rm -rf old_runs/
+```
+
+**Git-LFS와 DVC**.
+
+대용량 파일을 Git과 함께 관리.
+
+**Git-LFS**:
+- 큰 파일을 별도 저장소
+- Git과 통합
+- 간단한 설정
+
+```bash
+git lfs track "*.pt"
+git lfs track "*.pth"
+git add .gitattributes
+git add model.pt
+git commit -m "Add model"
+```
+
+**DVC (Data Version Control)**:
+- 데이터와 모델의 버전 관리
+- Git과 유사한 인터페이스
+- 원격 스토리지 (S3, GCS)
+
+```bash
+dvc init
+dvc add data/raw
+git add data/raw.dvc .gitignore
+git commit -m "Add raw data"
+dvc push
+```
+
+**권장**: 박사 초반은 단순 폴더 구조. 중반 이후 DVC 도입.
+
+**실험의 부모-자식 관계**.
+
+실험이 이전 실험에서 파생될 때 관계 추적.
+
+**예시**:
+```
+exp001 (baseline)
+├── exp002 (다른 lr)
+├── exp003 (다른 batch_size)
+└── exp004 (다른 아키텍처)
+    ├── exp005 (exp004 + lr 변경)
+    └── exp006 (exp004 + dropout 추가)
+```
+
+**추적 방법**:
+- 실험 일지에 "parent_exp" 필드
+- Git 브랜치 사용
+- 실험 추적 도구의 tag
+
+**이점**: 실험의 진화를 추적. "이 설정에 왜 도달했나?"에 답.
+
+**팀 협업 시의 실험 관리**.
+
+여러 명이 같은 프로젝트.
+
+**문제**:
+- 실험 이름 충돌
+- 중복 실험
+- 결과 공유 어려움
+
+**해결**:
+1. **공유 네임스페이스**: 실험 이름에 사용자 prefix
+2. **공유 추적 도구**: W&B의 team project
+3. **정기 공유 미팅**: 매주 진행 공유
+4. **문서화**: 공유 일지
+
+**원칙**: 명확한 소통 + 체계적 도구.
+
+**실험의 "재탐색" 방지**.
+
+흔한 함정: 같은 실험을 여러 번 반복.
+
+**원인**:
+- 이전 실험을 잊음
+- 검색이 어려움
+- 결과를 찾을 수 없음
+
+**방지**:
+1. **통합 검색 가능한 데이터베이스**: 모든 실험 한 곳에
+2. **태그와 라벨**: 쉬운 필터링
+3. **정기 리뷰**: 월 1회 이전 실험 훑기
+4. **Failure log**: 실패한 접근의 기록
+
+**시간 절약**: 중복 방지가 박사 과정의 수십 시간 이상 절약.
+
+**환경의 재현성**.
+
+"내 컴퓨터에서는 되는데 다른 곳에서는 안 돼"의 방지.
+
+**도구**:
+- **requirements.txt / environment.yml**: Python 의존성
+- **Docker**: 완전한 환경 컨테이너
+- **Singularity**: HPC용 컨테이너
+
+**예시 Dockerfile**:
+```dockerfile
+FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
+
+RUN pip install wandb hydra-core scikit-learn
+
+WORKDIR /workspace
+COPY . .
+
+CMD ["python", "train.py"]
+```
+
+**장점**: 언제 어디서나 같은 환경.
+**단점**: 크기, 설정 복잡성.
+
+**박사 전략**: 박사 1-2년차는 requirements.txt. 3년차 이후 Docker.
+
+**실험 관리의 단계적 도입**.
+
+모든 것을 한 번에 도입하지 말자.
+
+**박사 1년차**:
+- 기본 폴더 구조
+- 간단한 config (dict)
+- 수동 일지
+- Git for 코드
+
+**박사 2년차**:
+- YAML config
+- W&B 사용 시작
+- 매일 커밋
+- 체크포인트 관리
+
+**박사 3년차**:
+- Hydra 도입
+- 실험 추적 고도화
+- 자동화된 분석
+- 체계적 일지
+
+**박사 4년차**:
+- Docker 환경
+- DVC 또는 Git-LFS
+- 팀 협업 도구
+- 재현성 파이프라인
+
+**박사 5-6년차**:
+- 전체 시스템 정착
+- 후배에게 전수
+- 논문 재현성 보장
+
+이 단계적 접근이 과부하를 방지.
+
+**박사 논문의 실험 섹션**.
+
+박사 논문에 실험 관리를 반영.
+
+**방법론 섹션에**:
+"All experiments were tracked using Weights & Biases. Configurations were managed via Hydra. Each experiment was run with 5 random seeds, and we report mean ± standard deviation."
+
+**부록에**:
+- 전체 하이퍼파라미터 목록
+- 실험 수와 시간
+- 재현 지침
+- Git 저장소 링크
+
+**이것이** 본인의 논문의 재현성을 보장.
+
+**흔한 실수 6가지**.
+
+**실수 1: 시드 고정 안 함**.
+결과가 매번 다름. 비교 불가.
+**수정**: 항상 `torch.manual_seed(42)`, `np.random.seed(42)`.
+
+**실수 2: Config 하드코딩**.
+코드에 파라미터 삽입. 변경 시 재컴파일.
+**수정**: 외부 config 파일.
+
+**실수 3: 결과 저장 안 함**.
+실행 후 결과를 나중에 보존 안 함.
+**수정**: 자동 로깅.
+
+**실수 4: 이름 없는 실험**.
+"test", "run1", "new" 같은 이름.
+**수정**: 의미 있는 이름.
+
+**실수 5: 과거 실험 잊음**.
+한 달 전 실험을 찾을 수 없음.
+**수정**: 검색 가능한 시스템.
+
+**실수 6: 전환 비용 두려움**.
+"지금은 이대로 쓰자, 나중에 바꾸자."
+**수정**: 일찍 투자. 나중에 바꾸기 어렵다.
+
+**체크리스트 — 실험 관리 시스템**.
+
+<div class="highlight-box highlight-info">
+
+**ML 실험 관리 체크리스트**
+
+- [ ] 모든 실험의 config가 파일로 저장되는가?
+- [ ] Git으로 코드 버전을 추적하는가?
+- [ ] 랜덤 시드가 고정되고 기록되는가?
+- [ ] 실험 추적 도구 (W&B, MLflow)를 쓰는가?
+- [ ] 각 실험에 고유한 이름이 있는가?
+- [ ] 하이퍼파라미터가 자동 로깅되는가?
+- [ ] 메트릭이 자동 로깅되는가?
+- [ ] 체크포인트 보관 전략이 있는가?
+- [ ] 오래된 실험의 청소 계획이 있는가?
+- [ ] 실험 일지를 작성하는가?
+- [ ] 환경 (Python/CUDA 버전)이 기록되는가?
+- [ ] 논문 실험의 재현이 가능한가?
+
+</div>
+
+이 12가지가 본인의 실험 관리 시스템의 기반.
+
+**장기 관점 — 실험 관리의 가치**.
+
+박사 과정 전체의 관점.
+
+**박사 초기**: 체계가 없어도 관리 가능. 실험 수 적음.
+**박사 중반**: 체계 없으면 혼란 시작. 1-2주 낭비/월.
+**박사 후반**: 체계 없으면 재앙. 논문 리비전 시 재현 불가.
+
+**투자의 회수**:
+- 체계 구축 시간: 박사 초기 1-2주
+- 절약 시간: 박사 전체 수백 시간
+- ROI: 매우 높음
+
+**박사 이후에도**:
+- 포스닥에서 같은 시스템 사용
+- 산업체로 전이
+- 평생 기술
+
+**실천 가이드 — 오늘 시작할 수 있는 것**.
+
+1. **현재 실험 폴더의 정리**: 한 프로젝트의 폴더 구조 개선
+2. **YAML config 작성**: 하나의 실험의 설정을 파일로
+3. **W&B 계정 생성**: 무료, 5분
+4. **첫 실험 로깅**: wandb.init()과 wandb.log()
+5. **Git 커밋**: 매일 1회 이상
+6. **실험 일지**: 현재 진행 중인 실험 기록
+
+이 6가지를 하루에. 내일부터 본인의 실험 관리가 체계화 시작.
+
+> ML 실험 관리는 박사 과정의 "조용한 기반"이다. 눈에 띄지 않지만, 본인의 박사 5-7년의 생산성을 결정한다. 수백 수천 실험을 안전하게 관리하는 체계가 없으면 본인은 "실험 찾기"에 시간을 낭비한다. 반대로 체계가 있으면 본인은 실험의 주인이 된다. 박사 1-2년차에 체계 구축에 1-2주를 투자하고, 이후 점진적으로 고도화하라. 박사 졸업 시점에 본인은 "내 모든 실험을 5분 안에 찾을 수 있는" 연구자가 된다. 이것이 본인의 박사의 품질을 높이고, 논문 재현성을 보장하고, 후배에게 전수할 수 있는 자산을 만든다.
