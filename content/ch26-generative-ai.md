@@ -1162,3 +1162,370 @@ ChatGPT에게 코드를 복사-붙여넣기 하는 시대는 지났다. 2024-202
 셋째, 전기료와 발열을 무시할 수 없다. 24시간 추론 서버를 집에서 돌리면 여름에 에어컨 비용이 뛴다. 연구실 환경이 더 적합하다.
 
 > 코드 생성 AI와 로컬 LLM은 2024-2026년 박사 연구의 두 실전 축이다. 전자는 코딩 생산성을, 후자는 프라이버시와 재현성을 담당한다. 이 장의 앞부분에서 다룬 프롬프트 엔지니어링, RAG, LoRA, AI 에이전트와 함께 쓰면 본인만의 AI 연구 인프라가 완성된다. 완벽한 도구는 없다. 본인의 연구 맥락에 맞는 조합을 찾는 것이 박사의 몫이다.
+
+## LLM으로 체계적 문헌 검토 자동화 — 박사의 새 도구
+
+박사 과정의 가장 시간이 드는 작업 중 하나가 **체계적 문헌 검토(systematic literature review)**다. 수백 편의 논문을 읽고, 핵심 정보를 추출하고, 트렌드를 파악하고, 표로 정리한다. 이것이 박사 1-2년차의 배경 연구, 리뷰 논문 작성, 박사 논문의 이론적 배경 챕터 등에 필요하다. 전통적으로 이것은 수백 시간의 노동이다. 그러나 2024-2026년의 LLM은 이 작업을 보조할 수 있다. 올바르게 쓰면 본인이 혼자 하는 것보다 5-10배 빠르고, 어떤 경우는 더 철저한 검토가 가능하다. 그러나 잘못 쓰면 존재하지 않는 논문이나 왜곡된 요약으로 가득 찬 가짜 검토가 된다. 이 섹션은 LLM을 문헌 검토에 체계적으로 활용하는 실전 방법이다.
+
+<div class="highlight-box highlight-important">
+
+**"LLM은 본인의 읽기를 대체하지 못한다, 확장한다".** LLM에게 "이 분야의 문헌을 검토해줘"라고 하면 말이 안 되는 요약이 나온다. 그러나 "이 100개 논문의 초록에서 특정 정보를 추출해줘"라고 하면 놀랍게 정확하다. 차이는 본인이 LLM에게 "구체적이고 검증 가능한 작업"을 주는 것이다. LLM을 문헌 검토의 주인공이 아닌 도구로, 본인의 판단을 대체하지 않는 보조로 쓴다면 박사 과정의 새 강력한 동맹이 된다.
+
+</div>
+
+**LLM 활용의 4단계 문헌 검토 파이프라인.**
+
+체계적 문헌 검토를 LLM 지원으로 하는 파이프라인.
+
+**단계 1: 초기 검색과 수집.**
+키워드 기반으로 Google Scholar, Scopus, Web of Science에서 후보 논문 수집. 이 단계는 전통적 도구 사용.
+
+**LLM의 역할**: 검색어 제안. "나는 X 분야를 검토하고 싶다. 어떤 키워드 조합이 좋을까?" LLM이 본인이 생각하지 못한 관련 용어나 동의어를 제안.
+
+**예시 프롬프트**:
+```
+I'm doing a systematic literature review on physics-informed 
+neural networks (PINNs) for structural health monitoring. 
+Suggest 10-15 search term combinations that would capture 
+relevant papers from 2019-2026, including synonyms and 
+related terms from adjacent fields.
+```
+
+**단계 2: 제목/초록 기반 선별 (Title/Abstract Screening).**
+수집한 수백 편에서 실제로 관련 있는 논문을 고른다. 이것이 가장 시간이 많이 드는 단계.
+
+**LLM의 역할**: 각 논문의 초록을 읽고 본인의 검토 기준에 맞는지 판단. 포함/제외 추천.
+
+**프롬프트 예시**:
+```
+Below is the abstract of a paper. My review focuses on 
+physics-informed neural networks specifically for structural 
+health monitoring (e.g., damage detection, crack identification 
+in civil structures). 
+
+Please classify this paper into one of three categories:
+1. HIGHLY RELEVANT: Directly addresses PINN for SHM
+2. SOMEWHAT RELEVANT: PINN in other domains or SHM without PINN
+3. NOT RELEVANT: Neither PINN nor SHM
+
+Also provide a one-sentence justification.
+
+Abstract: [붙여넣기]
+```
+
+**효율화**: 이것을 자동화 스크립트로 만들어 수백 개의 초록을 연속으로 처리.
+
+**주의**: LLM의 분류를 맹신하지 말자. 결과의 일부(예: 10%)를 본인이 직접 확인해 정확도 측정. 80% 이상이면 쓸 만함.
+
+**단계 3: 전문(Full-text) 기반 정보 추출.**
+선별된 논문(보통 30-100편)의 전문을 읽고 구체적 정보 추출.
+
+**추출할 정보 예시** (PINN for SHM):
+- 사용한 PINN 아키텍처
+- 대상 구조 유형
+- 훈련 데이터의 종류와 양
+- 달성한 정확도
+- 주요 한계
+- 기여의 독창성
+
+**LLM의 역할**: 논문의 전문(또는 주요 섹션)을 받아서 구조화된 표로 정보 추출.
+
+**프롬프트 예시**:
+```
+Below is a research paper on PINN for structural health 
+monitoring. Extract the following information in JSON format:
+
+{
+  "title": "",
+  "year": "",
+  "pinn_architecture": "",
+  "structure_type": "",
+  "training_data_type": "",
+  "training_data_size": "",
+  "main_contribution": "",
+  "accuracy_metric": "",
+  "accuracy_value": "",
+  "key_limitation": ""
+}
+
+If a field is not mentioned, use "NOT_REPORTED". Base your 
+extraction strictly on what is written in the paper; do not 
+infer or guess.
+
+Paper text: [붙여넣기]
+```
+
+**결과**: 수십 편의 논문이 구조화된 JSON 데이터로 변환. 이것을 Excel이나 Pandas로 분석 가능.
+
+**단계 4: 종합 분석과 검증.**
+추출된 정보로 트렌드, 패턴, 공백을 분석.
+
+**LLM의 역할**: 추출된 구조화 데이터로부터 고수준 통찰 도출.
+
+**예시 분석**:
+- "어떤 구조 유형에 가장 많은 연구가 있는가?"
+- "시간에 따른 정확도의 변화는?"
+- "자주 언급되는 한계는?"
+- "연구의 공백 영역은?"
+
+**본인의 역할**: LLM의 통찰을 검증. 실제 논문으로 돌아가서 본인이 직접 확인. LLM이 놓친 관점이나 잘못 해석한 부분을 수정.
+
+**프롬프트 설계의 원칙 — 문헌 검토 특화.**
+
+일반 프롬프트와 달리 문헌 검토에는 특수한 원칙이 있다.
+
+**원칙 1: "Don't infer" 명시**.
+LLM이 논문에 없는 내용을 추측하면 안 된다. 프롬프트에 명시: "Base your answer strictly on the text. Do not infer or add information."
+
+**원칙 2: 구조화된 출력**.
+JSON 또는 표 형식으로 요청. 자유 형식 텍스트는 분석이 어렵다.
+
+**원칙 3: 예시 제공 (Few-shot)**.
+완벽한 예시를 1-2개 주면 정확도가 크게 올라간다. "Here's an example of good extraction: ..."
+
+**원칙 4: 불확실성 표현**.
+모르는 것에 대해 "NOT_REPORTED", "UNCLEAR", "N/A" 같은 명시적 표현 사용. LLM이 억지로 답을 만들지 않게.
+
+**원칙 5: 검증 가능성**.
+LLM의 답변마다 "어디에 나와 있는가"의 참조 요청. "Quote the exact text that supports this claim."
+
+**환각(Hallucination) 방지 전략.**
+
+문헌 검토에서 LLM의 가장 큰 위험은 환각이다. 존재하지 않는 논문, 잘못된 인용, 왜곡된 요약.
+
+**방지 전략 1: 실제 텍스트만 제공**.
+LLM에게 논문 제목만 주면 안 된다. 반드시 실제 초록이나 전문을 함께 제공. 제목만으로는 LLM이 "추측"할 수밖에 없다.
+
+**방지 전략 2: "없는 것은 없다고 말하라"**.
+프롬프트에 "If the paper does not mention X, say 'NOT MENTIONED'" 포함. 억지로 답을 만들지 않게.
+
+**방지 전략 3: 인용 검증**.
+LLM이 논문을 인용하면 반드시 본인이 DOI나 Google Scholar로 실제 논문 존재 확인. 특히 저자 이름과 연도.
+
+**방지 전략 4: 랜덤 샘플 검증**.
+LLM의 추출 결과 10-20%를 본인이 직접 원본과 비교. 오류율 측정. 5% 이상이면 프롬프트 개선 또는 다른 모델 시도.
+
+**방지 전략 5: 여러 모델 비교**.
+중요한 정보는 GPT-4, Claude, Gemini 여러 모델에게 물어서 일치하는지 확인. 불일치하면 본인이 원본 확인.
+
+**어떤 LLM을 쓸 것인가 — 문헌 검토 용도**.
+
+2026년 기준 주요 LLM의 문헌 검토 적합성.
+
+**GPT-4 / GPT-4 Turbo**:
+- 장점: 긴 맥락 처리, 정확한 추출
+- 단점: 비용, 일부 도메인 지식 부족
+- 권장: 일반 문헌 검토
+
+**Claude Opus / Sonnet**:
+- 장점: 정직성, 긴 문서 처리, 한국어 강점
+- 단점: 비용
+- 권장: 정밀한 정보 추출
+
+**Gemini Pro**:
+- 장점: Google Scholar 연동 가능, 긴 맥락
+- 단점: 환각 경향
+- 권장: 탐색적 검색
+
+**Perplexity AI**:
+- 장점: 인용 표시, 실시간 검색
+- 단점: 학술 논문보다 일반 웹 중심
+- 권장: 초기 탐색
+
+**전용 도구 — Elicit, ResearchRabbit, Connected Papers**:
+- 장점: 학술 논문 특화
+- 단점: 유료, 제한된 데이터베이스
+- 권장: 학술 전용 워크플로
+
+**권장**: GPT-4 또는 Claude를 주 도구로, Perplexity를 초기 탐색, Elicit을 학술 데이터베이스 검색 보조로.
+
+**구체적 도구 — Elicit.**
+
+Elicit는 학술 논문에 특화된 LLM 도구다. 2023년 이후 많은 박사생이 사용.
+
+**주요 기능**:
+1. **자연어 질문으로 논문 검색**: "What are effective methods for detecting cracks in concrete?"
+2. **자동 요약**: 각 논문의 핵심을 한두 문장으로
+3. **비교 표 생성**: 여러 논문의 특정 측면을 표로 비교
+4. **관련 논문 추천**: 유사한 논문 자동 발견
+
+**장점**:
+- 학술 데이터베이스 (Semantic Scholar) 연결
+- 인용 검증 내장
+- 연구자 친화적 UI
+
+**한계**:
+- 유료 (무료 제한 있음)
+- 일부 분야 데이터 부족
+- 심층 분석은 여전히 본인이 해야
+
+**무료 대안**: Connected Papers (그래프 기반), ResearchRabbit (추천 기반).
+
+**박사 과정 단계별 활용.**
+
+박사 과정의 어느 시기에 어떻게 쓸 것인가.
+
+**박사 1년차 — 분야 파악**:
+- "이 분야의 주요 연구 그룹은?"
+- "최근 5년의 주요 발전은?"
+- "기초 개념은 어떻게 시작되었나?"
+
+LLM으로 빠르게 전체 지도를 얻는다. 그러나 핵심 논문은 본인이 직접 읽는다.
+
+**박사 2-3년차 — 심층 배경 연구**:
+- 본인의 박사 논문의 이론적 배경 장 준비
+- 100-300편의 체계적 검토
+- 정보 추출과 표 정리
+
+LLM의 구조화된 추출을 적극 활용. 표로 만들어 본인의 논문 Related Work 섹션의 기초.
+
+**박사 3-4년차 — 리뷰 논문 작성**:
+- 본인의 분야의 리뷰 논문 작성 (ch07과 연결)
+- 수백 편의 체계적 분석
+- 트렌드와 공백 파악
+
+LLM이 대량 처리를 가능하게 해서 리뷰 논문이 현실적 목표가 된다.
+
+**박사 4-5년차 — 경쟁 논문 모니터링**:
+- 리비전 중 외부 변화 추적 (ch12와 연결)
+- 새 논문의 빠른 평가
+- 본인의 연구와의 관계 판단
+
+**박사 5-6년차 — 학위논문 업데이트**:
+- 학위논문의 배경 챕터 갱신
+- 최신 문헌 포함
+- 본인의 기여를 맥락에 정확히 위치
+
+**체계적 검토 vs 빠른 검토**.
+
+LLM은 두 종류의 검토 모두에 도움이 된다. 차이를 이해하자.
+
+**체계적 검토 (Systematic Review)**:
+- 엄격한 프로토콜 (PRISMA)
+- 재현 가능한 검색 전략
+- 모든 관련 논문 포함
+- 수개월의 작업
+
+LLM의 역할: 초록 선별, 정보 추출, 속도 향상. 본인의 판단은 핵심 결정에만.
+
+**빠른 검토 (Rapid Review)**:
+- 시간 제약
+- 대표 논문만
+- 트렌드 파악 목적
+- 몇 주의 작업
+
+LLM의 역할: 더 큰 비중. 본인이 검증만 해도 진행 가능.
+
+박사 과정에서는 둘 다 필요. 리뷰 논문이나 학위논문은 체계적, 일상적 배경 연구는 빠른.
+
+**문헌 검토의 전통 vs LLM 증강 — 비교**.
+
+같은 작업을 두 방식으로 비교하면 이점이 명확하다.
+
+**100편의 논문을 검토한다고 가정**:
+
+**전통 방식**:
+- 초록 읽기: 100편 × 10분 = 1000분 (약 17시간)
+- 선별: 50편 선정
+- 전문 읽기: 50편 × 1시간 = 50시간
+- 정보 추출 (수기): 50편 × 30분 = 25시간
+- 종합 분석: 20시간
+- 총: 약 110시간 (3주 전일)
+
+**LLM 증강 방식**:
+- LLM으로 초록 선별: 2시간 (자동 + 검증 10%)
+- LLM으로 정보 추출: 5시간 (자동 + 검증)
+- 본인이 중요한 20편 직접 읽기: 20시간
+- LLM과 본인의 종합 분석: 10시간
+- 총: 약 40시간 (1주)
+
+**비율**: 2.5배 빠르다. 단, 본인의 읽기는 여전히 필요 (20편).
+
+**품질**: 제대로 한다면 동등하거나 더 좋을 수 있다. LLM은 본인이 지친 후반에도 일관성 유지.
+
+**문헌 검토의 윤리 — LLM 사용의 투명성**.
+
+박사 논문이나 학술지의 리뷰 논문에 LLM 사용을 공개할 의무가 점점 커진다.
+
+**공개할 사항**:
+1. 어떤 LLM을 사용했는가 (모델과 버전)
+2. 어떤 단계에서 사용했는가 (검색/선별/추출/분석)
+3. 본인이 검증한 정도
+4. 어떤 논문을 본인이 직접 읽었는가
+
+**예시 문구**:
+```
+Methodology: Literature search was conducted using [database] 
+with the search terms suggested by GPT-4. Title/abstract 
+screening was performed with Claude 3 Opus (verified by 
+manual review of 15% sample, 93% agreement). Information 
+extraction from full-text papers used the same model with 
+a structured JSON schema, verified against original papers. 
+Final synthesis and interpretation are the authors' own, 
+informed by direct reading of 50 key papers.
+```
+
+이 수준의 투명성이 리뷰어와 독자의 신뢰를 얻는다.
+
+**하지 말 것**: "본인이 직접 모든 논문을 읽었다"고 거짓말. 들키면 학술 부정행위.
+
+**체크리스트 — LLM 문헌 검토의 품질 보증**.
+
+<div class="highlight-box highlight-info">
+
+**LLM 문헌 검토 체크리스트**
+
+- [ ] 검색 전략을 명확히 문서화했는가?
+- [ ] LLM에게 제공하는 텍스트가 실제 원본인가 (제목만 아님)?
+- [ ] 추출 결과의 10-20%를 본인이 직접 검증했는가?
+- [ ] 환각 방지 프롬프트 (don't infer)를 포함했는가?
+- [ ] 구조화된 출력 형식을 사용했는가?
+- [ ] 불확실성을 명시적으로 표현하게 했는가?
+- [ ] 핵심 논문 (20-30편)은 본인이 직접 읽었는가?
+- [ ] 여러 LLM으로 중요한 부분을 교차 검증했는가?
+- [ ] 인용의 존재를 DOI로 확인했는가?
+- [ ] 박사 논문이나 출판 시 LLM 사용을 공개할 준비가 되었는가?
+
+</div>
+
+**고급 기법 — RAG로 본인만의 문헌 데이터베이스**.
+
+ch26의 앞부분에서 다룬 RAG를 문헌 검토에 결합.
+
+**구축 방법**:
+1. 본인이 수집한 논문 PDF들을 하나의 폴더에
+2. RAG 시스템 구축 (LangChain, LlamaIndex 등)
+3. 각 논문을 청크로 나누고 임베딩
+4. 본인의 질문을 이 데이터베이스에 검색
+
+**장점**:
+- 본인이 모은 논문 전체에 자연어 질문
+- "PINN의 손실 가중치를 다룬 논문은?"
+- 답변에 출처 표시 (환각 방지)
+
+**도구**:
+- **LangChain + Chroma**: 오픈소스
+- **LlamaIndex**: 문서 중심 RAG
+- **NotebookLM (Google)**: Google의 무료 도구, 사용하기 쉬움
+- **Perplexity Spaces**: 본인의 문서로 검색
+
+**권장 도구**: 시작으로 NotebookLM. 50개 문서까지 무료로 올리고 질문 가능.
+
+**LLM 문헌 검토의 미래와 박사 전략**.
+
+2024-2026년의 트렌드를 보면 LLM 문헌 검토는 빠르게 발전 중.
+
+**예상되는 발전**:
+1. **더 긴 맥락**: 한 번에 100-1000 페이지 처리 가능
+2. **자동 그래프 생성**: 논문 관계를 자동 그래프로
+3. **전문 도구의 확산**: 학술 특화 LLM 서비스
+4. **인용 품질의 개선**: 환각이 줄어듦
+5. **통합 워크플로**: 검색-선별-추출-분석이 한 도구에
+
+**박사 전략**:
+- 2024년 시작한 학생은 이 도구들을 박사 내내 써야 함
+- 본인의 프롬프트 라이브러리 구축 (재사용)
+- 도구의 변화에 따라가되 본질은 변하지 않음 (본인의 판단이 핵심)
+- 후배에게 전수할 수 있는 워크플로 만들기
+
+> LLM은 문헌 검토의 게임 체인저다. 예전에 수백 시간이 걸렸던 작업이 수십 시간으로 줄어든다. 그러나 LLM이 본인의 읽기와 판단을 대체하지는 않는다. 올바른 사용은 "LLM + 본인의 검증"이다. 박사 과정에서 이 조합을 익히면 본인이 훨씬 많은 논문을 훨씬 체계적으로 다룰 수 있다. 그 결과 본인의 박사 논문의 배경이 더 탄탄해지고, 리뷰 논문이 현실적 목표가 되고, 경쟁 논문 모니터링이 자동화된다. 도구로서 LLM을 받아들이되, 본인의 학술적 판단을 잃지 말자.
