@@ -1841,3 +1841,608 @@ print(df.to_latex(
 > 수식과 표의 LaTeX은 공학 박사생의 필수 도구다. 박사 과정 초반에 이 기술에 2-3일을 투자하면 이후 5-6년의 모든 논문 작성에 이익이 돌아온다. 본인의 논문의 내용이 아무리 훌륭해도 수식과 표가 엉성하면 독자의 첫 인상이 나빠진다. 반대로 깔끔하고 전문적인 수식과 표는 본인의 논문에 "품질의 후광"을 만든다. 박사 1-2년차부터 이 섹션의 원칙들을 실천하라. 모든 논문이 조금씩 더 좋아진다.
 
 본인의 박사 학위 논문의 LaTeX가 본인의 박사의 본인의 기술적 결과물의 본인의 최종 형태다. 본인이 본인의 LaTeX를 본인의 도구가 아니라 본인의 박사의 한 부분으로 본다면 본인이 본인의 박사 학위 논문을 본인의 자부심으로 완성할 수 있다.
+
+## 글쓰기 도구의 통합 워크플로 — VS Code + LaTeX + Git의 현대적 조합
+
+박사 과정의 글쓰기 도구를 선택하는 것은 한 번만이 아니라 5-7년의 결정이다. 본인이 오늘 선택한 도구와 워크플로가 박사 기간 내내 수천 시간의 작업에 영향을 준다. 많은 학생이 이 결정을 피상적으로 한다. "Overleaf가 편하니까"로 시작해서 5년 내내 같은 환경. 그러나 박사 과정의 요구사항은 점점 커진다. 협업, 버전 관리, 여러 논문 동시 작성, 큰 규모의 학위 논문. 이것들을 감당하려면 더 강력한 워크플로가 필요하다. 이 섹션은 **VS Code + LaTeX + Git**의 통합 워크플로를 다룬다. 이것은 소프트웨어 개발자들의 워크플로를 학술 글쓰기에 적용한 것이고, 박사 후반에 갈수록 Overleaf보다 강력해진다.
+
+<div class="highlight-box highlight-important">
+
+**"Overleaf는 입문에 좋지만 박사 후반에는 부족하다".** Overleaf는 진입 장벽이 낮고 협업이 쉽다. 그러나 인터넷 의존, 큰 프로젝트의 느림, 버전 관리의 제약, 오프라인 작업 불가 등의 한계가 있다. 박사 3-4년차에 여러 논문을 동시에 쓰고, 학위 논문을 시작하고, 데이터와 코드와 논문을 모두 관리하기 시작하면 Overleaf의 한계가 보인다. 로컬 환경에 투자하는 것이 박사 중반에 "시간이 아니라 투자"가 된다. VS Code + LaTeX + Git 조합은 현재의 가장 강력한 로컬 워크플로다.
+
+</div>
+
+**왜 VS Code인가**.
+
+학술 글쓰기용 에디터는 여러 선택이 있다.
+
+**주요 선택**:
+- **VS Code**: Microsoft, 무료, 강력한 확장
+- **Vim/Neovim**: 전통적, 학습 곡선 가파름
+- **Emacs**: 고급 사용자, 매우 커스터마이즈 가능
+- **TeXstudio**: LaTeX 전용, 쉬움
+- **Sublime Text**: 빠름, 유료
+- **Kile**: Linux 용, LaTeX 전용
+
+**VS Code의 장점**:
+1. **무료**: 영구 무료
+2. **플랫폼 독립**: Windows/Mac/Linux
+3. **강력한 확장**: 수천 개의 확장 (LaTeX 포함)
+4. **통합 기능**: 에디팅, Git, 터미널이 한 창에
+5. **원격 편집**: SSH로 원격 서버 접속
+6. **AI 통합**: Copilot, Claude 등
+7. **커뮤니티**: 활발한 사용자층
+
+**VS Code의 단점**:
+1. **Vim/Emacs만큼 빠르지 않음**
+2. **초기 설정 필요**
+3. **때로는 무겁다**
+
+**권장**: 박사생에게 VS Code는 거의 항상 좋은 선택. 특히 코딩과 글쓰기를 병행하는 공학 박사에게 이상적.
+
+**VS Code의 LaTeX 설정**.
+
+VS Code를 LaTeX 편집기로 만드는 단계.
+
+**단계 1: LaTeX 배포판 설치**.
+- **Windows**: MiKTeX 또는 TeX Live
+- **Mac**: MacTeX
+- **Linux**: TeX Live (`sudo apt install texlive-full`)
+
+**단계 2: VS Code 설치**.
+code.visualstudio.com에서 다운로드.
+
+**단계 3: LaTeX Workshop 확장 설치**.
+Extensions 패널에서 "LaTeX Workshop" 검색 → 설치.
+
+이 확장이 VS Code를 전문 LaTeX 편집기로 만든다.
+
+**단계 4: 기본 설정**.
+Settings (⌘,) → Extensions → LaTeX Workshop → 주요 설정:
+
+```json
+{
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.synctex.afterBuild.enabled": true,
+  "latex-workshop.latex.clean.subfolder.enabled": true,
+  "latex-workshop.message.error.show": true,
+  "latex-workshop.message.warning.show": false
+}
+```
+
+**단계 5: 첫 테스트**.
+간단한 `.tex` 파일을 만들고 저장. 자동으로 컴파일되어 PDF가 옆에 표시되어야 함.
+
+**LaTeX Workshop의 주요 기능**.
+
+기본 설정 후 사용할 수 있는 기능들.
+
+**기능 1: 자동 컴파일**.
+저장 시 자동으로 LaTeX 컴파일. `Ctrl+S` → PDF 즉시 업데이트.
+
+**기능 2: SyncTeX**.
+PDF의 한 부분을 클릭하면 해당 .tex 소스로 이동. 반대도 가능. 큰 문서에서 매우 유용.
+
+**기능 3: 자동 완성**.
+`\section`, `\cite`, `\ref` 등의 명령어 자동 완성. 참고문헌 이름도 자동 완성.
+
+**기능 4: 구문 강조**.
+LaTeX 명령어, 수식, 환경이 색깔로 구분. 가독성 향상.
+
+**기능 5: 오류 표시**.
+컴파일 오류가 표시. 클릭하면 해당 줄로 이동.
+
+**기능 6: 개요 (Outline)**.
+문서의 section/subsection 구조를 트리로 표시. 큰 문서의 탐색.
+
+**기능 7: 스니펫**.
+`\fig` → `\begin{figure}...\end{figure}` 자동 확장.
+
+**이 기능들이 조합되어** 본인의 LaTeX 작업이 크게 가속화된다.
+
+**VS Code에서 Git 통합**.
+
+VS Code의 내장 Git 지원.
+
+**기본 Git 기능**:
+- Source Control 패널에서 변경 사항 확인
+- 파일 옆 표시 (M=수정, U=새로운)
+- 라인별 Git blame
+- Inline diff
+- 커밋, push, pull UI
+
+**Git 확장**:
+- **GitLens**: 강력한 Git 기능. 각 줄의 마지막 변경자, 히스토리 등.
+- **Git Graph**: 브랜치 그래프 시각화
+- **Git History**: 파일 히스토리
+
+**워크플로**:
+1. 파일 편집
+2. Source Control 패널에서 변경 확인
+3. 커밋 메시지 입력
+4. `Ctrl+Enter`로 커밋
+5. ... → Push로 원격 업로드
+
+**LaTeX과 Git의 결합**:
+각 편집을 작은 커밋으로. 예: "Add introduction paragraph", "Fix equation 3", "Update figure 2 caption".
+
+**1일 10-20 커밋**도 정상. 자주 커밋하는 것이 복구의 안전망.
+
+**본격 워크플로 — 한 논문 작성의 흐름**.
+
+구체적 예시: 논문을 처음부터 끝까지 작성.
+
+**Day 1: 프로젝트 생성**.
+```bash
+mkdir my-paper
+cd my-paper
+git init
+mkdir figures bibliography sections
+touch main.tex
+touch bibliography/refs.bib
+touch .gitignore
+```
+
+**.gitignore 설정**:
+```
+*.aux
+*.log
+*.bbl
+*.blg
+*.out
+*.pdf  # 또는 제외: !final.pdf
+*.synctex.gz
+```
+
+**main.tex 초안**:
+```latex
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{natbib}
+
+\title{My Paper}
+\author{Me}
+
+\begin{document}
+\maketitle
+\input{sections/introduction}
+\input{sections/methods}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusion}
+\bibliographystyle{plain}
+\bibliography{bibliography/refs}
+\end{document}
+```
+
+**첫 커밋**:
+```bash
+git add -A
+git commit -m "Initial paper structure"
+```
+
+**Day 2-10: 섹션 작성**.
+각 섹션을 `sections/` 폴더의 별도 파일로:
+- `sections/introduction.tex`
+- `sections/methods.tex`
+- `sections/results.tex`
+
+**장점**:
+- 한 번에 한 섹션 집중
+- Git diff가 더 명확
+- 협업 시 충돌 적음
+
+**Day 11-15: 그림과 표 통합**.
+`figures/` 폴더에 PDF/PNG 추가. LaTeX에서 참조:
+```latex
+\includegraphics[width=\textwidth]{figures/fig1.pdf}
+```
+
+**Day 16-20: 수정과 개선**.
+작은 수정마다 커밋. Git log로 진척 추적.
+
+**Day 21: 최종 빌드**.
+```bash
+pdflatex main.tex
+bibtex main
+pdflatex main.tex
+pdflatex main.tex
+```
+
+또는 `latexmk`:
+```bash
+latexmk -pdf main.tex
+```
+
+**최종 커밋**:
+```bash
+git tag v1.0-submitted
+git add -A
+git commit -m "Initial submission"
+```
+
+**이 워크플로가** 처음에는 복잡해 보이지만 점차 자연스러워진다.
+
+**latexmk와 빌드 자동화**.
+
+`latexmk`는 LaTeX 컴파일의 자동화 도구다.
+
+**기본 사용**:
+```bash
+latexmk -pdf main.tex
+```
+
+한 번의 명령으로 pdflatex + bibtex + 여러 pass를 자동으로.
+
+**지속적 컴파일 (continuous build)**:
+```bash
+latexmk -pdf -pvc main.tex
+```
+
+`-pvc` = "preview continuously". 파일이 변할 때마다 자동 재컴파일. Overleaf와 유사한 경험.
+
+**설정 파일**: `.latexmkrc` 또는 `latexmkrc`
+```perl
+$pdf_mode = 1;
+$bibtex_use = 2;
+$pdf_previewer = 'open -a Preview';
+$clean_ext = 'synctex.gz';
+```
+
+프로젝트 루트에 이 파일을 두면 자동 적용.
+
+**VS Code 통합**: LaTeX Workshop이 자동으로 latexmk 사용.
+
+**참고문헌 관리 — Zotero와의 연동**.
+
+VS Code에서 참고문헌 관리.
+
+**Zotero 설정**:
+1. Zotero 설치 (zotero.org)
+2. Better BibTeX 확장 설치
+3. Auto-export 설정
+
+**Auto-export 방법**:
+1. Zotero에서 라이브러리 선택
+2. File → Export Library
+3. Format: "Better BibTeX"
+4. "Keep updated"와 "Automatic Export" 체크
+5. 프로젝트의 `bibliography/refs.bib`에 저장
+
+**VS Code에서 사용**:
+```latex
+% refs.bib이 자동 업데이트됨
+\cite{smith2024}  % 자동 완성 지원
+```
+
+**워크플로**:
+1. Zotero에 논문 추가 (브라우저 플러그인으로 한 번 클릭)
+2. 자동으로 refs.bib 업데이트
+3. VS Code에서 `\cite{` 입력 시 자동 완성
+4. 새 논문을 추가하면 즉시 사용 가능
+
+**이것이 "끊김 없는" 참고문헌 관리**를 만든다.
+
+**멀티 파일 프로젝트 관리**.
+
+큰 문서 (학위 논문)는 여러 파일로 분할.
+
+**디렉토리 구조**:
+```
+thesis/
+├── main.tex
+├── preamble.tex
+├── titlepage.tex
+├── abstract.tex
+├── acknowledgments.tex
+├── chapters/
+│   ├── chapter1_intro.tex
+│   ├── chapter2_background.tex
+│   ├── chapter3_methods.tex
+│   ├── chapter4_results.tex
+│   └── chapter5_conclusion.tex
+├── appendices/
+│   ├── appA.tex
+│   └── appB.tex
+├── figures/
+│   └── (chapter별 하위 폴더)
+├── bibliography/
+│   └── refs.bib
+└── .gitignore
+```
+
+**main.tex**:
+```latex
+\documentclass{thesis}
+\input{preamble}
+
+\begin{document}
+\input{titlepage}
+\input{abstract}
+\input{acknowledgments}
+\tableofcontents
+\listoffigures
+\listoftables
+
+\input{chapters/chapter1_intro}
+\input{chapters/chapter2_background}
+\input{chapters/chapter3_methods}
+\input{chapters/chapter4_results}
+\input{chapters/chapter5_conclusion}
+
+\appendix
+\input{appendices/appA}
+\input{appendices/appB}
+
+\bibliographystyle{plain}
+\bibliography{bibliography/refs}
+\end{document}
+```
+
+**장점**:
+- 각 챕터를 독립적으로 편집
+- Git diff가 명확
+- 병렬 작업 가능 (협업 시)
+- 한 파일의 오류가 다른 파일에 영향 적음
+
+**`\subfile` 패키지**: 각 챕터를 독립적으로 컴파일 가능. 빠른 미리보기.
+
+**원격 서버에서의 편집**.
+
+VS Code Remote 확장으로 원격 서버에서 편집.
+
+**Remote - SSH 확장 설치**:
+Extensions에서 "Remote - SSH" 검색 → 설치.
+
+**사용법**:
+1. `Ctrl+Shift+P` → "Remote-SSH: Connect to Host"
+2. SSH 정보 입력
+3. 원격 서버에 연결
+4. 로컬처럼 편집
+
+**사용 시나리오**:
+- HPC 서버에서 시뮬레이션 + 논문 작성
+- 연구실 서버의 공유 파일 편집
+- 여러 컴퓨터 간 환경 동기화
+
+**장점**:
+- 로컬 설정 그대로
+- 원격 컴퓨팅 자원 활용
+- 서로 다른 환경의 통합
+
+**연구실의 공유 Linux 서버에서 작업**할 때 특히 유용.
+
+**AI 통합 — Copilot과 LLM의 활용**.
+
+VS Code에 AI 어시스턴트 통합.
+
+**GitHub Copilot**:
+- 코드 작성 보조
+- LaTeX도 일부 지원
+- 학생은 무료 (GitHub Student Pack)
+
+**Copilot for LaTeX**:
+- 표의 자동 완성
+- 반복되는 구조 생성
+- 참고문헌 키 완성
+
+**주의**:
+- AI가 만든 내용은 반드시 본인이 검토
+- 학술 내용 (수식, 논증)은 AI에 맡기지 말자
+- ch09의 AI 글쓰기 원칙 적용
+
+**다른 LLM 통합**:
+- Continue 확장: Claude, GPT-4 등과 통합
+- Codeium: 무료 대안
+
+**활용**: 형식적 LaTeX 생성은 AI, 학술 내용은 본인. 이것이 건강한 조합.
+
+**Preview의 최적화**.
+
+LaTeX의 PDF 미리보기 설정.
+
+**옵션 1: 외부 PDF 뷰어**.
+- **Windows**: SumatraPDF (lightweight, auto-reload)
+- **Mac**: Skim (SyncTeX 지원)
+- **Linux**: Zathura (vim-like)
+
+이들이 LaTeX 편집 중 자동 새로고침.
+
+**옵션 2: VS Code 내부 탭**.
+기본 설정. VS Code의 PDF 탭에서 표시.
+
+**옵션 3: 브라우저**.
+PDF를 브라우저에서 표시. 외부 창으로 분리 가능.
+
+**SyncTeX 설정**:
+소스 ↔ PDF의 양방향 동기화. `\usepackage[synctex=1]` 또는 컴파일 옵션.
+
+**듀얼 모니터 팁**: 한 모니터에 VS Code, 다른 모니터에 PDF. 매우 생산적.
+
+**버전 관리 전략 — 논문을 위한 Git**.
+
+코드를 위한 Git과 다른 원칙이 적용된다.
+
+**원칙 1: 매일 커밋**.
+큰 변경 없어도 매일. "Working on introduction" 같은 WIP 커밋 OK.
+
+**원칙 2: 의미 있는 메시지**.
+```
+좋은 예:
+"Fix grammar in Section 3"
+"Add experiment results to Table 2"
+"Rewrite abstract for clarity"
+
+나쁜 예:
+"Update"
+"asdf"
+"wip"
+```
+
+**원칙 3: 섹션별 커밋**.
+한 커밋에 한 섹션의 변경. 기능별 분리.
+
+**원칙 4: 브랜치 활용**.
+- `main`: 최신 안정 버전
+- `revision`: 리비전 작업
+- `experimental-intro`: 새 서론 시도
+
+**원칙 5: 태그**.
+제출 시점에 태그:
+```bash
+git tag v1.0-submission
+git tag v2.0-revision1
+git tag v3.0-accepted
+```
+
+**원칙 6: Force push 금지**.
+문서의 경우 Git 히스토리 재작성은 위험. 실수한 커밋은 revert로.
+
+**협업 시의 Git**.
+
+공저자와 함께 쓸 때의 워크플로.
+
+**방법 1: GitHub/GitLab 공유**.
+```bash
+# 저장소 생성
+git remote add origin https://github.com/user/paper.git
+
+# Push
+git push -u origin main
+
+# 공저자 초대
+# (웹 UI에서)
+```
+
+**방법 2: 브랜치 기반 워크플로**.
+각 저자가 자신의 브랜치에서 작업 → Pull Request로 통합.
+
+**방법 3: 단순 main 작업**.
+소규모 팀. 모두가 main에서 직접 작업. 수시 pull.
+
+**충돌 해결**:
+같은 파일의 같은 부분을 동시에 수정하면 conflict. 수동 해결 필요.
+
+**예방**:
+- 작업 시작 전 pull
+- 작업 종료 후 즉시 push
+- 섹션별로 작업 분리
+- 명확한 소통 ("내가 Section 3 작업한다")
+
+**텍스트 파일의 merge는 코드보다 까다롭다**. 작은 단위로 자주 공유.
+
+**Overleaf와의 공존**.
+
+Overleaf를 완전히 버릴 필요는 없다. 상황에 따라 선택.
+
+**Overleaf의 장점**:
+- 설정 없이 즉시 시작
+- 공저자와 실시간 협업
+- 모바일 접근
+- 자동 백업
+
+**Overleaf와 Git 동기화**:
+1. Overleaf 프로젝트 → "Git"
+2. 본인의 로컬에 clone
+3. 로컬에서 작업 후 push
+4. Overleaf에서 자동 업데이트
+
+**하이브리드 워크플로**:
+- 본인: VS Code + LaTeX + Git (강력한 기능)
+- 공저자: Overleaf (간편함)
+- 동기화: Git bridge
+
+**전환 시기**: 박사 초반은 Overleaf, 중반부터 로컬. 또는 논문별로 다른 선택.
+
+**학습 곡선 관리**.
+
+이 모든 것이 동시에 너무 복잡할 수 있다. 단계적 학습.
+
+**1주차**: VS Code + LaTeX Workshop 설치, 간단한 .tex 파일 작성.
+**2주차**: Git 기초, 로컬 저장소.
+**3-4주차**: Zotero 연동.
+**5-6주차**: 멀티 파일 프로젝트.
+**7-8주차**: 원격 저장소, 협업.
+**9-10주차**: 고급 기능, 자동화.
+
+**원칙**: 한 번에 한 가지씩. 모든 것을 동시에 배우려 하지 말자.
+
+**체크리스트 — 통합 워크플로의 구축**.
+
+<div class="highlight-box highlight-info">
+
+**VS Code + LaTeX + Git 워크플로 체크리스트**
+
+- [ ] LaTeX 배포판 설치
+- [ ] VS Code 설치와 기본 설정
+- [ ] LaTeX Workshop 확장 설치
+- [ ] 첫 .tex 파일 컴파일 성공
+- [ ] SyncTeX 작동 확인
+- [ ] Git 로컬 저장소 생성
+- [ ] .gitignore 설정
+- [ ] Zotero + Better BibTeX 연동
+- [ ] 자동 완성 작동 확인
+- [ ] 원격 저장소 (GitHub/GitLab) 연결
+- [ ] 멀티 파일 프로젝트 구조 구축
+- [ ] latexmk 또는 자동 빌드 설정
+
+</div>
+
+이 12가지를 완료하면 본인의 워크플로가 전문적이 된다.
+
+**투자의 회수**.
+
+이 모든 설정에 시간이 든다. 회수는 언제 올까.
+
+**초기 설정**: 5-10시간 (1-2일)
+**학습 기간**: 2-4주 (점진적)
+**익숙해짐**: 2-3개월
+
+**회수**:
+- **6개월 후**: 투자 회수 시작
+- **1년 후**: 확연히 더 생산적
+- **박사 전체**: 수천 시간 절약
+
+**계산**: 박사 5-6년 동안 논문 10편 + 학위 논문 = 수만 줄의 LaTeX. 하루 10% 시간 절약 = 전체 수백 시간. 투자 대비 100배 이상.
+
+**지속적 개선**.
+
+워크플로는 고정이 아니다. 지속적으로 개선.
+
+**정기 리뷰**:
+- 3개월마다: 현재 워크플로의 불편함?
+- 6개월마다: 새로운 도구/확장 시도?
+- 1년마다: 전체 구조 재평가?
+
+**개선의 원천**:
+- 동료의 팁
+- 블로그/유튜브 튜토리얼
+- VS Code의 새 버전/확장
+- 본인의 작업 패턴 변화
+
+**원칙**: "작동하는 것"에 집착하지 말고 "더 나은 것"을 항상 탐색.
+
+**박사 이후의 가치**.
+
+이 워크플로는 박사 이후에도 계속 쓰인다.
+
+**포스닥에서**:
+- 같은 도구로 새 환경에서 작업
+- 설정 이전이 쉬움
+- 새 협력자 가르치기 쉬움
+
+**교수직에서**:
+- 학생들에게 가르침
+- 연구 그룹의 표준화
+- 여러 논문 동시 관리
+
+**산업체에서**:
+- 기술 문서 작성
+- Git 기반 워크플로가 표준
+- VS Code는 산업체에서도 주류
+
+**평생 기술**: 한 번 익힌 이 워크플로가 20-30년 쓰인다.
+
+> 글쓰기 도구의 통합 워크플로는 박사 과정의 숨은 투자다. 눈에 보이지 않지만, 수천 시간의 작업에 영향을 준다. 박사 1-2년차에 5-10시간을 투자해 VS Code + LaTeX + Git 환경을 구축하면, 박사 5-7년 동안 수백 시간을 절약하고 훨씬 생산적인 글쓰기를 할 수 있다. Overleaf의 편리함을 넘어서 더 강력한 로컬 환경으로 이동하는 것은 박사 중반의 자연스러운 성장이다. 이 워크플로가 본인을 "LaTeX 사용자"에서 "문서 시스템 관리자"로 격상시킨다.
