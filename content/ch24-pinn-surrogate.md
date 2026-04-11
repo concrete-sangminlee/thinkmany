@@ -1510,3 +1510,660 @@ PINN 논문에서 손실 가중치는 "사소한 디테일"이 아니다. 명시
 - DeepXDE 공식 문서의 "troubleshooting" 섹션
 
 > PINN 연구의 성공은 이론적 엄밀성이 아니라 손실 가중치 튜닝의 기술에서 결정된다. 많은 학생이 몇 달 동안 "왜 내 PINN은 안 되지?"로 고생하지만, 사실은 손실 가중치 문제다. 이 섹션의 원칙들을 일찍 익히면 본인의 PINN 연구가 몇 주에서 몇 개월 더 빨리 진행될 수 있다. 박사 1년차에 이 기술을 마스터하는 것이 박사 전체의 성공을 좌우한다. 가중치는 "하이퍼파라미터"가 아니라 "PINN의 핵심 설계"임을 기억하라.
+
+## PINN의 훈련 전략 — Curriculum Learning과 Multi-stage Training
+
+PINN의 손실 가중치를 완벽히 설정했어도 훈련이 실패할 수 있다. 손실이 진동하거나, 수렴이 느리거나, 국소 최적해에 빠지거나, 물리 법칙을 부분적으로만 만족한다. 이것은 단순한 최적화의 문제가 아니라 **훈련 순서의 문제**다. PINN은 일반 신경망과 다르게, "어떤 순서로 학습하는가"가 결과에 큰 영향을 준다. 인간이 쉬운 것부터 어려운 것으로 배우는 것처럼, PINN도 단계적 학습이 필요하다. 이 섹션은 **Curriculum Learning**과 **Multi-stage Training**이라는 PINN의 훈련 전략을 다룬다.
+
+<div class="highlight-box highlight-important">
+
+**"PINN은 한 번에 모든 것을 배울 수 없다".** 일반 신경망은 수백만 개의 데이터로 경사 하강을 반복하면 수렴한다. 그러나 PINN은 PDE 제약, 경계 조건, 초기 조건, 데이터 맞춤을 동시에 만족해야 한다. 이것은 여러 제약의 동시 충족 문제이고, 단순한 경사 하강으로는 어렵다. 인간도 수학 방정식을 배울 때 먼저 간단한 경우를 이해하고 점차 복잡하게 간다. PINN도 같다. 단계적으로 가르치면 훨씬 잘 배운다.
+
+</div>
+
+**훈련 실패의 패턴 — 왜 단순 훈련이 부족한가**.
+
+"config 설정 → fit() → 끝"의 순진한 접근의 실패 양상.
+
+**패턴 1: 초기 발산**.
+훈련 시작 시 손실이 폭발. NaN으로 수렴.
+
+**원인**: 초기 신경망 출력이 무작위. PDE 잔차가 거대함. 기울기가 너무 큼.
+
+**패턴 2: 경계 조건만 만족**.
+훈련이 수렴하는데 경계 조건만 맞고 도메인 내부가 이상함.
+
+**원인**: 경계 손실이 빠르게 수렴. PDE 손실이 무시됨.
+
+**패턴 3: 도메인 내부만 맞음**.
+반대 경우. PDE 잔차는 작지만 경계에서 큰 오차.
+
+**원인**: 경계 샘플이 부족. 경계 손실 가중치가 작음.
+
+**패턴 4: 시간 전파 실패**.
+시간 의존 문제에서 t=0는 맞고 후반 시간은 이상함.
+
+**원인**: 네트워크가 과거에서 미래로 "전파"하는 법을 못 배움.
+
+**패턴 5: 진동과 불안정**.
+손실이 감소와 증가를 반복.
+
+**원인**: 여러 손실 항이 "충돌". 한 쪽을 개선하면 다른 쪽이 나빠짐.
+
+**패턴 6: 국소 최적해**.
+어느 수준에서 멈춤. 더 좋은 해가 있는데 도달 못 함.
+
+**원인**: 최적화 지형의 국소 최적해. 기본 Adam으로는 탈출 어려움.
+
+**이 패턴들의 공통 해결책이 Curriculum Learning과 Multi-stage Training**이다.
+
+**Curriculum Learning의 원리**.
+
+**아이디어**: 쉬운 문제부터 어려운 문제로 점진적.
+
+**인간의 학습과 유사**: 
+- 덧셈 → 곱셈 → 대수 → 미적분
+- 단순한 문장 → 복잡한 문장
+
+**PINN에 적용**:
+- 작은 도메인 → 큰 도메인
+- 짧은 시간 → 긴 시간
+- 선형 → 비선형
+- 작은 Reynolds → 큰 Reynolds
+- 단일 물리 → 다물리
+
+**왜 작동하는가**: 
+1. 쉬운 문제의 해가 어려운 문제의 좋은 초기값
+2. 네트워크가 "기초 패턴" 먼저 학습
+3. 기울기 신호가 더 명확
+4. 국소 최적해 회피
+
+**수학적 관점**: 학습 지형을 "유연한" 것에서 "엄격한" 것으로 점진적 변환. 최적화기가 좋은 지역에 머무르도록 안내.
+
+**Curriculum의 5가지 유형**.
+
+구체적으로 무엇을 "쉬움에서 어려움"으로 변화시킬 것인가.
+
+**유형 1: 도메인 크기의 점진적 확장**.
+
+**접근**: 작은 도메인에서 시작, 점차 확장.
+
+**예시 — 열전달**:
+- Stage 1: 1x1 사각형에서 훈련
+- Stage 2: 2x2 사각형
+- Stage 3: 4x4 사각형
+- Stage 4: 전체 도메인
+
+**각 단계**: 이전 단계의 가중치로 시작, 새 도메인에 fine-tune.
+
+**적용**: 정적 PDE, 공간 의존 문제.
+
+**유형 2: 시간의 점진적 확장**.
+
+**접근**: 짧은 시간에서 시작, 점차 연장.
+
+**예시 — 열방정식 (t: 0→10)**:
+- Stage 1: t ∈ [0, 1]
+- Stage 2: t ∈ [0, 2]
+- Stage 3: t ∈ [0, 5]
+- Stage 4: t ∈ [0, 10]
+
+**이점**: "전파"가 점진적으로 학습됨.
+
+**적용**: 시간 의존 PDE (열, 파동, Navier-Stokes).
+
+**유형 3: 물리 파라미터의 점진적 어려움**.
+
+**접근**: 쉬운 물리 조건에서 시작, 점차 어렵게.
+
+**예시 — Navier-Stokes**:
+- Stage 1: Re = 10 (laminar, 부드러움)
+- Stage 2: Re = 100
+- Stage 3: Re = 1000
+- Stage 4: Re = 10000 (난류 가까움)
+
+**적용**: 비선형 PDE, 특수 파라미터 의존.
+
+**유형 4: 경계 조건의 점진적 복잡**.
+
+**접근**: 단순한 경계 조건에서 복잡한 것으로.
+
+**예시**:
+- Stage 1: Dirichlet 경계 (값 고정)
+- Stage 2: Neumann 경계 (미분 고정)
+- Stage 3: Mixed 경계
+- Stage 4: Robin 경계
+
+**유형 5: 손실 가중치의 점진적 조정**.
+
+**접근**: 훈련 초반에 쉬운 손실에 집중, 후반에 모든 손실.
+
+**예시**:
+- Stage 1: $\lambda_{\text{IC}} = 100, \lambda_{\text{BC}} = 100, \lambda_{\text{PDE}} = 1$
+- Stage 2: $\lambda_{\text{IC}} = 50, \lambda_{\text{BC}} = 50, \lambda_{\text{PDE}} = 10$
+- Stage 3: $\lambda_{\text{IC}} = 10, \lambda_{\text{BC}} = 10, \lambda_{\text{PDE}} = 100$
+- Stage 4: 모두 1 (균형)
+
+**이점**: 초기에 "IC/BC 만족"을 먼저 학습, 나중에 "PDE 만족"을 집중.
+
+**조합 사용**: 여러 유형을 동시에. 예: 시간 확장 + 손실 가중치 변화.
+
+**Multi-stage Training의 구조**.
+
+Curriculum을 구현하는 방법.
+
+**기본 구조**:
+```python
+def train_pinn_multi_stage():
+    model = PINN()
+    optimizer = Adam(model.parameters(), lr=1e-3)
+    
+    # Stage 1: 쉬운 문제
+    config_stage1 = {
+        'domain': [0, 1, 0, 1],  # 작은 도메인
+        'time': [0, 1],           # 짧은 시간
+        'lr': 1e-3,
+        'epochs': 1000,
+        'lambda_pde': 1,
+        'lambda_bc': 100,
+    }
+    train_one_stage(model, optimizer, config_stage1)
+    
+    # Stage 2: 중간 난이도
+    config_stage2 = {
+        'domain': [0, 2, 0, 2],
+        'time': [0, 5],
+        'lr': 5e-4,  # 학습률 감소
+        'epochs': 1000,
+        'lambda_pde': 10,
+        'lambda_bc': 50,
+    }
+    train_one_stage(model, optimizer, config_stage2)
+    
+    # Stage 3: 전체 문제
+    config_stage3 = {
+        'domain': [0, 10, 0, 10],
+        'time': [0, 10],
+        'lr': 1e-4,
+        'epochs': 2000,
+        'lambda_pde': 100,
+        'lambda_bc': 10,
+    }
+    train_one_stage(model, optimizer, config_stage3)
+    
+    return model
+```
+
+**각 단계의 요소**:
+1. **문제 설정**: 도메인, 시간, 파라미터
+2. **학습률**: 보통 단계마다 감소
+3. **에포크 수**: 충분하지만 과도하지 않게
+4. **손실 가중치**: 단계에 맞게
+5. **초기화**: 이전 단계의 가중치 (중요)
+
+**Transfer**: 각 단계가 이전 단계를 "개선"하는 것. 처음부터 다시 시작하지 말자.
+
+**시간 영역 분해 (Time Decomposition)**.
+
+긴 시간 의존 PDE의 특수 전략.
+
+**문제**: t ∈ [0, 100]인 문제를 한 번에 풀면 네트워크가 시간 전파를 못 배움.
+
+**해결 1: 순차적 시간 분해**.
+```
+시뮬레이션 시간을 [0, 100]
+→ 분해: [0, 10], [10, 20], ..., [90, 100]
+→ 각 구간을 순차적으로 훈련
+→ 한 구간의 마지막이 다음 구간의 초기값
+```
+
+**수도 코드**:
+```python
+model = PINN()
+for t_start in range(0, 100, 10):
+    t_end = t_start + 10
+    # 이전 결과를 초기 조건으로
+    u0 = model.evaluate(t=t_start)
+    train(model, t_range=[t_start, t_end], u0=u0)
+```
+
+**이점**: 한 번에 10 시간만 학습하면 되므로 쉬움.
+**단점**: 오차 누적. 각 구간의 오차가 다음에 전파.
+
+**해결 2: 중첩 시간 분해**.
+구간을 겹치게.
+```
+[0, 15], [10, 25], [20, 35], ...
+```
+
+**이점**: 중첩 부분에서 연속성 확보.
+
+**해결 3: 계층적 시간 학습**.
+먼저 긴 시간의 대략적 해를 학습, 그 다음 세부.
+```
+Stage 1: t = 0, 25, 50, 75, 100 (5 샘플)
+Stage 2: t = 0, 10, 20, ..., 100 (11 샘플)
+Stage 3: t = 0, 5, 10, ..., 100 (21 샘플)
+```
+
+**적용**: 장기 시간 시뮬레이션.
+
+**Adaptive Sampling with Curriculum**.
+
+동적 샘플링과 Curriculum을 결합.
+
+**기본 아이디어**: 어려운 영역에 더 많은 샘플.
+
+**Curriculum과 결합**:
+1. **Stage 1**: 균일 샘플링. 기본 패턴 학습.
+2. **Stage 2**: 잔차가 큰 영역에 추가 샘플.
+3. **Stage 3**: 더 정교한 잔차 기반 샘플링.
+
+**구현**:
+```python
+def adaptive_sampling(model, n_points):
+    # 후보 점 (많음)
+    candidates = generate_random_points(n_points * 10)
+    
+    # 각 점의 PDE 잔차 계산
+    residuals = compute_pde_residual(model, candidates)
+    
+    # 잔차에 비례하는 확률로 선택
+    probs = residuals.abs() / residuals.abs().sum()
+    selected = torch.multinomial(probs, n_points)
+    
+    return candidates[selected]
+```
+
+**Curriculum 효과**:
+- 초기: 전체 도메인 고르게 탐색
+- 중기: 어려운 영역 발견
+- 후기: 어려운 영역 집중 학습
+
+**Transfer Learning 전략**.
+
+이전 학습을 재사용하는 방법.
+
+**전략 1: Pretrained PINN**.
+유사한 문제로 미리 학습된 PINN을 출발점으로.
+
+**예시**: 
+- Pretrained: 단순 1D 열방정식
+- Target: 2D 열방정식
+- Transfer: 1D 해를 출발점으로 2D 학습
+
+**전략 2: Physics-based Initialization**.
+해석해나 간단한 수치해로 네트워크를 초기화.
+
+```python
+# 먼저 해석해에 맞춤
+def loss_analytical(model, x, t):
+    u_pred = model(x, t)
+    u_analytic = known_solution(x, t)
+    return mse(u_pred, u_analytic)
+
+# Stage 1: 해석해 모방
+for epoch in range(500):
+    loss = loss_analytical(model, x, t)
+    loss.backward()
+    optimizer.step()
+
+# Stage 2: 진짜 PINN 손실
+for epoch in range(1000):
+    loss = loss_pinn(model, x, t)
+    loss.backward()
+    optimizer.step()
+```
+
+**이점**: 해석해 근처에서 시작, 좋은 초기화.
+
+**전략 3: Multi-task Learning**.
+여러 관련 문제를 동시에. 지식 공유.
+
+**예시**: 여러 Reynolds 수의 Navier-Stokes를 한 네트워크로.
+
+**이점**: 일반화 향상.
+**단점**: 복잡성 증가.
+
+**훈련 스케줄의 설계**.
+
+Multi-stage training의 세부 스케줄.
+
+**요소 1: 학습률 스케줄**.
+단계마다 감소.
+- Stage 1: 1e-3 (빠른 초기 수렴)
+- Stage 2: 5e-4
+- Stage 3: 1e-4 (미세 조정)
+- Stage 4: 1e-5 (수렴)
+
+**요소 2: 에포크 수**.
+단계마다 다름.
+- Stage 1: 500 (빠른 탐색)
+- Stage 2: 1000
+- Stage 3: 2000 (수렴 집중)
+- Stage 4: 500 (미세 조정)
+
+**요소 3: 배치 크기**.
+일반적으로 증가.
+- Stage 1: 512
+- Stage 2: 1024
+- Stage 3: 2048
+- Stage 4: 4096
+
+**요소 4: Early Stopping**.
+각 단계마다 수렴 기준.
+- 연속 100 에포크 동안 개선 없으면 다음 단계.
+
+**요소 5: 검증**.
+각 단계 후 홀드아웃 데이터로 검증. 과적합 확인.
+
+**실전 예시 — 1D 열방정식의 Curriculum**.
+
+구체적 예시로 보자.
+
+**문제**: $u_t = u_{xx}$, $u(x, 0) = \sin(\pi x)$, $u(0, t) = u(1, t) = 0$, $t \in [0, 1]$.
+
+**해석해**: $u(x, t) = e^{-\pi^2 t} \sin(\pi x)$.
+
+**순진한 PINN**: 종종 수렴 안 함.
+
+**Curriculum 접근**:
+
+**Stage 1 — 초기 조건만**:
+```python
+def loss_ic_only(model, x):
+    u_pred = model(x, t=0)
+    u_target = torch.sin(torch.pi * x)
+    return mse(u_pred, u_target)
+```
+
+**이유**: 먼저 네트워크가 sin 함수를 학습.
+
+**Stage 2 — BC + IC**:
+```python
+def loss_bcic(model, x, t):
+    ic_loss = loss_ic(model, x)
+    bc_loss = loss_bc(model, t)
+    return ic_loss + bc_loss
+```
+
+**이유**: 시간 의존 없이 경계와 초기 학습.
+
+**Stage 3 — 짧은 시간 + 모든 손실**:
+```python
+def loss_short_time(model, x, t):
+    # t ∈ [0, 0.1]
+    return pinn_loss(model, x, t[t < 0.1])
+```
+
+**이유**: 시간 전파를 조금씩.
+
+**Stage 4 — 점진적 시간 확장**:
+```python
+for t_max in [0.1, 0.2, 0.5, 1.0]:
+    train(model, t_range=[0, t_max])
+```
+
+**Stage 5 — 전체 도메인**:
+```python
+train(model, t_range=[0, 1], epochs=2000)
+```
+
+**결과**: 순진한 접근 대비 수렴 2-3배 빠름, 정확도 향상.
+
+**다른 고급 기법들**.
+
+**기법 1: NTK (Neural Tangent Kernel) 기반**.
+이론적으로 최적 학습률을 결정.
+
+**기법 2: Causal Training**.
+시간 의존 문제에서 "원인과 결과"를 존중. 과거가 먼저, 미래가 나중.
+
+**기법 3: Loss Attention**.
+각 샘플의 손실 기여도를 학습. 어려운 샘플에 더 집중.
+
+**기법 4: Multi-objective Optimization**.
+여러 손실을 동시에. Pareto front 탐색.
+
+**기법 5: Second-order Methods**.
+L-BFGS로 fine-tuning. Adam보다 정확.
+
+**일반적 조합**: Adam (초기) → L-BFGS (미세) + Curriculum + Adaptive Sampling.
+
+**실전의 흔한 함정**.
+
+**함정 1: 단계 전환이 너무 급함**.
+Stage 간에 급격한 변화. 네트워크가 "잊어버림".
+
+**수정**: 점진적 전환. Intermediate stages.
+
+**함정 2: 각 단계의 에포크 부족**.
+각 단계가 충분히 수렴 전에 다음으로. 누적 오차.
+
+**수정**: 각 단계의 수렴을 확인 후 전환.
+
+**함정 3: 학습률 스케줄 잘못**.
+Stage마다 학습률을 리셋. 이전 학습 파괴.
+
+**수정**: 점진적 감소. 리셋 금지.
+
+**함정 4: 검증 무시**.
+과적합 확인 안 함. 훈련 데이터만 맞춤.
+
+**수정**: 각 단계 후 검증.
+
+**함정 5: 너무 많은 단계**.
+10+ 단계로 과도하게 분할. 관리 어려움.
+
+**수정**: 3-5 단계가 적절.
+
+**함정 6: Curriculum 없는 fine-tuning**.
+마지막 단계에서만 fine-tune. 이전 단계의 이점 무시.
+
+**수정**: 각 단계가 이전 단계의 발전.
+
+**코드 구조의 정리**.
+
+Multi-stage training의 깔끔한 코드 구조.
+
+```python
+class PINNTrainer:
+    def __init__(self, model, stages):
+        self.model = model
+        self.stages = stages
+        self.history = []
+    
+    def train(self):
+        for i, stage in enumerate(self.stages):
+            print(f"Stage {i+1}: {stage['name']}")
+            self._train_stage(stage)
+            self._save_checkpoint(i)
+            self._evaluate(i)
+    
+    def _train_stage(self, stage):
+        optimizer = self._get_optimizer(stage['lr'])
+        loss_fn = self._get_loss_fn(stage['loss_config'])
+        data = self._get_data(stage['data_config'])
+        
+        for epoch in range(stage['epochs']):
+            loss = loss_fn(self.model, data)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            
+            if epoch % 100 == 0:
+                print(f"  Epoch {epoch}: loss = {loss:.6f}")
+    
+    def _save_checkpoint(self, stage_idx):
+        torch.save(self.model.state_dict(), f'stage_{stage_idx}.pt')
+    
+    def _evaluate(self, stage_idx):
+        val_loss = evaluate(self.model, val_data)
+        self.history.append({
+            'stage': stage_idx,
+            'val_loss': val_loss,
+        })
+
+# 사용
+stages = [
+    {'name': 'IC only', 'lr': 1e-3, 'epochs': 500, ...},
+    {'name': 'BC + IC', 'lr': 1e-3, 'epochs': 500, ...},
+    {'name': 'Short time', 'lr': 5e-4, 'epochs': 1000, ...},
+    {'name': 'Full problem', 'lr': 1e-4, 'epochs': 2000, ...},
+]
+
+trainer = PINNTrainer(model, stages)
+trainer.train()
+```
+
+이 구조가 재사용과 실험 관리를 쉽게 한다.
+
+**결과의 시각화**.
+
+Multi-stage training의 진행을 시각화.
+
+**그래프 1: 단계별 손실**.
+```python
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+for i, stage_history in enumerate(trainer.history):
+    ax.plot(stage_history['loss'], label=f'Stage {i+1}')
+ax.set_xlabel('Epoch')
+ax.set_ylabel('Loss')
+ax.set_yscale('log')
+ax.legend()
+```
+
+**그래프 2: 단계별 해의 진화**.
+각 단계 후의 해를 2D로 시각화. 개선 가시화.
+
+**그래프 3: 단계 전환 지점의 성능**.
+막대 그래프로 각 단계의 최종 검증 오차.
+
+**이 시각화**가 보인을 디버깅하고 논문에 포함시킬 수 있다.
+
+**논문에서의 Training 섹션**.
+
+Multi-stage training을 논문에 보고.
+
+**보고할 항목**:
+1. 전체 훈련 전략 (왜 multi-stage인가)
+2. 각 단계의 구성 (도메인, 시간, 파라미터)
+3. 각 단계의 하이퍼파라미터
+4. 단계 전환 기준
+5. 단계별 성능 (그래프)
+6. 최종 결과의 재현 방법
+
+**예시 문구**:
+"We trained our PINN using a multi-stage curriculum learning approach. 
+Stage 1 focused on initial conditions (500 epochs, lr=1e-3). Stage 2 
+added boundary conditions (500 epochs). Stage 3 introduced time 
+dependency progressively from t=0.1 to t=1.0 (2000 epochs, lr=1e-4). 
+Stage 4 fine-tuned the full problem using L-BFGS (500 epochs)."
+
+**투명성**: 본인이 무엇을 했는지 독자가 재현 가능하게.
+
+**Curriculum Learning의 이론적 기반**.
+
+왜 Curriculum이 작동하는가의 이론.
+
+**관점 1: Bengio et al. (2009)**.
+원래 Curriculum Learning 논문. "쉬운 것부터"의 효과를 증명.
+
+**관점 2: 손실 지형**.
+쉬운 문제의 손실 지형이 더 "부드러움". 어려운 문제의 지형으로 점진 이동.
+
+**관점 3: 정보 이론**.
+쉬운 예시가 더 높은 정보 이득. 기초 패턴이 먼저.
+
+**관점 4: 생물학적 유사성**.
+인간과 동물의 학습도 쉬운 것부터. 진화적으로 효과적.
+
+**실용**: 이론을 모르고도 효과적이지만, 이해하면 더 잘 쓸 수 있다.
+
+**언제 Curriculum이 필요한가**.
+
+모든 PINN이 Curriculum이 필요한 것은 아니다.
+
+**필요한 경우**:
+- 복잡한 PDE (비선형, 다물리)
+- 긴 시간 의존
+- 큰 도메인
+- 여러 scale
+- 순진한 접근의 실패
+
+**필요 없는 경우**:
+- 단순 1D 선형 PDE
+- 짧은 시간
+- 작은 도메인
+- 이미 해석해가 있음
+
+**시도 순서**: 
+1. 순진한 접근 먼저 (1-2시간)
+2. 안 되면 손실 가중치 조정 (1-2일)
+3. 여전히 안 되면 Curriculum 도입 (1-2주)
+4. 마지막으로 고급 기법
+
+**과도한 공학화 금지**. 단순한 것이 되면 그걸로.
+
+**박사 연구에서의 활용**.
+
+박사 연구에 Curriculum을 어떻게 통합할까.
+
+**활용 1: 본인의 PINN을 작동시키기**.
+기본 수준. 성공적 훈련의 도구.
+
+**활용 2: 기존 방법의 개선**.
+"본인의 Curriculum이 X% 개선"을 논문의 기여로.
+
+**활용 3: 새 Curriculum 제안**.
+본인의 분야에 특화된 Curriculum 설계. 박사의 한 기여.
+
+**활용 4: Curriculum의 이론 연구**.
+"왜 이 Curriculum이 작동하는가" 분석. 고급 박사.
+
+**대부분의 박사생은 활용 1-2**. 활용 3-4는 심화 연구.
+
+**도구와 구현**.
+
+Curriculum 구현에 쓸 수 있는 도구.
+
+**DeepXDE**:
+- 기본 Curriculum 기능
+- 단계별 훈련 지원
+
+**Modulus (NVIDIA)**:
+- Curriculum과 multi-stage 내장
+- GPU 최적화
+
+**커스텀 PyTorch**:
+- 가장 유연
+- 본인의 문제에 맞춤
+
+**권장**: DeepXDE로 시작. 필요하면 커스텀.
+
+**체크리스트 — PINN 훈련 전략**.
+
+<div class="highlight-box highlight-info">
+
+**PINN 훈련 전략 체크리스트**
+
+- [ ] 순진한 접근을 먼저 시도했는가?
+- [ ] 훈련 실패의 패턴을 식별했는가?
+- [ ] Curriculum이 필요한 이유를 분명히 했는가?
+- [ ] 단계의 구조를 설계했는가 (3-5 단계)?
+- [ ] 각 단계의 난이도 증가가 명확한가?
+- [ ] 각 단계의 학습률과 에포크가 적절한가?
+- [ ] 이전 단계의 가중치를 이어받는가?
+- [ ] 각 단계 후 검증하는가?
+- [ ] 단계 전환이 너무 급하지 않은가?
+- [ ] 결과를 시각화하고 분석하는가?
+- [ ] 논문에서 훈련 전략을 투명하게 보고하는가?
+- [ ] 코드를 재현 가능하게 작성했는가?
+
+</div>
+
+이 12가지가 본인의 PINN 훈련을 체계화.
+
+> PINN의 훈련은 일반 신경망과 다르다. Curriculum Learning과 Multi-stage Training은 PINN이 실패하는 많은 경우에 해결책이 된다. 순진한 접근이 안 될 때 "더 큰 네트워크"나 "더 긴 훈련"이 아닌 "단계적 학습"을 먼저 시도하라. 쉬운 것부터 어려운 것으로, 짧은 시간에서 긴 시간으로, 간단한 물리에서 복잡한 물리로. 이것이 본인의 PINN 연구의 실패율을 크게 줄이고 성공률을 높인다. 박사 PINN 연구자에게 이 기술은 필수다.
