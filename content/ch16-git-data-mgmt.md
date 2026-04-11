@@ -1448,3 +1448,579 @@ To reproduce the main experiments of this thesis:
 이 이익들을 합치면 공개에 투자한 1-2주는 몇 배로 돌아온다.
 
 > 공개 저장소는 본인의 박사 연구의 가장 눈에 보이는 결과물이다. 논문은 읽는 사람이 한정되지만, GitHub 저장소는 검색에 잡히고, 포크되고, 스타가 찍힌다. 공개 준비에 1-2주를 투자하라. 그 시간이 본인의 연구의 장기적 임팩트를 결정한다. 부끄러움을 이기고, 불완전함을 받아들이고, 공개하라. 완벽한 코드를 기다리다가 공개하지 않은 코드는 없는 코드와 같다.
+
+## Git의 긴급 복구 — 삭제된 작업을 되살리는 법
+
+박사 과정 어느 날, 본인은 패닉에 빠진다. "어제 작업한 것이 사라졌다!" `git reset --hard`를 잘못 실행했거나, 브랜치를 실수로 삭제했거나, 파일을 덮어썼다. 수 시간 또는 며칠의 작업이 한순간에 사라진 것처럼 보인다. 이 순간 본인이 아는 Git 지식은 평범한 사용법뿐이고, 복구의 기술은 없다. 이것이 박사 과정의 가장 무서운 순간 중 하나다. 그러나 다행히 **Git은 대부분의 "삭제"를 복구할 수 있다**. 본인이 Git의 내부 구조를 이해하고 몇 가지 복구 명령을 알면, 패닉은 5분 안에 해결된다. 이 섹션은 Git의 긴급 복구 기술을 다룬다.
+
+<div class="highlight-box highlight-important">
+
+**"Git에서 정말 삭제되는 것은 드물다".** 본인이 작업을 "삭제했다"고 느낄 때, 대부분의 경우 Git의 내부 어딘가에 여전히 존재한다. Git은 `commit`을 "삭제"하지 않고 "참조를 잃어버림"할 뿐이다. 파일은 `.git/objects/` 폴더에 물리적으로 저장되어 있고, 본인이 찾는 방법을 알면 되살릴 수 있다. 이 사실을 이해하는 것이 복구의 첫 단계다. 패닉하지 말고, 먼저 Git의 내부 구조를 생각하라.
+
+</div>
+
+**패닉 시나리오의 6가지 유형**.
+
+박사생이 자주 겪는 Git 패닉 상황.
+
+**시나리오 1: `git reset --hard`로 커밋 지움**.
+"어제 작업을 취소하려고 했는데, 너무 많이 지웠다."
+
+**증상**: 현재 작업 디렉토리가 며칠 전 상태. 최근 커밋이 사라져 보임.
+
+**복구 가능성**: 매우 높음. `git reflog`로 바로 복구.
+
+**시나리오 2: 브랜치를 삭제함**.
+"작업이 끝났다고 생각해서 `git branch -D feature`를 했는데, 중요한 것이 있었다."
+
+**증상**: 브랜치가 목록에서 사라짐. 그 커밋들이 "orphan".
+
+**복구 가능성**: 높음. `git reflog`로 복구.
+
+**시나리오 3: 파일을 실수로 덮어씀**.
+"`git checkout file.py`로 수정을 취소했는데, 실제로는 수정을 유지하고 싶었다."
+
+**증상**: 로컬 수정이 사라짐.
+
+**복구 가능성**: 커밋되지 않은 변경은 복구 어려움. 커밋되었으면 쉬움.
+
+**시나리오 4: Merge 중 잘못된 해결**.
+"Merge conflict를 해결하다가 잘못 선택해서 양쪽 다 잃었다."
+
+**증상**: 두 브랜치의 일부 작업이 사라짐.
+
+**복구 가능성**: 중간. Merge 전 상태로 돌아가 다시 시도 가능.
+
+**시나리오 5: 잘못된 브랜치에 push**.
+"feature 브랜치에 push해야 했는데 main에 push했다."
+
+**증상**: main 브랜치가 의도하지 않은 커밋을 가짐.
+
+**복구 가능성**: 가능하지만 복잡. `git revert`나 force push 필요.
+
+**시나리오 6: Rebase 중 실패**.
+"Interactive rebase를 하다가 뭔가 꼬였다."
+
+**증상**: 브랜치 상태가 이상함. 커밋들이 섞임.
+
+**복구 가능성**: 중간. `git reflog`로 rebase 전으로.
+
+**각 시나리오에 다른 복구 도구가 필요**. 하지만 공통으로 쓰는 도구가 있다: `git reflog`.
+
+**첫 번째 구조대: `git reflog`**.
+
+`git reflog`는 Git의 "만능 복구 도구"다.
+
+**무엇인가**: Git이 브랜치 참조(HEAD, 브랜치)의 이동 히스토리를 기록한다. 본인이 한 모든 커밋, 리셋, merge, rebase가 여기 있다.
+
+**사용법**:
+```bash
+git reflog
+```
+
+**출력 예시**:
+```
+a1b2c3d (HEAD -> main) HEAD@{0}: commit: Fix bug in training
+d4e5f6g HEAD@{1}: reset: moving to HEAD~1
+h7i8j9k HEAD@{2}: commit: Add new experiment  ← 사라진 커밋
+l0m1n2o HEAD@{3}: commit: Update README
+...
+```
+
+**복구 방법**:
+본인이 되살리고 싶은 상태의 해시를 확인한 후:
+```bash
+git reset --hard h7i8j9k
+```
+
+또는 그 상태로 새 브랜치를 만듦:
+```bash
+git branch recovery h7i8j9k
+git checkout recovery
+```
+
+**핵심**: `git reflog`는 로컬에만 존재. 다른 컴퓨터로 push해도 reflog는 안 간다. 본인의 로컬 저장소에서만 복구 가능.
+
+**reflog의 유효 기간**:
+- 기본: 90일 (연결된 commit), 30일 (연결되지 않은 commit)
+- 이 기간 내에 복구 가능
+- 이후는 `git gc`로 완전 삭제
+
+**즉시 복구**: 문제를 깨달으면 바로 `git reflog`. 시간이 지나면 복구가 어려워진다.
+
+**구체적 복구 예시 — 시나리오별**.
+
+**예시 1: `git reset --hard`로 커밋 지웠을 때**.
+
+```bash
+# 어제 중요한 커밋을 했는데
+git commit -m "Important experiment results"
+# 오늘 실수로 reset
+git reset --hard HEAD~3
+# 아! 3개 커밋이 사라짐
+
+# 복구
+git reflog
+# HEAD@{0}: reset: moving to HEAD~3
+# HEAD@{1}: commit: Important experiment results  ← 이것!
+# HEAD@{2}: commit: Earlier work
+# ...
+
+# 복구
+git reset --hard HEAD@{1}
+# 또는 해시로
+git reset --hard abc1234
+```
+
+**5분 내 완전 복구**.
+
+**예시 2: 브랜치 삭제 후 복구**.
+
+```bash
+# 브랜치 삭제
+git branch -D feature-x
+
+# 복구
+git reflog
+# HEAD@{0}: checkout: moving from feature-x to main
+# HEAD@{1}: commit (on feature-x): Last commit of feature-x
+# ...
+
+# feature-x 브랜치를 그 시점에 재생성
+git branch feature-x HEAD@{1}
+git checkout feature-x
+```
+
+**완전 복구**.
+
+**예시 3: 잘못된 Merge 복구**.
+
+```bash
+# Merge 실행
+git merge feature-branch
+# 결과가 이상해서 취소하고 싶음
+
+# 옵션 1: merge 직후라면
+git reset --hard HEAD~1  # merge commit을 없앰
+
+# 옵션 2: 이미 다른 작업 후라면
+git revert -m 1 <merge-commit-hash>  # merge를 되돌리는 새 커밋
+```
+
+**예시 4: 커밋하지 않은 변경 복구**.
+
+이것이 가장 어렵다. 커밋되지 않은 변경은 reflog에 없다.
+
+```bash
+# 실수로 변경 취소
+git checkout file.py  # 로컬 변경이 사라짐
+
+# 복구 시도
+git stash list  # 혹시 stash에 있는지
+git fsck --lost-found  # orphan 객체 찾기
+```
+
+**보통 복구 불가**. 이것이 "자주 커밋하기"의 중요성. 작은 단위로 커밋해야 이런 사고를 방지.
+
+**예시 5: 잘못된 브랜치에 push**.
+
+```bash
+# 실수로 main에 push
+git push origin main  # 어제 feature 작업을 main에 올림
+
+# 복구 (팀과 조율 필요!)
+git checkout main
+git reset --hard HEAD~3  # 로컬에서 커밋 제거
+git push origin main --force-with-lease  # 강제 push
+
+# 안전한 대안: revert
+git revert HEAD~2..HEAD  # 취소 커밋 생성
+git push origin main
+```
+
+**경고**: `git push --force`는 다른 팀원의 작업을 덮어쓸 수 있다. `--force-with-lease`가 더 안전.
+
+**예시 6: Rebase 중 실패**.
+
+```bash
+# Interactive rebase 중 잘못 편집
+git rebase -i HEAD~5
+# 뭔가 꼬였다!
+
+# 복구
+git rebase --abort  # rebase 진행 중이면 취소
+# 또는
+git reflog  # rebase 전으로 돌아가기
+git reset --hard HEAD@{N}  # N은 rebase 시작 전의 번호
+```
+
+**`git fsck`와 orphan 객체 복구**.
+
+`git fsck`는 Git 저장소의 무결성을 검사하면서 "고아" 객체를 찾는다.
+
+**사용법**:
+```bash
+git fsck --lost-found
+```
+
+**결과 예시**:
+```
+dangling commit a1b2c3d4e5f6...
+dangling blob 1234567890...
+```
+
+**"dangling commit"**: 어떤 브랜치나 태그에도 연결되지 않은 커밋. 잃어버린 작업일 수 있음.
+
+**확인**:
+```bash
+git show a1b2c3d4e5f6
+```
+
+**복구**:
+```bash
+git branch recovered a1b2c3d4e5f6
+git checkout recovered
+```
+
+**"dangling blob"**: 커밋되지 않은 파일 내용. 드물게 유용.
+
+**사용 시기**: `reflog`가 작동하지 않거나, 오래된 것을 찾을 때.
+
+**주의**: `git gc`가 이미 실행되었으면 dangling 객체도 삭제됨. 복구 불가.
+
+**`git stash`의 복구**.
+
+Stash는 임시 저장이지만 실수로 drop할 수 있다.
+
+```bash
+git stash drop  # 실수!
+
+# 복구
+git fsck --unreachable | grep commit
+# unreachable commits 중 stash 찾기
+git show <hash>
+
+# 복구
+git stash apply <hash>
+```
+
+**Stash 복구 팁**: 중요한 stash는 꼬리표를 붙이자:
+```bash
+git stash save "important feature WIP"
+git stash list
+```
+
+이러면 나중에 찾기 쉽다.
+
+**로컬 변경의 백업 전략**.
+
+Git의 복구는 커밋된 것만 가능하다. 커밋되지 않은 변경은 복구 어렵다. 이것을 방지하는 습관.
+
+**습관 1: 자주 커밋**.
+완벽하지 않아도 자주 커밋. "WIP" (Work In Progress) 커밋도 OK. 나중에 squash하거나 rebase.
+
+```bash
+# 매 30분마다
+git add -A
+git commit -m "WIP: working on X"
+```
+
+**습관 2: Stash 활용**.
+일시적으로 저장할 때 stash.
+```bash
+git stash  # 로컬 변경을 stash로
+git stash pop  # 다시 가져오기
+```
+
+**습관 3: 브랜치 자주 생성**.
+새 시도는 새 브랜치로. 망쳐도 원래 브랜치가 안전.
+```bash
+git checkout -b experiment-new-approach
+```
+
+**습관 4: Push 자주**.
+로컬에 있는 것은 디스크 실패 시 잃을 수 있다. 원격에 push하면 2중 백업.
+```bash
+git push origin feature-branch
+```
+
+**습관 5: 이중 원격**.
+GitHub + GitLab 등 두 원격 저장소에 동시에 push. 한 서비스가 다운되어도 안전.
+```bash
+git remote add backup git@gitlab.com:user/repo.git
+git push origin main
+git push backup main
+```
+
+**이런 습관이 "복구"를 거의 필요 없게** 만든다.
+
+**Git의 내부 구조 이해**.
+
+복구를 잘하려면 Git의 내부를 이해해야 한다.
+
+**핵심 개념**:
+
+**1. 객체 (Objects)**:
+Git이 저장하는 모든 것은 객체다. 4가지 유형:
+- **blob**: 파일 내용
+- **tree**: 디렉토리 구조
+- **commit**: 스냅샷 + 메타데이터
+- **tag**: 특정 커밋의 이름
+
+**저장 위치**: `.git/objects/`
+
+**특징**: 객체는 SHA-1 해시로 식별. 한 번 만들어지면 내용이 변하지 않음 (immutable).
+
+**2. 참조 (References)**:
+객체를 가리키는 이름.
+- **브랜치**: `.git/refs/heads/main`
+- **태그**: `.git/refs/tags/v1.0`
+- **HEAD**: 현재 위치. `.git/HEAD`
+
+**삭제의 의미**: 참조를 지우는 것. 객체 자체는 여전히 존재.
+
+**3. 도달 가능성 (Reachability)**:
+어떤 참조(브랜치, 태그, HEAD, reflog)에서 도달 가능한 객체는 안전. 도달 불가능한 객체는 `git gc`의 대상.
+
+**4. Garbage Collection (`git gc`)**:
+도달 불가능한 객체를 삭제. 자동으로 실행되거나 수동으로:
+```bash
+git gc
+```
+
+**복구의 원리**: `git gc` 전에는 대부분의 "삭제된" 객체가 여전히 존재. 도달 경로를 재구축하면 복구.
+
+**이 이해가 없으면** 복구가 마법처럼 보이고 실패할 수 있다. 이 지식이 본인을 "Git 사용자"에서 "Git 이해자"로 업그레이드.
+
+**복구 도구의 최종 정리**.
+
+복구에 쓰는 Git 명령들.
+
+**조회 명령**:
+- `git reflog`: 참조 이동 히스토리
+- `git fsck --lost-found`: 고아 객체 찾기
+- `git log --all --oneline --source`: 모든 브랜치의 로그
+- `git show <hash>`: 특정 객체 확인
+- `git cat-file -p <hash>`: 객체의 내용
+
+**복구 명령**:
+- `git reset --hard <commit>`: 현재 브랜치를 특정 커밋으로
+- `git branch <name> <commit>`: 특정 커밋에 새 브랜치 생성
+- `git cherry-pick <commit>`: 특정 커밋만 현재 브랜치에 적용
+- `git stash apply <hash>`: stash 복구
+- `git revert <commit>`: 커밋의 반대 커밋 생성
+
+**경고 명령** (신중하게):
+- `git push --force`: 원격을 덮어씀. 팀에 영향.
+- `git push --force-with-lease`: 더 안전한 force
+- `git clean -fd`: 추적되지 않는 파일 삭제. 복구 불가.
+
+**일반 원칙**:
+1. **먼저 reflog 확인**
+2. **시도 전에 백업** (현재 상태를 다른 브랜치로)
+3. **확실하지 않으면 지도교수/동료에게**
+4. **"가장 간단한 해결부터"**
+
+**복구 연습 — 안전한 환경에서**.
+
+실제 프로젝트에서 복구를 시도하기 전에 연습.
+
+**연습용 저장소 만들기**:
+```bash
+mkdir git-recovery-practice
+cd git-recovery-practice
+git init
+echo "file 1" > file1.txt
+git add .
+git commit -m "Initial"
+echo "file 2" > file2.txt
+git add .
+git commit -m "Second"
+echo "file 3" > file3.txt
+git add .
+git commit -m "Third"
+```
+
+**연습 1: Reset 복구**.
+```bash
+# 실수 시뮬레이션
+git reset --hard HEAD~2  # 2개 커밋 삭제
+
+# 복구
+git reflog
+git reset --hard HEAD@{1}  # 복구
+```
+
+**연습 2: 브랜치 삭제 복구**.
+```bash
+git checkout -b feature
+echo "feature" > feature.txt
+git add .
+git commit -m "Feature"
+git checkout main
+git branch -D feature  # 삭제
+
+# 복구
+git reflog
+git branch feature <hash>  # 복구
+```
+
+**연습 3: Force push 실수**.
+(원격 저장소 시뮬레이션)
+
+이런 연습을 통해 본인의 복구 기술을 연마. 실제 사고 시 당황하지 않음.
+
+**GitHub/GitLab의 추가 안전망**.
+
+로컬 복구가 실패해도 원격 저장소가 도움을 줄 수 있다.
+
+**GitHub의 "Activity" 페이지**:
+저장소의 최근 활동. 삭제된 브랜치의 이름과 커밋 해시가 여기 있을 수 있다.
+
+**GitHub Events API**:
+```
+https://api.github.com/repos/USER/REPO/events
+```
+push, delete, create 등의 이벤트 확인.
+
+**GitHub의 "Code" 검색**:
+삭제된 파일이 있었다면, GitHub 검색으로 그 내용을 찾을 수 있다 (public repo).
+
+**Pull Request의 보호**:
+삭제된 브랜치도 PR이 있었다면 PR 페이지에서 복구 가능.
+
+**GitLab의 "Activity" + "Events"**:
+유사한 기능.
+
+**원칙**: 원격에 push된 것은 로컬에서 삭제해도 원격에서 복구 가능. 그래서 "자주 push"가 중요.
+
+**협업 중 복구 — 팀에 영향을 주지 않게**.
+
+혼자 쓰는 저장소가 아니라 팀과 협업 중이라면 복구가 더 복잡하다.
+
+**원칙 1: 팀과 소통**.
+"실수로 X를 했습니다. 복구하려고 합니다. 잠시 push를 기다려 주세요."
+
+**원칙 2: Force push 지양**.
+`git push --force`는 다른 사람의 작업을 덮어쓸 수 있다. 사용 전에 반드시 팀과 상의.
+
+**원칙 3: 개인 브랜치에서 실험**.
+복구가 복잡한 경우 본인의 개인 브랜치에서 실험. main이나 공유 브랜치에서 직접 하지 말자.
+
+**원칙 4: Revert 선호**.
+이미 push된 것은 `git revert`로 "취소 커밋"을 만드는 것이 안전. 히스토리를 재작성하지 않음.
+
+**원칙 5: 최악의 경우**.
+복구가 불가능하면 솔직히 인정하고 다시 작성. 팀에 사과하고 교훈을 얻음.
+
+**데이터 파일의 복구**.
+
+Git-LFS나 DVC로 관리되는 데이터 파일의 복구.
+
+**Git-LFS**:
+```bash
+# 파일 포인터 복구
+git reflog
+git checkout <commit> -- path/to/file
+# 실제 파일 다운로드
+git lfs pull
+```
+
+**DVC**:
+```bash
+# DVC는 자체 버전 관리
+dvc list --show-json
+dvc checkout <commit>
+```
+
+**원칙**: 데이터 파일은 코드보다 복구가 어렵다. 외부 백업이 필수.
+
+**"복구 불가능한" 상황들**.
+
+솔직한 인정: 일부 상황은 복구 불가.
+
+**복구 불가 시나리오**:
+
+1. **`git gc` 실행 후**: 도달 불가능 객체가 완전 삭제. 복구 불가.
+2. **`.git` 폴더 자체 삭제**: 모든 히스토리 손실.
+3. **디스크 손상**: Git의 범위 밖.
+4. **`git clean -fd`로 삭제된 추적 안 되는 파일**: 복구 불가.
+5. **오래된 reflog**: 90일 이후 자동 삭제.
+
+**이런 경우의 대응**:
+1. **외부 백업 확인**: 클라우드, 외장 디스크
+2. **원격 저장소 확인**: GitHub, GitLab
+3. **동료의 로컬 복사본**: 혹시 누군가 clone 했는지
+4. **다시 작성**: 교훈과 함께 받아들임
+
+**예방의 중요성**: 복구는 최후의 수단. 예방이 훨씬 낫다.
+
+**평상시 예방 체크리스트**.
+
+복구가 필요하지 않게 하는 습관.
+
+<div class="highlight-box highlight-info">
+
+**Git 안전 체크리스트**
+
+- [ ] 매일 1회 이상 커밋하는가?
+- [ ] 매 2-3일에 원격으로 push하는가?
+- [ ] 실험적 작업은 새 브랜치에서 하는가?
+- [ ] `git reset --hard` 전에 한 번 더 생각하는가?
+- [ ] `git push --force` 전에 팀과 상의하는가?
+- [ ] 이중 원격 저장소 (GitHub + 다른 곳)를 쓰는가?
+- [ ] 로컬 외 백업 (외장 하드, 클라우드)을 가지는가?
+- [ ] `.gitignore`를 제대로 설정했는가?
+- [ ] Git 내부 구조를 대략 이해하는가?
+- [ ] `git reflog`를 아는가?
+- [ ] 복구 연습을 해봤는가?
+- [ ] 비밀 정보를 커밋하지 않는가?
+
+</div>
+
+이 12가지가 본인의 Git 작업을 안전하게 유지한다.
+
+**복구 경험의 기록**.
+
+실제 복구 경험을 기록하면 미래의 본인과 후배에게 도움이 된다.
+
+**복구 일지 예시**:
+```
+2026-04-15
+
+상황: git reset --hard HEAD~5로 5일 작업을 "삭제"함
+원인: 최근 5개 커밋 중 3개를 취소하려 했는데 실수로 5개 모두
+
+발견 시간: 실수 후 2분
+
+복구 과정:
+1. 패닉 → 심호흡 → "git reflog"
+2. reflog에서 문제 전 상태 확인 (HEAD@{5})
+3. git reset --hard HEAD@{5}
+4. 완전 복구
+
+소요 시간: 5분
+
+교훈:
+- reset 전에 현재 상태를 브랜치로 저장
+- 여러 커밋을 취소할 때는 --hard 대신 --soft 사용
+- reflog의 존재를 기억
+```
+
+이 일지가 후배에게 "나도 이런 실수를 했지만 복구했다"의 용기를 준다.
+
+**Git의 철학 — 복구 가능한 설계**.
+
+Git은 설계 자체가 "복구 가능"을 지향한다.
+
+**Git의 설계 원칙**:
+1. **객체 불변성**: 만들어진 객체는 변하지 않음. 내용 기반 해싱.
+2. **참조 기반**: "삭제"는 참조를 지우는 것. 객체는 남음.
+3. **분산**: 여러 복사본이 있음. 한 곳이 손상되어도 다른 곳에서 복구.
+4. **시간 여유**: 자동 삭제 전 90일의 여유.
+
+**이것을 이해하면** Git이 덜 무섭게 느껴진다. "실수해도 대부분 복구 가능"의 안심.
+
+**그러나 조심은 필요**: Git이 모든 것을 복구할 수는 없다. 신중한 사용이 여전히 중요.
+
+> Git 복구 기술은 박사 과정의 생존 기술이다. 누구나 한두 번 "모든 것을 잃었다"는 순간을 겪는다. 그 순간 패닉하는 학생과 침착히 reflog를 보는 학생의 차이가 몇 시간 vs 몇 주의 작업 손실을 결정한다. 본인의 Git 지식에 "복구"를 추가하라. 평상시 habit (자주 커밋, 자주 push, 브랜치 활용)으로 사고를 예방하고, 사고가 나면 reflog로 침착히 복구한다. 이 기술이 박사 5-7년의 작업을 안전하게 지킨다.
