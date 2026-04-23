@@ -1616,7 +1616,7 @@ Method B & 91.234 & 0.567 \\
 
 - `\multirow{2}{*}{내용}`: 2행에 걸친 셀
 - `\multicolumn{2}{c}{내용}`: 2열에 걸친 셀
-- `\cmidrule{3-4}`: 3~4열에만 선
+- `\cmidrule{3-4}`: 3-4열에만 선
 
 **긴 표 — longtable**.
 

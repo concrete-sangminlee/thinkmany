@@ -572,7 +572,7 @@ mpirun -np 32 python my_simulation.py > result.txt
 
 4. **Jacobian**: 요소가 수학적으로 유효한지 판정. 음수 Jacobian은 요소가 뒤집힌 것이고, 해석이 시작조차 되지 않는다.
 
-5. **요소 크기 비율(Growth Rate)**: 인접 요소의 크기 차이. 1.2~1.5 이내가 이상적. 갑작스런 크기 변화는 수치 오차를 만든다.
+5. **요소 크기 비율(Growth Rate)**: 인접 요소의 크기 차이. 1.2-1.5 이내가 이상적. 갑작스런 크기 변화는 수치 오차를 만든다.
 
 각 해석 도구가 품질 임계값을 다르게 요구한다. ANSYS Fluent는 skewness < 0.95, ANSYS Mechanical은 < 0.98, OpenFOAM은 non-orthogonality < 70도 등. 쓰는 도구의 권장 기준을 먼저 확인한다.
 
