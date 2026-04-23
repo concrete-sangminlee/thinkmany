@@ -669,7 +669,11 @@ Discussion의 첫 단락은 특히 중요하다. 다음 5문장 템플릿을 참
 
 예시:
 
-> "In this study, we investigated whether physics-informed neural networks can outperform traditional finite element methods in fatigue life prediction under variable loading. Our results show that PINN achieves a mean absolute error of 0.18 log-cycles, a 35% improvement over the rainflow-counting baseline. This confirms our hypothesis that incorporating physical constraints into the loss function provides a strong inductive bias for this task. These findings extend prior work by Smith et al. (2022), who showed similar benefits in static loading conditions, to the more complex regime of variable amplitude loading. In the following sections, we discuss the mechanism behind this improvement, its limitations under extreme conditions, and implications for structural design practice."
+> "In this study, we investigated whether physics-informed neural networks can outperform traditional finite element methods in fatigue life prediction under variable loading.
+> Our results show that PINN achieves a mean absolute error of 0.18 log-cycles, a 35% improvement over the rainflow-counting baseline.
+> This confirms our hypothesis that incorporating physical constraints into the loss function provides a strong inductive bias for this task.
+> These findings extend prior work by Smith et al. (2022), who showed similar benefits in static loading conditions, to the more complex regime of variable amplitude loading.
+> In the following sections, we discuss the mechanism behind this improvement, its limitations under extreme conditions, and implications for structural design practice."
 
 이 한 단락이 전체 Discussion의 요약과 방향을 제시한다.
 
@@ -690,7 +694,7 @@ Discussion의 첫 단락은 특히 중요하다. 다음 5문장 템플릿을 참
 Discussion을 쓰기 전에 다음을 준비한다.
 
 1. **결과를 한눈에 볼 수 있는 요약표**: 모든 수치 결과를 한 페이지에 정리.
-2. **관련 선행 연구 10-20편의 요약**: 각 논문의 핵심 결과와 결과와의 관계.
+2. **관련 선행 연구 10-20편의 요약**: 각 논문의 핵심 결과와 본 연구 결과의 관계.
 3. **"So what?" 3가지 답**: 결과가 왜 중요한지 3가지 이유를 미리 정리.
 4. **예상 비판 목록**: 리뷰어라면 어떤 약점을 지적할지 5-10개 적어본다.
 

@@ -315,7 +315,7 @@ CV 첨부: 학계 연락 시 CV를 첨부하면 상대방이 자신의 배경을
 <div class="timeline-item">
 <div class="timeline-label">3-5월</div>
 <div class="timeline-title">국내에서 기반을 다진다</div>
-<div class="timeline-desc">봄 학기 국내 학회에 적극 참석한다. 관심 있는 연구실에 방문 요청 이메일을 보낸다(방문 연구, 세미나 참석 등). 같은 분야 타 대학 대학원생들과 스터디 그룹이나 독서 모임을 시작한다. 학과 내 콜로키움이나 초청 세미나에 빠지지 않고 참석하며 발표자에게 질문한다.</div>
+<div class="timeline-desc">봄 학기 국내 학회에 적극 참석한다. 관심 있는 연구실에 방문 요청 이메일을 보낸다(방문 연구, 세미나 참석 등). 같은 분야의 다른 대학원생들과 스터디 그룹이나 독서 모임을 시작한다. 학과 내 콜로키움이나 초청 세미나에 빠지지 않고 참석하며 발표자에게 질문한다.</div>
 </div>
 <div class="timeline-item">
 <div class="timeline-label">6-8월</div>
