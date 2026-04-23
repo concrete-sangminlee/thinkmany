@@ -1097,28 +1097,28 @@ Subject: Request for dataset used in [paper title] (short paper ref)
 
 Dear Dr. [저자 이름],
 
-I am [본인 이름], a PhD student at [소속] working on 
+I am [본인 이름], a PhD student at [소속] working on
 [연구 분야] under Prof. [지도교수].
 
-I read your paper "[논문 제목]" (저널, 연도) with great 
-interest, particularly your approach to [구체적 부분]. 
-Your work has directly influenced my current research on 
+I read your paper "[논문 제목]" (저널, 연도) with great
+interest, particularly your approach to [구체적 부분].
+Your work has directly influenced my current research on
 [본인 연구 주제].
 
-I am writing to ask whether I could access the dataset 
-you used in [논문의 구체적 부분, 예: Section 4.2 or 
-Figure 5] for my research. Specifically, I would like 
+I am writing to ask whether I could access the dataset
+you used in [논문의 구체적 부분, 예: Section 4.2 or
+Figure 5] for my research. Specifically, I would like
 to [구체적 용도] to explore [본인의 연구 질문].
 
-I fully understand if there are restrictions or 
+I fully understand if there are restrictions or
 conditions on sharing this data. I am happy to:
 - Sign any data use agreement
 - Acknowledge your contribution in publications
 - Provide you with my results as they emerge
 - Discuss potential collaboration if appropriate
 
-If direct sharing is not possible, I would also 
-appreciate any guidance on alternative sources or 
+If direct sharing is not possible, I would also
+appreciate any guidance on alternative sources or
 related datasets.
 
 Thank you for your time and consideration.
@@ -1217,11 +1217,11 @@ Best regards,
 ```
 Dear [요청자 이름],
 
-Thank you for your interest in our work and for your 
-kind words about the paper. I am happy to share the 
+Thank you for your interest in our work and for your
+kind words about the paper. I am happy to share the
 dataset used in [구체적 부분].
 
-I have uploaded the data to [URL/Google Drive/Dropbox]. 
+I have uploaded the data to [URL/Google Drive/Dropbox].
 You will find:
 - [파일명 1]: [설명]
 - [파일명 2]: [설명]
@@ -1233,12 +1233,12 @@ A few notes on the data:
 - [알려진 한계]
 
 I kindly request that you:
-1. Cite our paper in any publications using this data 
+1. Cite our paper in any publications using this data
    (BibTeX attached)
 2. Acknowledge the data source in acknowledgments
 
-I would be interested to hear about your findings 
-when your work progresses. Please feel free to reach 
+I would be interested to hear about your findings
+when your work progresses. Please feel free to reach
 out if you have any questions about the data.
 
 Best wishes for your research,
@@ -1249,20 +1249,20 @@ Best wishes for your research,
 ```
 Dear [요청자 이름],
 
-Thank you for your interest in our dataset. I appreciate 
+Thank you for your interest in our dataset. I appreciate
 your thoughtful request.
 
-Unfortunately, I am unable to share the full dataset at 
-this time because [구체적 이유, 예: ongoing follow-up 
-research, industrial confidentiality, ethical constraints]. 
+Unfortunately, I am unable to share the full dataset at
+this time because [구체적 이유, 예: ongoing follow-up
+research, industrial confidentiality, ethical constraints].
 
 However, I can suggest the following alternatives:
 - [공개 데이터셋 링크]
 - [유사한 다른 연구자의 데이터]
 - [데이터의 일부만 제공 가능]
 
-I hope these alternatives are helpful. Please feel free 
-to reach out if you would like to discuss potential 
+I hope these alternatives are helpful. Please feel free
+to reach out if you would like to discuss potential
 collaboration that would allow broader data access.
 
 Best regards,
@@ -1467,7 +1467,7 @@ Best regards,
 Title: Memory leak in DataLoader with num_workers > 0
 
 Description:
-When using PyTorch DataLoader with num_workers > 0, memory 
+When using PyTorch DataLoader with num_workers > 0, memory
 increases steadily over iterations and is never released.
 
 To reproduce:

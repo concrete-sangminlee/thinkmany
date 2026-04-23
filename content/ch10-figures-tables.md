@@ -1852,8 +1852,8 @@ Overview Figure는 발표에서도 매우 유용.
 
 **캡션에서의 설명**:
 ```
-Figure 3. Experimental results. (a) Stress distribution 
-at t=0. (b) Stress distribution at t=5s. (c) Maximum 
+Figure 3. Experimental results. (a) Stress distribution
+at t=0. (b) Stress distribution at t=5s. (c) Maximum
 stress vs time. (d) Comparison with analytical solution.
 ```
 
@@ -2564,7 +2564,7 @@ hash: abc123...
 **Figure 내 메타데이터**:
 ```python
 # Figure의 footer에 버전 표시 (개발 중에만)
-fig.text(0.01, 0.01, f'Data: {version}, Generated: {datetime}', 
+fig.text(0.01, 0.01, f'Data: {version}, Generated: {datetime}',
          fontsize=6, color='gray')
 ```
 
@@ -2817,7 +2817,7 @@ output/figures/fig2_exp1_results.pdf: output/data/exp1.pkl src/figures/fig2_exp1
 all: $(FIGURES) paper/main.pdf
 ```
 
-**결과**: 
+**결과**:
 - 데이터 하나 수정 → `make` → 관련 Figure만 재생성
 - 스타일 변경 → `make figures` → 모든 Figure 재생성
 - 논문 컴파일 → `make` → 최종 PDF

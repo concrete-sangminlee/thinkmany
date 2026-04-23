@@ -1184,10 +1184,10 @@ ChatGPT에게 코드를 복사-붙여넣기 하는 시대는 지났다. 2024-202
 
 **예시 프롬프트**:
 ```
-I'm doing a systematic literature review on physics-informed 
-neural networks (PINNs) for structural health monitoring. 
-Suggest 10-15 search term combinations that would capture 
-relevant papers from 2019-2026, including synonyms and 
+I'm doing a systematic literature review on physics-informed
+neural networks (PINNs) for structural health monitoring.
+Suggest 10-15 search term combinations that would capture
+relevant papers from 2019-2026, including synonyms and
 related terms from adjacent fields.
 ```
 
@@ -1198,10 +1198,10 @@ related terms from adjacent fields.
 
 **프롬프트 예시**:
 ```
-Below is the abstract of a paper. My review focuses on 
-physics-informed neural networks specifically for structural 
-health monitoring (e.g., damage detection, crack identification 
-in civil structures). 
+Below is the abstract of a paper. My review focuses on
+physics-informed neural networks specifically for structural
+health monitoring (e.g., damage detection, crack identification
+in civil structures).
 
 Please classify this paper into one of three categories:
 1. HIGHLY RELEVANT: Directly addresses PINN for SHM
@@ -1232,7 +1232,7 @@ Abstract: [붙여넣기]
 
 **프롬프트 예시**:
 ```
-Below is a research paper on PINN for structural health 
+Below is a research paper on PINN for structural health
 monitoring. Extract the following information in JSON format:
 
 {
@@ -1248,8 +1248,8 @@ monitoring. Extract the following information in JSON format:
   "key_limitation": ""
 }
 
-If a field is not mentioned, use "NOT_REPORTED". Base your 
-extraction strictly on what is written in the paper; do not 
+If a field is not mentioned, use "NOT_REPORTED". Base your
+extraction strictly on what is written in the paper; do not
 infer or guess.
 
 Paper text: [붙여넣기]
@@ -1455,13 +1455,13 @@ LLM의 역할: 더 큰 비중. 검증만 해도 진행 가능.
 
 **예시 문구**:
 ```
-Methodology: Literature search was conducted using [database] 
-with the search terms suggested by GPT-4. Title/abstract 
-screening was performed with Claude 3 Opus (verified by 
-manual review of 15% sample, 93% agreement). Information 
-extraction from full-text papers used the same model with 
-a structured JSON schema, verified against original papers. 
-Final synthesis and interpretation are the authors' own, 
+Methodology: Literature search was conducted using [database]
+with the search terms suggested by GPT-4. Title/abstract
+screening was performed with Claude 3 Opus (verified by
+manual review of 15% sample, 93% agreement). Information
+extraction from full-text papers used the same model with
+a structured JSON schema, verified against original papers.
+Final synthesis and interpretation are the authors' own,
 informed by direct reading of 50 key papers.
 ```
 
@@ -1608,7 +1608,7 @@ ch26의 앞부분에서 다룬 RAG를 문헌 검토에 결합.
 
 **예시 프롬프트**:
 ```
-Attached is sensor_data.csv from bridge monitoring. 
+Attached is sensor_data.csv from bridge monitoring.
 Please:
 1. Show basic statistics
 2. Check for missing values
@@ -1933,10 +1933,10 @@ LLM 데이터 분석의 비용.
 - 결과의 책임
 
 **예시 문구**:
-"Data analysis and visualization were performed using Python 
-with assistance from ChatGPT (GPT-4). All LLM-generated 
-code was executed locally, and results were verified against 
-independent calculations. The authors take full responsibility 
+"Data analysis and visualization were performed using Python
+with assistance from ChatGPT (GPT-4). All LLM-generated
+code was executed locally, and results were verified against
+independent calculations. The authors take full responsibility
 for the final analyses and interpretations."
 
 **원칙**: 투명성. 숨기지 말자. 학계의 기대가 증가.

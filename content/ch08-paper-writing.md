@@ -784,9 +784,9 @@ Discussion 초안을 쓴 후 다음 질문으로 검토한다.
 
 ```
 2. Related Work
-  The early work on X focused on [approach A]. 
-  Starting in [year], researchers shifted to [approach B] because [reason]. 
-  Recent years have seen the emergence of [approach C], driven by [advance]. 
+  The early work on X focused on [approach A].
+  Starting in [year], researchers shifted to [approach B] because [reason].
+  Recent years have seen the emergence of [approach C], driven by [advance].
   Our work builds on this trajectory by [contribution].
 ```
 
@@ -803,12 +803,12 @@ Discussion 초안을 쓴 후 다음 질문으로 검토한다.
   - Accuracy vs Speed
   - Supervision level
   - Scalability
-  
+
   Methods that prioritize accuracy [1, 2, 3]
   Methods that prioritize speed [4, 5, 6]
   ...
-  
-  Table 1 summarizes these trade-offs. Our work 
+
+  Table 1 summarizes these trade-offs. Our work
   achieves [X] by [Y].
 ```
 
@@ -864,12 +864,12 @@ Related Work가 다음 신호를 보이면 재작성 필요.
 
 **예시**:
 ```
-"Machine learning for structural health monitoring has evolved 
-over the past decade. Early work used handcrafted features with 
-traditional classifiers [1-5]. The rise of deep learning enabled 
-end-to-end approaches [6-10]. Recently, physics-informed 
-methods have gained attention [11-15]. Within physics-informed 
-approaches, [specific technique] has been particularly promising 
+"Machine learning for structural health monitoring has evolved
+over the past decade. Early work used handcrafted features with
+traditional classifiers [1-5]. The rise of deep learning enabled
+end-to-end approaches [6-10]. Recently, physics-informed
+methods have gained attention [11-15]. Within physics-informed
+approaches, [specific technique] has been particularly promising
 [16-20]. Our work extends this line by [contribution]."
 ```
 
@@ -880,11 +880,11 @@ approaches, [specific technique] has been particularly promising
 
 **예시**:
 ```
-"While [Method A] achieves high accuracy on X, it fails on Y. 
-[Method B] addresses Y but requires large amounts of labeled data. 
-[Method C] reduces the data requirement but cannot handle Z. 
-Thus, there remains a gap: no existing method handles X, Y, 
-and Z simultaneously with minimal supervision. Our work fills 
+"While [Method A] achieves high accuracy on X, it fails on Y.
+[Method B] addresses Y but requires large amounts of labeled data.
+[Method C] reduces the data requirement but cannot handle Z.
+Thus, there remains a gap: no existing method handles X, Y,
+and Z simultaneously with minimal supervision. Our work fills
 this gap."
 ```
 
@@ -909,9 +909,9 @@ this gap."
 
 **예시**:
 ```
-"The closest work to ours is [Smith et al., 2024]. They proposed 
-[their method] for [their problem]. However, their approach 
-assumes [limitation], which does not hold in [our setting]. 
+"The closest work to ours is [Smith et al., 2024]. They proposed
+[their method] for [their problem]. However, their approach
+assumes [limitation], which does not hold in [our setting].
 We address this by [our approach]."
 ```
 
@@ -922,12 +922,12 @@ We address this by [our approach]."
 
 **예시**:
 ```
-"Existing approaches fall into three categories: (1) rule-based 
-methods [1, 2], (2) statistical methods [3-5], and (3) 
-learning-based methods [6-10]. Rule-based methods are 
-interpretable but limited in complex scenarios. Statistical 
-methods handle uncertainty well but assume specific 
-distributions. Learning-based methods are flexible but 
+"Existing approaches fall into three categories: (1) rule-based
+methods [1, 2], (2) statistical methods [3-5], and (3)
+learning-based methods [6-10]. Rule-based methods are
+interpretable but limited in complex scenarios. Statistical
+methods handle uncertainty well but assume specific
+distributions. Learning-based methods are flexible but
 require large datasets."
 ```
 
@@ -935,10 +935,10 @@ require large datasets."
 핵심 논문은 자세히, 주변 논문은 짧게.
 
 ```
-"[Smith et al., 2024] introduced the first framework for X, 
-showing that [key insight]. This opened up a new direction of 
-research [3-8]. Subsequent work has explored various extensions 
-[9-12], including [specific example]. Our approach differs 
+"[Smith et al., 2024] introduced the first framework for X,
+showing that [key insight]. This opened up a new direction of
+research [3-8]. Subsequent work has explored various extensions
+[9-12], including [specific example]. Our approach differs
 from these in two key ways..."
 ```
 
@@ -984,9 +984,9 @@ Google Scholar, Semantic Scholar에서 관련 논문 수집. 30-50편의 후보.
 
 **예시**:
 ```
-"Building on the seminal work of Smith et al. [1], several 
-researchers have explored extensions [2-8]. Most notably, 
-Jones et al. [5] introduced [specific technique]. Our work 
+"Building on the seminal work of Smith et al. [1], several
+researchers have explored extensions [2-8]. Most notably,
+Jones et al. [5] introduced [specific technique]. Our work
 differs from these by..."
 ```
 

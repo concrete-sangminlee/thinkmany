@@ -1875,7 +1875,7 @@ GNN은 표준 딥러닝과 다른 문제들이 있다.
 **도전 3: 과평활화 (Over-smoothing)**.
 레이어가 너무 많으면 모든 노드의 표현이 비슷해짐. 구분력 상실.
 
-**해결**: 
+**해결**:
 - 레이어 수 제한 (보통 2-4)
 - Residual connections
 - Jumping knowledge
@@ -1945,7 +1945,7 @@ class GCN(torch.nn.Module):
         super().__init__()
         self.conv1 = GCNConv(2, 16)
         self.conv2 = GCNConv(16, 2)
-    
+
     def forward(self, x, edge_index):
         x = self.conv1(x, edge_index).relu()
         x = self.conv2(x, edge_index)

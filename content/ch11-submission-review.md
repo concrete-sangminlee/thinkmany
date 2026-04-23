@@ -1157,9 +1157,9 @@ Subject: Inquiry about manuscript [ID]
 
 Dear Dr. [Editor],
 
-I am writing to kindly inquire about the status of 
-manuscript [ID], "[Title]", submitted on [Date]. I 
-understand review processes take time, but I wanted 
+I am writing to kindly inquire about the status of
+manuscript [ID], "[Title]", submitted on [Date]. I
+understand review processes take time, but I wanted
 to check if there are any updates.
 
 Thank you for your attention to this matter.
@@ -2059,7 +2059,7 @@ Reject은 박사 과정의 정상적 부분이다. 부정하지 말고 관리.
 **이점 1: 속도**.
 저널 심사 대기 없이 즉시 공개.
 
-**영향**: 
+**영향**:
 - 시기에 민감한 연구 (트렌드)
 - 경쟁자에게 "먼저"라는 신호
 - 아이디어 보호
@@ -2367,14 +2367,14 @@ arxiv.org에서 계정.
 
 **인용의 형식**:
 ```
-Kim, C., Lee, S. (2026). Title of paper. 
+Kim, C., Lee, S. (2026). Title of paper.
 arXiv preprint arXiv:2601.12345.
 ```
 
 **또는 (저널 출판 후)**:
 ```
-Kim, C., Lee, S. (2026). Title of paper. 
-Journal Name, 10(3), 123-145. 
+Kim, C., Lee, S. (2026). Title of paper.
+Journal Name, 10(3), 123-145.
 Preprint: arXiv:2601.12345.
 ```
 

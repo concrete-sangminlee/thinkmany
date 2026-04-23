@@ -1443,7 +1443,7 @@ a_{m1} & a_{m2} & \cdots & a_{mn}
 **수식 내 텍스트**:
 ```latex
 \[
-f(x) = \begin{cases} 
+f(x) = \begin{cases}
 x^2 & \text{if } x \geq 0 \\
 -x^2 & \text{if } x < 0
 \end{cases}
@@ -1486,7 +1486,7 @@ x^2 & \text{if } x \geq 0 \\
 E = mc^2 \label{eq:einstein}
 \end{equation}
 
-본문에서 Eq.~\eqref{eq:einstein} 또는 
+본문에서 Eq.~\eqref{eq:einstein} 또는
 식 (\ref{eq:einstein})을 참조...
 ```
 
@@ -1601,7 +1601,7 @@ Method B & 91.234 & 0.567 \\
 
 \begin{tabular}{llcc}
 \toprule
-\multirow{2}{*}{Category} & \multirow{2}{*}{Method} 
+\multirow{2}{*}{Category} & \multirow{2}{*}{Method}
   & \multicolumn{2}{c}{Dataset} \\
 \cmidrule{3-4}
 & & Train & Test \\

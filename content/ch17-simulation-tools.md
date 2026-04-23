@@ -969,7 +969,7 @@ import h5py
 with h5py.File('huge_simulation.h5', 'r') as f:
     total_time_steps = f['velocity'].shape[0]
     chunk_size = 100
-    
+
     for start in range(0, total_time_steps, chunk_size):
         end = min(start + chunk_size, total_time_steps)
         chunk = f['velocity'][start:end, :, :, :]
@@ -1749,7 +1749,7 @@ ANSYS Fluent만 있는가, Fluent + Mechanical + HFSS까지?
 **질문 7: 기술 지원은?**
 문제 발생 시 누구에게 문의. 벤더 지원 여부.
 
-**정보의 출처**: 
+**정보의 출처**:
 - 연구실의 IT 담당자
 - 학과의 소프트웨어 관리자
 - 지도교수
@@ -1791,7 +1791,7 @@ ANSYS Fluent만 있는가, Fluent + Mechanical + HFSS까지?
 쓰려는 모듈이 라이선스에 포함 안 됨. 구매 또는 대안.
 
 **피크 시간 회피**:
-대부분의 학생이 오후에 작업. 이 시간대는 라이선스 부족. 
+대부분의 학생이 오후에 작업. 이 시간대는 라이선스 부족.
 **대안**: 새벽/저녁/주말에 실행. 이것이 박사 효율을 크게 올릴 수 있다.
 
 **라이선스 관리 체크 명령**.

@@ -1364,27 +1364,27 @@ Subject: Request for visiting research at [그룹명]
 
 Dear Professor [이름],
 
-I am [본인], a PhD student at [소속] working on 
-[연구 분야] under Prof. [지도교수 이름]. I have been 
-following your group's work on [구체적 주제], and 
-your recent paper on [구체적 논문] has been particularly 
+I am [본인], a PhD student at [소속] working on
+[연구 분야] under Prof. [지도교수 이름]. I have been
+following your group's work on [구체적 주제], and
+your recent paper on [구체적 논문] has been particularly
 inspiring for my current research on [본인 연구].
 
-I am writing to inquire about the possibility of a 
-short research visit to your group for [기간, 예: 
+I am writing to inquire about the possibility of a
+short research visit to your group for [기간, 예:
 2-3 months] during [시기]. My goals would be to:
 
 - Learn [구체적 기법/접근]
 - Collaborate on [구체적 프로젝트 아이디어]
 - Discuss [공통 관심사]
 
-I have already secured partial funding from [재원], 
-and I am willing to arrange additional funding if needed. 
-I can bring expertise in [본인의 강점] that might 
+I have already secured partial funding from [재원],
+and I am willing to arrange additional funding if needed.
+I can bring expertise in [본인의 강점] that might
 complement your group's work.
 
-I have attached my CV and a brief research statement. 
-I would be happy to discuss this further at your 
+I have attached my CV and a brief research statement.
+I would be happy to discuss this further at your
 convenience.
 
 Best regards,

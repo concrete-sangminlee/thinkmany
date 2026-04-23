@@ -900,15 +900,15 @@ Response Letter도 시각적으로 명확해야 한다.
 ```
 Dear Editor and Reviewers,
 
-We thank the reviewers for their thoughtful comments. 
-We have carefully addressed all points and believe the 
-manuscript is significantly improved. Below, we respond 
+We thank the reviewers for their thoughtful comments.
+We have carefully addressed all points and believe the
+manuscript is significantly improved. Below, we respond
 to each comment in detail.
 
 For clarity:
 - Reviewer comments are in blue italics.
 - Our responses are in black regular text.
-- Specific changes in the manuscript are highlighted 
+- Specific changes in the manuscript are highlighted
   in yellow and indicated by page/line numbers.
 
 ==================================================
@@ -920,7 +920,7 @@ COMMENT 1.1: [Reviewer's original comment in blue italics]
 RESPONSE: Thank you for this comment. We agree that...
 [본인의 응답]
 
-CHANGES IN MANUSCRIPT: 
+CHANGES IN MANUSCRIPT:
 - Added a new paragraph on page 5, lines 120-140.
 - Updated Figure 3 with the requested comparison.
 - See highlighted text in the tracked version.
@@ -963,8 +963,8 @@ Response Letter와 tracked manuscript에서 색상을 전략적으로 사용.
 
 **좋은 예**:
 ```
-RESPONSE: We have added a paragraph explaining the 
-assumption, as requested. The new text appears on 
+RESPONSE: We have added a paragraph explaining the
+assumption, as requested. The new text appears on
 page 7, lines 180-195 of the revised manuscript.
 ```
 
@@ -987,13 +987,13 @@ RESPONSE: We added a paragraph.
 
 **예시**:
 ```
-RESPONSE: We have added the following paragraph to 
+RESPONSE: We have added the following paragraph to
 address this concern:
 
-> "Our method assumes stationarity of the underlying 
-> distribution. This assumption holds for our target 
-> applications [citations], but may fail in cases of 
-> rapid distribution shift. We discuss this limitation 
+> "Our method assumes stationarity of the underlying
+> distribution. This assumption holds for our target
+> applications [citations], but may fail in cases of
+> rapid distribution shift. We discuss this limitation
 > in Section 5.2."
 
 This now appears on page 8, lines 220-225.
@@ -1007,15 +1007,15 @@ This now appears on page 8, lines 220-225.
 
 **예시**:
 ```
-RESPONSE: We have revised the problem statement to 
+RESPONSE: We have revised the problem statement to
 be clearer.
 
 BEFORE (original):
 > "We consider the problem of X in various settings."
 
 AFTER (revised):
-> "We consider the problem of predicting X from 
-> multivariate time series, specifically focusing on 
+> "We consider the problem of predicting X from
+> multivariate time series, specifically focusing on
 > non-stationary signals with missing values."
 ```
 
@@ -1045,12 +1045,12 @@ Before/After가 있으면 리뷰어가 "변경이 정말 일어났음"을 즉시
 새 그림을 Response Letter 본문에 직접 삽입.
 
 ```
-RESPONSE: As requested, we have added an ablation 
+RESPONSE: As requested, we have added an ablation
 study. The results are shown below:
 
 [Figure 1: Ablation study results]
 
-This new figure also appears in the manuscript as 
+This new figure also appears in the manuscript as
 Figure 6, page 14.
 ```
 
@@ -1067,15 +1067,15 @@ Figure 6, page 14.
 요청 받지 않았지만 추가한 내용도 적극 알린다.
 
 ```
-RESPONSE: In addition to addressing the specific 
+RESPONSE: In addition to addressing the specific
 comments, we have made the following improvements:
 
-1. Added a new discussion of related work in 
+1. Added a new discussion of related work in
    Section 2.3.
 2. Reorganized Section 4 for better flow.
 3. Corrected minor grammatical errors throughout.
 
-We hope these improvements further strengthen the 
+We hope these improvements further strengthen the
 manuscript.
 ```
 
@@ -1098,16 +1098,16 @@ manuscript.
 **원칙 3: 부분 동의.**
 완전 동의는 아니지만 일부 수용할 때.
 ```
-"We agree with the spirit of this comment. While 
-[specific point], we have addressed the core concern 
+"We agree with the spirit of this comment. While
+[specific point], we have addressed the core concern
 by..."
 ```
 
 **원칙 4: 정중한 이의 제기.**
 동의하지 않을 때도 정중하게.
 ```
-"We thank the reviewer for this suggestion. However, 
-we respectfully disagree because [specific reason]. 
+"We thank the reviewer for this suggestion. However,
+we respectfully disagree because [specific reason].
 To address the underlying concern, we have [alternative]."
 ```
 
@@ -1182,10 +1182,10 @@ Response Letter의 영어 수준.
 ```
 RESPONSE TO REVIEWER 1.3 AND REVIEWER 2.5:
 
-Reviewer 1 suggested X, while Reviewer 2 suggested 
-the opposite (Y). We carefully considered both 
-viewpoints. After analysis, we chose [X/Y/middle 
-ground] because [reason]. We have noted this 
+Reviewer 1 suggested X, while Reviewer 2 suggested
+the opposite (Y). We carefully considered both
+viewpoints. After analysis, we chose [X/Y/middle
+ground] because [reason]. We have noted this
 trade-off explicitly in Section Z.
 
 We hope this addresses the concerns of both reviewers.
@@ -1256,10 +1256,10 @@ PDF를 인쇄하여 물리적으로 확인. 화면에서 보이지 않던 문제
 ```
 Dear Dr. [Editor],
 
-We thank you and the reviewers for the thoughtful 
-and constructive comments on our manuscript "[Title]" 
-(ID: [number]). We have carefully addressed all 
-comments and believe the manuscript is significantly 
+We thank you and the reviewers for the thoughtful
+and constructive comments on our manuscript "[Title]"
+(ID: [number]). We have carefully addressed all
+comments and believe the manuscript is significantly
 improved.
 
 The main changes include:
@@ -1272,8 +1272,8 @@ We have attached:
 - Tracked changes version
 - Point-by-point response letter
 
-We hope the revisions meet with your approval. 
-Please feel free to contact us if further 
+We hope the revisions meet with your approval.
+Please feel free to contact us if further
 clarifications are needed.
 
 Sincerely,
@@ -1882,13 +1882,13 @@ Major revision의 변형. "엄격한 심사가 있었지만 우리는 논문을 
 ```
 Dear Dr. [에디터],
 
-I hope this email finds you well. I submitted my revised 
-manuscript (ID: XXX) on [date], and I wanted to kindly 
+I hope this email finds you well. I submitted my revised
+manuscript (ID: XXX) on [date], and I wanted to kindly
 inquire about the current status of the review process.
 
-I understand that editorial decisions take time, and I 
-am not requesting immediate action. I simply wanted to 
-ensure the submission was properly received and is in 
+I understand that editorial decisions take time, and I
+am not requesting immediate action. I simply wanted to
+ensure the submission was properly received and is in
 the review pipeline.
 
 Thank you for your time and consideration.
@@ -1923,14 +1923,14 @@ Best regards,
 ```
 Dear Dr. [에디터],
 
-Thank you for the opportunity to revise our manuscript 
-(ID: XXX). Before proceeding with the revision, I would 
+Thank you for the opportunity to revise our manuscript
+(ID: XXX). Before proceeding with the revision, I would
 appreciate your clarification on one point.
 
-Reviewer 2 requested additional analysis of X, while 
-Reviewer 3 suggested a different approach Y. These 
-directions seem somewhat contradictory. Could you 
-provide guidance on which direction you consider more 
+Reviewer 2 requested additional analysis of X, while
+Reviewer 3 suggested a different approach Y. These
+directions seem somewhat contradictory. Could you
+provide guidance on which direction you consider more
 important for this paper?
 
 Thank you for your help.
@@ -2144,15 +2144,15 @@ Subject: [Paper X] Revision decision received
 
 Dear all,
 
-We received the decision from [Journal]. The outcome is 
+We received the decision from [Journal]. The outcome is
 [Major/Minor Revision]. I've attached:
 
 1. Editor's letter
 2. Reviewer comments (3 reviewers)
 3. My initial analysis
 
-Please read and let me know your thoughts. I'd like to 
-schedule a team meeting next week to discuss the revision 
+Please read and let me know your thoughts. I'd like to
+schedule a team meeting next week to discuss the revision
 plan.
 
 Best,

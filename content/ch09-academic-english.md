@@ -875,13 +875,13 @@ I will talk about [주제], which addresses the problem of
 질문에 답을 모를 때 "I don't know"는 부정적 인상을 준다. 다음 표현을 사용한다.
 
 ```
-"That's a great question. I haven't explored that 
+"That's a great question. I haven't explored that
 specific aspect, but my intuition is..."
 
-"I don't have a definitive answer, but I would approach 
+"I don't have a definitive answer, but I would approach
 this problem by..."
 
-"This is beyond the scope of our current study, but 
+"This is beyond the scope of our current study, but
 it would be interesting to investigate in future work."
 ```
 
@@ -1114,7 +1114,7 @@ Toastmasters International 같은 스피킹 동아리. 비학술적이지만 대
 받는 사람이 본인을 모를 수 있다. 첫 문장에 누구인지 밝힘.
 
 ```
-"My name is [Name], a [year] PhD student at [University], 
+"My name is [Name], a [year] PhD student at [University],
 working on [topic] under Prof. [Advisor]."
 ```
 
@@ -1145,30 +1145,30 @@ working on [topic] under Prof. [Advisor]."
 가장 흔하지만 가장 어려운 이메일. 많은 학생이 여기서 실수.
 
 ```
-Subject: PhD Application Inquiry - [Your Name] - [Your 
+Subject: PhD Application Inquiry - [Your Name] - [Your
 Research Interest]
 
 Dear Prof. [Last Name],
 
 I am [Name], a final-year master's student at [University]
-in [Department], working under Prof. [Your Advisor]. 
-I am interested in applying to your research group for 
+in [Department], working under Prof. [Your Advisor].
+I am interested in applying to your research group for
 a PhD position starting [Year/Semester].
 
-I read your recent paper "[Paper Title]" ([Year]), and 
-I was particularly intrigued by [specific aspect that 
-connects to your work]. My own research on [your topic] 
-has led me to wonder about [specific question related 
+I read your recent paper "[Paper Title]" ([Year]), and
+I was particularly intrigued by [specific aspect that
+connects to your work]. My own research on [your topic]
+has led me to wonder about [specific question related
 to their work].
 
-My current work focuses on [brief description, 2-3 
-sentences]. I have [1-2 concrete accomplishments, e.g., 
-"published a paper at X conference" or "developed a 
+My current work focuses on [brief description, 2-3
+sentences]. I have [1-2 concrete accomplishments, e.g.,
+"published a paper at X conference" or "developed a
 system that achieved Y"].
 
-I would be grateful if you could share whether you will 
-be accepting new PhD students for [Year]. I have attached 
-my CV for your reference. I would also be happy to discuss 
+I would be grateful if you could share whether you will
+be accepting new PhD students for [Year]. I have attached
+my CV for your reference. I would also be happy to discuss
 my research interests in more detail if you have time.
 
 Thank you very much for your time.
@@ -1201,21 +1201,21 @@ Subject: Question about your paper "[Short Title]"
 
 Dear Prof. [Last Name],
 
-I am a PhD student at [University] working on [related 
-topic]. I recently read your 2024 paper "[Full Title]" 
+I am a PhD student at [University] working on [related
+topic]. I recently read your 2024 paper "[Full Title]"
 with great interest.
 
-I have a specific question about [specific section/method]. 
-In [Section X], you describe [their method]. I am trying 
-to apply this to [your problem], but I am unclear about 
-[specific point]. Could you clarify whether [specific 
+I have a specific question about [specific section/method].
+In [Section X], you describe [their method]. I am trying
+to apply this to [your problem], but I am unclear about
+[specific point]. Could you clarify whether [specific
 question]?
 
-Additionally, I was wondering if the code for [specific 
-component] is publicly available. If not, would it be 
+Additionally, I was wondering if the code for [specific
+component] is publicly available. If not, would it be
 possible to obtain a copy for academic research purposes?
 
-Thank you for your time. Your work has been very useful 
+Thank you for your time. Your work has been very useful
 for our research.
 
 Best regards,
@@ -1239,18 +1239,18 @@ Hi [Name],
 
 Hope you're doing well. Here's this week's progress:
 
-1. Completed the baseline experiments on Dataset A. 
+1. Completed the baseline experiments on Dataset A.
    Results attached (results_week12.pdf).
-2. Identified an issue with the loss function — details 
+2. Identified an issue with the loss function — details
    in the attached note.
-3. Drafted Section 3 of the paper (commented in the 
+3. Drafted Section 3 of the paper (commented in the
    shared doc).
 
 Next week I plan to:
 - Rerun the experiments with the fix
 - Complete Section 4
 
-Do you have any questions or feedback? Happy to discuss 
+Do you have any questions or feedback? Happy to discuss
 in our Friday meeting.
 
 Best,
@@ -1269,31 +1269,31 @@ Best,
 교수에게 추천서 요청.
 
 ```
-Subject: Recommendation Letter Request - [Deadline] - 
+Subject: Recommendation Letter Request - [Deadline] -
 [Program Name]
 
 Dear Prof. [Last Name],
 
-I hope this email finds you well. I am writing to 
-respectfully request a letter of recommendation for my 
-application to [Program/Position] at [Institution]. The 
+I hope this email finds you well. I am writing to
+respectfully request a letter of recommendation for my
+application to [Program/Position] at [Institution]. The
 deadline is [Date].
 
-Based on my work in your [course/research group], I 
-believe you can speak to my [specific qualities — e.g., 
-"research abilities, independence, and technical skills"]. 
-I am particularly hoping that your letter can highlight 
+Based on my work in your [course/research group], I
+believe you can speak to my [specific qualities — e.g.,
+"research abilities, independence, and technical skills"].
+I am particularly hoping that your letter can highlight
 [specific achievements that you want emphasized].
 
 To make the process easier, I have attached:
 - My CV
 - My statement of purpose (draft)
 - The program description
-- A list of specific points you might consider 
+- A list of specific points you might consider
   highlighting (based on the program's focus)
 
-Please let me know if you would be willing to write this 
-letter, and if there is any additional information I 
+Please let me know if you would be willing to write this
+letter, and if there is any additional information I
 can provide. I would be very grateful for your support.
 
 Thank you very much for your time and consideration.
@@ -1313,17 +1313,17 @@ Best regards,
 학회 참가, 포스터 제출, 특별 상황에 대한 문의.
 
 ```
-Subject: [Conference Name] 2026 - Question about poster 
+Subject: [Conference Name] 2026 - Question about poster
 submission
 
 Dear [Conference Name] Organizers,
 
-I am [Name], a PhD student at [University]. I plan to 
-submit a poster to [Conference] this year. I have a 
+I am [Name], a PhD student at [University]. I plan to
+submit a poster to [Conference] this year. I have a
 question about [specific policy or procedure].
 
-Specifically, [detailed question]. The deadline is 
-[date], so I would appreciate your response as soon as 
+Specifically, [detailed question]. The deadline is
+[date], so I would appreciate your response as soon as
 possible.
 
 Thank you for your time.
@@ -1343,24 +1343,24 @@ Best regards,
 포닥 자리를 찾을 때.
 
 ```
-Subject: Postdoctoral Position Inquiry - [Your Name] - 
+Subject: Postdoctoral Position Inquiry - [Your Name] -
 [Research Area]
 
 Dear Prof. [Last Name],
 
-I am finishing my PhD at [University] under the 
-supervision of Prof. [Advisor]. My dissertation focuses 
-on [brief description]. I am writing to inquire about 
+I am finishing my PhD at [University] under the
+supervision of Prof. [Advisor]. My dissertation focuses
+on [brief description]. I am writing to inquire about
 potential postdoctoral opportunities in your group.
 
-I am particularly interested in your recent work on 
-[specific topic], which resonates with my research on 
-[your topic]. I believe my expertise in [skills] could 
+I am particularly interested in your recent work on
+[specific topic], which resonates with my research on
+[your topic]. I believe my expertise in [skills] could
 contribute to [specific project or direction].
 
-I have attached my CV and a list of publications for 
-your review. I would be grateful for the opportunity 
-to discuss potential projects further. I am available 
+I have attached my CV and a list of publications for
+your review. I would be grateful for the opportunity
+to discuss potential projects further. I am available
 to meet in person or virtually at your convenience.
 
 Thank you for considering my inquiry.
@@ -1386,18 +1386,18 @@ Subject: [Manuscript ID] - Request for Extension
 
 Dear Dr. [Editor Name],
 
-I am the corresponding author of manuscript [ID], 
-"[Title]", which received major revision comments on 
+I am the corresponding author of manuscript [ID],
+"[Title]", which received major revision comments on
 [Date]. The current revision deadline is [Date].
 
-After carefully reviewing the reviewers' comments, I 
-found that addressing the request for [specific 
-experiment] will require additional time. I would like 
-to request a [X-week] extension of the revision deadline. 
-This would allow us to fully address this valuable 
+After carefully reviewing the reviewers' comments, I
+found that addressing the request for [specific
+experiment] will require additional time. I would like
+to request a [X-week] extension of the revision deadline.
+This would allow us to fully address this valuable
 feedback.
 
-If this is not feasible, we will provide a partial 
+If this is not feasible, we will provide a partial
 response within the original deadline.
 
 Thank you for your consideration.
@@ -1422,21 +1422,21 @@ Subject: [Project Name] - Authorship discussion
 
 Dear [Names],
 
-As we near the submission of our paper on [topic], I 
-think it would be helpful to explicitly discuss 
+As we near the submission of our paper on [topic], I
+think it would be helpful to explicitly discuss
 authorship.
 
-Based on the CRediT taxonomy, I believe the 
+Based on the CRediT taxonomy, I believe the
 contributions have been as follows:
 - [Name 1]: [their contributions]
 - [Name 2]: [their contributions]
 - [Your Name]: [your contributions]
 
-Given these contributions, I propose the following 
-author order: [proposed order]. I am happy to discuss 
+Given these contributions, I propose the following
+author order: [proposed order]. I am happy to discuss
 if anyone has a different view.
 
-Please let me know your thoughts at your earliest 
+Please let me know your thoughts at your earliest
 convenience, so we can finalize this before submission.
 
 Best,
@@ -1458,16 +1458,16 @@ Subject: Apology regarding [specific matter]
 
 Dear [Name],
 
-I am writing to apologize for [specific issue]. I 
+I am writing to apologize for [specific issue]. I
 realize that [explain what went wrong and its impact].
 
-I understand this has caused [specific inconvenience]. 
-I take full responsibility for this, and I am committed 
-to ensuring it does not happen again. Specifically, 
+I understand this has caused [specific inconvenience].
+I take full responsibility for this, and I am committed
+to ensuring it does not happen again. Specifically,
 I will [concrete corrective action].
 
-Please let me know if there is anything else I can do 
-to address this situation. I value our working 
+Please let me know if there is anything else I can do
+to address this situation. I value our working
 relationship and appreciate your patience.
 
 Sincerely,
@@ -1490,17 +1490,17 @@ Subject: Re: [Original request]
 
 Dear [Name],
 
-Thank you for reaching out and considering me for 
+Thank you for reaching out and considering me for
 [request]. I am honored by your invitation.
 
-Unfortunately, due to [specific reason — e.g., "current 
-research commitments" or "prior obligations"], I am 
-unable to [accept/participate/commit]. I wish I could 
+Unfortunately, due to [specific reason — e.g., "current
+research commitments" or "prior obligations"], I am
+unable to [accept/participate/commit]. I wish I could
 be more helpful at this time.
 
-If [alternative — e.g., "there is another way I could 
-contribute" or "I can recommend a colleague"], I would 
-be happy to discuss. Otherwise, I hope we can 
+If [alternative — e.g., "there is another way I could
+contribute" or "I can recommend a colleague"], I would
+be happy to discuss. Otherwise, I hope we can
 collaborate on a future opportunity.
 
 Thank you again for thinking of me.
@@ -1562,14 +1562,14 @@ Subject: Re: [Original Subject]
 
 Dear Prof. [Name],
 
-I hope you are doing well. I am following up on my 
-previous email from [date] regarding [topic]. I 
-understand you are very busy, but I wanted to check 
+I hope you are doing well. I am following up on my
+previous email from [date] regarding [topic]. I
+understand you are very busy, but I wanted to check
 if you had a chance to consider my inquiry.
 
 [Brief restatement of original ask, 1-2 sentences]
 
-Please let me know if there is a better time to discuss 
+Please let me know if there is a better time to discuss
 or if additional information would be helpful.
 
 Thank you for your time.
@@ -2062,7 +2062,7 @@ Q&A에서 질문이 안 들리면 당황스럽다.
 이것은 전혀 부끄러운 일이 아니다. 원어민 사이에서도 흔히 하는 요청.
 
 **방법 2: 속도 요청**.
-"Could you speak a bit more slowly?" 
+"Could you speak a bit more slowly?"
 
 대부분의 사람이 기꺼이 속도를 줄인다. 말하지 않으면 그들은 따라가고 있다고 생각.
 
@@ -2151,7 +2151,7 @@ Q&A에서 질문이 안 들리면 당황스럽다.
 - "it's no coincidence that..."
 - "to put it another way..."
 
-오늘의 느낌: 7분부터는 점점 집중력이 떨어짐. 
+오늘의 느낌: 7분부터는 점점 집중력이 떨어짐.
 다음에는 먼저 스크립트를 대강 훑어보고 들어볼 것.
 ```
 

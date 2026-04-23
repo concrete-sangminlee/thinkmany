@@ -787,31 +787,31 @@ oral 발표는 녹화되어 나중에 학회 웹사이트에 올라오는 경우
 
 **템플릿 1: 직접적 접근**.
 ```
-"Excuse me, Prof. [Last Name]? I'm [Name], a PhD 
-student at [University]. I really enjoyed your 
+"Excuse me, Prof. [Last Name]? I'm [Name], a PhD
+student at [University]. I really enjoyed your
 recent paper on [topic]. Do you have a moment?"
 ```
 
 **템플릿 2: 학술 연결**.
 ```
-"Hi Prof. [Last Name]. I'm [Name]. I'm working on 
-[your research topic], which builds on some of your 
-work. I'd love to get your thoughts on [specific 
+"Hi Prof. [Last Name]. I'm [Name]. I'm working on
+[your research topic], which builds on some of your
+work. I'd love to get your thoughts on [specific
 question] if you have a minute."
 ```
 
 **템플릿 3: 질문 주도**.
 ```
-"Hi, I'm [Name]. I have a question about your [X] 
-paper. You mentioned [specific point] — I was 
-wondering how that would extend to [scenario]. Would 
+"Hi, I'm [Name]. I have a question about your [X]
+paper. You mentioned [specific point] — I was
+wondering how that would extend to [scenario]. Would
 you have a moment to discuss?"
 ```
 
 **템플릿 4: 공통 주제**.
 ```
-"Hi Prof. [Last Name]. I'm [Name], and I noticed 
-we're both interested in [topic]. I wanted to 
+"Hi Prof. [Last Name]. I'm [Name], and I noticed
+we're both interested in [topic]. I wanted to
 introduce myself."
 ```
 
@@ -845,8 +845,8 @@ introduce myself."
 
 **좋은 마무리**:
 ```
-"This has been incredibly helpful. Thank you so much 
-for your time. Would it be okay if I followed up by 
+"This has been incredibly helpful. Thank you so much
+for your time. Would it be okay if I followed up by
 email with the question about X?"
 ```
 
@@ -857,7 +857,7 @@ email with the question about X?"
 
 **연락처 교환**:
 ```
-"I'd love to stay in touch. Could I have your email 
+"I'd love to stay in touch. Could I have your email
 or we could connect on LinkedIn?"
 ```
 
@@ -873,16 +873,16 @@ Subject: Great meeting you at [Conference]
 
 Dear Prof. [Last Name],
 
-Thank you so much for taking the time to speak with 
-me at [Conference Name]. I really enjoyed our 
+Thank you so much for taking the time to speak with
+me at [Conference Name]. I really enjoyed our
 conversation about [specific topic we discussed].
 
-You mentioned [specific thing they said]. I've been 
-thinking about this more, and [brief continuation 
+You mentioned [specific thing they said]. I've been
+thinking about this more, and [brief continuation
 of the conversation].
 
-I've attached a brief summary of my research for 
-your reference. Please let me know if you would ever 
+I've attached a brief summary of my research for
+your reference. Please let me know if you would ever
 be interested in continuing this conversation.
 
 Thank you again for your time and insights.
@@ -1685,8 +1685,8 @@ ROI 추정:
 2. [네트워킹 가치]
 3. [본인의 연구와의 관련성]
 
-예상 비용은 약 [금액]이고, [재원]에서 지원받을 수 
-있습니다. 본인의 박사 진도에 [구체적 이익]을 줄 
+예상 비용은 약 [금액]이고, [재원]에서 지원받을 수
+있습니다. 본인의 박사 진도에 [구체적 이익]을 줄
 것으로 예상합니다.
 
 교수님의 의견을 구합니다."

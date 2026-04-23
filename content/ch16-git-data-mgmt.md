@@ -1187,12 +1187,12 @@ README는 저장소의 "얼굴"이다. 5분 안에 독자가 알아야 할 것�
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1234567.svg)](...)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)]
 
-Official implementation of the paper "PhysicsNet: ..." 
+Official implementation of the paper "PhysicsNet: ..."
 published in Journal of X (2026).
 
 ## Overview
-This repository contains the code and scripts to reproduce 
-the results of our paper on physics-informed neural 
+This repository contains the code and scripts to reproduce
+the results of our paper on physics-informed neural
 networks for bridge crack detection. Our method combines ...
 
 ## Quick Start
@@ -1296,8 +1296,8 @@ python scripts/download_data.py
 ```
 
 ### Private Dataset
-Some experiments in Section 4.3 use an industry dataset that 
-cannot be shared publicly due to NDA. We provide a synthetic 
+Some experiments in Section 4.3 use an industry dataset that
+cannot be shared publicly due to NDA. We provide a synthetic
 dataset that mimics its properties for demonstration:
 ```bash
 python scripts/generate_synthetic.py
@@ -1374,9 +1374,9 @@ data/
 ```markdown
 ## Maintenance
 
-This is research code accompanying our paper. We welcome 
-issues and contributions but cannot guarantee immediate 
-responses. For critical bugs, please open an issue with 
+This is research code accompanying our paper. We welcome
+issues and contributions but cannot guarantee immediate
+responses. For critical bugs, please open an issue with
 [BUG] in the title.
 
 For questions about the paper, please contact [email].

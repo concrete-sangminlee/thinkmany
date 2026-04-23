@@ -701,7 +701,7 @@ services:
       - ./results:/workspace/results
     environment:
       - DB_HOST=db
-  
+
   db:
     image: postgres:15
     environment:

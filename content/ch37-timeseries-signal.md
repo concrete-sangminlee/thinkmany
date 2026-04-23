@@ -632,18 +632,18 @@ def cusum(data, threshold, drift):
     s_pos = np.zeros(n)
     s_neg = np.zeros(n)
     change_points = []
-    
+
     mean_init = data[:20].mean()  # 초기 평균
-    
+
     for i in range(1, n):
         s_pos[i] = max(0, s_pos[i-1] + data[i] - mean_init - drift)
         s_neg[i] = max(0, s_neg[i-1] - data[i] + mean_init - drift)
-        
+
         if s_pos[i] > threshold or s_neg[i] > threshold:
             change_points.append(i)
             s_pos[i] = 0
             s_neg[i] = 0
-    
+
     return change_points
 ```
 
@@ -753,7 +753,7 @@ class TimeSeriesAutoencoder(nn.Module):
         super().__init__()
         self.encoder = nn.LSTM(input_dim, hidden_dim, batch_first=True)
         self.decoder = nn.LSTM(hidden_dim, input_dim, batch_first=True)
-    
+
     def forward(self, x):
         encoded, _ = self.encoder(x)
         decoded, _ = self.decoder(encoded)

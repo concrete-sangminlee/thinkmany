@@ -1459,7 +1459,7 @@ TA, 강의, 튜터링, 멘토링.
 ## Publications
 
 ### Journal Papers
-- Kim, C., Lee, S., & Park, J. (2026). "Title of the paper". 
+- Kim, C., Lee, S., & Park, J. (2026). "Title of the paper".
   *Journal Name*, 15(3), 123-140. DOI: 10.xxxx/xxxx
   - Role: First author, lead implementation, main writing
   - Submitted: 2025-03-15, Accepted: 2025-11-20

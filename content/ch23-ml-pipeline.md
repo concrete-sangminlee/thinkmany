@@ -831,11 +831,11 @@ test = data[data['lab'] == 'B']
 outer_cv = KFold(n_splits=5)
 for train_idx, test_idx in outer_cv.split(X):
     X_train, X_test = X[train_idx], X[test_idx]
-    
+
     # 내부 3-fold (하이퍼파라미터 튜닝)
     inner_cv = KFold(n_splits=3)
     best_model = find_best_model(X_train, y_train, inner_cv)
-    
+
     # 외부 테스트
     score = best_model.score(X_test, y_test)
 ```
@@ -1027,16 +1027,16 @@ def test_model_can_overfit():
     model = MyModel()
     x = torch.randn(10, 3, 224, 224)
     y = torch.randint(0, 10, (10,))
-    
+
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
     criterion = nn.CrossEntropyLoss()
-    
+
     for _ in range(200):
         optimizer.zero_grad()
         loss = criterion(model(x), y)
         loss.backward()
         optimizer.step()
-    
+
     # 학습 후 손실이 매우 작아야 한다
     assert loss.item() < 0.01, f"과적합 실패: loss={loss.item()}"
 ```
@@ -1060,7 +1060,7 @@ def test_end_to_end_pipeline():
         # 데이터 생성
         data = create_tiny_dataset(n=100)
         data.to_csv(f"{tmpdir}/data.csv")
-        
+
         # 파이프라인 실행
         pipeline = MLPipeline(
             data_path=f"{tmpdir}/data.csv",
@@ -1068,7 +1068,7 @@ def test_end_to_end_pipeline():
         )
         pipeline.train()
         results = pipeline.evaluate()
-        
+
         # 결과가 합리적인가?
         assert 0 <= results['accuracy'] <= 1
         assert results['loss'] > 0
@@ -1087,11 +1087,11 @@ def test_reproducibility():
     set_seed(42)
     model1 = train_model(data)
     pred1 = model1.predict(test_data)
-    
+
     set_seed(42)
     model2 = train_model(data)
     pred2 = model2.predict(test_data)
-    
+
     # 예측이 일치해야 한다
     assert np.allclose(pred1, pred2), "재현성 실패"
 ```
@@ -1591,7 +1591,7 @@ PyTorch 버전, CUDA 버전, 의존성 라이브러리.
 **계층 2: 실험 시리즈 (Experiment Series)**.
 한 프로젝트 내의 관련 실험들. 한 연구 질문에 답함.
 
-**예시**: 
+**예시**:
 - "Series A: Architecture comparison"
 - "Series B: Loss weight tuning"
 - "Series C: Data size sensitivity"
@@ -1769,12 +1769,12 @@ import mlflow
 
 with mlflow.start_run(run_name="pinn-v1"):
     mlflow.log_params({"lr": 0.001, "batch_size": 32})
-    
+
     # 훈련
     for epoch in range(100):
         loss = train_one_epoch()
         mlflow.log_metric("loss", loss, step=epoch)
-    
+
     mlflow.pytorch.log_model(model, "model")
 ```
 
