@@ -2708,3 +2708,291 @@ AI로 프리프린트 요약, 검색, 추천.
 **포스닥과 교수 시절**: 계속 누적. 학계 평판의 한 축.
 
 > 프리프린트는 현대 학술 문화의 중요한 요소다. 박사 과정에서 이것을 전략적으로 활용하면 가시성, 영향력, 피드백을 얻는다. 그러나 맹목적 사용은 위험. 분야, 저널, 공저자, 지도교수의 맥락을 고려한 신중한 결정이 필요하다. 박사 초반에 첫 프리프린트를 조심스럽게 시도하고, 점진적으로 표준 워크플로에 통합하라. 박사 졸업 시 arXiv 프로필이 연구 커리어의 얼굴이 된다.
+
+---
+
+## 박사의 Desk Reject 방어 — "편집자의 책상을 건너가기"
+
+논문 투고 후 **가장 빠른 Rejection은 Desk Reject** — 리뷰어에게 넘어가기 전, 편집자가 **24시간~2주 내에 반려**하는 결정. 상위 저널 (Nature·Science·Cell·IEEE TPAMI 등)은 **Desk Reject 비율이 70-85%**. 즉, 10편 중 7-8편은 **내용을 읽기도 전에 탈락**한다. Desk Reject는 시간 낭비·사기 저하·경력 지연을 낳는다. 이를 방어하는 방법은 **저널 선택·Cover Letter·논문 앞 2페이지**에 집중된다.
+
+**Desk Reject의 5가지 이유.**
+
+- **Scope Mismatch**: 저널의 주제와 논문 불일치.
+- **Novelty 부족**: Contribution이 저널 수준에 못 미침.
+- **Format·Length 위반**: 편집 규정 무시.
+- **English 품질**: 읽기 어려운 영어.
+- **Presentation 부실**: Figure·구조·Abstract 혼란.
+
+이 5가지가 **편집자의 즉각적 판단 기준**.
+
+**편집자의 Triage 과정.**
+
+- **1단계 (10분)**: 제목·Abstract·Cover Letter 확인.
+- **2단계 (15-30분)**: Introduction·Conclusions 스캔.
+- **3단계 (선택적)**: Figure 훑기.
+- **4단계**: Desk Reject vs 리뷰어 배정 결정.
+
+**편집자는 전체를 안 읽는다**—첫 2페이지·Figure로 결정.
+
+**저널 선택 — Desk Reject 방어 1번.**
+
+- **Scope 일치**: 저널의 Aims & Scope 재독.
+- **최근 논문 확인**: 지난 1-2년 비슷한 주제 게재 여부.
+- **Impact Factor 매칭**: 연구의 영향력과 IF.
+- **1-tier, 2-tier, 3-tier 전략**: 첫 선택, Backup 2개.
+- **지도교수 조언**: 분야의 관행.
+
+**저널 선택이 논문의 운명 50%** 결정.
+
+**Cover Letter — Desk Reject 방어 2번.**
+
+Cover Letter는 **편집자의 Desk Reject 방어의 핵심**:
+
+- **1단락**: 논문 개요 (2-3문장).
+- **2단락**: 핵심 발견 (1-2개 Bullet).
+- **3단락**: 왜 이 저널인가.
+- **4단락**: 3-4명의 Suggested Reviewers.
+- **5단락**: 선언 (COI·동시 투고 없음).
+
+**보통 1페이지**. 너무 길면 읽히지 않음.
+
+**Cover Letter의 Hook.**
+
+첫 문장이 결정적:
+
+- **나쁜**: "Please find attached our manuscript titled..."
+- **좋은**: "We report the first demonstration of X, solving a Y-year-old problem in the field."
+
+**편집자의 관심을 2줄로 획득**.
+
+**논문 첫 2페이지 — Desk Reject 방어 3번.**
+
+- **제목**: Hook + Specific + Novel.
+- **Abstract**: Background (2줄) + Gap (1줄) + Method (2줄) + Finding (2줄) + Implication (1줄).
+- **Introduction 첫 문단**: 분야의 Big Picture.
+- **Introduction 마지막 문단**: Contribution 3-5개 Bullet.
+
+**이 4요소가 편집자의 첫 판단**.
+
+**Abstract의 Structured Format.**
+
+일부 저널은 Structured Abstract 요구:
+
+- **Background**: 연구 맥락.
+- **Objective**: 목표.
+- **Methods**: 방법.
+- **Results**: 결과.
+- **Conclusions**: 결론.
+
+**Unstructured라도 이 구조를 유지** 권장.
+
+**Figure 1의 중요성.**
+
+- **Graphical Abstract**: 많은 저널이 요구.
+- **Figure 1 = 연구의 요약**: 가장 중요한 발견.
+- **Self-contained**: Caption만으로 이해 가능.
+- **Color·명료성**: Desk Reject 방어.
+
+**Figure 1을 최고로**—편집자가 Figure만 볼 수도.
+
+**Novelty의 명시적 강조.**
+
+편집자는 "What's new?"를 본다:
+
+- **"To our knowledge, this is the first..."**
+- **"Unlike previous work that [X], we [Y]."**
+- **"Our contribution is threefold: (i)..., (ii)..., (iii)...."**
+- **"This challenges the prevailing view that..."**
+
+**명시적 노벨티 선언**이 없으면 편집자가 찾아줄 이유가 없다.
+
+**분야 지도의 Situating.**
+
+- **관련 연구 3-5개**: 최근 1-2년 저널 논문 인용.
+- **Gap 명시**: 기존 연구의 한계.
+- **본 연구의 위치**: 지도 위의 특정 점.
+
+**본인 연구가 분야 어디에 있는지** 명확히.
+
+**흔한 Desk Reject 이유의 실전 대응.**
+
+**"Out of Scope" 방어**:
+
+- Scope 페이지 재독.
+- 저널의 최근 Special Issue 확인.
+- 에디터에게 pre-submission inquiry.
+
+**"Insufficient Novelty" 방어**:
+
+- Contribution Bullet 추가.
+- Benchmark 비교.
+- Ablation study.
+
+**"Poor English" 방어**:
+
+- Professional editing service.
+- 원어민 동료 리뷰.
+- AI Writing tools (Grammarly·DeepL).
+
+**"Format violation" 방어**:
+
+- Journal template 사용.
+- Author guidelines 체크리스트.
+
+**각 이유별 대응 매뉴얼**.
+
+**Pre-submission Inquiry.**
+
+- **언제**: Scope 의심·큰 저널.
+- **내용**: Abstract·Cover Letter·핵심 figure 1장.
+- **기대**: 1-2주 내 답변.
+- **장점**: Desk Reject 회피.
+- **단점**: 시간 지연.
+
+**Pre-submission은 상위 저널 전략**.
+
+**동시 투고 금지.**
+
+- **모든 저널**: 동시 투고는 Ethics 위반.
+- **Conference vs Journal**: 일부 분야 (CS)에서 예외.
+- **Withdraw 후 재투고**: 필수.
+- **발견 시**: 제재 가능성.
+
+**기다리는 비용 ≪ 적발의 비용**.
+
+**박사의 Desk Reject 대응.**
+
+- **빠른 슬픔**: 24시간 내 끝내기.
+- **편집자 코멘트 분석**: 이유 파악.
+- **다음 저널 결정**: Backup list 활용.
+- **재투고 준비**: 1-2주 이내 재투고.
+- **교훈 기록**: 왜 떨어졌는가.
+
+**Desk Reject는 실패가 아닌 빠른 피드백**.
+
+**Desk Reject의 감정 관리.**
+
+- **정상**: 모든 박사가 경험.
+- **개인 공격 아님**: 저널·편집자의 판단.
+- **시간 손실 최소**: 1-2개월 낭비된 게 아니라 1-2주.
+- **다음 저널로**: 즉각 전환.
+
+**빨리 털고 나아가기**.
+
+**Cascade Submission.**
+
+일부 출판사는 Desk Reject 시 하위 저널 자동 이관:
+
+- **Nature → Nature Communications → Scientific Reports**.
+- **Cell → Cell Reports → iScience**.
+- **PNAS → PLOS ONE**.
+
+**Cascade 수락 여부**—시간 절약 vs 재선택.
+
+**박사의 Desk Reject 함정 7가지.**
+
+- **저널 조사 부족**: Scope 모름.
+- **Cover Letter 소홀**: 3분 만에 작성.
+- **Abstract 혼란**: 핵심 없음.
+- **Novelty 숨김**: Contribution 미명시.
+- **Format 위반**: Template 무시.
+- **영어 방치**: "내용이 중요"착각.
+- **동시 투고**: Ethics 위반.
+
+이 7가지가 **Desk Reject 자초**.
+
+**분야별 Desk Reject 문화.**
+
+- **의학·생물**: Scope·Impact 엄격.
+- **컴퓨터 과학**: Conference 중심·Desk Reject 덜함.
+- **물리·화학**: Novelty 중심.
+- **수학**: 긴 심사·Desk Reject는 적음.
+- **사회과학**: 방법론 논쟁.
+
+**분야 관행** 파악.
+
+**상위 저널의 Desk Reject 통계.**
+
+- **Nature**: 85%+ Desk Reject.
+- **Science**: 80%+.
+- **Cell**: 75%+.
+- **NEJM**: 90%+.
+- **IEEE TPAMI**: 70%+.
+
+**상위 저널일수록 Desk Reject의 현실**.
+
+**Desk Reject 후의 재투고 전략.**
+
+- **같은 저널**: 편집자가 암시한 경우만. 1년 후.
+- **자매 저널**: Cascade 활용.
+- **다른 출판사**: 새로 시작.
+- **Major revision**: 원고 대폭 개선.
+
+**Desk Reject에서 배운 내용 반영**.
+
+**박사의 Submission Logbook.**
+
+- **저널명·날짜**: 모든 투고 기록.
+- **Desk Reject·Peer Review**: 결과.
+- **소요 시간**: 다음 계획의 참고.
+- **리뷰어 코멘트**: 학습 자료.
+- **CV 통계**: "Submitted 15, Accepted 10, Rejected 5".
+
+**박사 5년의 데이터** 가치.
+
+**2024+ AI 시대의 Desk Reject.**
+
+- **편집자의 AI 도구**: 품질 사전 검사.
+- **저자의 AI 도구**: Writing·Figure 품질.
+- **AI 생성 Check**: 저널의 AI 탐지.
+- **자동 Format 체크**: 사전 Scan.
+- **Pre-submission AI 피드백**: ChatGPT로 리허설.
+
+**AI가 Desk Reject 가능성 예측** 도구로 활용.
+
+**편집자의 관점 이해.**
+
+- **편집자도 바쁘다**: 하루 10편 이상 심사.
+- **본인 연구도 있음**: 업무의 한 부분.
+- **리뷰어 모집 부담**: 좋은 논문 고르기.
+- **저널 질 유지**: Reputation 책임.
+
+**편집자에게 친절한 논문**이 살아남음.
+
+**Desk Reject의 긍정적 활용.**
+
+- **저널 학습**: 어느 저널이 맞는지 파악.
+- **논문 강화**: 재투고 전 개선.
+- **빠른 피드백**: 몇 달 기다리지 않음.
+- **Portfolio 구축**: 실패에서 배움.
+
+**Desk Reject는 학습 기회**.
+
+**10가지 Desk Reject 방어 체크리스트.**
+
+- ☐ Scope 재확인
+- ☐ Cover Letter 1페이지
+- ☐ Hook 첫 문장
+- ☐ Novelty 명시
+- ☐ Contribution 3-5개 Bullet
+- ☐ Abstract 구조화
+- ☐ Figure 1 Graphical Abstract
+- ☐ Format·Template 준수
+- ☐ 영어 Professional editing
+- ☐ Pre-submission Inquiry (필요 시)
+
+**박사의 Submission 5년 진화.**
+
+- **1-2년차**: 첫 투고·Desk Reject 경험·저널 학습.
+- **3년차**: Cover Letter·저널 선택 숙달.
+- **4년차**: Pre-submission·Cascade 활용.
+- **5년차**: 신속한 전략·높은 성공률.
+- **졸업 후**: 독립 투고자로 발전.
+
+**투고 전략은 박사의 핵심 기술**.
+
+**마지막 — Desk Reject 방어가 박사 투고의 핵심이다.**
+
+박사의 많은 논문이 Desk Reject로 돌아온다. 5가지 이유·편집자 Triage·저널 선택·Cover Letter·Hook·첫 2페이지·Abstract 구조·Figure 1·Novelty·분야 지도·대응 매뉴얼·Pre-submission·동시 투고 금지·감정 관리·Cascade·7가지 함정·분야별 문화·통계·재투고·Logbook·AI 시대·편집자 관점·긍정 활용·체크리스트·5년 진화 — 이 모든 것을 의식적으로 관리하면 박사의 Desk Reject 비율이 **70%에서 30%로** 줄어든다. Desk Reject는 피할 수 있는 실패.
+
+> Desk Reject는 편집자의 24시간~2주 반려. 상위 저널 70-85%. 5가지 이유 (Scope·Novelty·Format·English·Presentation). 편집자 Triage 4단계. 저널 선택 (Scope·IF·1-2-3 tier). Cover Letter 5단락 1페이지. Hook 첫 문장. 첫 2페이지의 4요소. Abstract Structured Format. Figure 1 Graphical Abstract. Novelty 명시적 선언. 분야 지도 Situating. 대응 매뉴얼 (Scope·Novelty·English·Format). Pre-submission Inquiry. 동시 투고 금지. 빠른 슬픔·다음 저널. Cascade Submission. 7가지 함정 (저널 조사·Cover Letter 소홀·Abstract·Novelty·Format·영어·동시 투고). 분야별 문화. 상위 저널 통계. Submission Logbook. 2024+ AI 사전 피드백. 편집자 관점. 긍정 활용. 10가지 체크리스트. 5년 진화. Desk Reject는 피할 수 있는 실패.
