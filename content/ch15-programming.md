@@ -1027,3 +1027,210 @@ Dead code를 방치하면 박사 5년차에 리포지토리 크기의 70%가 쓸
 박사 과정을 시작할 때 대부분 생각하는 것은 "논문을 쓰는 것". 코드는 그 도구로 간주된다. 하지만 박사 5년을 지나면 알게 된다: **본인의 코드 베이스는 본인의 연구 정체성의 일부**다. 그것이 잘 관리되면 박사 후 5-10년간 본인 연구의 기반이 된다. 관리되지 않으면 졸업과 함께 죽은 자산이 된다. 3단계 진화를 의식하고, 3계층 재사용을 구분하고, dead code를 정리하고, 브랜치를 활용하고, 졸업 직전 6개월을 정리에 투자하는 것 — 이것이 박사 5년 코드의 진짜 관리법이다. AI 도구는 이 관리 비용을 낮추지만, 본질적 설계 결정은 여전히 본인이 해야 한다.
 
 > 박사 5년의 코드는 탐색·정착·확장의 3단계로 진화. 모든 코드는 일회성·프로젝트·재사용의 3계층으로 분류. Dead code는 archive 폴더로 이동하고 주기적 정리. 단순한 브랜치 전략(main·exp·paper·archive)과 논문 제출일 git tag 습관이 5년의 재현성을 구원. 졸업 6개월 전부터 코드 정리 계획을 실행. AI 도구가 코드 고고학의 비용을 낮추지만 본질적 설계는 본인 몫. 코드 베이스는 박사 연구 정체성의 일부이며 졸업 후 10년의 연구 기반이 된다.
+
+---
+
+## GPU 프로그래밍의 박사 실전 — CUDA·메모리·multi-GPU 관리
+
+2020년 이후 박사 연구의 상당수가 GPU에 의존한다. AI·물리·화학·생물·의학·공학 등에서 GPU 코드가 필수. 하지만 많은 박사가 "GPU는 PyTorch가 알아서"라고 생각하고 깊이 들어가지 않는다. 결과: GPU 메모리 부족(OOM)에 당황, multi-GPU 실패, 성능 병목 진단 불가. 이 섹션은 박사가 GPU 프로그래밍을 체계적으로 다루는 실전을 다룬다. ch15의 다른 섹션이 **일반 프로그래밍**이었다면, 이 섹션은 **GPU 특화**다.
+
+**GPU 프로그래밍의 3가지 계층.**
+
+박사의 GPU 사용은 3가지 계층으로 구분:
+
+**계층 1, 프레임워크 수준 (PyTorch/JAX)**: `model.cuda()`, `tensor.to("cuda")`. 대부분 박사의 90%의 작업. 블랙박스적.
+
+**계층 2, 저수준 연산 (CUDA 내장 함수)**: `torch.cuda.synchronize()`, custom CUDA kernels via `torch.compile`. 성능 최적화 필요 시.
+
+**계층 3, 네이티브 CUDA (C++/CUDA)**: 완전 커스텀 커널. 박사 후 5%만 필요. 극한 성능·특수 연산.
+
+**박사의 권장**: 계층 1이 기본, 필요 시 계층 2까지. 계층 3은 대부분 박사에게 불필요.
+
+**GPU 메모리 관리 — 박사의 핵심 기술.**
+
+OOM (Out of Memory) 에러는 박사의 일상. 해결 기법:
+
+**기법 1, 배치 크기 조정**: 가장 기본. GPU 메모리가 부족하면 batch_size 축소. 학습이 느리지만 가능.
+
+**기법 2, Gradient Accumulation**: 작은 배치를 여러 번, 그라디언트 누적. 큰 배치 효과 + 적은 메모리.
+
+**기법 3, Mixed Precision (FP16/BF16)**: float32 → float16. 메모리 반, 성능 비슷. `torch.cuda.amp`, `accelerate`.
+
+**기법 4, Gradient Checkpointing**: 중간 activation을 저장 안 하고 재계산. 메모리 감소 + 계산 증가. PyTorch의 `checkpoint`.
+
+**기법 5, 모델 Offloading**: CPU/디스크로 모델 일부 이동. 속도 느리지만 큰 모델 실행. DeepSpeed ZeRO, FSDP.
+
+**기법 6, Quantization**: 모델 가중치를 FP32 → INT8/INT4. 추론 시 주로. bitsandbytes, GPTQ.
+
+이 기법들을 **조합**하는 것이 박사의 실전.
+
+**GPU 메모리 프로파일링 도구.**
+
+문제를 측정해야 해결 가능:
+
+- **`nvidia-smi`**: GPU 사용량·메모리 실시간. 가장 기본.
+- **`torch.cuda.memory_allocated()`**: PyTorch 할당 메모리.
+- **`torch.cuda.max_memory_allocated()`**: 최대 사용량.
+- **PyTorch Profiler**: 상세한 메모리·시간 분석. `torch.profiler`.
+- **NVIDIA Nsight Systems**: 전문가 수준. 커널별 분석.
+- **`py-spy`**: Python 레벨 프로파일링.
+- **Weights & Biases**: 실험 모니터링 + GPU 메트릭.
+
+박사 2-3년차에 이 도구들을 능숙하게.
+
+**Multi-GPU 전략 — 4가지 병렬화.**
+
+단일 GPU로 부족할 때:
+
+**전략 1, Data Parallelism (DP/DDP)**: 같은 모델을 여러 GPU에 복제, 데이터 분할. 가장 흔함. `torch.nn.DataParallel` (구식), `DistributedDataParallel` (표준).
+
+**전략 2, Model Parallelism**: 모델을 여러 GPU에 분할. 매우 큰 모델. 구현 복잡. Megatron-LM, DeepSpeed.
+
+**전략 3, Pipeline Parallelism**: 모델의 layer를 순차 GPU에 배치. 파이프라인. GPipe, PipeDream.
+
+**전략 4, Tensor Parallelism**: 단일 layer의 연산을 여러 GPU에 분할. 큰 LLM에 필수. Megatron-LM.
+
+**박사의 현실**: 대부분 DDP면 충분. 모델 parallelism은 연구실의 인프라·코드에 의존.
+
+**DistributedDataParallel (DDP)의 실전.**
+
+단일 → multi-GPU 전환의 가장 흔한 경로:
+
+```python
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
+
+# 초기화
+dist.init_process_group(backend="nccl")
+
+# 모델을 DDP로 wrap
+model = model.to(local_rank)
+model = DDP(model, device_ids=[local_rank])
+
+# DataLoader의 sampler 교체
+from torch.utils.data.distributed import DistributedSampler
+sampler = DistributedSampler(dataset)
+```
+
+**주의**:
+- `torchrun` 또는 `accelerate launch`로 실행.
+- Random seed 일관성.
+- Checkpoint 저장은 rank 0만.
+- `ddp_sync_batchnorm` 고려.
+
+**박사의 DDP 학습 곡선**: 처음에는 복잡하지만 1주일 투자로 평생의 기술.
+
+**GPU 디버깅의 독특한 어려움.**
+
+GPU 코드는 CPU보다 디버깅 어려움:
+
+- **비동기 실행**: GPU 커널이 비동기. 에러가 나중 시점에 나타남.
+- **CUDA OOM의 추적**: 어느 텐서가 메모리 과점하는지 찾기.
+- **NaN/Inf**: Mixed precision에서 자주. `torch.autograd.detect_anomaly()`.
+- **Deadlock**: DDP의 rank 간 동기화 문제.
+- **Race condition**: 비결정적 결과.
+
+**디버깅 전략**:
+- `CUDA_LAUNCH_BLOCKING=1`: 동기 실행 강제. 에러 위치 정확.
+- `torch.cuda.synchronize()`: 수동 동기화.
+- Smaller batch size로 먼저 테스트.
+- Single GPU로 먼저 디버깅 후 DDP.
+
+**GPU 클러스터 사용의 실전 — 한국 환경.**
+
+한국 박사의 GPU 접근:
+
+**연구실 GPU**:
+- 자체 서버 (A100, H100, 4090).
+- 로컬 SSH 접속.
+- 관리자 (지도교수·선배) 규칙.
+
+**학교 공용 GPU**:
+- 서울대 SCC, KAIST KSC 등.
+- SLURM 스케줄러.
+- 대기열 시스템.
+
+**클라우드 GPU**:
+- AWS (g5, p4d), GCP (A100, H100), Azure.
+- Lambda Labs, RunPod (저가).
+- 학생 크레딧 활용.
+
+**국가 시설**:
+- KISTI 슈퍼컴퓨터 (학생 무료 일부).
+- KREONET.
+
+**전략**: 일상은 연구실 GPU, 대규모는 학교/클라우드, 초대형은 국가 시설.
+
+**GPU 비용의 관리 — 2024+ 실전.**
+
+AI 분야 박사의 주요 비용:
+
+- **A100 40GB**: 시간당 $1-2 (클라우드).
+- **A100 80GB**: 시간당 $2-4.
+- **H100**: 시간당 $4-8.
+- **RTX 4090** (온프렘): 장비 300-500만원.
+
+**예산 관리**:
+- 실험 전 **메모리 요구량 추정**: 모델 크기 × 4 (FP32) × 배치 × 안전 배수.
+- **실험 기간 추정**: "X 시간 / GPU × Y GPU = Z GPU-시간".
+- **클라우드 알림 설정**: 예산 초과 알림.
+- **Spot instance 활용**: 최대 70% 할인.
+- **장기 계약 할인**: 연 단위 예약.
+
+박사 과제 예산의 GPU 비용 계획 (ch39 참조).
+
+**재현성과 GPU — 2024+ 이슈.**
+
+GPU 결과의 재현성은 CPU보다 어려움:
+
+- **비결정성**: 일부 CUDA 연산이 비결정적. 같은 입력에 다른 출력.
+- **해결**:
+  - `torch.manual_seed()`: PyTorch seed.
+  - `torch.backends.cudnn.deterministic = True`: cuDNN 결정성.
+  - `torch.use_deterministic_algorithms(True)`: 전체 결정성.
+  - 단, 성능 20-50% 저하.
+
+- **하드웨어 의존성**: A100 vs H100의 부동소수 차이. 재현 위치 정보 기록.
+- **드라이버 버전**: CUDA·cuDNN 버전 차이. 논문에 명시.
+
+박사 논문에 **실험 환경 상세** 기록 (하드웨어·소프트웨어 버전).
+
+**GPU 학습 곡선 — 5년 계획.**
+
+**1년차**: PyTorch/JAX 기본. `.cuda()`, `.to(device)`. nvidia-smi 확인.
+
+**2년차**: Mixed precision, gradient checkpointing. 메모리 프로파일링.
+
+**3년차**: DDP로 multi-GPU. SLURM 스케줄러.
+
+**4년차**: 메모리·속도 최적화. torch.compile.
+
+**5년차**: Custom CUDA kernels (필요 시). 대규모 분산 학습.
+
+**박사 후**: 본인 분야에서 GPU 전문가.
+
+**2024+ GPU 트렌드.**
+
+- **LLM 중심**: GPU 사용의 대부분이 LLM 학습·추론.
+- **추론 최적화**: vLLM, TensorRT-LLM, FlashAttention-3.
+- **양자화의 표준화**: INT4, INT8의 광범위 사용.
+- **Efficient training**: LoRA, QLoRA로 작은 GPU에서 큰 모델.
+- **Non-NVIDIA GPU**: AMD MI300, Intel Gaudi 2. 2024년부터 대안.
+- **AI 전용 칩**: Groq, Cerebras, SambaNova. 추론 특화.
+
+박사는 **NVIDIA 중심이지만 대안 주시**.
+
+**AI 시대의 GPU 윤리 — 2024+.**
+
+- **환경 비용**: LLM 훈련의 탄소 배출. 연구 윤리.
+- **에너지 사용 공개**: 논문에 GPU 시간 명시 권장.
+- **Small is beautiful**: 최소 GPU로 최대 성과의 문화.
+- **자원의 불평등**: 대기업 vs 학계 GPU 격차.
+
+박사의 기후·윤리 의식을 GPU 사용에도 적용.
+
+**마지막 — GPU는 박사 연구의 엔진이다.**
+
+AI 시대 박사의 상당수가 GPU에 의존. 하지만 대부분 박사가 "프레임워크가 알아서"라고 생각. 3가지 계층·6가지 메모리 기법·프로파일링 도구·4가지 multi-GPU 전략·DDP 실전·디버깅·한국 GPU 환경·비용 관리·재현성·5년 학습 곡선·2024+ 트렌드·윤리 — 이 모든 것을 의식적으로 다루면 GPU가 박사의 연구 속도를 2-10배 가속. GPU 프로그래밍은 2020년대 박사의 필수 기술.
+
+> GPU 프로그래밍은 2020년대 박사의 필수 기술. 3가지 계층 (프레임워크·저수준·네이티브) 중 대부분 프레임워크까지. 6가지 메모리 관리 기법 (배치·gradient accumulation·mixed precision·checkpointing·offloading·quantization). Multi-GPU 4가지 전략 중 DDP가 표준. nvidia-smi·PyTorch Profiler·Nsight의 측정 도구. 한국 GPU 환경 (연구실·학교·클라우드·KISTI). 시간당 $1-8의 비용 관리. 재현성의 비결정성 문제. 5년 학습 곡선. 2024+ LLM 중심, vLLM·LoRA·양자화 트렌드. GPU 윤리. GPU는 박사 연구의 엔진이다.
