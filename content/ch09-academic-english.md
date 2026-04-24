@@ -2954,3 +2954,275 @@ Q&A에서 질문이 안 들리면 당황스럽다.
 **평생 기술**: 한 번 익히면 평생.
 
 > 학술 영어의 연결어는 작은 것처럼 보이지만 큰 차이를 만든다. 문장이 각각 완벽해도 연결이 나쁘면 글은 실패한다. 반대로 연결이 좋으면 평범한 문장도 좋은 글이 된다. 박사 과정에서 이 기술에 의식적으로 투자하면 모든 논문이 점진적으로 좋아진다. 9가지 유형을 마스터하고, 한국 학생의 함정을 피하고, 정기적으로 연습하라. 6개월 후 영어 글쓰기가 한 단계 올라간다. 이것이 평생의 학술 커리어를 뒷받침한다.
+
+---
+
+## 박사의 영어 발음·청취 훈련 — "듣고 말하는 학술 영어"
+
+한국 박사가 논문 쓰기는 AI 도구와 수정 노력으로 점점 극복하지만, **발음과 청취**는 여전히 큰 장벽이다. 학회 발표에서 질문이 안 들리고, 해외 협력에서 소통이 안 되고, 네트워킹에서 대화가 어색하게 끊긴다. 이 약점은 **박사의 경력을 치명적으로 제한**한다. 좋은 논문을 써도 **국제적 존재감**이 없으면 학계에서 소외된다. 발음과 청취는 **훈련 가능한 기술**이지만, 대부분 체계적으로 훈련하지 않는다.
+
+**한국 박사의 영어 발음 문제 7가지.**
+
+- **자음 구분**: p/f, b/v, l/r, s/sh, z/th의 혼동.
+- **자음 군집**: "strength", "scripts"처럼 연속 자음.
+- **Silent Letters**: "knee"의 k, "psychology"의 p.
+- **강세 (Stress)**: 한국어는 음절 균등, 영어는 강세 중심.
+- **리듬 (Rhythm)**: Content words 강조, Function words 약화.
+- **연음 (Liaison)**: "an_apple", "got_it".
+- **억양 (Intonation)**: 상승·하강·질문의 패턴.
+
+이 7가지가 **한국인 발음의 공통 과제**.
+
+**청취의 4가지 장벽.**
+
+- **속도**: 영어 원어민은 분당 150-200 단어.
+- **약음화 (Reduction)**: "going to" → "gonna", "want to" → "wanna".
+- **연음과 이음화**: 단어 사이의 경계 흐려짐.
+- **어휘 부족**: 학술 용어는 알아도 일상 어휘 부족.
+
+**논문은 읽을 수 있어도 팟캐스트 못 따라가는 이유**.
+
+**발음 훈련의 원리 — Shadowing.**
+
+Shadowing (섀도잉)은 **원어민 음성을 들으며 동시에 따라 말하기**.
+
+- **원리**: 듣기와 말하기를 동시에 훈련.
+- **난이도**: 초급은 0.5초 지연, 고급은 즉시.
+- **자료**: TED Talks, NPR, BBC, Science podcasts.
+- **시간**: 하루 15-30분.
+- **기간**: 3-6개월 꾸준히 하면 큰 변화.
+
+**Shadowing은 가장 효율적인 발음·청취 훈련**.
+
+**Shadowing의 5단계.**
+
+- **1단계**: 자막과 함께 듣기 (이해).
+- **2단계**: 자막 없이 듣기 (청취).
+- **3단계**: 자막 보며 동시에 말하기 (형태).
+- **4단계**: 자막 없이 동시에 말하기 (Shadow).
+- **5단계**: 녹음하여 비교 (교정).
+
+**5단계를 반복**.
+
+**발음 기호 (IPA) 학습.**
+
+- **모음**: /æ/ (cat), /ʌ/ (cup), /ɑː/ (car), /ɪ/ (sit), /iː/ (seat).
+- **자음**: /θ/ (think), /ð/ (this), /ʒ/ (pleasure), /ŋ/ (sing).
+- **한국어 없는 소리**: /f, v, θ, ð, ʒ, z, ʃ/.
+- **도구**: Cambridge Dictionary, Merriam-Webster 발음 기호.
+- **학습법**: 단어 배울 때 IPA도 함께.
+
+**IPA는 발음의 기록법**—읽을 수 있어야 함.
+
+**Minimal Pairs 훈련.**
+
+비슷하게 들리는 단어의 구별:
+
+- **P/F**: pan/fan, pine/fine, pull/full.
+- **B/V**: bat/vat, berry/very, base/vase.
+- **L/R**: light/right, lock/rock, flight/fright.
+- **S/SH**: sip/ship, sea/she, save/shave.
+- **Z/TH**: zin/thin, raise/rays, clothes/closes.
+
+**매일 10분 Minimal Pairs** 연습.
+
+**강세의 규칙.**
+
+- **명사 vs 동사**: "record" (RE-cord 명사, re-CORD 동사).
+- **2음절 명사**: 보통 첫 음절 (TA-ble, WIN-dow).
+- **2음절 동사**: 보통 둘째 음절 (re-LAX, de-CIDE).
+- **-tion, -sion**: 앞 음절 강세 (pre-SEN-ta-tion).
+- **-ity, -ify**: 앞 2음절 (a-BIL-i-ty).
+- **복합명사**: 첫 단어 (BLACKbird, HOTdog).
+
+**강세 틀리면 단어 자체가 다르게 들림**.
+
+**학술 발표 특수 발음.**
+
+- **Greek letters**: α (alpha), β (beta), θ (theta), λ (lambda).
+- **Math terms**: "integral", "derivative", "coefficient".
+- **Latin abbr**: "et al." (et AL), "e.g." (EE jee), "i.e." (EYE ee).
+- **Field-specific**: 본인 분야 어휘 사전 연습.
+- **자신의 이름**: 외국인도 발음할 수 있게.
+
+**학회 전에 본인 발표 어휘 발음 확인**.
+
+**일상 표현의 Reduction.**
+
+- **"going to" → "gonna"**
+- **"want to" → "wanna"**
+- **"have to" → "hafta"**
+- **"got to" → "gotta"**
+- **"kind of" → "kinda"**
+- **"should have" → "shoulda"**
+
+**Reduction을 이해하면 청취가 쉬워진다**.
+
+**청취 훈련의 자료.**
+
+- **TED Talks**: 명료한 발음·자막.
+- **NPR·BBC**: 뉴스 영어.
+- **Science Friday·Science Podcasts**: 분야 적합.
+- **Talks at Google**: 강연.
+- **YouTube 자막**: 속도 조절 가능.
+- **Netflix**: 일상 표현.
+
+**본인 분야 팟캐스트**를 찾아 정기 청취.
+
+**속도 조절과 점진적 가속.**
+
+- **시작**: 0.75배 속도.
+- **중간**: 1배.
+- **고급**: 1.25배.
+- **매우 고급**: 1.5배.
+- **YouTube·Podcast**: 속도 조절 기능.
+
+**점진적 증가가 핵심**.
+
+**녹음과 자기 피드백.**
+
+- **본인 녹음**: 매일 5분.
+- **원어민과 비교**: 같은 문장의 원어민 버전.
+- **차이 분석**: 강세·리듬·발음.
+- **전문가 평가**: Speech Pathologist (있다면).
+- **AI 발음 평가**: ELSA Speak·Duolingo.
+
+**본인 발음을 들으면 크게 다름** 깨달음.
+
+**발표 리허설의 녹음.**
+
+- **전체 녹음**: 18분 발표.
+- **분석**: 문제 있는 부분 표시.
+- **반복 연습**: 해당 문장.
+- **재녹음**: 비교.
+
+**5회 반복**으로 발표의 질 급상승.
+
+**1:1 대화의 기술.**
+
+- **Active Listening**: "uh-huh", "I see", "right".
+- **Clarification**: "Could you clarify...?"
+- **Paraphrase**: "So you mean..."
+- **Thinking Time**: "That's a great question. Let me think..."
+- **Small Talk**: 날씨·여행·음식.
+
+**내용만이 아니라 상호작용**.
+
+**학회 네트워킹 영어.**
+
+- **Opening**: "Hi, I'm [name], I work on...".
+- **Showing Interest**: "That's fascinating. How did you...?"
+- **Exchange**: 명함·이메일.
+- **Closing**: "Great to meet you. Let's stay in touch."
+- **Follow-up**: 24시간 내 이메일.
+
+**네트워킹은 영어 + 사교**.
+
+**Accent의 자연스러움.**
+
+- **목표는 "완벽한 미국 발음"이 아님**: 명료하면 OK.
+- **다양한 Accent**: 인도·중국·프랑스 박사도 성공.
+- **한국식 Accent**: 유지해도 문제없음.
+- **중요한 것**: 상대방이 이해.
+- **자신감**: 정확성보다 자신감이 소통.
+
+**"Accent Reduction"이 아니라 "Clarity Improvement"**.
+
+**박사의 영어 말하기 함정 7가지.**
+
+- **완벽주의**: 완벽하지 않으면 말 안 함.
+- **문법 집착**: 대화 중 문법 계산.
+- **속도 느림**: 단어 찾느라 느려짐.
+- **단조로움**: Monotone.
+- **낮은 목소리**: 작아서 안 들림.
+- **한국어 어순 그대로**: "I can do it well"—어색.
+- **Filler Words**: "um", "uh" 남발.
+
+이 7가지가 **말하기 실수**.
+
+**영어 Speaking Club·Language Exchange.**
+
+- **Conversation Partners**: 학교 내 프로그램.
+- **Tandem·HelloTalk**: 앱.
+- **Toastmasters**: 발표 클럽.
+- **Lab Meeting English**: 주간 회의를 영어로.
+- **English Day**: 주 1일 영어만.
+
+**사용하지 않으면 녹슴**.
+
+**Writing으로 Speaking 돕기.**
+
+- **Journal**: 영어로 일기.
+- **Twitter/X**: 영어로 트윗.
+- **Blog**: 영어로 블로그.
+- **Email**: 가능하면 영어로.
+
+**Writing과 Speaking은 상호 강화**.
+
+**한국 박사의 영어 특수.**
+
+- **시험 영어 편향**: Reading·Grammar 강점, Listening·Speaking 약점.
+- **학원 영어**: 미국식 강조.
+- **Perfectionism**: 완벽하지 않으면 침묵.
+- **Codeswitching**: 한국인 동료와는 한국어로—영어 연습 기회 상실.
+- **학회 한국 그룹**: 해외에서도 한국인끼리.
+
+한국 특수 극복: **의식적 노출**.
+
+**2024+ AI 시대의 영어 훈련.**
+
+- **ChatGPT Voice**: 대화 연습 상대.
+- **Claude·Gemini**: 에세이 교정.
+- **ELSA Speak**: AI 발음 평가.
+- **DeepL Write**: 문장 개선.
+- **Grammarly**: 실시간 문법.
+- **자동 통역**: Zoom·Teams.
+
+**AI는 무한 대화 상대**—시간 제약 없는 연습.
+
+**발음·청취 일일 루틴.**
+
+- **아침 10분**: Shadowing (TED).
+- **이동 중 20분**: Podcast.
+- **저녁 10분**: 녹음·평가.
+- **주말 1시간**: 집중 훈련.
+
+**총 하루 40분**—6개월 후 큰 변화.
+
+**학회 전 특별 훈련.**
+
+- **발표 녹음**: 10회+.
+- **Q&A 시뮬레이션**: 예상 질문·답변.
+- **네트워킹 대본**: Opening·Elevator Pitch.
+- **Mock 리허설**: 친구와 영어로.
+
+**준비된 영어는 자연스러운 영어가 된다**.
+
+**10가지 영어 체크리스트.**
+
+- ☐ 매일 Shadowing 15분
+- ☐ Minimal Pairs 주 3회
+- ☐ IPA 활용
+- ☐ 본인 녹음 주 1회
+- ☐ 팟캐스트 주 5회
+- ☐ Speaking Club 주 1회
+- ☐ 학회 전 집중 훈련
+- ☐ 속도 점진 증가
+- ☐ Accent는 명료성 우선
+- ☐ AI 도구 활용
+
+**박사의 영어 5년 진화.**
+
+- **1년차**: 기초 Shadowing·IPA.
+- **2년차**: 학회 발표 영어.
+- **3년차**: 논문 영어 + 학술 대화.
+- **4년차**: Plenary·Panel·네트워킹.
+- **5년차**: 영어가 제2의 연구 언어.
+
+**5년 후 영어는 박사의 세계 시민권**.
+
+**마지막 — 발음·청취는 박사의 국제 경쟁력이다.**
+
+한국 박사의 영어 논문은 AI 시대에 덜 장벽, 하지만 발음·청취는 여전히 인간의 영역. 7가지 발음 문제·4가지 청취 장벽·Shadowing·5단계·IPA·Minimal Pairs·강세·발표 특수 발음·Reduction·청취 자료·속도 조절·녹음 피드백·1:1 대화·네트워킹·Accent 자연스러움·7가지 말하기 함정·Speaking Club·Writing 활용·한국 특수·AI 시대·일일 루틴·학회 전 훈련·체크리스트·5년 진화 — 이 모든 것을 의식적으로 다루면 박사의 영어가 **국제 경쟁력**이 된다. 영어는 박사의 세계 시민권.
+
+> 박사의 영어 발음·청취는 국제 경쟁력. 7가지 발음 문제 (자음 구분·군집·Silent·강세·리듬·연음·억양). 4가지 청취 장벽 (속도·약음화·연음·어휘). Shadowing 5단계로 발음·청취 동시. IPA 활용. Minimal Pairs (P/F·B/V·L/R·S/SH·Z/TH). 강세 규칙. 학술 특수 발음 (Greek·Math·Latin). Reduction 이해. TED·NPR·BBC 청취. 속도 0.75→1.5 점진. 녹음 자기 피드백. 발표 리허설 5회 반복. 1:1 Active Listening. 네트워킹 영어. Accent는 명료성 우선. 7가지 말하기 함정 (완벽주의·문법 집착·속도·단조·목소리·어순·Filler). Speaking Club. Writing으로 Speaking. 한국 시험 영어 편향·Codeswitching. 2024+ AI Voice. 일일 40분 루틴. 학회 전 집중 훈련. 10가지 체크리스트. 5년 진화. 영어는 박사의 세계 시민권.
