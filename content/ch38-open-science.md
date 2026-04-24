@@ -1404,3 +1404,341 @@ RR이 만능은 아님:
 모든 논문을 RR로 할 필요는 없다. 하지만 박사의 **주요 프로젝트 1-2건**을 RR로 진행하면 방법론적 엄격성·출판 안정성·학계 visibility 모두 향상. 5가지 이점·박사의 특별한 가치·분야별 저널·투고 타임라인·3가지 도전·다른 오픈 사이언스와의 결합·한국 현실·AI 시대·한계 — 이 모든 것을 이해하면 박사의 출판 전략에 RR을 전략적으로 통합할 수 있다. 2020년대는 Registered Reports가 오픈 사이언스의 핵심 도구로 자리잡는 시기.
 
 > Registered Reports는 2013년 도입, 2024년 200+ 저널 채택 중. Stage 1(설계)+Stage 2(결과)의 이중 심사로 publication bias·p-hacking 방지. 박사에게 5가지 가치(졸업 확실성·시간 절약·엄밀성·임용 신호·오픈 기여). 분야별 RR 저널 (*Cortex*·*PLOS Biology*·*Scientific Reports* 등). 2년 타임라인. 3가지 실전 도전(방법 고정·저널 제약·유연성 감소). 다른 오픈 사이언스와의 시너지. 한국 인지도 낮지만 희소성 기회. AI 시대의 재현성 도구. 박사 주요 프로젝트 1-2건을 RR로.
+
+---
+
+## 데이터·코드 공개의 실전 — 박사가 레포지토리를 설계하는 법
+
+오픈 사이언스의 핵심은 **데이터와 코드의 공개**다. 하지만 많은 박사의 공개 리포지토리는 실제로 **재사용 불가**. README가 부실하고, 의존성이 명시 안 되고, 데이터 구조가 불분명. 이 섹션은 박사가 데이터·코드 레포지토리를 **실제로 재사용 가능하게** 설계하는 실전을 다룬다. ch38의 다른 섹션(사전등록·Preprint·RR)이 **철학·전략**이었다면, 이 섹션은 **구체적 구현**이다.
+
+**좋은 레포지토리의 10가지 기본 요건.**
+
+**요건 1, 명확한 README**: 프로젝트 개요 + 설치 + 사용법.
+
+**요건 2, 라이선스 파일**: MIT, Apache 2.0, CC-BY 등 명시 (ch40).
+
+**요건 3, 의존성 파일**: `requirements.txt`, `pyproject.toml`, `environment.yml`.
+
+**요건 4, 실행 가능한 예제**: `python main.py`로 시작 가능.
+
+**요건 5, 논문과의 연결**: 어느 논문의 어느 실험인지 명시.
+
+**요건 6, 데이터 위치**: 포함·링크·다운로드 방법.
+
+**요건 7, 출력 예시**: 재현하면 이런 결과가 나온다는 예.
+
+**요건 8, Citation 파일**: CITATION.cff로 인용 방법.
+
+**요건 9, 기여 가이드**: CONTRIBUTING.md (다른 사람의 기여).
+
+**요건 10, 이슈 트래커**: GitHub Issues 활성화.
+
+이 10가지가 **재사용 가능 레포**의 기본.
+
+**README의 표준 구조.**
+
+```markdown
+# 프로젝트 이름
+
+1-2 문장의 개요.
+
+## 논문
+
+- 제목: [논문 제목]
+- 저자: [저자들]
+- 출판: [저널/학회, 년도]
+- Link: [논문 링크]
+
+## 빠른 시작
+
+\`\`\`bash
+git clone https://github.com/...
+cd project
+pip install -r requirements.txt
+python main.py
+\`\`\`
+
+## 재현 명령
+
+논문 Table 2 재현:
+\`\`\`bash
+python experiments/run_table2.py
+\`\`\`
+
+## 디렉토리 구조
+
+- `src/`: 핵심 코드
+- `experiments/`: 실험 스크립트
+- `data/`: 데이터 (별도 다운로드)
+- `notebooks/`: 분석 노트북
+
+## 요구사항
+
+- Python 3.10+
+- CUDA 12.1+
+- GPU 16GB+
+
+## 데이터
+
+[Zenodo에서 다운로드](...) (총 5GB)
+
+## Citation
+
+\`\`\`bibtex
+@article{...,
+  title={...},
+  author={...},
+  year={2024}
+}
+\`\`\`
+
+## License
+
+MIT (코드), CC-BY 4.0 (데이터)
+
+## Contact
+
+email@domain.com
+```
+
+이 구조를 **템플릿**으로.
+
+**디렉토리 구조의 표준.**
+
+ML 박사 레포의 전형:
+
+```
+my-research/
+├── README.md
+├── LICENSE
+├── CITATION.cff
+├── requirements.txt
+├── environment.yml
+├── pyproject.toml
+├── setup.py
+├── .gitignore
+├── src/
+│   ├── models/
+│   ├── data/
+│   ├── utils/
+│   └── training/
+├── experiments/
+│   ├── run_table2.py
+│   ├── run_figure3.py
+│   └── ablations/
+├── data/
+│   └── README.md (데이터 다운로드 방법)
+├── notebooks/
+│   └── analysis.ipynb
+├── tests/
+│   └── test_*.py
+├── docs/
+│   └── API reference
+├── scripts/
+│   └── preprocess.sh
+└── outputs/
+    ├── logs/
+    ├── checkpoints/
+    └── figures/
+```
+
+**일관성**: 분야 표준 따름. 독자의 예측 가능성.
+
+**Git의 실전 관리.**
+
+**.gitignore의 필수 항목**:
+```
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Data
+data/raw/
+*.csv
+*.parquet
+*.pkl
+*.h5
+
+# Models
+*.pt
+*.ckpt
+checkpoints/
+
+# Logs
+logs/
+wandb/
+mlruns/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+```
+
+**Commit 메시지의 관례**:
+- `feat: 새 기능 추가`
+- `fix: 버그 수정`
+- `docs: 문서 업데이트`
+- `refactor: 코드 정리`
+- `test: 테스트 추가`
+
+**Branch 전략**:
+- `main`: 안정.
+- `dev`: 개발 중.
+- `feature/xxx`: 새 기능.
+- `paper/neurips2024`: 논문 제출 버전.
+
+**데이터 공개의 4가지 옵션.**
+
+**옵션 1, GitHub에 포함**:
+- 작은 데이터 (<100MB).
+- 간단하지만 크기 제한.
+- Git LFS로 일부 해결.
+
+**옵션 2, Zenodo에 업로드**:
+- 50GB까지 무료.
+- DOI 발급.
+- 영구 보관 (CERN 운영).
+- **학술 데이터의 표준**.
+
+**옵션 3, HuggingFace Datasets**:
+- ML 데이터의 표준.
+- 버전 관리.
+- 쉬운 다운로드.
+
+**옵션 4, 기관 서버 / 클라우드**:
+- 대용량 (100GB+).
+- AWS S3, Google Cloud Storage.
+- 유지 비용.
+- **영구성 보장 어려움**.
+
+**박사의 권장**: 핵심 데이터는 Zenodo. DOI가 인용에 필수.
+
+**코드의 재현성 5가지 수준.**
+
+**수준 1, Available (단순 공개)**:
+- GitHub에 코드.
+- 실행 가능 여부 불명.
+- 최소.
+
+**수준 2, Executable (실행 가능)**:
+- 설치 가능.
+- 실행 시 오류 없음.
+
+**수준 3, Reproducible (재현 가능)**:
+- 같은 입력에 같은 출력.
+- Seed 고정.
+- Deterministic.
+
+**수준 4, Generalizable (일반화 가능)**:
+- 다른 데이터에도 작동.
+- 하이퍼파라미터 조정 설명.
+
+**수준 5, Extensible (확장 가능)**:
+- 잘 구조화된 코드.
+- 다른 사람이 기여·수정 가능.
+- 문서화 완성.
+
+박사의 목표: **수준 3 이상**. 가능하면 4-5.
+
+**공개의 4단계 — 논문 주기별.**
+
+**1단계, 논문 제출**: Code + Data의 **private repo**.
+
+**2단계, 논문 accept**: **Public 전환**. DOI 발급.
+
+**3단계, 논문 출판**: 최종 버전의 **tag 고정** (v1.0-neurips2024).
+
+**4단계, 유지보수**: Issues 응답, 버그 수정.
+
+각 단계의 준비가 **좋은 공개**.
+
+**데이터 프라이버시의 고려.**
+
+공개 전 반드시 확인:
+
+- **개인정보**: 이름·주소·주민번호 제거.
+- **IRB 승인**: 피험자 데이터의 공개 조건.
+- **저작권**: 타인 데이터 포함 시 허가.
+- **영업 비밀**: 기업 공동 연구 시 NDA.
+- **국가 안보**: 일부 데이터 (예: 군사·의료) 수출 제한.
+
+De-identification의 표준 기술 (ch29 참조).
+
+**박사의 레포 유지보수.**
+
+공개 후 관리:
+
+- **월 1회 Issues 확인**: 사용자 질문 응답.
+- **분기 1회 의존성 업데이트**: `requirements.txt`의 버전 갱신.
+- **연 1회 주요 업데이트**: 새 기능·버그 수정.
+- **졸업 후**: 개인 GitHub으로 이전. URL 변경 공지.
+
+**유지보수 없는 레포**는 시간이 지남에 따라 재현 불가. 박사의 책임.
+
+**좋은 레포의 지표.**
+
+사용자 관점에서 "좋은" 레포:
+
+- **★ Star 수**: 인기 지표.
+- **Fork 수**: 재사용.
+- **Issue 응답 속도**: 유지보수.
+- **Citation**: 학계 영향.
+- **Time to reproduce**: 첫 사용자가 재현에 걸리는 시간. 2시간 이내가 이상.
+
+**5가지 흔한 실수.**
+
+**실수 1, "마지막에 정리"**: 논문 제출 후 급하게 정리 → 품질 낮음.
+
+**실수 2, 의존성 미명시**: `pip install requirements.txt`로 오류.
+
+**실수 3, Hard-coded 경로**: 본인 컴퓨터의 경로가 그대로.
+
+**실수 4, 거대 파일의 Git commit**: 리포지토리 크기 폭발. Git LFS 또는 외부.
+
+**실수 5, Credentials의 실수 commit**: API 키·비밀번호 노출. `.env` 사용.
+
+**AI 시대의 레포 — 2024+.**
+
+**AI 도구 활용**:
+- **README 생성**: Claude에게 코드 주고 README 초안.
+- **Docstring 자동 생성**: Copilot.
+- **테스트 코드 생성**: LLM으로.
+- **Issue triage**: AI가 이슈 분류.
+
+**주의**:
+- AI 생성물의 검증 필수.
+- 본인이 내용 이해해야.
+
+**HuggingFace Papers With Code**:
+- 논문 + 코드 + 벤치마크 통합.
+- AI 분야 표준.
+- 공개 시 자동 등록.
+
+**한국 박사의 레포 공개 특수 맥락.**
+
+- **한국어 README vs 영어**: 영어 우선, 한국어 보조. 국제 독자 고려.
+- **학교·연구실 서버 vs GitHub**: GitHub이 표준. 학교 서버는 보조.
+- **기업 공동 연구**: NDA·IP 이슈. 공개 범위 협상.
+- **국가 연구비**: NRF 성과보고의 일부. 의무 공개 경우 있음.
+- **한국 학회 공유**: DBpia, KISS의 한국어 논문 연동.
+
+**박사 졸업 후 레포의 운명.**
+
+졸업 후 레포 관리:
+
+- **본인 개인 GitHub**: 학교 계정에서 이전.
+- **Zenodo DOI**: 영구 보관. URL 변경되어도 DOI로 접근.
+- **의미 있는 유지**: 졸업 후 2-3년은 active.
+- **은퇴 공지**: 더 이상 유지 안 함을 README에 명시.
+
+**마지막 — 레포는 논문 뒤에 오는 부속이 아니다.**
+
+좋은 레포는 **논문 자체의 연장**. 10가지 기본 요건·README 구조·디렉토리·Git 관리·데이터 공개·재현성 5수준·논문 주기별 공개·프라이버시·유지보수·좋은 레포 지표·5가지 실수·AI 시대·한국 맥락·졸업 후 — 이 모든 것을 의식적으로 설계하면 본인의 연구가 **실제로 재사용되는 과학**이 된다. 공개가 목적 아니라 **활용**이 목적.
+
+> 좋은 레포의 10가지 기본 (README·LICENSE·의존성·실행·논문 연결·데이터·출력·Citation·기여·이슈). README 표준 구조. 디렉토리 구조의 분야 관례. Git의 실전 관리 (.gitignore·commit·branch). 데이터 공개의 4가지 옵션 (GitHub·Zenodo·HuggingFace·기관) 중 Zenodo 표준. 재현성 5수준 (Available·Executable·Reproducible·Generalizable·Extensible) 중 수준 3 이상 목표. 논문 주기별 4단계 공개. 데이터 프라이버시. 공개 후 유지보수. 좋은 레포 지표. 5가지 실수. 2024+ AI 도구. 한국 박사 특수. 졸업 후 레포 관리. 공개가 목적 아니라 활용이 목적.
