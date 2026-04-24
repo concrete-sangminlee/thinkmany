@@ -1163,3 +1163,272 @@ ch39의 앞부분이 제안서의 내용·전략·국제 자금을 다뤘다면,
 박사가 연구 내용을 잘 쓰면서 예산을 어설프게 쓰면 전체 제안서의 신뢰도가 떨어진다. 심사위원이 보는 5가지 기준·한국 예산 항목 구조·비율 전형·과대/과소 편성 함정·예산 정당화·3가지 전략·중복 방지·유연성·5년 훈련 계획·5가지 함정·AI 시대 변화·한국 특수 규정 — 이 모든 것을 이해하면 예산이 연구의 **구체성과 실행력**의 증거가 된다. 박사 2-3년차에 이 기술을 쌓는 것이 박사 후 독립 연구자로의 전환의 기반.
 
 > 예산 설계는 제안서의 신뢰도를 결정하는 숨은 축. 심사위원 5기준 (현실성·구체성·정당성·우선순위·일관성). 한국 7개 예산 항목 (인건·재료·장비·시설·활동·수당·간접) 구조. 박사 과제 예산 비율 전형. 과대/과소 편성의 위험과 균형. 예산 정당화의 구체 예시. 3가지 전략 (미니멀·성장·야심). 중복 방지·유연성·증빙. 5년 단계적 훈련. 5가지 함정 회피. AI 시대의 새 항목(LLM API·GPU·라벨링·도구·인프라). 예산은 연구의 언어로 번역된 현실이다.
+
+---
+
+## 제안서의 Research Plan 작성 — Specific Aims부터 Timeline까지
+
+제안서의 핵심은 **Research Plan**. 2-10페이지의 이 섹션이 연구비 수혜 여부를 결정한다. 많은 박사가 이 부분을 "연구 내용"으로만 채우지만, 실제로는 **Specific Aims·Preliminary Data·Approach·Timeline의 4개 축**으로 구성된 설득 문서다. 이 섹션은 박사가 Research Plan을 체계적으로 작성하는 실전을 다룬다. ch39의 다른 섹션(예산·펠로우십·평가자 관점)이 **제안서의 주변**이었다면, 이 섹션은 **제안서의 본질**이다.
+
+**Research Plan의 4개 축.**
+
+**축 1, Specific Aims (구체 목표)**:
+- 3-5개의 명확한 목표.
+- 각 Aim은 독립적·검증 가능.
+- 1페이지로 요약.
+
+**축 2, Background & Significance**:
+- 연구 배경·중요성.
+- 현재 지식의 gap.
+- 본 연구의 의의.
+
+**축 3, Preliminary Data & Approach**:
+- 기존 예비 결과.
+- 방법론·실험 계획.
+- 검증 전략.
+
+**축 4, Timeline & Milestones**:
+- 기간별 목표.
+- 측정 가능한 성과.
+- 위험 요소 대응.
+
+이 4개 축이 **연결된 논리 흐름**.
+
+**Specific Aims Page — 제안서의 얼굴.**
+
+NIH·NRF·NSF 제안서의 공통: Specific Aims가 첫 페이지.
+
+**구조**:
+- **첫 문단 (배경)**: 큰 문제·중요성.
+- **둘째 문단 (Gap)**: 현재의 한계.
+- **셋째 문단 (Approach)**: 본 연구의 접근.
+- **Aims 목록 (3-5개)**: 각 Aim 2-4 줄 설명.
+- **마지막 문단 (Impact)**: 성과 후의 영향.
+
+**원칙**:
+- **1페이지 초과 금지**.
+- 각 Aim은 **구체적 동사**로 시작 (Test·Develop·Characterize).
+- Aim 간 **의존성 최소화** (Aim 1 실패해도 Aim 2 진행).
+
+**예시 (AI 분야)**:
+```
+Aim 1: Develop a novel attention mechanism for X task.
+Aim 2: Evaluate the proposed method on Y benchmark.
+Aim 3: Apply the method to real-world Z problem.
+```
+
+**Aim 1이 가설 검증, Aim 2가 실증, Aim 3가 응용**의 패턴.
+
+**Background의 Gap 분석.**
+
+"현재 연구의 한계"를 설득력 있게:
+
+**좋은 Gap 분석**:
+- 구체적·양적.
+- "X 성능이 Y% 수준, Z를 못함."
+- 최신 논문 5-10편 인용.
+- 본인 연구가 이 gap을 메운다는 논리.
+
+**나쁜 Gap 분석**:
+- "더 많은 연구 필요."
+- 구체성 부족.
+- 오래된 참고문헌만.
+
+**박사의 접근**: Gap을 **정량적으로**.
+
+**Preliminary Data의 힘.**
+
+제안서에서 **예비 결과 (Preliminary Data)**의 가치:
+
+- **가능성 증명**: "이 아이디어가 작동한다".
+- **위험 감소**: 심사자의 걱정 해소.
+- **연구자의 역량**: 본인이 해낼 수 있다.
+- **타당성 증거**: 계획이 현실적.
+
+**박사의 현실**:
+- 박사 초기: 예비 결과 부족. 문헌·초기 실험 강조.
+- 박사 중후기: 관련 publication + 예비 결과.
+
+**박사의 권장**: 제안서 제출 전 **최소 1개 pilot 실험**.
+
+**Approach 섹션의 구조.**
+
+**각 Specific Aim마다**:
+
+**Rationale**: 왜 이 Aim인가.
+
+**Methods**:
+- 구체적 실험 설계.
+- 데이터 수집·분석.
+- 통계 방법.
+
+**Expected Outcomes**: 예상 결과.
+
+**Potential Pitfalls**: 가능한 문제.
+
+**Alternative Approaches**: 대안 계획.
+
+**검증 가능성**: 성공·실패 판단 기준.
+
+**분량**: 각 Aim 1-2페이지.
+
+**Potential Pitfalls의 전략적 활용.**
+
+많은 박사가 "잘 될 것"이라고만 씀. 심사자는 **비판적**.
+
+**좋은 Pitfalls 섹션**:
+- 가능한 3-5가지 문제 나열.
+- 각각의 대응 전략.
+- "문제를 미리 생각한" 증거.
+
+**예시**:
+- "우리 방법이 작은 데이터셋에 과적합될 가능성. → Regularization, cross-validation, 다중 데이터셋 활용."
+- "예상 성능이 나오지 않을 가능성. → Alternative architecture, ablation study."
+
+**효과**: 심사자의 우려를 선제 차단.
+
+**Timeline과 Milestones.**
+
+3-5년 프로젝트의 시간 계획:
+
+**Year 1**:
+- Aim 1 시작.
+- 기초 실험.
+- 첫 preprint 목표.
+
+**Year 2**:
+- Aim 1 완성.
+- Aim 2 시작.
+- 저널 투고 1건.
+
+**Year 3**:
+- Aim 2 완성.
+- Aim 3 시작.
+- 주요 학회 발표.
+
+**Milestones (측정 가능)**:
+- "Month 6: Preliminary results on benchmark X."
+- "Month 12: First paper submitted."
+- "Month 18: Open-source tool released."
+
+**Gantt chart** 추가. 시각적 계획.
+
+**심사자 관점의 Research Plan 평가.**
+
+NIH·NRF 심사자가 보는 기준:
+
+**Significance**: 중요한 문제?
+
+**Innovation**: 새로운 접근?
+
+**Approach**: 적절한 방법?
+
+**Investigator**: PI·팀의 역량?
+
+**Environment**: 수행 환경의 적절성?
+
+각 기준에 5점 척도. **평균 2 이하는 탈락**.
+
+**박사의 Research Plan 작성 5가지 실수.**
+
+**실수 1, Aim의 모호함**:
+- "Study X" 같은 모호한 동사.
+- 검증 가능한 목표 부재.
+
+**실수 2, Aim 간 과도한 의존**:
+- Aim 1 실패하면 전체 실패.
+- 독립성 설계 필요.
+
+**실수 3, 예비 결과 부족**:
+- 순수 아이디어만.
+- 실현 가능성 의심.
+
+**실수 4, Pitfall 부정**:
+- "실패할 가능성 없음".
+- 비현실적.
+
+**실수 5, Timeline 비현실**:
+- 3년에 너무 많은 것 계획.
+- 박사의 현실적 속도 무시.
+
+**분야별 Research Plan 특성.**
+
+**생명과학 (NIH-style)**:
+- Specific Aims 1페이지.
+- 12페이지 Research Plan.
+- Rigor·Reproducibility 강조.
+
+**CS/AI (NSF)**:
+- 15페이지 Project Description.
+- Broader Impacts 별도.
+
+**공학 (NRF)**:
+- 한국 특화 양식.
+- "기대효과·활용방안" 섹션.
+
+**EU Horizon Europe**:
+- Excellence·Impact·Implementation.
+- 특유의 format.
+
+본인 분야·기관의 **양식 준수**.
+
+**한국 박사의 Research Plan 작성.**
+
+- **한국어 vs 영어**: NRF는 한국어, Horizon Europe은 영어.
+- **한국 특화 Impact**: "국가 경쟁력", "지역 발전" 등의 표현.
+- **산학협력 강조**: 한국 정부 과제의 주요 기준.
+- **정책 연계**: 과기부·산업부의 중점 과제와 연계.
+
+**2024+ AI 시대의 Research Plan.**
+
+변화:
+
+- **AI 분야 폭증**: 경쟁 치열.
+- **AI 융합 요구**: 모든 분야가 AI와 연계.
+- **재현성 요구**: 코드·데이터 공개 계획.
+- **사회적 impact**: AI의 윤리·사회 영향.
+- **LLM으로 Plan 초안**: 주의 필요. 본인의 사고가 본질.
+
+**Research Plan의 7단계 작성 프로세스.**
+
+**1단계 (4주 전)**: Specific Aims 초안. 지도교수 피드백.
+
+**2단계 (3주 전)**: Background·Significance 작성.
+
+**3단계 (2.5주 전)**: Preliminary Data 정리.
+
+**4단계 (2주 전)**: Approach 상세화.
+
+**5단계 (1.5주 전)**: Timeline·Milestones.
+
+**6단계 (1주 전)**: 전체 통합 검토.
+
+**7단계 (제출 전 3-5일)**: 동료 리뷰·수정.
+
+이 7단계가 **체계적 제안서 작성**.
+
+**지도교수·공저자와의 협업.**
+
+- **지도교수 피드백 3-4회**: 초안·중간·최종.
+- **공저자 역할 명시**: Co-I (Co-Investigator)의 역할.
+- **분담 작성**: 각자의 전문 섹션.
+- **최종 통합**: 한 사람의 책임.
+
+**Research Plan 검토 체크리스트.**
+
+- ☐ Specific Aims 1페이지
+- ☐ 각 Aim이 구체적 동사로 시작
+- ☐ Aim 간 독립성
+- ☐ Gap 분석 정량적
+- ☐ Preliminary Data 최소 1건
+- ☐ 각 Aim의 Rationale·Methods·Outcomes·Pitfalls
+- ☐ Timeline이 측정 가능한 Milestones
+- ☐ 분야 표준 양식 준수
+- ☐ 한국 특화 요소 포함 (해당 시)
+- ☐ 동료 리뷰 완료
+
+**마지막 — Research Plan은 5년의 약속이다.**
+
+제안서의 Research Plan은 본인이 5년간 할 연구의 **공식 약속**. 4개 축·Specific Aims·Gap 분석·Preliminary Data·Approach·Pitfalls·Timeline·심사자 관점·5가지 실수·분야별 특성·한국 맥락·AI 시대·7단계 프로세스·협업·체크리스트 — 이 모든 것을 의식적으로 다루면 박사의 제안서가 **펀딩을 받는 제안서**가 된다. 좋은 Research Plan은 연구의 지도이자 약속.
+
+> Research Plan은 제안서의 본질. 4개 축 (Specific Aims·Background·Approach·Timeline). Specific Aims의 1페이지 구조와 5가지 원칙. Gap 분석의 정량성. Preliminary Data의 4가지 가치. 각 Aim의 Rationale·Methods·Outcomes·Pitfalls·Alternatives 구조. Timeline의 Gantt chart. NIH 심사 5기준 (Significance·Innovation·Approach·Investigator·Environment). 5가지 실수 (모호함·의존·예비 부족·pitfall 부정·비현실 timeline). 분야별 특성. 한국 박사 맥락. 2024+ AI 시대. 7단계 작성 프로세스. 지도교수 협업. 10가지 체크리스트. Research Plan은 5년의 약속이다.
