@@ -2334,3 +2334,343 @@ Proposal Defense. 공식 확정.
 **박사는 scoping의 첫 훈련**. 여기서 배운 것이 평생.
 
 > 연구 문제의 범위 설정은 박사의 첫 번째 큰 결정이다. 좋은 범위가 좋은 박사를 만들고, 나쁜 범위가 박사의 어려움을 만든다. 너무 크지도 작지도 않은 Sweet Spot을 찾는 것은 기술이고, 체계적 프로세스로 익힐 수 있다. Anti-Goals를 명시하고, Research Map을 그리고, 지도교수와 논의하고, 주기적으로 재평가하라. 완벽한 범위는 없지만 "합리적이고 실행 가능한" 범위는 있다. 박사 초반의 1-2년을 이 작업에 투자하면 남은 3-4년이 훨씬 수월하다. 범위를 지키는 학생이 박사 기간 내 완료한다. 범위가 흔들리는 학생이 졸업이 늦어진다. 범위 설정이 박사의 숨은 과학이다.
+
+---
+
+## 박사의 Question Taxonomy — "연구 질문의 6가지 유형과 선택"
+
+박사의 좋은 연구는 **좋은 질문**에서 시작한다. 같은 분야·같은 데이터라도 **질문의 유형**에 따라 박사 과정이 **완전히 다르다**. 박사 과정 대부분의 혼란은 "질문이 없어서"가 아니라 **"어떤 유형의 질문을 추구해야 하는지 모름"**에서 온다. 질문의 분류를 이해하면 박사가 **본인에게 맞는 질문**을 고를 수 있고, 지도교수·공저자·리뷰어와 **같은 언어**로 소통한다.
+
+**연구 질문의 6가지 유형.**
+
+- **Descriptive (기술적)**: "무엇이 일어나는가?"
+- **Explanatory (설명적)**: "왜 일어나는가?"
+- **Predictive (예측적)**: "다음에 무엇이?"
+- **Causal (인과적)**: "X가 Y를 일으키는가?"
+- **Normative (규범적)**: "어떻게 해야 하는가?"
+- **Methodological (방법적)**: "어떻게 더 잘 연구할까?"
+
+각 유형은 **방법·증거·영향이 다르다**.
+
+**Descriptive 질문 예시.**
+
+- "LLM의 hallucination 빈도는?"
+- "한국 박사의 정신건강 통계?"
+- "기후 변화의 한국 해수면 변화?"
+- **방법**: 측정·조사·관찰.
+- **증거**: 데이터·통계.
+- **기여**: Baseline·Reference.
+
+**새 분야**의 첫 질문이 Descriptive.
+
+**Explanatory 질문 예시.**
+
+- "왜 LLM이 hallucinate하는가?"
+- "박사 우울증의 원인은?"
+- "해수면 상승의 메커니즘은?"
+- **방법**: 이론·실험.
+- **증거**: Mechanisms·Correlations.
+- **기여**: Understanding.
+
+**박사 연구의 주류**.
+
+**Predictive 질문 예시.**
+
+- "GPT-5의 benchmark 성능?"
+- "10년 후 박사 시장?"
+- "2030년 해수면?"
+- **방법**: ML·통계·시뮬레이션.
+- **증거**: Accuracy·Forecast.
+- **기여**: Practical tool.
+
+**AI·기상·금융** 분야에 흔함.
+
+**Causal 질문 예시.**
+
+- "LLM 크기가 성능을 causal하게 결정?"
+- "SSRI가 우울증 causal 개선?"
+- "CO2가 기후 causal?"
+- **방법**: RCT·Natural Experiment·Counterfactual.
+- **증거**: Confounders 통제.
+- **기여**: Intervention 근거.
+
+**가장 강한 증거 요구**.
+
+**Normative 질문 예시.**
+
+- "AI 거버넌스는 어떻게?"
+- "박사 지도는 어떤 스타일이 좋은가?"
+- "기후 정책의 우선순위?"
+- **방법**: Philosophy·Ethics·Value 분석.
+- **증거**: 가치·정책.
+- **기여**: 사회 규범.
+
+**사회과학·철학·정책** 분야에 흔함.
+
+**Methodological 질문 예시.**
+
+- "LLM 평가의 새 benchmark?"
+- "박사 심리 측정 도구?"
+- "기후 모델의 개선?"
+- **방법**: Tool·Framework·Protocol 개발.
+- **증거**: Usability·Robustness.
+- **기여**: 분야의 인프라.
+
+**도구 개발**이 기여.
+
+**박사에게 적합한 유형.**
+
+| 유형 | 박사 적합성 | 이유 |
+|------|-------------|------|
+| Descriptive | 높음 | 범위 명확·실행 가능 |
+| Explanatory | 매우 높음 | 박사의 전형 |
+| Predictive | 높음 | 평가 명확 |
+| Causal | 중간 | 증거 어려움 |
+| Normative | 낮음 | 박사 학위 어려움 |
+| Methodological | 중간-높음 | 도구 제공 |
+
+**초기 박사는 Explanatory나 Descriptive** 권장.
+
+**6가지 유형의 조합.**
+
+실제 박사 논문은 **여러 유형의 조합**:
+
+- **"What → Why → How"**: Descriptive → Explanatory → Methodological.
+- **Chapter 1**: Descriptive.
+- **Chapter 2**: Explanatory.
+- **Chapter 3**: Predictive·Methodological.
+- **Chapter 4**: Causal (가능하면).
+
+**다차원 박사**가 이상적.
+
+**각 유형의 답 형태.**
+
+- **Descriptive**: "X는 Y다."
+- **Explanatory**: "X는 Z 때문에 Y다."
+- **Predictive**: "X가 주어지면 Y일 것."
+- **Causal**: "X가 Y를 일으킨다."
+- **Normative**: "X를 해야 한다."
+- **Methodological**: "X는 M으로 연구한다."
+
+**답의 형태**를 미리 상상.
+
+**Question Triage의 6가지 기준.**
+
+- **Novelty**: 새로운가?
+- **Importance**: 중요한가?
+- **Tractability**: 해결 가능한가?
+- **Resources**: 자원 있는가?
+- **Fit**: 본인·랩에 맞는가?
+- **Timing**: 지금 적합한가?
+
+**6가지 모두 만족**하는 질문이 좋은 박사 질문.
+
+**박사의 질문 발전 단계.**
+
+- **초급**: Descriptive 수준.
+- **중급**: Explanatory.
+- **고급**: Causal·Methodological.
+- **마스터**: Cross-type 통합.
+
+**박사 5-7년 = 초급→고급**.
+
+**나쁜 질문의 5가지 신호.**
+
+- **Too broad**: "AI와 사회".
+- **Too narrow**: "이 논문의 Table 3 개선".
+- **Unanswerable**: "의식의 본질".
+- **Already answered**: 기존 해결.
+- **No-one cares**: 중요성 없음.
+
+**5가지 중 하나라도 있으면** 재고.
+
+**좋은 질문의 6가지 신호.**
+
+- **Clear**: 명료.
+- **Specific**: 구체.
+- **Measurable**: 측정 가능.
+- **Open**: 답 없음.
+- **Contextualized**: 분야 내 위치.
+- **Feasible**: 실행 가능.
+
+**SMART + Open + Contextualized**.
+
+**학위논문 질문 vs 학위논문 Sub-questions.**
+
+- **박사 학위논문 질문 1개**: 5-7년의 큰 질문.
+- **Sub-questions 3-5개**: 각 Chapter의 질문.
+- **Research questions 10-20개**: 각 Section의 질문.
+
+**계층 구조**가 박사 논문의 뼈대.
+
+**질문의 5가지 발견 기법.**
+
+- **Gap Analysis**: 문헌의 공백.
+- **Anomaly**: 이상한 관찰.
+- **Contradiction**: 문헌 간 충돌.
+- **Application**: 새 분야 적용.
+- **Synthesis**: 분야 간 통합.
+
+**각 기법이 다른 질문 유형**.
+
+**Gap Analysis 예시.**
+
+- "대부분 논문이 X를 다루지만 Y는 아무도."
+- Descriptive·Explanatory로 전환.
+- 방법: 문헌 지도.
+
+**가장 흔한 박사 질문 발견법**.
+
+**Anomaly 예시.**
+
+- "표준 결과와 다른 관찰."
+- Explanatory·Causal로 전환.
+- 방법: Case study·재현.
+
+**큰 발견의 씨앗**.
+
+**Contradiction 예시.**
+
+- "A는 X라 하고 B는 Y라 한다. 누가 맞나?"
+- Explanatory·Methodological.
+- 방법: Meta-analysis·새 실험.
+
+**Resolution 논문**이 큰 기여.
+
+**Application 예시.**
+
+- "의학에서 통하는 X가 경제학에서도?"
+- Methodological·Causal.
+- 방법: Transfer·Adaptation.
+
+**분야 간 Bridge**.
+
+**Synthesis 예시.**
+
+- "Neuroscience의 X + ML의 Y = 새 이론?"
+- Explanatory·Methodological.
+- 방법: Theoretical framework.
+
+**학문의 경계에서**.
+
+**질문 표현의 기술.**
+
+- **질문형**: "Does X affect Y?"
+- **명제형**: "X의 Y에 대한 영향."
+- **비교형**: "X와 Z의 Y에 대한 차이."
+- **조건형**: "X가 Y의 Z 조건에서."
+- **탐색형**: "Y에 대한 X의 역할."
+
+**표현이 연구 방법을 결정**.
+
+**박사의 질문 함정 7가지.**
+
+- **첫 질문에 고정**: 유연성 없음.
+- **지도교수 질문 그대로**: 본인 것 아님.
+- **Trendy만**: 본인 흥미 없음.
+- **불가능 추구**: 답 없는.
+- **이미 해결**: 문헌 미숙지.
+- **작은 질문 반복**: 깊이 없음.
+- **유형 혼합 실패**: 방법 불일치.
+
+이 7가지가 **질문 실수**.
+
+**질문과 지도교수 매칭.**
+
+- **Explanatory 지도교수**: Mechanism 선호.
+- **Methodological 지도교수**: Tool 개발.
+- **Applied 지도교수**: 실용.
+- **Theoretical 지도교수**: 이론.
+- **본인 질문이 지도교수와 맞아야**.
+
+**불일치 = 박사 어려움**.
+
+**질문 진화 프로세스.**
+
+- **1단계 (Year 1)**: Broad exploration.
+- **2단계 (Year 2)**: 3-5개 후보.
+- **3단계 (Year 2-3)**: Pilot 실험.
+- **4단계 (Year 3)**: 1개 선정.
+- **5단계 (Year 3-5)**: Deep work.
+- **6단계 (Year 5-7)**: 논문·학위.
+
+**질문은 박사와 함께 성장**.
+
+**질문 테스트의 5가지 방법.**
+
+- **Elevator Pitch Test**: 2분에 설명 가능?
+- **So What Test**: 중요성 5번 묻기.
+- **Mom Test**: 일반인에게 설명.
+- **5-Year Test**: 5년 투자 가치?
+- **Nothing Test**: 답을 못 얻으면?
+
+**테스트 통과가 질문 검증**.
+
+**본인 분야의 Big Questions.**
+
+- **분야마다 Big Questions**: Nature·Science 특집.
+- **Grand Challenges**: 예산기관 목록.
+- **Roadmaps**: 10년 계획.
+- **Open Problems**: 리스트.
+- **박사의 역할**: Big Question의 Sub.
+
+**Big Question과 연결**.
+
+**한국 박사의 질문 특수.**
+
+- **한국 특수 현상**: 한국만의 데이터.
+- **한국어·문화**: 한국어 LLM·한국 문화.
+- **K-Pop·K-Drama**: 문화 현상.
+- **한국 의료**: 단일 보험 시스템.
+- **한국 교육**: 입시.
+
+한국의 **고유 데이터·현상**이 질문의 원천.
+
+**2024+ AI 시대의 질문.**
+
+- **LLM·AI 관련**: 폭증.
+- **AI+분야**: 교차 분야.
+- **AI 안전**: 새 영역.
+- **AI 평가**: Benchmark.
+- **AI가 바꾸는 분야**: 모든 분야.
+
+**AI 관련 질문**의 폭발.
+
+**질문 기록.**
+
+- **Question Journal**: 매일 질문 3개.
+- **Parking Lot**: 나중 질문.
+- **Annual Review**: 질문의 진화.
+- **박사 5-7년**: 500-1000개 질문.
+
+**질문의 축적**이 박사 성장.
+
+**10가지 질문 체크리스트.**
+
+- ☐ 6가지 유형 중 하나
+- ☐ 6가지 Triage 기준
+- ☐ 5가지 발견 기법 중 하나
+- ☐ SMART + Open + Contextualized
+- ☐ Nothing Test 통과
+- ☐ Elevator Pitch 통과
+- ☐ Big Question과 연결
+- ☐ 지도교수 일치
+- ☐ 본인의 관심
+- ☐ 실행 가능
+
+**박사의 질문 5년 진화.**
+
+- **1년차**: Broad exploration.
+- **2년차**: Narrow.
+- **3년차**: 핵심 질문 확정.
+- **4년차**: Sub-questions.
+- **5년차**: 학위논문 질문.
+- **졸업 후**: 평생 질문 체계.
+
+**질문이 박사의 DNA**.
+
+**마지막 — 질문의 품질이 박사의 품질이다.**
+
+좋은 박사는 좋은 질문의 박사. 6가지 유형 (Descriptive·Explanatory·Predictive·Causal·Normative·Methodological)·적합성 매트릭스·유형 조합·답 형태·Triage 6기준·발전 단계·나쁜 5가지·좋은 6가지·학위논문 계층·발견 5기법·Gap·Anomaly·Contradiction·Application·Synthesis·표현 기술·7가지 함정·지도교수 매칭·진화 프로세스·테스트 5방법·Big Questions·한국 특수·AI 시대·기록·체크리스트·5년 진화 — 이 모든 것을 의식적으로 다루면 박사가 **좋은 질문에서 좋은 박사로**. 질문이 박사의 품질.
+
+> 박사 질문의 6가지 유형 (Descriptive·Explanatory·Predictive·Causal·Normative·Methodological). 각 유형의 방법·증거·기여. 박사 적합성 매트릭스. 유형의 조합 (What→Why→How). Triage 6기준 (Novelty·Importance·Tractability·Resources·Fit·Timing). 나쁜 질문 5신호 (Too broad·Too narrow·Unanswerable·Already answered·No-one cares). 좋은 질문 6신호 (Clear·Specific·Measurable·Open·Contextualized·Feasible). 학위논문 1개 + Sub 3-5개 + Research 10-20개 계층. 질문 발견 5기법 (Gap·Anomaly·Contradiction·Application·Synthesis). 질문 표현 5가지. 7가지 함정 (첫 질문·지도교수 그대로·Trendy·불가능·이미 해결·작은·유형 혼합). 지도교수 매칭. 질문 진화 6단계. 테스트 5방법 (Elevator·So What·Mom·5-Year·Nothing). Big Questions과 연결. 한국 고유 데이터·현상. 2024+ AI 관련 폭증. Question Journal 매일 3개. 10가지 체크리스트. 5년 진화. 질문이 박사의 품질.
