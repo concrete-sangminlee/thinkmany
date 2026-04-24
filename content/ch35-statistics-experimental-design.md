@@ -1151,3 +1151,133 @@ DAG를 그리는 습관은 박사의 인과 사고를 근본적으로 바꾼다.
 전통적 통계 (가설 검정, 회귀)만으로는 박사 연구의 많은 질문에 답할 수 없다. 인과 추론은 이것을 보완하는 체계적 도구. 3가지 틀(Potential Outcomes, DAG, SCM)·5가지 도구(RCT, PSM, IV, RDD, DiD)·Confounder 식별 절차·Simpson's Paradox 경계·ML 통합 경향을 이해하면, 박사 논문의 인과 주장이 reviewer의 scrutiny를 통과할 수 있다. 2024-2026년 이후 박사 연구에서 "상관만 주장"은 허용되지 않는 분야가 늘고 있다. 본인 분야의 인과 추론 수준에 맞게 준비하는 것이 박사의 통계적 성숙이다.
 
 > 인과 추론은 2020년대 박사 통계의 필수 확장이다. 본인 분야의 주류 틀(Potential Outcomes·DAG·SCM)을 선택하고, 5가지 핵심 도구(RCT·PSM·IV·RDD·DiD) 중 최소 2가지로 robustness. Confounder를 DAG로 식별하고 sensitivity analysis. Simpson's Paradox 경계. 2024+ ML 통합(Double ML·Causal Forests·DoWhy·EconML)을 주시. 박사 논문의 인과 주장 수준(상관·예측·인과)을 명확히 하고 증거와 일치시킨다. 본인 분야의 인과 추론 수준에 맞추는 것이 박사의 통계적 성숙이다.
+
+---
+
+## 베이지안 통계 — 박사의 불확실성 관리 틀
+
+박사 연구에서 "단일 점추정"은 많은 경우 부족하다. "우리 모델의 정확도는 85%"보다 "95% 신뢰 구간 [82%, 88%]"이 정보가 많다. 단계 더 나아가 "이 파라미터의 사후 분포는 평균 0.72, 분산 0.03"이 박사의 표준적 주장. 이것이 **베이지안 통계**의 세계다. 2020년대 이후 박사 연구에서 베이지안 접근이 빠르게 표준화되고 있지만, 많은 박사가 빈도주의(frequentist) 통계만 배우고 베이지안을 건너뛴다. 이 섹션은 박사가 베이지안 통계를 실전에 통합하는 전략을 다룬다. ch35의 앞부분이 빈도주의 중심이었다면, 이 섹션은 **베이지안 관점의 확장**이다.
+
+**베이지안 통계의 3가지 핵심 아이디어.**
+
+**아이디어 1, 확률 = 믿음의 정도**. 빈도주의는 확률을 "반복 시행의 빈도"로 본다. 베이지안은 "어떤 명제에 대한 믿음의 정도". 본인이 실제로 한 번만 관측하는 실험에 자연스러움.
+
+**아이디어 2, Prior + Data → Posterior**. 사전 지식(prior) + 관측 데이터 → 사후 분포(posterior). 베이즈 정리: P(θ|D) ∝ P(D|θ) × P(θ). 사후 분포가 모든 추론의 기반.
+
+**아이디어 3, 불확실성의 자연스러운 표현**. 파라미터의 점추정이 아닌 분포. "이 모델 파라미터는 0.72 ± 0.03"이 아닌 전체 분포. 의사결정에 더 많은 정보.
+
+**박사에게 베이지안의 5가지 가치.**
+
+**가치 1, 작은 샘플에 강함**: 빈도주의는 대샘플 가정. 베이지안은 prior가 있어서 n=10도 의미 있는 추론. 박사 연구의 소규모 실험에 적합.
+
+**가치 2, 불확실성의 정직한 표현**: "효과가 있다/없다"의 이분법이 아닌 "효과의 분포". 박사 논문의 intellectual honesty.
+
+**가치 3, 이전 연구의 통합**: 기존 문헌 결과를 prior로. 본인의 새 데이터 + 기존 지식.
+
+**가치 4, 모델 선택의 자연스러운 프레임**: Bayes factor로 모델 비교. AIC/BIC의 베이지안 대응.
+
+**가치 5, 의사결정 이론과 연결**: 베이지안 결정 이론. 손실 함수 + 사후 분포 = 최적 결정.
+
+**박사가 시작할 3가지 베이지안 방법.**
+
+**방법 1, Bayesian Linear Regression**: 전통 회귀의 베이지안 버전. 계수의 사후 분포. Scikit-learn의 `BayesianRidge`, PyMC, Stan.
+
+**방법 2, Hierarchical Models (Multilevel)**: 데이터에 계층 구조 (학생/학교, 환자/병원, 실험/사이트). "partial pooling"으로 각 그룹의 추정을 개별 + 전체 평균의 절충. 박사 연구에서 흔한 구조.
+
+**방법 3, MCMC (Markov Chain Monte Carlo)**: 사후 분포 샘플링. Hamiltonian Monte Carlo (HMC), NUTS. Stan, PyMC, Turing.jl의 표준.
+
+이 3가지로 시작하면 베이지안의 90%를 커버. 나중에 Variational Inference, Normalizing Flows 등으로 확장.
+
+**Prior 선택 — 박사의 미묘한 기술.**
+
+Prior 선택은 베이지안의 가장 논쟁적 부분. 박사의 실전:
+
+- **Informative Prior**: 이전 연구의 결과를 prior로. 명시적 지식 활용.
+- **Weakly Informative Prior**: 약한 제약만. 예: 정규 분포 N(0, 10). 극단값 방지.
+- **Non-informative Prior**: 거의 제약 없음. 예: 균등 분포. 빈도주의와 유사한 결과.
+- **Reference Prior**: Jeffreys prior 등 수학적으로 선택.
+- **Empirical Bayes**: 데이터로부터 prior 추정.
+
+**박사 논문의 권장**: Weakly Informative Prior + Sensitivity Analysis. Prior 선택이 결과에 미치는 영향을 명시적으로 검증.
+
+**Posterior 해석의 실전.**
+
+박사의 베이지안 결과 보고 방식:
+
+- **Posterior Mean/Median**: 점추정. "θ의 추정치는 0.72".
+- **95% Credible Interval**: 빈도주의 신뢰 구간과 다른 해석. "θ가 이 구간에 있을 확률이 95%". 해석이 직관적.
+- **Highest Posterior Density (HPD)**: 밀도가 가장 높은 구간. 비대칭 분포에 적합.
+- **Posterior Probability**: "P(θ > 0) = 0.98". 가설 검정의 자연스러운 대체.
+- **Posterior Predictive**: 새 관측의 예측 분포. 박사 연구의 미래 예측에 유용.
+
+**MCMC 진단 — 수렴 확인의 필수.**
+
+MCMC 결과의 신뢰성은 **수렴 여부**에 달림:
+
+- **Trace plot**: chain의 샘플이 안정적으로 섞이는지. 시각적 확인.
+- **R-hat (Gelman-Rubin)**: 여러 chain 간 분산 비교. <1.01이면 수렴.
+- **ESS (Effective Sample Size)**: 효과적 샘플 수. >400이면 안정적.
+- **Divergent transitions**: HMC 경고. 모델 재설계 필요.
+- **Energy plot**: HMC의 에너지 분포 확인.
+
+박사 논문의 베이지안 결과는 이 4-5가지 진단을 보고해야 reviewer 수용.
+
+**베이지안 도구의 2024+ 지형.**
+
+**Stan**: 가장 성숙. RStan, PyStan, CmdStanPy. HMC·NUTS 표준.
+
+**PyMC (Python)**: Stan의 Python 대안. 접근성 좋음. PyMC5로 안정.
+
+**Turing.jl (Julia)**: 빠른 실행. Julia 생태계.
+
+**NumPyro (JAX 기반)**: Google이 지원. GPU 가속. 대규모 데이터에 강점.
+
+**Pyro (PyTorch 기반)**: 딥러닝 통합. Uber 개발.
+
+**BUGS/JAGS**: 전통적 도구. 학습용으로는 아직 유용.
+
+박사는 **PyMC 또는 NumPyro**로 시작하는 것이 현실적. Stan은 수학 집약 분야.
+
+**베이지안의 5가지 함정.**
+
+**함정 1, Prior sensitivity 무시**: 여러 prior로 결과가 달라지는지 확인 안 함. Reviewer의 주요 지적.
+
+**함정 2, MCMC 수렴 확인 생략**: 수렴 없이 결과 보고. 신뢰 불가.
+
+**함정 3, "사후 확률 = 진실"로 혼동**: 사후 확률은 모델과 prior 하에서. 모델이 틀리면 사후 확률도 틀림.
+
+**함정 4, 계산 비용 무시**: MCMC가 하루 걸리는 모델을 반복 실행. 시간 계획 중요. Variational Inference 대안.
+
+**함정 5, 빈도주의 결과의 무시**: 베이지안만 보고하고 빈도주의 검증 안 함. Robustness를 위해 둘 다.
+
+**박사 분야별 베이지안 활용.**
+
+- **의학·역학**: 약물 효과, 임상 시험. 베이지안 적응형 시험(BAR).
+- **천문학**: 관측 데이터의 불확실성. 베이지안이 표준.
+- **생태학**: 개체군 동역학. 계층 모델.
+- **심리학·교육학**: 개인 간 차이 모델링.
+- **경제학**: 베이지안 시계열 (BVAR).
+- **기계학습**: Bayesian Deep Learning, Gaussian Processes.
+- **공학**: 신뢰성 분석, 센서 퓨전.
+
+본인 분야의 베이지안 전통을 파악.
+
+**AI 시대의 베이지안 — 2024+ 부상.**
+
+**Bayesian Deep Learning**: 신경망의 불확실성. Dropout as Bayesian approximation, Variational Inference in DL.
+
+**Gaussian Processes**: 소규모 데이터의 유연한 모델. 박사 연구에 자주 사용.
+
+**Bayesian Optimization**: 하이퍼파라미터 탐색. ch35의 DOE 연결.
+
+**Probabilistic Programming**: PPL의 성숙. 박사가 커스텀 모델 빠르게 구축.
+
+**LLM의 불확실성**: LLM 출력의 신뢰도 측정. 2024-2025 hot topic.
+
+베이지안은 AI 시대에 오히려 더 중요해짐. "정확하지만 틀린 답"을 피하는 핵심.
+
+**마지막 — 베이지안은 박사의 성숙한 불확실성 관리다.**
+
+박사 논문의 단일 점추정 결과는 종종 부족. 베이지안은 불확실성을 정직하게 표현하고, 소규모 데이터에 강하고, 이전 연구를 통합하는 틀. 3가지 핵심 아이디어·5가지 박사 가치·3가지 시작 방법·Prior 선택·Posterior 해석·MCMC 진단·도구 지형·5가지 함정·분야별 활용·AI 시대 부상 — 이 모든 것을 의식적으로 다루면, 본인 논문의 통계적 주장이 더 정직하고 견고해진다. 2024-2026년 박사 통계는 빈도주의 + 베이지안의 하이브리드가 이상.
+
+> 베이지안은 박사의 성숙한 불확실성 관리 틀. 3가지 핵심 아이디어(확률=믿음·Prior+Data→Posterior·분포 표현). 박사의 5가지 가치 (소샘플 강함·정직한 불확실성·문헌 통합·모델 선택·의사결정). 시작 3가지 방법 (Bayesian Regression·Hierarchical·MCMC). Prior 선택의 스펙트럼과 sensitivity analysis. Posterior의 5가지 해석. MCMC 진단 (R-hat·ESS·divergent). PyMC·NumPyro·Stan·Turing의 도구 지형. 5가지 함정 회피. AI 시대의 Bayesian DL·BO·PPL 부상. 박사 통계는 빈도주의+베이지안의 하이브리드가 이상이다.
