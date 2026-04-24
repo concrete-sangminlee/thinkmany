@@ -1124,3 +1124,290 @@ PI가 다른 학파와 협력·토론하는가, 고립돼 있는가. 협력적 P
 학파 이동은 쉽지 않지만 **성숙한 학자의 표식**. 5가지 신호·4가지 수준·3가지 타이밍·비용/이익·지도교수 대화·공동 지도·6단계 실전·정체성 관리·숨은 가치·5가지 함정·역사적 성공·실패 패턴·한국 맥락·AI 시대·의사결정 트리·회고 — 이 모든 것을 의식적으로 다루면 박사가 **경계를 건너는 학자**가 된다. 학파는 감옥이 아닌 출발점.
 
 > 박사의 학파 이동은 귀중하지만 비용 높음. 5가지 이동 신호. 4가지 수준 (도구 추가·방법 혼합·주 학파 전환·완전 전환). 3가지 타이밍 (초기·중반·후반/졸업 후). 비용 (투자 손실·재학습·정체성·심리) vs 이익 (시각·네트워크·포지셔닝·성장). 지도교수 대화의 원칙. 공동 지도의 중간 해결. 이동 실전 6단계 (탐색·학습·실험·네트워크·통합·정착). 이동 중 정체성 관리. 숨은 가치 (메타 기술·인내·겸손·소통·통찰). 5가지 함정. Hinton·Pearl·LeCun·Kahneman 역사적 성공. 한국 위계·학연·산업/학계 이동 특수. 2024+ AI 강제 이동. 의사결정 트리. 학파는 감옥이 아닌 출발점.
+
+---
+
+## 박사의 분야 사 독서 — "분야 창시자 10명의 원전 읽기"
+
+현대 박사는 **최신 논문**에 익숙하다. 지난 2-3년 arXiv·NeurIPS·Nature는 모두 읽지만, **분야의 기원 논문**은 거의 읽지 않는다. 이것이 박사의 **숨은 약점**. 분야의 창시자가 **무엇을 왜 했는지**, **어떤 문제에서 시작했는지**, **어떤 가정이 지금은 의심받는지**를 모르면 박사는 **역사 없는 기술자**에 그친다. 분야 역사 독서는 **깊이 있는 학자의 필수**이자, 2024년 AI 시대에 더욱 중요한 인간 박사의 차별화다.
+
+**왜 분야 역사를 읽어야 하는가.**
+
+- **Root 이해**: 문제의 기원.
+- **가정 식별**: 당연시되는 것들.
+- **Methodology 진화**: 어떻게 지금 방법에 도달했는가.
+- **Controversy 인식**: 해결 안 된 논쟁.
+- **영감**: 초기의 자유로운 사고.
+- **겸손**: 선구자들의 고생.
+- **독창성**: 오래된 아이디어의 재발견.
+
+이 7가지가 **역사 독서의 이점**.
+
+**최신 논문 vs 원전의 차이.**
+
+| 측면 | 최신 논문 | 원전 |
+|------|-----------|------|
+| 시점 | 최근 2-3년 | 30-100년 |
+| 언어 | 정제·표준 | 창안·거친 |
+| 가정 | 암묵적 | 명시적 |
+| 동기 | 간결 | 상세 |
+| 한계 | 적음 | 솔직 |
+| 문맥 | 축소 | 풍부 |
+| 가치 | 실용 | 통찰 |
+
+**둘 다 필요**하지만 원전은 **교육의 깊이**.
+
+**분야별 필수 원전.**
+
+**Machine Learning·AI**:
+- Turing (1950) "Computing Machinery and Intelligence"
+- McCulloch·Pitts (1943) "A Logical Calculus..."
+- Rosenblatt (1958) "The Perceptron"
+- Minsky·Papert (1969) "Perceptrons"
+- Rumelhart·Hinton·Williams (1986) "Learning representations by back-propagating errors"
+- Vapnik (1998) "Statistical Learning Theory"
+- Hochreiter·Schmidhuber (1997) "Long Short-Term Memory"
+- Krizhevsky·Sutskever·Hinton (2012) "ImageNet Classification with Deep CNNs"
+- Goodfellow et al. (2014) "Generative Adversarial Networks"
+- Vaswani et al. (2017) "Attention Is All You Need"
+
+**Statistics**:
+- Fisher (1925) "Statistical Methods for Research Workers"
+- Neyman·Pearson (1933) hypothesis testing.
+- Tukey (1977) "Exploratory Data Analysis"
+
+**Physics**:
+- Einstein (1905) "특수 상대성이론"
+- Heisenberg (1927) "Uncertainty Principle"
+- Feynman (1948) "Path Integral"
+
+**각 분야의 10편**이 필수 독서.
+
+**원전 읽기의 어려움.**
+
+- **옛 용어**: 현대 용어와 다름.
+- **표기의 차이**: 수식·다이어그램.
+- **맥락 부재**: 시대적 배경 필요.
+- **분량**: 종종 길고 장황.
+- **번역**: 원어 (독일어·러시아어·프랑스어).
+- **중요성 파악**: 어느 것이 핵심인지.
+
+**가이드와 함께 읽기** 권장.
+
+**원전 독서의 방법.**
+
+- **Review 먼저**: 2차 자료로 맥락.
+- **저자 배경**: 생애·동시대.
+- **당시 문제**: 해결하려 한 것.
+- **저자 주장**: 명확히.
+- **증거·방법**: 어떻게.
+- **한계**: 당시 제약.
+- **영향**: 이후 발전.
+- **오늘의 적용**: 현대 연결.
+
+**깊게 읽되 비판적**으로.
+
+**연간 독서 계획 — 박사 원전 10권.**
+
+- **Year 1**: 분야의 철학적 기초 (2-3권).
+- **Year 2**: 방법론의 창시 (2권).
+- **Year 3**: 주요 논쟁 (2-3권).
+- **Year 4**: 최근 10-20년 classic (2권).
+- **Year 5**: 본인 문제의 역사 (1권).
+
+**박사 5년 = 10-15권 원전**.
+
+**원전 독서의 자료.**
+
+- **Annual Review series**: 2차 요약.
+- **Handbook**: 분야 표준.
+- **Wiley·Springer Classics**: 재출간.
+- **Internet Archive**: 오래된 논문.
+- **Google Books**: 저서.
+- **YouTube**: 저자 강연.
+- **History of Science 저널**: 역사적 분석.
+
+**무료 자료가 많음**.
+
+**인물 중심 독서.**
+
+- **Turing**: AI의 아버지.
+- **von Neumann**: 다양한 기여.
+- **Shannon**: 정보 이론.
+- **Chomsky**: 언어학.
+- **Simon**: AI·Cognition.
+- **Newton**: 과학의 창시.
+- **Einstein**: 20세기 물리.
+
+**한 인물의 전집**도 유익.
+
+**박사 논문에의 반영.**
+
+- **Introduction**: 역사적 맥락.
+- **Related Work**: 기원부터.
+- **Methodology**: 방법의 진화.
+- **Discussion**: 역사적 관점.
+- **Conclusion**: 장기적 의미.
+
+**역사를 아는 박사의 논문은 다르다**.
+
+**원전의 숨은 보물.**
+
+- **시도해본 접근**: 지금 무시되지만 재현 가능.
+- **대안의 존재**: 지금의 주류가 유일하지 않음.
+- **미해결 문제**: 저자가 남긴 질문.
+- **당시의 환경**: 우리 환경과의 차이.
+- **사고의 방식**: 명제가 아니라 과정.
+
+**원전이 연구 아이디어의 원천**.
+
+**Science Citation의 역사.**
+
+- **Eugene Garfield (1955)**: 인용 인덱스.
+- **Nobel Prize 분석**: 인용 패턴.
+- **Sleeping Beauty**: 장기 인용 부활.
+- **Overturned papers**: 뒤집힌 고전.
+- **Replication**: 재현 논쟁.
+
+**Citation의 역사**도 연구 대상.
+
+**Philosophy of Science 고전.**
+
+- **Popper** "Logic of Scientific Discovery" (1934): 반증.
+- **Kuhn** "Structure of Scientific Revolutions" (1962): 패러다임.
+- **Lakatos** "Methodology of Research Programs" (1970): 프로그램.
+- **Feyerabend** "Against Method" (1975): 방법론적 아나키즘.
+- **Latour** "Science in Action" (1987): 과학 사회학.
+
+**과학 철학**이 박사의 메타 이해.
+
+**박사의 원전 독서 함정 7가지.**
+
+- **최신만 읽기**: 역사 무시.
+- **Secondary Source만**: 원전 회피.
+- **현대 용어로 해석**: 시대착오.
+- **맹목적 숭배**: 창시자를 신격화.
+- **영웅 서사**: 개인 강조·공동체 무시.
+- **완독 강박**: 모든 원전 읽기.
+- **최신과 분리**: 역사와 현대 미연결.
+
+이 7가지가 **역사 독서 실수**.
+
+**원전 Reading Group.**
+
+- **랩·학과**: 주간 원전 토론.
+- **분야 동료**: 다른 학교와.
+- **온라인**: Discord·Zoom.
+- **Mentor 주도**: 시니어의 해설.
+- **분야 역사가**: 초청 강연.
+
+**그룹이 원전 이해를 깊게**.
+
+**원전 인용의 기술.**
+
+- **Introduction에**: "The problem was first posed by X (1958)..."
+- **Historical note**: 박스·각주.
+- **원전 + 현대 Review**: 짝.
+- **정확한 인용**: 오래된 저작의 정확한 정보.
+- **번역본 명시**: 번역의 경우.
+
+**원전 인용이 학자의 표식**.
+
+**분야 창시자 인터뷰.**
+
+- **생존 창시자**: 이메일·초청.
+- **YouTube·Podcast**: 강연 시청.
+- **Oral History**: 학회의 인터뷰 기록.
+- **자서전**: Feynman·Knuth·Hinton 등.
+- **Biographies**: 타인이 쓴 생애.
+
+**살아 있는 역사**를 만나기.
+
+**역사와 미래의 연결.**
+
+- **Over time**: 60년·100년 관점.
+- **Lost ideas**: 잊힌 접근의 재평가.
+- **Cyclical**: 아이디어의 반복.
+- **Next generation**: 미래의 고전.
+- **본인의 역할**: 역사의 한 부분.
+
+**박사의 연구**도 역사의 일부.
+
+**국내 학파의 역사.**
+
+- **한국 과학사**: KAIST의 초창기·포스코 연구소.
+- **한국 AI사**: 1970-80년대·KIST.
+- **서울대·KAIST의 전통**: 연구실별 역사.
+- **원로 인터뷰**: 1세대 교수들.
+- **학과 역사**: 자료·문서.
+
+**한국 학계의 역사**도 가치.
+
+**AI 시대의 원전 가치.**
+
+- **LLM은 2차 자료만**: 대부분의 지식이 요약.
+- **원전 직접 읽기**: LLM 못하는 것.
+- **창의성의 기원**: 원전의 자유.
+- **Originality**: AI 못 흉내.
+- **박사의 차별화**: 역사 기반.
+
+**AI 시대일수록 원전**이 중요.
+
+**원전의 디지털화.**
+
+- **고전 Free Access**: Creative Commons·Public Domain.
+- **Archive.org**: 오래된 자료.
+- **대학 Digital Library**: SNU·MIT OpenCourseWare.
+- **Google Scholar**: 고전 인용.
+- **arXiv**: 1991년 이후 preprint.
+
+**디지털화가 역사 접근성**.
+
+**박사의 원전 독서 함정 재방문.**
+
+- 최신에 매몰.
+- 영웅 숭배.
+- 맥락 무시.
+- 비판 부재.
+- 통합 실패.
+
+**의식적 원전 읽기**가 필수.
+
+**Reading Schedule.**
+
+- **매월 1권**: 박사 5년 60권.
+- **매주 1편 논문**: Classic paper.
+- **매일 10분 독서**: Journal·Memoir.
+- **학기별 집중**: 1-2개 인물.
+- **연례 리뷰**: 전체 정리.
+
+**작은 지속**이 큰 이해.
+
+**10가지 원전 독서 체크리스트.**
+
+- ☐ 분야 필수 10권 리스트
+- ☐ 연간 10권 독서
+- ☐ 역사적 맥락
+- ☐ 저자 배경 조사
+- ☐ 현대와의 연결
+- ☐ Reading Group 참여
+- ☐ Philosophy of Science
+- ☐ 박사 논문에 반영
+- ☐ 국내 학파 역사
+- ☐ 비판적 읽기
+
+**박사의 원전 독서 5년 계획.**
+
+- **1-2년차**: 분야 기초 원전.
+- **3년차**: 본인 주제의 역사.
+- **4년차**: Philosophy of Science.
+- **5년차**: 현대 Classic.
+- **졸업 후**: 평생 역사 독서.
+
+**역사를 아는 박사가 미래를 만든다**.
+
+**마지막 — 원전 독서가 박사의 깊이의 비밀이다.**
+
+최신 논문만 읽는 박사는 기술자, 원전까지 읽는 박사는 학자. 7가지 이유·최신 vs 원전·분야별 필수·읽기의 어려움·독서 방법·연간 계획·자료·인물 중심·논문 반영·숨은 보물·Citation 역사·Science Philosophy·7가지 함정·Reading Group·인용 기술·창시자 인터뷰·역사-미래 연결·국내 학파·AI 시대·디지털화·Schedule·체크리스트·5년 계획 — 이 모든 것을 의식적으로 다루면 박사가 **분야의 역사를 알고 미래를 만드는 학자**. 원전 독서는 박사의 깊이.
+
+> 원전 독서는 박사의 숨은 깊이. 7가지 이유 (Root·가정·방법·Controversy·영감·겸손·독창). 최신 vs 원전 7가지 차이. 분야별 필수 (ML·통계·물리 등). 읽기의 6가지 어려움. 독서 방법 (Review 먼저·저자 배경·맥락·주장·증거·한계·영향·적용). 박사 5년 = 10-15권 원전. 자료 (Annual Review·Handbook·Archive·Google Books·YouTube). 인물 중심 (Turing·Shannon·Chomsky·Newton·Einstein). 박사 논문에의 역사적 반영. 숨은 보물 (시도된 접근·대안·미해결·환경·사고 방식). Citation 역사 (Garfield·Sleeping Beauty·Replication). Philosophy of Science (Popper·Kuhn·Lakatos·Feyerabend·Latour). 7가지 함정 (최신만·Secondary만·시대착오·숭배·영웅 서사·완독·분리). Reading Group. 원전 인용 기술. 창시자 인터뷰 (YouTube·Oral History·자서전). 역사-미래 연결. 국내 학파의 역사. AI 시대일수록 원전. 디지털화. 매월 1권. 10가지 체크리스트. 5년 계획. 역사를 아는 박사가 미래를 만든다.
