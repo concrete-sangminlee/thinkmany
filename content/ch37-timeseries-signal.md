@@ -1273,3 +1273,291 @@ FM이 나오면 전문 모델이 사라질까? 당분간은 공존.
 실제 산업 데이터는 거의 항상 다변량. 박사 연구가 단변량에 머물면 산업 적용 제한. 4가지 구조적 특성·5계층 방법·변수 간 시각화·Granger Causality·다변량 딥러닝 아키텍처·다변량 이상 탐지·한국 산업 응용·5가지 함정 — 이 모든 것을 의식적으로 다루면 박사 시계열 연구가 현실 문제와 연결된다. 2024-2026년 박사의 시계열 연구는 다변량 중심이다.
 
 > 다변량 시계열은 박사 시계열 연구의 현실. 4가지 구조적 특성 (동시성·시점 의존·이질적 샘플링·고차원). 5계층 방법 (변수별·전통 통계·차원 축소·딥러닝·FM). 변수 간 시각화 (heatmap·PCA biplot·Granger network·MI matrix). Granger Causality의 정확한 해석. TFT·iTransformer·GNN의 실전. 다변량 이상 탐지의 root cause 분석. 한국 산업 응용 5영역 (반도체·제조·스마트시티·의료·금융). 5가지 함정 회피. 2024-2026년 박사의 시계열은 다변량 중심이다.
+
+---
+
+## 시계열 전처리의 실전 — 박사 연구의 숨은 기초
+
+시계열 연구의 80%는 **전처리**에 있다. 하지만 박사 논문은 모델에 초점을 맞추고 전처리는 한 문장으로 처리. 이것이 **재현성 위기**의 주 원인. 좋은 모델도 나쁜 전처리로 망가지고, 평범한 모델도 좋은 전처리로 빛난다. 이 섹션은 박사가 시계열 전처리를 체계적으로 다루는 실전을 다룬다. ch37의 다른 섹션(Foundation Model·이상 탐지·다변량)이 **모델링**이었다면, 이 섹션은 **모델링 이전**이다.
+
+**시계열 전처리의 7가지 핵심 단계.**
+
+**단계 1, 데이터 수집의 이해**:
+- 샘플링 주파수·간격.
+- 센서의 특성·오차 범위.
+- 수집 환경의 변동.
+- 시간의 정의 (UTC·로컬·epoch).
+
+**단계 2, Missing Values 처리**:
+- 패턴 파악 (random·systematic·outage).
+- 처리 방법 선택.
+- 기록 유지.
+
+**단계 3, Outlier 탐지와 처리**:
+- 통계적 방법.
+- 도메인 기반 판단.
+- 제거 vs 유지의 결정.
+
+**단계 4, Resampling과 Alignment**:
+- 여러 센서의 동기화.
+- Up/downsampling.
+- 시간 축 정렬.
+
+**단계 5, Noise Filtering**:
+- Low-pass·high-pass 필터.
+- Moving average.
+- Savitzky-Golay filter.
+
+**단계 6, Normalization / Standardization**:
+- Min-max, z-score, robust scaling.
+- Train/test split 전후 주의.
+
+**단계 7, Feature Engineering**:
+- Lag features, rolling statistics.
+- 주기성 인코딩.
+- 도메인 특화 특징.
+
+각 단계의 선택이 **최종 모델 성능의 30-50%** 결정.
+
+**Missing Values의 7가지 처리 전략.**
+
+시계열의 missing 패턴과 대응:
+
+**전략 1, Forward Fill**:
+- 마지막 관측값 반복.
+- 빠른 해결.
+- 장기간 missing엔 부적절.
+
+**전략 2, Linear Interpolation**:
+- 선형 보간.
+- 부드러운 신호에 적합.
+- 급격한 변화 손실.
+
+**전략 3, Spline Interpolation**:
+- 곡선 보간.
+- 부드러움과 정확성 균형.
+
+**전략 4, Model-based**:
+- ARIMA, Kalman filter.
+- 모델로 imputation.
+- 정교하지만 복잡.
+
+**전략 5, Multiple Imputation**:
+- 여러 plausible 값.
+- 불확실성 반영.
+- 베이지안 관점.
+
+**전략 6, Masking + Learning**:
+- Missing을 표시로.
+- 모델이 학습하게.
+- 딥러닝 시대의 표준.
+
+**전략 7, 제거 (Dropping)**:
+- Missing이 많은 구간 제외.
+- 데이터 손실.
+- 최후의 선택.
+
+**박사의 권장**: 패턴에 맞게 선택. Missing 이유가 중요.
+
+**Outlier의 4가지 유형과 처리.**
+
+**유형 1, Point Outlier**:
+- 단일 값이 비정상.
+- 센서 오류·입력 실수.
+- 처리: 제거 또는 imputation.
+
+**유형 2, Contextual Outlier**:
+- 맥락에서 이상.
+- 처리: 맥락 정보 포함 모델링.
+
+**유형 3, Collective Outlier**:
+- 여러 시점의 이상.
+- 처리: 구간 제거 또는 특별 분석.
+
+**유형 4, Seasonal Outlier**:
+- 계절성에서 벗어남.
+- 처리: 계절성 분해 후 평가.
+
+**탐지 방법**:
+- **IQR method**: Q3 + 1.5×IQR 초과.
+- **Z-score**: |z| > 3.
+- **Isolation Forest**: ML 기반.
+- **STL decomposition**: 계절성 제거 후 residual.
+
+박사의 **원칙**: Outlier 제거는 **마지막 수단**. 먼저 원인 이해.
+
+**Resampling의 실전.**
+
+여러 센서·데이터 소스의 시간 정렬:
+
+**Upsampling (낮은→높은 주파수)**:
+- Forward fill: 간단.
+- Interpolation: 부드러움.
+- 주의: 실제 정보는 늘지 않음.
+
+**Downsampling (높은→낮은 주파수)**:
+- Mean: 일반적.
+- Median: Robust.
+- Last: 시계열 특수.
+- Sum: 총량 (예: 매출).
+
+**Pandas 예시**:
+```python
+# Upsample 1hz → 10hz
+df.resample('100ms').interpolate()
+
+# Downsample 10hz → 1hz
+df.resample('1s').mean()
+```
+
+**주의**: Aliasing 효과. Nyquist 주파수 고려.
+
+**정규화의 분야별 관례.**
+
+**Z-score (Standardization)**:
+- 평균 0, 분산 1.
+- 가우시안 분포 가정.
+- ML의 기본.
+
+**Min-max**:
+- [0, 1] 범위.
+- 비가우시안에도 OK.
+- Outlier에 민감.
+
+**Robust Scaling**:
+- Median·IQR 사용.
+- Outlier에 강함.
+
+**Log Transform**:
+- Skewed 분포.
+- Finance, 소비 데이터.
+
+**분야별**:
+- ML/AI: Z-score 표준.
+- Finance: Log returns.
+- Engineering: Min-max 일반.
+- Signal processing: dB scale.
+
+**주의**: **Train/test split 이후** 각각 정규화 (data leakage 방지).
+
+**Stationarity — 시계열의 핵심 가정.**
+
+많은 시계열 방법이 정상성 (stationarity) 가정:
+
+**Strict Stationarity**:
+- 모든 통계적 속성이 시간에 불변.
+- 실제 데이터에 드물음.
+
+**Weak Stationarity**:
+- 평균·분산이 시간에 불변.
+- 실전의 기준.
+
+**Stationarity 검정**:
+- **ADF test**: Augmented Dickey-Fuller.
+- **KPSS test**: Stationarity vs unit root.
+- 보통 둘을 병행.
+
+**Non-stationary 변환**:
+- Differencing: y[t] - y[t-1].
+- Log transform.
+- Seasonal differencing.
+
+**Stationary 확인의 의미**:
+- ARIMA·전통 모델은 필수.
+- 딥러닝 모델은 자동 학습 가능하지만 명시적으로 하면 더 좋음.
+
+**Feature Engineering — 시계열 특화.**
+
+전통 ML 방법은 **특징 추출** 중요:
+
+**Lag Features**:
+- y(t-1), y(t-7), y(t-30).
+- 자기회귀 정보.
+
+**Rolling Statistics**:
+- 7일 평균, 30일 분산.
+- 추세·변동성.
+
+**Date/Time Features**:
+- 시간·요일·월·계절.
+- 공휴일·이벤트.
+
+**Frequency Features**:
+- FFT 결과.
+- Wavelet coefficients.
+
+**Rate of Change**:
+- 1차 미분 근사.
+- 모멘텀.
+
+**딥러닝 시대에도 특징 공학은 유효**. Hybrid 모델.
+
+**전처리의 7가지 함정.**
+
+**함정 1, Train/test leakage**: 전체 데이터로 정규화 후 split. 실제 운영에서 불가.
+
+**함정 2, Look-ahead bias**: 미래 정보로 과거 imputation. 예측 평가 무효.
+
+**함정 3, 일관성 부재**: 논문에 "outlier 제거" 한 줄. 실제 어떻게 했는지 불명.
+
+**함정 4, 과도한 smoothing**: 신호까지 제거.
+
+**함정 5, 주파수 혼동**: Sampling rate와 event rate 혼동.
+
+**함정 6, Outlier의 자동 제거**: 실제 신호를 outlier로 오판.
+
+**함정 7, Missing의 무시**: "없는 건 없는 걸로" 단순 처리.
+
+**한국 박사의 시계열 전처리 특수 맥락.**
+
+- **한국 공휴일의 특수성**: 음력 명절. 코드로 자동 처리 어려움.
+- **한국 시간대**: UTC+9. 국제 데이터와 맞춤.
+- **반도체·제조 데이터**: 삼성·SK의 공정 데이터. 고주파·다변량.
+- **한국어 라벨**: 데이터의 한국어 주석. Unicode 처리.
+- **공공 데이터**: 한국 개방 데이터 포털의 시계열 데이터. 품질 다양.
+
+**AI 시대의 전처리 — 2024+.**
+
+**변화**:
+- **AutoML의 전처리 자동화**: AutoGluon·H2O가 자동 전처리.
+- **LLM의 전처리 조언**: "이 시계열의 전처리 방법은?" LLM에게 질문.
+- **Foundation Model의 raw data**: 일부 FM이 raw 시계열 직접 처리. 전처리 감소.
+
+**한계**:
+- 자동화가 **도메인 지식** 대체 못함.
+- 박사의 전처리 이해는 여전히 필수.
+- AI 의존이 "왜 이렇게"의 이해 결여.
+
+**박사의 전처리 문서화.**
+
+논문·학위논문에 전처리 명시:
+
+- ☐ 데이터 수집 방법·기간·주파수
+- ☐ Missing values 처리 방법
+- ☐ Outlier 탐지·처리 기준
+- ☐ Resampling 방법
+- ☐ Normalization 종류와 timing
+- ☐ Feature engineering 단계
+- ☐ Train/test split 방법
+- ☐ Data leakage 방지 조치
+
+이 문서화가 **재현성의 기반**.
+
+**전처리의 ROI.**
+
+시간 투자와 수익:
+
+- **투자**: 논문 작성의 30-50% 시간.
+- **수익**:
+  - 모델 성능 10-30% 향상.
+  - Reviewer 신뢰.
+  - 재현성 강화.
+  - 산업 적용성.
+
+전처리에 시간 투자가 **최고의 ROI**.
+
+**마지막 — 전처리는 박사 시계열 연구의 숨은 중심이다.**
+
+모델이 눈에 띄지만, 전처리가 실제 결과를 만든다. 7가지 핵심 단계·missing 전략·outlier 처리·resampling·정규화·stationarity·feature engineering·7가지 함정·한국 맥락·AI 시대·문서화·ROI — 이 모든 것을 의식적으로 다루면 박사 시계열 연구가 **재현 가능하고 산업 적용 가능**하게 된다. 전처리를 등한시한 박사의 모델은 **유리 위의 성**.
+
+> 시계열 연구의 80%는 전처리. 7가지 핵심 단계 (수집·missing·outlier·resampling·filtering·normalization·feature). Missing의 7가지 전략 (forward fill·linear·spline·model·multiple·masking·drop). Outlier의 4가지 유형과 처리. Resampling의 up/down과 Pandas 예시. 정규화의 분야별 관례와 train/test split 주의. Stationarity의 정의·검정·변환. Feature engineering의 lag·rolling·time·frequency·rate. 7가지 함정 (leakage·look-ahead·일관성·smoothing·주파수·자동 outlier·missing 무시). 한국 박사의 공휴일·반도체·공공 데이터 맥락. 2024+ AutoML과 LLM의 자동화와 한계. 전처리 문서화의 8가지. 전처리는 박사 시계열 연구의 숨은 중심이다.
