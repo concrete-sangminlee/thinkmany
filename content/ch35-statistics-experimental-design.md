@@ -1281,3 +1281,219 @@ MCMC 결과의 신뢰성은 **수렴 여부**에 달림:
 박사 논문의 단일 점추정 결과는 종종 부족. 베이지안은 불확실성을 정직하게 표현하고, 소규모 데이터에 강하고, 이전 연구를 통합하는 틀. 3가지 핵심 아이디어·5가지 박사 가치·3가지 시작 방법·Prior 선택·Posterior 해석·MCMC 진단·도구 지형·5가지 함정·분야별 활용·AI 시대 부상 — 이 모든 것을 의식적으로 다루면, 본인 논문의 통계적 주장이 더 정직하고 견고해진다. 2024-2026년 박사 통계는 빈도주의 + 베이지안의 하이브리드가 이상.
 
 > 베이지안은 박사의 성숙한 불확실성 관리 틀. 3가지 핵심 아이디어(확률=믿음·Prior+Data→Posterior·분포 표현). 박사의 5가지 가치 (소샘플 강함·정직한 불확실성·문헌 통합·모델 선택·의사결정). 시작 3가지 방법 (Bayesian Regression·Hierarchical·MCMC). Prior 선택의 스펙트럼과 sensitivity analysis. Posterior의 5가지 해석. MCMC 진단 (R-hat·ESS·divergent). PyMC·NumPyro·Stan·Turing의 도구 지형. 5가지 함정 회피. AI 시대의 Bayesian DL·BO·PPL 부상. 박사 통계는 빈도주의+베이지안의 하이브리드가 이상이다.
+
+---
+
+## 다중 검정과 FDR — 박사가 자주 놓치는 통계의 함정
+
+박사 연구에서 **여러 가설을 동시에 검정**하는 상황은 흔하다. 1000개 유전자 중 어느 것이 의미 있나, 100개 피쳐 중 어느 것이 중요한가, 20개 실험 조건 중 어느 것이 효과적인가. 이 **다중 검정 (Multiple Testing)**의 함정을 이해 못하면 논문의 주요 발견이 **거짓**일 수 있다. 이 섹션은 박사가 다중 검정 문제를 체계적으로 다루는 실전을 다룬다. ch35의 다른 섹션(가설 검정·인과 추론·베이지안)과 구별되는 **통계의 숨은 함정**이다.
+
+**왜 다중 검정이 문제인가 — 직관적 설명.**
+
+1회의 p-value < 0.05 검정:
+- H0 참일 때 false positive 확률 = 5%.
+- 괜찮아 보임.
+
+100회 독립 검정:
+- H0 모두 참일 때 최소 1개 false positive 확률 = 1 - 0.95^100 = **99.4%**.
+- 거의 확실히 허위 발견.
+
+**고전 예시, 죽은 연어 실험 (Bennett et al. 2009)**: 죽은 연어를 fMRI에 넣고 여러 voxel 검정. 수천 개 voxel의 다중 검정 없이 "연어가 감정을 느낀다"는 허위 발견. Nobel Ig 상 수상.
+
+박사 연구에서 이런 실수는 **논문 retraction의 주요 원인**.
+
+**다중 검정의 3가지 에러 율.**
+
+**FWER (Family-Wise Error Rate)**:
+- **적어도 하나의 false positive 확률**.
+- 가장 엄격.
+- Bonferroni, Holm 방법.
+
+**FDR (False Discovery Rate)**:
+- **발견 중 false positive의 기대 비율**.
+- 좀 덜 엄격.
+- Benjamini-Hochberg 방법.
+
+**PFER (Per-Family Error Rate)**:
+- **기대되는 false positive 수**.
+- 드물게 사용.
+
+박사의 실전에서 **FDR이 주류**. FWER은 임상 시험·확정 연구.
+
+**Bonferroni 보정 — 가장 쉬운 방법.**
+
+원리:
+- N개 검정을 할 때 각 검정의 p-value 임계값을 α/N으로.
+- 예: 100개 검정, α=0.05 → 각 검정 p < 0.0005.
+
+**장점**: 단순. 계산 쉬움.
+
+**단점**: 너무 엄격. 많은 실제 신호 놓침 (power 감소).
+
+**권장**: N이 작을 때 (10 이하).
+
+**Benjamini-Hochberg (BH) — 박사의 표준.**
+
+1995년 제안. FDR 제어:
+
+**절차**:
+1. N개 검정의 p-value를 오름차순 정렬: p(1) ≤ p(2) ≤ ... ≤ p(N).
+2. 각 p(i)를 (i/N) × α와 비교.
+3. 가장 큰 i*를 찾음: p(i*) ≤ (i*/N) × α.
+4. 1부터 i*까지의 검정은 reject (신호 있음).
+
+**Python 코드**:
+```python
+from statsmodels.stats.multitest import multipletests
+p_values = [...]
+reject, p_adjusted, _, _ = multipletests(p_values, alpha=0.05, method='fdr_bh')
+```
+
+**해석**: "FDR < 5%로 reject"는 "발견 중 5% 이하가 false positive일 것".
+
+**박사의 다중 검정 5가지 시나리오.**
+
+**시나리오 1, 유전자 발현 분석**:
+- 20,000개 유전자의 분석.
+- FDR 표준 (R의 `qvalue` 패키지).
+- 일반적으로 q-value < 0.05.
+
+**시나리오 2, 뇌 영상 (fMRI)**:
+- 100,000+ voxel.
+- Cluster-based FDR.
+- Random Field Theory.
+
+**시나리오 3, 다중 비교 실험**:
+- 5개 조건 간 pairwise 비교 = 10회 검정.
+- Tukey's HSD 또는 Bonferroni.
+
+**시나리오 4, 특징 선택 (Feature Selection)**:
+- 수백 개 특징의 중요도.
+- Boruta, Stability Selection.
+
+**시나리오 5, A/B 테스팅**:
+- 여러 metric, 여러 세그먼트.
+- 사전 등록의 primary metric.
+
+분야별 **표준 방법**이 있음. 본인 분야 관례 확인.
+
+**다중 검정의 7가지 함정.**
+
+**함정 1, 무시**: 100회 검정하고 p < 0.05 보고. 가장 흔한 실수.
+
+**함정 2, 사후 선택 (Post-hoc selection)**:
+- 실험 후 유의한 결과만 선택.
+- p-hacking의 주요 형태.
+
+**함정 3, HARKing (Hypothesizing After Results Known)**:
+- 결과를 본 후 가설 세움.
+- 가설 검정의 의미 상실.
+
+**함정 4, 부적절한 보정 방법**:
+- 독립이 아닌데 Bonferroni.
+- 시간 시리즈에 단순 FDR.
+
+**함정 5, α 수준의 자의적 조정**:
+- 결과가 마음에 안 들면 α 올림.
+- 과학적 부정행위.
+
+**함정 6, "거의 유의" 보고**:
+- p = 0.07을 "marginally significant".
+- 다중 검정 후엔 더 보수적.
+
+**함정 7, Subgroup analysis의 남용**:
+- 전체 효과 없을 때 하위 그룹만.
+- 재현 실패의 주 원인.
+
+**다중 검정의 사전 대응 — Pre-registration.**
+
+가장 강력한 방어: **사전 등록**.
+
+- **Primary hypothesis** 1-2개 명시.
+- **Secondary** hypothesis는 exploratory로.
+- Primary는 엄격한 다중 검정.
+- Secondary는 follow-up 연구 대상.
+
+OSF (Open Science Framework), ClinicalTrials.gov.
+
+**검정 독립성의 확인.**
+
+BH 방법은 **독립 또는 양의 상관** 가정:
+
+- **독립**: 이상적.
+- **양의 상관**: BH 여전히 유효.
+- **음의 상관**: BH 부정확. Benjamini-Yekutieli (더 엄격).
+
+**실전**: 대부분 양의 상관. BH 사용.
+
+**다중 검정과 박사 분야.**
+
+**생명과학·의학**:
+- FDR 방법이 표준.
+- 유전체·단백질체 분석.
+
+**신경과학**:
+- 복잡한 공간·시간 상관.
+- Random Field Theory.
+
+**심리학**:
+- 반복 측정 분산 분석.
+- Bonferroni 또는 조정된 방법.
+
+**ML/AI**:
+- 종종 무시! 박사 연구에서 중요.
+- 하이퍼파라미터 탐색, 모델 비교.
+
+**경제학**:
+- 정책 효과의 subgroup 분석.
+- Family-wise error rate.
+
+본인 분야의 **표준 관행**을 파악.
+
+**다중 검정과 논문 심사.**
+
+Reviewer가 자주 지적:
+
+- "How many tests did you perform?"
+- "How did you correct for multiple comparisons?"
+- "What was the pre-specified hypothesis?"
+- "Sub-group analysis was pre-registered?"
+
+박사 논문의 **Methods 섹션**에 다중 검정 전략 명시. 기본.
+
+**통계적 유의성의 2020년대 논쟁.**
+
+2016년 ASA (American Statistical Association)의 성명:
+- p < 0.05의 임의적 기준.
+- p-value만으로 결론 금지.
+- 효과 크기·신뢰 구간도 보고.
+
+2019년 "Retire statistical significance" 운동:
+- 유의성 이분법 포기.
+- p-value를 연속적으로 해석.
+
+박사 논문은 **이 논쟁 인지하고** 효과 크기 + p-value + 신뢰 구간 모두 보고.
+
+**AI 시대의 다중 검정 — 2024+.**
+
+- **LLM의 다중 비교**: 여러 모델·프롬프트 비교. 수십 건. 다중 검정 필요.
+- **A/B 테스팅의 가속**: 클라우드로 수백 실험 동시. 보정 필수.
+- **ML 대량 모델 비교**: Model zoo의 수백 모델. Corrected leaderboard.
+- **AI의 "의미 있는 발견"의 과잉**: 데이터의 fishing. 박사의 엄격함.
+
+**박사의 다중 검정 체크리스트.**
+
+- ☐ 검정 수 명시 (몇 개 가설?)
+- ☐ Primary vs exploratory 구분
+- ☐ 사전 등록 (가능하면)
+- ☐ 다중 검정 보정 방법 명시 (BH·Bonferroni·등)
+- ☐ 보정된 p-value·q-value 보고
+- ☐ 효과 크기 + 신뢰 구간 병기
+- ☐ 분야 표준과 일치 확인
+- ☐ Reviewer의 예상 질문 대비
+
+**마지막 — 다중 검정은 박사의 통계적 성숙의 지표다.**
+
+많은 박사 논문이 다중 검정을 **무시**하고 출판된다. 그 결과 분야의 재현성 위기. 박사가 이 함정을 의식하면 **본인의 논문은 재현 가능한 과학**. 3가지 에러 율·Bonferroni·BH·5가지 시나리오·7가지 함정·사전 등록·검정 독립성·분야 관행·논문 심사·2020년대 논쟁·AI 시대·체크리스트 — 이 모든 것을 다루면 박사의 통계가 분야의 평균 이상이 된다. 다중 검정의 엄격함이 **박사의 과학적 정직성**.
+
+> 다중 검정은 박사가 자주 놓치는 함정. 100회 검정 중 H0 참이어도 99.4% false positive. 3가지 에러 율 (FWER·FDR·PFER) 중 FDR이 박사 표준. Bonferroni는 N 작을 때, BH는 N 클 때. 5가지 시나리오 (유전·fMRI·다중 비교·feature·A/B). 7가지 함정 (무시·사후 선택·HARKing·부적절 보정·α 조정·marginal·subgroup). Pre-registration이 최강 방어. 독립성 확인. 분야별 표준 관행. 2020년대 p-value 논쟁과 효과 크기 병기. 2024+ AI 시대의 대량 비교. 8가지 체크리스트. 다중 검정의 엄격함이 박사의 과학적 정직성.
