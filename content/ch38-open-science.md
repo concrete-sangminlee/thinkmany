@@ -1742,3 +1742,300 @@ De-identification의 표준 기술 (ch29 참조).
 좋은 레포는 **논문 자체의 연장**. 10가지 기본 요건·README 구조·디렉토리·Git 관리·데이터 공개·재현성 5수준·논문 주기별 공개·프라이버시·유지보수·좋은 레포 지표·5가지 실수·AI 시대·한국 맥락·졸업 후 — 이 모든 것을 의식적으로 설계하면 본인의 연구가 **실제로 재사용되는 과학**이 된다. 공개가 목적 아니라 **활용**이 목적.
 
 > 좋은 레포의 10가지 기본 (README·LICENSE·의존성·실행·논문 연결·데이터·출력·Citation·기여·이슈). README 표준 구조. 디렉토리 구조의 분야 관례. Git의 실전 관리 (.gitignore·commit·branch). 데이터 공개의 4가지 옵션 (GitHub·Zenodo·HuggingFace·기관) 중 Zenodo 표준. 재현성 5수준 (Available·Executable·Reproducible·Generalizable·Extensible) 중 수준 3 이상 목표. 논문 주기별 4단계 공개. 데이터 프라이버시. 공개 후 유지보수. 좋은 레포 지표. 5가지 실수. 2024+ AI 도구. 한국 박사 특수. 졸업 후 레포 관리. 공개가 목적 아니라 활용이 목적.
+
+---
+
+## 박사의 재현성 위기 대응 — "Replication Crisis"의 실전
+
+2010년대 중반부터 학계는 **재현성 위기 (Replication Crisis)**를 공식 인정. 많은 유명 연구가 재현 안 되고, 심리학·의학·ML 등 여러 분야에서 논문의 30-70%가 재현 실패. 박사가 이 위기의 한가운데에서 어떻게 **재현 가능한 과학자**가 될 것인가. 이 섹션은 박사가 재현성 위기에 대응하는 실전을 다룬다. ch38의 다른 섹션(사전등록·preprint·RR·OS·레포)이 **개별 기술**이었다면, 이 섹션은 **전체적 과학관**.
+
+**재현성 위기의 5가지 원인.**
+
+**원인 1, Publication Bias**:
+- 긍정적 결과만 출판.
+- 부정·null 결과 숨김.
+
+**원인 2, P-hacking**:
+- 유의미한 결과 찾을 때까지.
+- 사후 분석.
+
+**원인 3, HARKing**:
+- Hypothesizing After Results Known.
+- 결과 보고 가설.
+
+**원인 4, 데이터·코드 미공개**:
+- 재현 불가.
+- 신뢰성 의심.
+
+**원인 5, 인센티브 구조**:
+- 새로운 발견 > 재현.
+- 재현 연구의 경력 가치 낮음.
+
+5가지 모두 **체계적 문제**.
+
+**분야별 재현성 현황.**
+
+**심리학**:
+- 2015 Reproducibility Project.
+- 100개 연구 중 39%만 재현.
+
+**의학**:
+- Ioannidis의 2005 논문.
+- "Why Most Published Research Findings Are False".
+
+**ML/AI**:
+- Benchmark overfit.
+- Code 미공개.
+- Lipton·Steinhardt의 비판.
+
+**생물학**:
+- Amgen의 53개 논문 재현 시도.
+- 6개만 성공.
+
+**박사의 경각심** 필요.
+
+**박사의 재현성 위기 대응 — 7가지.**
+
+**대응 1, Pre-registration**:
+- 가설 사전 등록.
+- HARKing 방지.
+
+**대응 2, Registered Reports**:
+- 방법론 사전 심사.
+- Publication bias 해소.
+
+**대응 3, 데이터·코드 공개**:
+- GitHub·Zenodo.
+- 타인이 재현 가능.
+
+**대응 4, 여러 데이터셋**:
+- Single benchmark 위험.
+- 일반화.
+
+**대응 5, Multiple seeds·runs**:
+- 무작위성 반영.
+- Error bar.
+
+**대응 6, 정직한 보고**:
+- 실패·한계 포함.
+- 체리피킹 X.
+
+**대응 7, 재현 연구 수행**:
+- 본인이 타 논문 재현.
+- 분야 기여.
+
+**박사의 실천**이 분야를 바꿈.
+
+**P-hacking의 구체적 사례.**
+
+**예시**:
+- 여러 통계 테스트 중 유의한 것만.
+- 이상치 제거 전후.
+- 변수 변환 시도.
+- Subgroup 분석.
+
+**탐지**:
+- P-curve analysis.
+- 너무 많은 p = 0.04.
+
+**방어**:
+- 사전 등록.
+- 다중 검정 보정.
+- 투명한 보고.
+
+**HARKing의 유혹.**
+
+"결과를 본 후 가설":
+- 편해 보임.
+- 논문이 수월.
+
+**문제**:
+- 실제로는 exploratory.
+- Confirmatory로 위장.
+- 과학적 허위.
+
+**방어**:
+- Pre-registration.
+- Discovery vs Confirmation 명확.
+- Replication 추가.
+
+**재현 연구의 가치.**
+
+Failed replication도 **가치 있음**:
+
+- 분야 정화.
+- 방법론 개선.
+- 학계 신뢰.
+
+**박사의 기회**:
+- 1-2편의 재현 연구.
+- Unique contribution.
+- 출판 가능.
+
+**Many Labs project**:
+- 여러 팀의 협력 재현.
+- 박사 참여 가능.
+
+**투명성의 원칙.**
+
+박사 논문의:
+
+- **Methods의 완전성**: 재현 가능한 수준.
+- **Code·Data 공개**: 필수.
+- **모든 분석 보고**: 실패도.
+- **Deviation 명시**: 계획 변경.
+
+**박사의 약속**:
+- "누구든 재현 가능".
+
+**Robustness Checks.**
+
+결과가 **robust**한가?
+
+**실험**:
+- 다른 seed.
+- 다른 hyperparameter.
+- 다른 데이터 split.
+
+**분석**:
+- 다른 통계 방법.
+- 이상치 포함·제외.
+- 다른 모델 spec.
+
+**박사 논문의 appendix**:
+- Robustness checks.
+- 모든 이 확인.
+
+**Open Science의 문화.**
+
+**Communities**:
+- Center for Open Science.
+- ReScience.
+- Registered Reports venues.
+
+**박사의 참여**:
+- OSF 계정.
+- Pre-registration.
+- Open data.
+
+**Community의 일원**이 되기.
+
+**재현성과 경력.**
+
+재현성 연구:
+
+- **Tenure 기준 변화**: 2020s+.
+- **재현 가능 연구** 평가.
+- **Open Science**의 CV 항목.
+
+**박사의 투자**:
+- 단기 느림.
+- 장기 이점.
+
+**박사의 재현성 체크리스트.**
+
+- ☐ 사전 등록 (OSF·AsPredicted).
+- ☐ Code GitHub 공개.
+- ☐ Data Zenodo·HuggingFace.
+- ☐ Multiple seeds (3-5).
+- ☐ Confidence intervals.
+- ☐ Multiple datasets (2-3).
+- ☐ Robustness checks.
+- ☐ Failed experiments 보고.
+- ☐ Docker·환경 명시.
+- ☐ README·Notebook.
+
+**10가지 항목**이 재현성 보장.
+
+**AI 시대의 재현성 — 2024+.**
+
+**새 문제**:
+- **Randomness in LLM**: 같은 prompt, 다른 답.
+- **Model versions**: GPT-4 업데이트.
+- **API 의존**: 재현 불가능 시.
+- **Large models**: 일반 재현 어려움.
+
+**대응**:
+- **Model version 명시**: "GPT-4-0613".
+- **Seed·Temperature 고정**.
+- **Prompt 완전 공개**.
+- **Multiple queries**.
+- **Fallback open models**.
+
+**박사의 AI 재현성**이 2024+ 도전.
+
+**한국 박사의 재현성 특수.**
+
+**장점**:
+- 체계적 방법론.
+- 정부 과제의 요구.
+
+**도전**:
+- SCI 중시.
+- Publication bias.
+- 영어 부담.
+
+**한국 학계의 변화**:
+- Open Science 도입.
+- K-OSF 구축 중.
+- 박사의 early adopter 기회.
+
+**재현성과 AI 생성 논문.**
+
+2024+ 새 위협:
+
+**AI 생성 논문**:
+- 양산.
+- 낮은 품질.
+- 재현 불가능.
+
+**박사의 대응**:
+- 질 > 양.
+- 본인 방법 엄격.
+- 검증 가능한 연구.
+
+**5가지 함정.**
+
+**함정 1, 재현은 시시함**: 무시.
+
+**함정 2, 완벽 추구**: 공개 지연.
+
+**함정 3, 나중에**: 영원히.
+
+**함정 4, 코드 혼자**: 타인 못 이해.
+
+**함정 5, 한계 숨김**: 신뢰 훼손.
+
+**박사의 재현성 5년 계획.**
+
+**1년차**:
+- Pre-registration 배움.
+- Code·data 공개 습관.
+
+**2-3년차**:
+- Robustness checks.
+- Multiple runs.
+
+**4-5년차**:
+- 1편의 재현 연구.
+- Open Science 리더십.
+
+**박사 후**:
+- 분야 표준.
+
+**재현성의 철학.**
+
+"왜 재현성?":
+- **과학의 본질**.
+- 지식은 **검증 가능**.
+- 재현 안 되는 것은 지식 X.
+
+**박사의 사명**:
+- Guard of Science.
+- 다음 세대에 물려줌.
+
+**마지막 — 재현성은 박사의 학문적 정직성이다.**
+
+학계가 재현성 위기를 겪는 시대. 박사가 본인 연구를 **재현 가능**하게 만드는 것은 **과학에 대한 헌신**. 5가지 위기 원인·분야별 현황·7가지 대응·P-hacking·HARKing·재현 연구·투명성·Robustness·Open Science 문화·경력 효과·체크리스트·AI 시대 재현성·한국 특수·5가지 함정·5년 계획·철학 — 이 모든 것을 의식적으로 다루면 박사의 연구가 **분야의 신뢰 자산**. 재현성은 과학의 미래.
+
+> 박사는 재현성 위기의 한가운데. 5가지 원인 (Publication Bias·P-hacking·HARKing·미공개·인센티브). 분야별 현황 (심리 39%·의학·ML·생물). 박사의 7가지 대응 (Pre-registration·RR·공개·다 데이터셋·Multiple seeds·정직·재현 연구). P-hacking·HARKing의 방어. 재현 연구의 가치. 투명성의 원칙. Robustness Checks. Open Science 문화·경력. 10가지 재현성 체크리스트. 2024+ AI 재현성 (Model version·Seed·Prompt 공개). 한국의 Open Science 변화. AI 생성 논문의 대응. 5가지 함정. 박사 5년 재현성 계획. 재현성은 과학의 미래.
