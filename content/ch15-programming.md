@@ -1234,3 +1234,252 @@ GPU 결과의 재현성은 CPU보다 어려움:
 AI 시대 박사의 상당수가 GPU에 의존. 하지만 대부분 박사가 "프레임워크가 알아서"라고 생각. 3가지 계층·6가지 메모리 기법·프로파일링 도구·4가지 multi-GPU 전략·DDP 실전·디버깅·한국 GPU 환경·비용 관리·재현성·5년 학습 곡선·2024+ 트렌드·윤리 — 이 모든 것을 의식적으로 다루면 GPU가 박사의 연구 속도를 2-10배 가속. GPU 프로그래밍은 2020년대 박사의 필수 기술.
 
 > GPU 프로그래밍은 2020년대 박사의 필수 기술. 3가지 계층 (프레임워크·저수준·네이티브) 중 대부분 프레임워크까지. 6가지 메모리 관리 기법 (배치·gradient accumulation·mixed precision·checkpointing·offloading·quantization). Multi-GPU 4가지 전략 중 DDP가 표준. nvidia-smi·PyTorch Profiler·Nsight의 측정 도구. 한국 GPU 환경 (연구실·학교·클라우드·KISTI). 시간당 $1-8의 비용 관리. 재현성의 비결정성 문제. 5년 학습 곡선. 2024+ LLM 중심, vLLM·LoRA·양자화 트렌드. GPU 윤리. GPU는 박사 연구의 엔진이다.
+
+---
+
+## Docker·Container — 박사 연구 환경의 재현성
+
+박사 논문의 결과는 **특정 환경**에서만 재현된다. Python 3.9, PyTorch 2.0, CUDA 11.8, Ubuntu 20.04. 다른 버전에서는 오류 또는 다른 결과. 6개월 후 본인이 돌아왔을 때, 또는 다른 사람이 재현할 때, 이 환경이 **재현 불가**. Docker와 컨테이너 기술이 이 문제의 표준 해법. 이 섹션은 박사가 Docker를 연구 재현성에 활용하는 실전을 다룬다. ch15의 다른 섹션(AI 페어 프로그래밍·GPU·5년 코드 진화)이 **코딩**이었다면, 이 섹션은 **환경**이다.
+
+**Docker가 박사에게 주는 5가지 가치.**
+
+**가치 1, 환경 재현성**: Dockerfile 하나로 어디서든 동일 환경.
+
+**가치 2, 의존성 격리**: 프로젝트 A와 B의 Python 버전 충돌 없음.
+
+**가치 3, 공동 저자와의 환경 공유**: "저는 이 컨테이너에서 돌아가요" 말로 끝.
+
+**가치 4, 논문 재현의 표준**: 2020년대 많은 논문이 Docker 이미지 공개.
+
+**가치 5, 학위논문 10년 후 재현**: 박사 졸업 10년 후에도 실험 재현 가능.
+
+이 5가지가 Docker를 **박사 연구 재현성의 핵심 도구**로 만듦.
+
+**Docker의 3가지 기본 개념.**
+
+**개념 1, 이미지 (Image)**:
+- 소프트웨어의 "설계도".
+- Dockerfile로 정의.
+- 읽기 전용.
+- 예: `pytorch/pytorch:2.0.0-cuda11.8-cudnn8-runtime`.
+
+**개념 2, 컨테이너 (Container)**:
+- 이미지의 "실행 인스턴스".
+- 격리된 프로세스.
+- 삭제·재시작 가능.
+
+**개념 3, 레지스트리 (Registry)**:
+- 이미지 저장소.
+- Docker Hub, NVIDIA NGC, GitHub Container Registry.
+
+**박사의 Dockerfile 템플릿.**
+
+ML 박사의 전형적 Dockerfile:
+
+```dockerfile
+# Base image: CUDA 지원 PyTorch
+FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-runtime
+
+# 환경 설정
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 시스템 패키지
+RUN apt-get update && apt-get install -y \
+    git curl wget \
+    vim htop tmux \
+    libgl1-mesa-glx libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python 패키지
+COPY requirements.txt /tmp/
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+# 작업 디렉토리
+WORKDIR /workspace
+
+# 기본 명령어
+CMD ["python"]
+```
+
+**설명**:
+- `FROM`: base image.
+- `RUN`: 빌드 시 실행 명령.
+- `COPY`: 호스트 파일을 이미지로.
+- `WORKDIR`: 작업 디렉토리.
+- `CMD`: 컨테이너 시작 시 기본 명령.
+
+**Docker 빌드·실행의 기본 명령.**
+
+**빌드**:
+```bash
+docker build -t my-research:v1 .
+```
+
+**실행 (CPU)**:
+```bash
+docker run -it --rm \
+    -v $(pwd):/workspace \
+    my-research:v1 bash
+```
+
+**실행 (GPU)**:
+```bash
+docker run -it --rm \
+    --gpus all \
+    -v $(pwd):/workspace \
+    my-research:v1 bash
+```
+
+**백그라운드 실행**:
+```bash
+docker run -d --name my-exp \
+    --gpus all \
+    -v $(pwd):/workspace \
+    my-research:v1 python train.py
+```
+
+**Docker Compose — 복잡한 환경.**
+
+여러 서비스의 동시 실행:
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+services:
+  jupyter:
+    image: my-research:v1
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  tensorboard:
+    image: my-research:v1
+    command: tensorboard --logdir=/workspace/logs --host=0.0.0.0
+    ports:
+      - "6006:6006"
+    volumes:
+      - ./:/workspace
+```
+
+**실행**:
+```bash
+docker-compose up -d
+```
+
+**박사의 전형적 사용**: Jupyter + Tensorboard + 훈련 스크립트 동시.
+
+**박사의 Docker 사용 5가지 시나리오.**
+
+**시나리오 1, 개인 연구 환경**:
+- 본인 노트북/워크스테이션에 Docker 설치.
+- 프로젝트별 컨테이너.
+- 환경 충돌 방지.
+
+**시나리오 2, 연구실 서버 공유**:
+- 여러 박사가 같은 서버 사용.
+- 각자 컨테이너로 격리.
+- 관리자 권한 없이 Python 버전 선택.
+
+**시나리오 3, 클라우드 실험**:
+- AWS EC2, GCP에 컨테이너 배포.
+- 로컬 개발 → 클라우드 실행의 원활한 전환.
+
+**시나리오 4, 논문 재현성 패키지**:
+- 논문 공개 시 Dockerfile + 코드.
+- Reviewer·독자의 원클릭 재현.
+
+**시나리오 5, 학위논문 동결 상태**:
+- 학위논문 심사 시 Docker 이미지 저장.
+- 10년 후에도 재현 가능.
+
+**Docker의 5가지 흔한 실수.**
+
+**실수 1, 이미지의 무한 비대**: 불필요한 패키지 설치. 수 GB 이미지. 해결: multi-stage build, `--no-cache-dir`.
+
+**실수 2, Hardcoded 비밀**: API 키·비밀번호를 Dockerfile에. 해결: 환경 변수, Docker secrets.
+
+**실수 3, Cache 활용 부족**: `pip install`을 매번 다시. 해결: 의존성을 별도 layer.
+
+**실수 4, root 사용자**: 컨테이너 내부 root. 보안 위험. 해결: `USER` 지시어로 비root 사용자.
+
+**실수 5, Latest 태그 의존**: `FROM ubuntu:latest`의 불확실성. 해결: 버전 명시 `ubuntu:22.04`.
+
+**Docker 대안 — 2024+ 도구.**
+
+**Podman**: Docker의 오픈소스 대안. 데몬 없음, root 불필요.
+
+**Singularity/Apptainer**: HPC 환경의 표준. 연구실 GPU 클러스터에 흔함.
+
+**Nix**: 함수형 패키지 관리. 극한의 재현성.
+
+**conda/mamba**: Python 중심 환경. 가볍지만 Docker만큼 격리 없음.
+
+**uv**: 2024년 등장. 빠른 Python 환경.
+
+박사의 현실: **Docker가 표준**, 특수 상황에 다른 도구.
+
+**박사의 컨테이너 학습 곡선.**
+
+**1주차**: Docker 설치, 기본 명령 (`run`, `build`, `ps`).
+
+**1개월**: Dockerfile 작성, 이미지 빌드·push.
+
+**3개월**: Docker Compose, multi-container 앱.
+
+**6개월**: GPU 컨테이너, volume 관리.
+
+**1년+**: Kubernetes (대규모), 보안, 최적화.
+
+박사 1-2년차에 **Docker 기본기** 확립 권장.
+
+**한국 박사의 Docker 환경.**
+
+- **연구실 서버**: 관리자가 Docker 권한 부여. 권한 협상.
+- **학교 HPC**: Singularity/Apptainer가 흔함. SLURM 스케줄러와 연동.
+- **KISTI 슈퍼컴**: 전용 컨테이너 정책.
+- **기업 협력**: 기업 서버에서 Docker 사용. NDA 주의.
+- **한국어 자료 부족**: 영어 튜토리얼 중심.
+
+**AI 시대의 Docker — 2024+.**
+
+**NVIDIA NGC**: NVIDIA의 공식 AI 컨테이너 레지스트리. PyTorch·TensorFlow·Triton 최적화 이미지.
+
+**HuggingFace Transformers container**: 특정 모델 재현.
+
+**vLLM · TGI container**: LLM 추론 서비스.
+
+**Jupyter AI container**: LLM 통합 Jupyter.
+
+**생성형 AI 지원 Dockerfile**: Claude Code·Cursor로 Dockerfile 자동 생성·디버그.
+
+**박사 논문에 Docker 포함 — 체크리스트.**
+
+논문 공개 시 Docker 자산:
+
+- ☐ `Dockerfile`이 레포에 포함
+- ☐ 버전이 명시된 base image
+- ☐ `requirements.txt` 또는 `environment.yml`
+- ☐ README에 빌드·실행 명령
+- ☐ Docker Hub 또는 GitHub Container Registry에 이미지 push
+- ☐ 이미지 태그에 논문 버전 (v1.0-neurips2025)
+- ☐ 데이터 볼륨 마운트 방법
+- ☐ GPU 사용 예시
+- ☐ 예상 실행 시간·메모리
+- ☐ 재현성 검증 결과
+
+이 체크리스트가 **박사 논문의 10년 재현성**의 기반.
+
+**마지막 — Container는 박사 연구 재현성의 시멘트다.**
+
+박사 5-7년의 실험을 Docker로 감싸면 재현성이 극적으로 향상. 5가지 가치·3가지 기본 개념·Dockerfile 템플릿·빌드·실행·Compose·5가지 시나리오·5가지 실수·대안·학습 곡선·한국 환경·2024+ AI 시대·체크리스트 — 이 모든 것을 박사 1-2년차부터 도입하면 졸업 후 10-20년의 연구 재현성이 기반된다. Docker 없는 박사 연구는 **모래 위의 성**.
+
+> Docker는 박사 연구 재현성의 핵심 도구. 5가지 가치 (재현성·격리·공유·표준·10년 재현). 3가지 개념 (이미지·컨테이너·레지스트리). Dockerfile 템플릿 + 빌드/실행 명령. Docker Compose로 복잡한 환경. 5가지 시나리오 (개인·연구실·클라우드·논문·학위논문). 5가지 실수 (비대·비밀·cache·root·latest) 회피. Podman·Singularity·Nix·conda·uv의 대안. 박사 1-2년차 Docker 기본기. 한국 연구실·HPC·KISTI 환경. 2024+ NVIDIA NGC·HuggingFace·vLLM 컨테이너. 논문 공개 10가지 체크리스트. Docker 없는 연구는 모래 위의 성.
