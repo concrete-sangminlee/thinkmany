@@ -1895,3 +1895,275 @@ jupyter notebook notebooks/2024-03-15_exp01.ipynb
 박사의 개별 기록들이 아니라 **통합된 시스템**이 재현성·효율성·학위논문 기반. 6가지 레이어·통합 폴더·실험 ID·연구 노트 템플릿·Experiment Tracking 도구·Git·DVC·재현 워크플로·팀 공유·장기 보관·5가지 함정·시간 투자·AI 시대·한국 맥락·5년 계획·5가지 원칙 — 이 모든 것을 의식적으로 다루면 박사의 5-7년이 **과학적 자산**이 된다. 통합 기록은 박사의 공적인 과학적 자아.
 
 > 박사 연구의 6가지 기록 레이어 (Raw Data·Processed·Code·Results·Notes·Papers). 프로젝트별 통합 폴더 구조. 실험 ID 시스템 (YYYY-MM-DD_project_exp_desc). 연구 노트의 10-섹션 템플릿. W&B·MLflow·TensorBoard의 Experiment Tracking. Git + DVC의 버전 관리. 재현 가능 5단계 워크플로. 실험 lifecycle 6단계. 팀 공유의 규칙. 장기 보관의 3단계 우선순위. 5가지 함정 (이름 혼란·레이어 분리·복붙·손실·문서 부재). 초기 5-10시간 투자. 2024+ AI 도구 자동화. 한국 특수. 박사 5년 계획. 5가지 원칙 (단일 진실·타임스탬프·ID·관계·점검). 통합 기록은 박사의 공적 과학적 자아.
+
+---
+
+## 박사의 Zettelkasten — "아이디어의 2만 장 메모 시스템"
+
+독일 사회학자 **Niklas Luhmann**은 평생 **9만여 장의 메모**로 구성된 Zettelkasten (문자 그대로 "메모 상자") 시스템을 구축, 40년간 **70권의 책과 400편의 논문**을 썼다. 그의 생산성은 독보적이었고, 많은 사람이 그 비밀이 **메모 시스템**에 있다고 본다. Zettelkasten은 단순한 메모법이 아니라 **지식을 네트워크로 구축**하는 철학. 박사의 5-7년은 **수천 개의 아이디어·개념·인용**의 누적인데, 이것을 체계적으로 관리하면 **박사 논문이 자연스럽게 탄생**한다.
+
+**Zettelkasten의 철학.**
+
+- **Atomic Notes**: 한 메모는 **한 아이디어**만.
+- **Linked Notes**: 메모 간 명시적 연결.
+- **Own Words**: 복사-붙여넣기 금지·본인 언어.
+- **Evergreen**: 시간이 지나도 유효한 형태.
+- **Bottom-up**: 상위 구조가 아니라 메모에서 생성.
+
+이 5가지가 **Zettelkasten의 본질**.
+
+**3가지 메모 유형 (Sönke Ahrens의 분류).**
+
+- **Fleeting Notes (순간 메모)**: 떠오르는 아이디어·대화·독서 중. 처리 후 폐기.
+- **Literature Notes (문헌 메모)**: 책·논문 읽을 때의 요약·인용.
+- **Permanent Notes (영구 메모)**: Zettelkasten의 핵심. 본인의 사고를 명확히.
+
+**Literature → Permanent로 전환**이 핵심 프로세스.
+
+**Atomic Note의 규칙.**
+
+- **한 메모 한 아이디어**: 복합 메모 금지.
+- **Self-contained**: 다른 메모 없이도 이해 가능.
+- **200-500 단어**: 길면 분할.
+- **Title = Claim**: 제목이 그 메모의 핵심 주장.
+- **Context**: 이 아이디어가 왜 중요한지.
+
+**메모의 원자성**이 재사용성을 만든다.
+
+**링크의 문법.**
+
+Zettelkasten의 핵심은 **메모 간 링크**:
+
+- **Direct Link**: `[[Concept A]]`—명시적 참조.
+- **Bidirectional**: 양방향 자동 연결 (Obsidian·Roam).
+- **Tag**: #topic/subtopic.
+- **Context Link**: "이 아이디어는 [[X]]와 관련..."
+- **Dense Linking**: 메모 하나에 3-5개 링크.
+
+**링크가 많을수록 네트워크 강해짐**.
+
+**Zettelkasten 도구 비교.**
+
+- **Obsidian**: 로컬·Markdown·Plugin 풍부. **박사 최적**.
+- **Roam Research**: 웹·Block 기반·원조.
+- **Logseq**: Open source·Block 기반.
+- **Notion**: Database·협업·과한 복잡성.
+- **Bear·Apple Notes**: 가벼움·단순.
+- **종이 카드**: 원조 방식·Luhmann.
+
+**Obsidian이 박사 주류**—로컬 저장·Markdown.
+
+**Luhmann의 번호 체계.**
+
+- **Unique ID**: 각 메모에 고유 번호 (1, 1a, 1a1, 1b, 2, 2a...).
+- **계층 구조**: 번호 확장으로 서브토픽.
+- **Folgezettel**: "Following note"—논리적 흐름.
+- **현대 대안**: Timestamp ID (202604241430).
+
+**Obsidian 현대 방식**: Title + Timestamp.
+
+**Permanent Note 작성의 5단계.**
+
+- **1단계**: Fleeting·Literature 노트에서 시작.
+- **2단계**: 본인 언어로 Rewrite.
+- **3단계**: 관련 메모 Search.
+- **4단계**: Link 추가.
+- **5단계**: 새 Title·저장.
+
+**매일 3-5개 Permanent Note** 만들기.
+
+**Maps of Content (MOC).**
+
+- **Index 대신**: 상위 MOC 메모로 주제 지도.
+- **예**: "Machine Learning MOC"—관련 주요 메모 링크.
+- **자체 생성**: 메모 쌓이면 자연스럽게 MOC.
+- **여러 MOC**: 각자의 관점.
+
+**MOC는 지식의 지도**.
+
+**박사 연구와 Zettelkasten의 연결.**
+
+- **논문 인용**: Literature Note에서 Permanent Note로.
+- **연구 아이디어**: Permanent Note가 아이디어 풀.
+- **논문 초안**: 관련 Permanent Note를 결합.
+- **학위논문**: 전체 Zettelkasten을 재구성.
+
+**Zettelkasten에서 논문이 자연스럽게 나온다**—Luhmann의 비결.
+
+**글쓰기 프로세스 — From Zettelkasten to Paper.**
+
+- **Outline from notes**: 관련 메모들을 선택·정렬.
+- **Transitions**: 메모 사이의 연결 문장.
+- **Expand**: 세부 설명·예시 추가.
+- **Revise**: 전체적 논리.
+- **References**: Literature Note에서.
+
+**글쓰기가 창작이 아닌 조립**이 된다.
+
+**Spaced Repetition과의 통합.**
+
+- **Anki 연동**: Obsidian의 플러그인.
+- **중요 개념**: 플래시카드로.
+- **장기 기억**: 망각 방지.
+- **박사 시험 대비**: Qualifying Exam.
+
+**Zettelkasten + SRS = 장기 학습**.
+
+**Daily Notes의 활용.**
+
+- **매일 하나의 Daily Note**: YYYY-MM-DD.md.
+- **Fleeting Notes 수집**: 하루의 아이디어.
+- **Journaling**: 개인 회고.
+- **Link to Permanent**: 저녁에 처리.
+
+**Daily Notes가 입구**.
+
+**박사의 Zettelkasten 함정 7가지.**
+
+- **Collector's Fallacy**: 수집만 하고 읽지 않음.
+- **Too-long Notes**: 1000+ 단어·원자성 위반.
+- **Copy-Paste**: 본인 언어 아님.
+- **No Links**: 고립된 메모.
+- **Over-organization**: Folder·Tag 복잡.
+- **Perfectionism**: 완벽 메모 추구.
+- **Tool Obsession**: 도구 세팅에 시간 낭비.
+
+이 7가지가 **Zettelkasten의 실패**.
+
+**Zettelkasten 시작의 5가지 원칙.**
+
+- **작게 시작**: 10-20개 메모로.
+- **매일 작성**: 루틴.
+- **링크 강조**: 고립 메모 방지.
+- **재방문**: 기존 메모 자주 봄.
+- **유연성**: 규칙보다 사고.
+
+**도구보다 습관**.
+
+**Obsidian의 핵심 플러그인.**
+
+- **Dataview**: 메타데이터 쿼리.
+- **Templater**: 템플릿.
+- **Excalidraw**: 다이어그램.
+- **Daily Notes**: 매일 노트.
+- **Graph View**: 네트워크 시각화.
+- **Zotero Integration**: 논문 연동.
+
+**플러그인이 Obsidian의 강점**.
+
+**Vault의 구조.**
+
+- **00_Inbox**: Fleeting Notes.
+- **01_Literature**: 논문·책 노트.
+- **02_Permanent**: Zettelkasten 핵심.
+- **03_Projects**: 진행 프로젝트.
+- **04_MOC**: Maps of Content.
+- **05_Daily**: Daily Notes.
+- **06_Archive**: 오래된 메모.
+
+**폴더 최소화, Link 최대화**.
+
+**Zettelkasten의 학습 곡선.**
+
+- **1-3개월**: 어색함·혼란.
+- **3-6개월**: 루틴 형성.
+- **6-12개월**: 메모 네트워크 형성.
+- **1-2년**: 생산성 가속.
+- **3-5년**: 박사 논문의 기반.
+
+**첫 6개월은 투자**—그 후 이익.
+
+**읽기·쓰기의 통합.**
+
+- **책·논문 읽기**: Literature Note 생성.
+- **Permanent Note 전환**: 본인의 사고.
+- **글쓰기**: Permanent Note 재조합.
+- **수정**: 기존 메모 수정.
+- **새 아이디어**: 연결에서.
+
+**Reading → Processing → Writing**의 루프.
+
+**학위논문 쓰기 시 Zettelkasten.**
+
+- **박사 3-4년차**: Zettelkasten 성숙.
+- **챕터 구성**: 관련 메모 모음.
+- **인용**: Literature Note의 참조.
+- **논증**: Permanent Note의 주장 결합.
+- **재사용**: 논문 간 겹침.
+
+**학위논문 3-6개월이 1-2개월로 단축**.
+
+**팀·랩의 공유 Zettelkasten.**
+
+- **공유 Vault**: Git으로 공유.
+- **개인 vs 공유**: 분리 또는 통합.
+- **컨벤션**: 팀의 명명·태그 규칙.
+- **지식 전수**: 졸업자의 Zettelkasten.
+
+**공유 시 랩 자산화**.
+
+**AI 통합 — 2024+ 시대.**
+
+- **Smart Connections (Obsidian plugin)**: AI 기반 관련 메모 추천.
+- **ChatGPT·Claude와 Zettelkasten**: 메모 기반 질문.
+- **AI Summary**: 긴 메모의 요약.
+- **Auto-linking**: AI가 연결 제안.
+
+**AI는 Zettelkasten의 가속기**—대체는 아님.
+
+**한국 박사의 Zettelkasten 특수.**
+
+- **한국어 메모**: 검색·AI 통합의 기술적 이슈.
+- **영어 Permanent + 한국어 Fleeting**: 하이브리드.
+- **한국어 Obsidian 커뮤니티**: 정보 제한.
+- **논문 언어**: 영어 메모가 더 직접 활용.
+
+**한국 박사**: 이중언어 메모의 전략.
+
+**박사의 Zettelkasten 생산성 지표.**
+
+- **주간**: 10-20개 Permanent Notes.
+- **월간**: 50-100개.
+- **연간**: 600-1200개.
+- **박사 5년**: 3000-6000개.
+- **박사 졸업 시**: Luhmann 수준의 자산.
+
+**양이 질을 만든다**.
+
+**Zettelkasten과 창의성.**
+
+- **Unexpected Connections**: 메모 간 링크에서 새 아이디어.
+- **Idea Remix**: 기존 아이디어의 결합.
+- **Serendipity**: 우연의 발견.
+- **Deep Thinking**: 메모의 깊이.
+
+**Zettelkasten = Thinking Tool**.
+
+**10가지 Zettelkasten 체크리스트.**
+
+- ☐ Obsidian (또는 유사) 설치
+- ☐ Atomic Note 원칙
+- ☐ 본인 언어로
+- ☐ 매일 Permanent Note 3개
+- ☐ Link 강조 (3-5개/메모)
+- ☐ Daily Notes
+- ☐ MOC 생성
+- ☐ Graph View 주기적 확인
+- ☐ Zotero 연동
+- ☐ 주간 리뷰
+
+**박사의 Zettelkasten 5년 여정.**
+
+- **1년차**: 시작·100-500 메모.
+- **2년차**: 1000+ 메모·네트워크.
+- **3-4년차**: 논문 쓰기 기반.
+- **5년차**: 학위논문의 자산.
+- **졸업 후**: 평생의 지식 시스템.
+
+**Zettelkasten은 박사 이후도 평생 성장**.
+
+**마지막 — Zettelkasten은 박사의 제2의 뇌다.**
+
+박사 5-7년의 누적이 Zettelkasten. Luhmann의 철학·5원칙·3가지 메모 유형·Atomic Note·링크 문법·도구 비교·번호 체계·Permanent Note 5단계·MOC·연구 연결·글쓰기 프로세스·SRS·Daily Notes·7가지 함정·시작 원칙·Obsidian 플러그인·Vault 구조·학습 곡선·통합 루프·학위논문·팀 공유·AI 통합·한국 특수·생산성 지표·창의성·체크리스트·5년 여정 — 이 모든 것을 의식적으로 다루면 박사가 **본인만의 지식 네트워크**를 구축. Zettelkasten은 박사의 제2의 뇌.
+
+> Zettelkasten은 박사의 제2의 뇌. Luhmann의 9만 메모에서 70권·400논문. 5가지 철학 (Atomic·Linked·Own Words·Evergreen·Bottom-up). 3가지 메모 유형 (Fleeting·Literature·Permanent). Atomic Note 규칙 (한 아이디어·200-500단어·Self-contained). Dense Linking. Obsidian이 박사 주류. Luhmann 번호 체계와 현대 Timestamp. Permanent Note 5단계. Maps of Content (MOC). Zettelkasten → 논문 자연스러운 흐름. Spaced Repetition 통합. Daily Notes 입구. 7가지 함정 (Collector·Too-long·Copy-Paste·No Links·Over-org·Perfectionism·Tool Obsession). 시작 5원칙 (작게·매일·링크·재방문·유연). Obsidian 플러그인. Vault 구조. 6-12개월 학습 곡선. Reading→Processing→Writing 루프. 학위논문 3-6개월 단축. 팀 공유 가능. 2024+ AI 통합 (Smart Connections). 한국 이중언어 메모. 연간 600-1200 메모. 창의성의 도구. 10가지 체크리스트. 5년 여정. Zettelkasten은 박사의 제2의 뇌.
