@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="연구 많이 된다 — 대학원생 연구 가이드">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#111118"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="50%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="20%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="90%" cy="80%" r="50%">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <!-- Subtle grid pattern -->
+  <g stroke="#2a2a3a" stroke-width="0.5" opacity="0.35">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="200" y1="0" x2="200" y2="630"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+
+  <!-- Badge -->
+  <g transform="translate(90, 95)">
+    <rect width="225" height="44" rx="22" fill="url(#accent)" opacity="0.15"/>
+    <rect x="0" y="0" width="225" height="44" rx="22" fill="none" stroke="url(#accent)" stroke-width="1.5" opacity="0.6"/>
+    <text x="112.5" y="29" text-anchor="middle" font-family="'Inter', -apple-system, sans-serif" font-size="17" font-weight="600" fill="#c4a5ff">대학원생 연구 가이드</text>
+  </g>
+
+  <!-- Main title -->
+  <text x="90" y="250" font-family="'Inter', -apple-system, sans-serif" font-size="84" font-weight="800" fill="url(#titleGrad)">연구 많이 된다</text>
+  <text x="90" y="340" font-family="'Inter', -apple-system, sans-serif" font-size="54" font-weight="600" fill="#e8e8ed">잘 때도 생각날 거야</text>
+
+  <!-- Subtitle -->
+  <text x="90" y="410" font-family="'Inter', -apple-system, sans-serif" font-size="24" font-weight="400" fill="#9898a8">박사 과정의 5-7년을 위한 종합 가이드 · 한국 공학 대학원 맥락</text>
+
+  <!-- Stats -->
+  <g transform="translate(90, 465)">
+    <!-- Stat 1 -->
+    <g>
+      <text x="0" y="40" font-family="'JetBrains Mono', monospace" font-size="56" font-weight="800" fill="url(#accent)">60</text>
+      <text x="0" y="70" font-family="'Inter', sans-serif" font-size="16" font-weight="500" fill="#9898a8">챕터</text>
+    </g>
+    <!-- Stat 2 -->
+    <g transform="translate(200, 0)">
+      <text x="0" y="40" font-family="'JetBrains Mono', monospace" font-size="56" font-weight="800" fill="url(#titleGrad)">8</text>
+      <text x="0" y="70" font-family="'Inter', sans-serif" font-size="16" font-weight="500" fill="#9898a8">파트</text>
+    </g>
+    <!-- Stat 3 -->
+    <g transform="translate(340, 0)">
+      <text x="0" y="40" font-family="'JetBrains Mono', monospace" font-size="56" font-weight="800" fill="#22d3ee">93k+</text>
+      <text x="0" y="70" font-family="'Inter', sans-serif" font-size="16" font-weight="500" fill="#9898a8">줄의 내용</text>
+    </g>
+  </g>
+
+  <!-- Author (bottom right) -->
+  <g transform="translate(1110, 570)">
+    <text x="0" y="0" text-anchor="end" font-family="'Inter', sans-serif" font-size="15" font-weight="500" fill="#9898a8">by</text>
+    <text x="0" y="22" text-anchor="end" font-family="'Inter', sans-serif" font-size="18" font-weight="700" fill="#e8e8ed">Sang Min Lee</text>
+  </g>
+</svg>
