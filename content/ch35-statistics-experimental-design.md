@@ -1052,3 +1052,102 @@ Bayesian의 장점:
 복제 위기는 학계 전체의 과제이지만 개별 박사 학생의 행동이 누적되어 방향을 결정한다. 다섯 가지 방어 기술(사전등록·power analysis·multiple testing correction·효과 크기·문서화)을 박사 1-2년차부터 습관화하면 본인의 박사 논문이 **복제 친화적 과학의 한 단위**가 된다. 10년 후 본인의 박사 논문이 "이 결과 재현 가능"으로 인용되는 것이 박사 학위의 가장 깊은 성공이다.
 
 > 복제 위기는 학계 전체의 과제이지만 해결은 개별 박사의 통계적 방어에서 시작된다. 사전등록·proper power·multiple testing correction·효과 크기·replication-ready 문서화의 다섯 기술을 박사 1-2년차부터 습관화하면 본인의 논문이 복제 친화적 과학의 단위가 된다. 박사 학위의 가장 깊은 성공은 10년 후에도 본인의 결과가 재현되는 것이다.
+
+---
+
+## 인과 추론 (Causal Inference) — 상관을 넘어 인과를 증명하는 박사의 통계
+
+"상관관계는 인과관계가 아니다"는 과학의 기본 원칙이다. 하지만 현실에서는 이것을 **어떻게 인과관계를 증명할 것인가**가 박사 연구의 핵심 과제다. 공학 연구, 의학 연구, 정책 연구, AI 연구 모두에서 "X가 Y의 원인이다"라는 주장을 엄격히 검증해야 하는 상황이 있다. 2024-2026년 기준 인과 추론(Causal Inference)은 박사 통계의 중요한 확장 영역이다. ch35의 앞부분은 전통적 가설 검정을 다뤘다면, 이 섹션은 **인과 관계 증명의 체계적 도구**를 다룬다.
+
+**왜 박사에게 인과 추론이 중요한가.**
+
+많은 박사가 "상관만 보고 인과라고 주장"하는 실수를 범한다. 결과: reviewer의 강력한 비판 ("Have you established causality?"). 박사 연구에서 인과 추론이 필요한 전형적 상황:
+
+- **관찰 데이터 연구**: 임상 데이터, 센서 데이터, 사용자 로그. 무작위 실험이 불가능한 상황. 하지만 "X 처리가 Y 결과의 원인"을 주장해야 함.
+- **정책/제도 평가**: "이 신재생에너지 정책이 온실가스를 줄였는가?" 정책 도입 전후 비교.
+- **공학 시스템의 고장 원인**: "센서 A의 값 증가가 시스템 실패를 유발했는가?"
+- **AI 모델의 해석**: "모델이 특징 X 때문에 이 예측을 했는가?" Explainability와 연결.
+- **사용자 행동**: "이 UI 변경이 사용자 유지율을 높였는가?" A/B 테스트가 어려운 상황.
+
+전통적 통계 (가설 검정, 회귀)만으로는 인과를 증명할 수 없다. 인과 추론은 별도의 체계적 도구를 요구한다.
+
+**인과 추론의 3가지 철학적 틀.**
+
+2024년 현재 인과 추론에는 세 가지 주요 틀이 있다. 박사는 본인 분야에서 어느 틀이 주류인지 파악해야 한다:
+
+**틀 1, Potential Outcomes Framework (Rubin Causal Model, 1974-)**: 각 개체에 "처리 받았을 때의 결과"와 "처리 안 받았을 때의 결과"라는 두 potential outcomes를 가정. 실제로는 한쪽만 관측됨. 인과 효과 = 두 potential outcomes의 차이. 의학·경제학·사회과학의 주류. ATE (Average Treatment Effect), ATT (Average Treatment effect on Treated) 같은 지표.
+
+**틀 2, Causal DAGs (Judea Pearl, 1988-)**: 변수 간 인과 관계를 directed acyclic graph로 표현. Graph 구조에서 do-calculus로 인과 효과를 계산. 컴퓨터과학·AI·역학의 주류. Confounder, collider, mediator를 명확히 구분. Pearl의 *Book of Why* (2018)로 대중화.
+
+**틀 3, Structural Causal Models (SCM)**: Potential Outcomes와 DAG의 통합. 각 변수를 다른 변수의 함수 + 노이즈로 표현. 이론적 완결성이 높지만 실전 적용이 복잡. 최근 AI 분야에서 인기.
+
+박사 연구에서는 **본인 분야의 주류 틀**로 시작. 의학 박사는 Potential Outcomes, AI/CS 박사는 DAG, 이론 박사는 SCM. 세 가지를 다 알 필요는 없지만 주류 외 하나는 알아야 다른 분야와 대화 가능.
+
+**인과 추론의 5가지 핵심 도구 — 박사가 알아야 할 주요 방법.**
+
+**도구 1, Randomized Controlled Trial (RCT)**: 무작위 할당으로 confounder를 자동 균형. 인과 추론의 **금본위(gold standard)**. 가능하면 항상 RCT. 하지만 윤리적·실용적 제약으로 많은 박사 연구에서 불가능.
+
+**도구 2, Propensity Score Matching (PSM)**: 관찰 데이터에서 처리군과 유사한 control을 매칭. "이 사람들이 만약 처리 안 받았다면?"의 근사. 구현 간단, 해석 명확. 단점: 측정 안 된 confounder는 처리 못 함. 의학·경제학 연구의 표준.
+
+**도구 3, Instrumental Variables (IV)**: 처리에는 영향을 주지만 결과에는 직접 영향을 주지 않는 변수(instrument)를 찾아서 인과 효과 추정. 예: 유전자 → 콜레스테롤 → 심장병에서 유전자를 IV로. Mendelian Randomization. 좋은 instrument를 찾기 어려운 것이 도전.
+
+**도구 4, Regression Discontinuity Design (RDD)**: 임의적 임계값 주변의 불연속을 이용. 예: 시험 점수 70점 이상 합격 → 합격/불합격이 점수 근처에서 거의 무작위. 사회과학·교육 연구의 주요 방법.
+
+**도구 5, Difference-in-Differences (DiD)**: 처리군과 대조군의 처리 전후 변화를 비교. 시간 불변 confounder를 제거. 정책 평가의 표준. 전제: "평행 추세(parallel trends)" 가정이 성립해야 함.
+
+박사 논문에서 인과 주장을 할 때 **최소 2가지 방법**으로 robustness 확인이 2024년 이후 표준. 한 가지 방법만 쓰면 reviewer가 반드시 비판.
+
+**Confounder 식별 — 인과 추론의 가장 흔한 실패.**
+
+인과 추론에서 가장 자주 빠지는 실수는 **숨은 confounder**. 예:
+
+- **고전 예**: 아이스크림 판매량과 익사 사고가 양의 상관. 실제: 여름 온도가 confounder.
+- **공학 예**: 새 장비 도입 후 고장률 감소 → 사실은 새 장비와 함께 도입된 새 유지보수 매뉴얼이 진짜 원인.
+- **AI 예**: 새 모델이 정확도 향상 → 사실은 더 좋은 데이터 전처리가 원인.
+
+Confounder 식별의 절차:
+
+1. **DAG 그리기**: 본인의 문제를 변수 간 화살표로 그려본다. 모든 변수가 다른 변수에 미치는 영향을 생각.
+2. **Backdoor paths 확인**: 처리 → 결과의 직접 경로 외에, 다른 경로로 연결되는가? 이것이 confounder의 경로.
+3. **측정 가능한 confounder vs 측정 불가능한 confounder**: 측정 가능하면 모델에 포함. 측정 불가능하면 IV 또는 sensitivity analysis.
+4. **Sensitivity Analysis**: "얼마나 강한 미측정 confounder가 있어야 우리 결론이 뒤집힐까?" E-value, Rosenbaum bounds 같은 방법.
+
+DAG를 그리는 습관은 박사의 인과 사고를 근본적으로 바꾼다. 논문의 "Causal Assumptions" 섹션에 DAG를 포함하는 것이 2024년 이후 일부 저널의 권장.
+
+**Simpson's Paradox — 왜 변수 분해가 결과를 뒤집는가.**
+
+박사 연구에서 자주 마주치는 역설. 전체 데이터에서 양의 상관이 있는데, 하위 그룹으로 나누면 각 그룹에서 음의 상관. 반대도 가능.
+
+**고전 예 (UC Berkeley 1973 입학)**: 전체 데이터에서 여성이 남성보다 합격률 낮음 → 성차별 의심. 학과별로 나누면 대부분 학과에서 여성이 더 높은 합격률. 원인: 여성이 합격률 낮은 학과에 더 많이 지원.
+
+**공학 예**: 전체 센서 데이터에서 온도 증가가 성능 향상. 장비 종류별로 나누면 각 장비에서 온도 증가가 성능 저하. 원인: 고성능 장비가 더 높은 온도에서 작동.
+
+**대응**: 항상 **하위 그룹별 분석**을 병행. Confounder 가능성 의심. 전체와 그룹이 반대 결과면 Simpson's Paradox를 명시적으로 고려.
+
+**Causal Inference와 Machine Learning — 2024-2026 통합 경향.**
+
+2020년 이후 인과 추론과 ML의 통합이 급속히 발전. 박사 연구에서 알아야 할 최신 동향:
+
+- **Double ML / Debiased ML (Chernozhukov et al., 2018)**: ML의 예측력 + 인과 추론의 엄밀성. 고차원 confounder를 ML로 다루면서 인과 효과의 통계적 valid한 추정.
+- **Causal Forests (Wager & Athey, 2018)**: Random Forest의 인과 버전. 개별 수준의 treatment effect (heterogeneous effects) 추정. 의료·정책 personalization에 강력.
+- **DoWhy (Microsoft)**: Python 라이브러리. DAG 기반 인과 추론의 민주화. 2024년 이후 많은 박사 연구에서 baseline.
+- **EconML (Microsoft)**: ML 기반 인과 추론 도구. Heterogeneous effects 추정.
+- **Causal Discovery**: 데이터에서 DAG 자체를 학습 (PC algorithm, GES, NOTEARS). 2024-2026 연구의 hot topic.
+
+박사 연구에서 순수 ML만 하는 시대는 지나가고 있다. **"ML + 인과 추론"**이 2025년 이후 많은 분야의 차세대 박사에게 필요한 조합. 특히 의료 AI, 정책 AI, 사용자 AI 박사.
+
+**박사 논문에서 인과 주장의 3가지 수준.**
+
+본인 연구가 어느 수준의 인과 주장인지 명확히 하는 것이 reviewer와의 갈등을 피한다:
+
+**수준 1, 상관 (Correlation)**: "X와 Y는 연관되어 있다." 가장 약한 주장. 무난.
+**수준 2, 예측 (Prediction)**: "X로 Y를 예측할 수 있다." 조금 더 강한 주장. 하지만 인과는 아님.
+**수준 3, 인과 (Causation)**: "X가 Y의 원인이다." 가장 강한 주장. 엄격한 증명 필요.
+
+박사 논문에서 수준 3 주장을 하려면 RCT, PSM, IV, RDD, DiD 중 하나 + 반드시 2가지 이상의 robustness check. 수준 3 주장을 하면서 수준 2 증거만 제시하면 reviewer의 강력한 reject 사유.
+
+**마지막 — 인과 추론은 2020년대 박사 통계의 필수 확장이다.**
+
+전통적 통계 (가설 검정, 회귀)만으로는 박사 연구의 많은 질문에 답할 수 없다. 인과 추론은 이것을 보완하는 체계적 도구. 3가지 틀(Potential Outcomes, DAG, SCM)·5가지 도구(RCT, PSM, IV, RDD, DiD)·Confounder 식별 절차·Simpson's Paradox 경계·ML 통합 경향을 이해하면, 박사 논문의 인과 주장이 reviewer의 scrutiny를 통과할 수 있다. 2024-2026년 이후 박사 연구에서 "상관만 주장"은 허용되지 않는 분야가 늘고 있다. 본인 분야의 인과 추론 수준에 맞게 준비하는 것이 박사의 통계적 성숙이다.
+
+> 인과 추론은 2020년대 박사 통계의 필수 확장이다. 본인 분야의 주류 틀(Potential Outcomes·DAG·SCM)을 선택하고, 5가지 핵심 도구(RCT·PSM·IV·RDD·DiD) 중 최소 2가지로 robustness. Confounder를 DAG로 식별하고 sensitivity analysis. Simpson's Paradox 경계. 2024+ ML 통합(Double ML·Causal Forests·DoWhy·EconML)을 주시. 박사 논문의 인과 주장 수준(상관·예측·인과)을 명확히 하고 증거와 일치시킨다. 본인 분야의 인과 추론 수준에 맞추는 것이 박사의 통계적 성숙이다.
