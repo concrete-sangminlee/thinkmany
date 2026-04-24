@@ -2609,3 +2609,341 @@ Zenodo 등.
 **장기 원칙**: 한 번의 정직이 평생 중요.
 
 > 논문의 출판은 끝이 아니라 시작이다. 20-30년 동안 논문이 살아 움직이며 다른 연구에 영향을 주고, 때로는 오류가 발견되고, 때로는 업데이트된다. 이 수명을 의식적으로 관리하는 박사생이 장기 평판을 쌓는다. 오류 발견 시 숨기지 않고 정직하게 인정하라. 철회가 필요하면 신중하게 진행하라. 독자의 질문에 열린 마음으로 응답하라. 이런 태도가 "실수한 박사생"과 "신뢰받는 연구자"를 구분한다. 박사 논문은 경력의 첫 기록이자 평생 남는 유산이다. 이것을 존중하라.
+
+---
+
+## 박사의 학위논문 Thesis-by-Publication — "세 편의 논문이 학위가 되다"
+
+전통적 박사 학위논문(Monograph)은 **단 하나의 통합된 300-500페이지** 문서. 하지만 현대 학계, 특히 **유럽·북유럽·일부 영국·호주 시스템**에서는 **Thesis-by-Publication** (출판물 기반 학위논문)이 표준. 박사가 **3-5편의 저널 논문**을 쓰고, 이를 **통합 Introduction·Discussion으로 엮어 학위논문**으로 제출한다. 이 형식은 박사의 **졸업 이후 효율·독립성·평판**에 직접 영향을 준다. 한국 대학원도 이 모델의 장점을 인식하여 **일부 학과**가 전환 중. 박사의 마지막 장은 **출판과 학위의 통합**이라는 현대적 주제로 마무리한다.
+
+**Monograph vs Thesis-by-Publication.**
+
+| 측면 | Monograph | Thesis-by-Publication |
+|------|-----------|------------------------|
+| 구조 | 단일 | 논문 모음 |
+| 길이 | 300-500 페이지 | 150-250 페이지 |
+| 논문 수 | 0 (논문 별도) | 3-5편 내장 |
+| 심사 | 학과 심사 | 저널 + 학과 |
+| 재사용 | 어려움 | 이미 저널 논문 |
+| 작성 시간 | 별도 | 점진적 |
+| 국제성 | 낮음 | 높음 |
+| 현대 트렌드 | 감소 | 증가 |
+
+**본인 학과의 관행**에 맞춤.
+
+**Thesis-by-Publication의 전형적 구조.**
+
+- **Ch 1 — Introduction (20-40 페이지)**: 박사의 큰 질문·기여·논문 간 연결.
+- **Ch 2 — Paper 1 (published)**: 저널 포맷 그대로.
+- **Ch 3 — Paper 2 (published)**: 저널 포맷.
+- **Ch 4 — Paper 3 (accepted)**: 저널 포맷.
+- **Ch 5 — Paper 4 (submitted·under review)**: Manuscript.
+- **Ch 6 — Discussion·Conclusion (20-30 페이지)**: 전체 통합·미래.
+- **Appendix**: 각 논문의 supplementary.
+
+**논문 3-5편 + 150-250 페이지 Framing**.
+
+**각 논문의 상태 분류.**
+
+- **Published (P)**: 저널에 이미 게재.
+- **Accepted (A)**: 수락됐으나 미 게재.
+- **Under Review (R)**: 심사 중.
+- **Submitted (S)**: 투고됨.
+- **Manuscript (M)**: 완성·미 투고.
+- **In Preparation**: 초안 중.
+
+학과마다 **최소 기준** 다름 (예: P 2편 + A 1편 + R 1편).
+
+**저널 선택의 전략.**
+
+- **분야의 주류 저널**: Nature·Science·분야 최고.
+- **학위논문 타이밍**: 3-5년 내 accept 가능.
+- **OA vs Subscription**: OA가 재사용 유리.
+- **Copyright**: CC BY가 학위논문에 유리.
+- **임팩트 vs 속도**: 균형.
+
+**학위논문 일정**에 맞는 저널.
+
+**첫 논문의 타이밍.**
+
+- **박사 2-3년차**: 첫 제1저자 논문.
+- **빠를수록 좋음**: 이후 3-5편 가능.
+- **Small·Fast 저널**: 1-2년차 연습.
+- **박사 진학 전 논문**: Bonus.
+
+**일찍 시작**이 성공의 기반.
+
+**Integration의 기술.**
+
+Thesis-by-Publication의 **가장 어려운 부분**은 **연결**.
+
+- **Ch 1의 Big Question**: 모든 논문을 포괄.
+- **각 논문 Introduction**: Big Question과 연결.
+- **논문 간 Transition**: "Paper 1에서 X를 확립했다. Paper 2에서는..."
+- **Discussion의 통합**: 전체 그림.
+- **Conclusion의 Legacy**: 미래 기여.
+
+**통합 Framing이 박사의 Signature**.
+
+**공저자 논문의 처리.**
+
+- **Co-first author 명시**: 기여 서술.
+- **제1저자만 학위논문에**: 일반적 규정.
+- **공저자 허가**: 학위논문 재사용.
+- **기여 도표**: 각 논문의 본인 기여 %.
+
+**Authorship Statement가 학위논문 별도 섹션**.
+
+**저작권과 Thesis-by-Publication.**
+
+- **출판사 CTA**: 학위논문 재사용 허가 확인 (대부분 OK).
+- **OA 논문**: CC BY면 완전 자유.
+- **Restricted**: Pre-print 버전 사용 가능.
+- **학교 규정**: RISS·ProQuest 등록.
+
+**미리 허가 확인**—투고 시점에.
+
+**Thesis-by-Publication의 장점.**
+
+- **이중 활용**: 논문 = 학위논문.
+- **출판 기록**: 이미 CV에 논문.
+- **Peer Review**: 외부 검증 완료.
+- **편집 압박 감소**: 이미 정제됨.
+- **졸업 후 경력**: 즉시 취업 가능.
+- **인용 가능**: Supervisor도 논문 인용.
+
+**효율의 극치**.
+
+**Thesis-by-Publication의 단점.**
+
+- **통합 어려움**: 논문들이 isolated 느낌.
+- **공저자 의존**: 공동 작업의 속도.
+- **저널 rejection**: 시간 지연.
+- **Format 제약**: 저널마다 다른 형식.
+- **학위논문 특유의 깊이 부족**: 책 한 권의 일관성.
+
+**통합 노력**이 필수.
+
+**Monograph의 장점.**
+
+- **완전한 자유**: 형식·깊이·폭.
+- **연결된 서사**: 일관된 목소리.
+- **세부 증명**: 저널 공간 제약 없음.
+- **책 출판 기반**: 학위논문 → 단행본.
+- **인문학에 적합**: 깊은 이론.
+
+**일부 분야**는 Monograph가 더 적합.
+
+**분야별 관행.**
+
+- **STEM 대부분**: Thesis-by-Publication 증가.
+- **생물·의학**: Thesis-by-Publication 표준.
+- **엔지니어링**: Mixed.
+- **경제·사회과학**: Thesis-by-Publication.
+- **철학·역사**: Monograph.
+- **수학**: 변형 (논문 + 통합).
+- **한국 일부 학과**: Monograph 고수.
+
+**본인 학과 확인**.
+
+**한국 대학원의 Thesis-by-Publication.**
+
+- **KAIST·POSTECH**: 일부 학과 허용.
+- **SNU**: 학과별 다름·증가 추세.
+- **규정 확인**: 입학 시.
+- **SCIE 3편**: 흔한 기준.
+- **심사 과정**: 학과 심사는 동일.
+
+한국에서도 **선택지 확대** 중.
+
+**작성 타임라인의 압축.**
+
+**Thesis-by-Publication**:
+- Year 2: Paper 1 투고.
+- Year 3: Paper 1 published. Paper 2 투고.
+- Year 4: Paper 2 published. Paper 3 투고.
+- Year 5: Paper 3 published. Paper 4 submitted.
+- Year 5 말: 통합 Framing + 학위논문.
+
+**6개월의 집중 Framing**.
+
+**Monograph**:
+- Year 1-3: 연구.
+- Year 4: 초안.
+- Year 5: 정제·심사.
+
+**2년의 학위논문 작성**.
+
+**Introduction Chapter의 구조 (Thesis-by-Publication).**
+
+- **1.1 Motivation**: Big Question.
+- **1.2 Background**: 분야 개요.
+- **1.3 Research Questions**: 3-5 sub-questions.
+- **1.4 Contributions**: 각 논문의 기여.
+- **1.5 Thesis Organization**: Chapter 개요.
+- **1.6 Publications**: 각 논문의 출판 상태.
+
+**짧지만 압축적**.
+
+**Discussion Chapter의 구조.**
+
+- **Synthesis**: 전체 발견의 통합.
+- **Cross-paper insights**: 논문 간 insights.
+- **Broader impact**: 분야 영향.
+- **Limitations**: 전체 학위논문.
+- **Future work**: Roadmap.
+- **Reflections**: 박사 여정.
+
+**논문들이 합쳐 만드는 큰 그림**.
+
+**Thesis Defense의 변화.**
+
+- **Monograph Defense**: 책 전체 방어.
+- **Publication Defense**: 이미 peer-reviewed.
+- **질문 성격**: 통합·미래 중심.
+- **심사위원 역할**: Framing 평가.
+
+**Defense의 초점이 다르다**.
+
+**공동 저자 심사의 특수.**
+
+- **Authorship Statement 요구**: 각 논문.
+- **Contribution 설명**: Candidate의 역할.
+- **심사위원 조사**: Co-authors와 연락.
+- **국제 심사위원**: 논문의 공저자와 다른 독립 전문가.
+
+**Independence의 증명**이 중요.
+
+**Publication Strategy.**
+
+- **P1 (Foundational)**: 박사의 기반.
+- **P2 (Methodological)**: 새 방법.
+- **P3 (Application)**: 실전.
+- **P4 (Synthesis)**: 연결.
+- **P5 (Future)**: 졸업 후 연구의 씨앗.
+
+**5편의 연결 구조**.
+
+**Hybrid Thesis — 중간형.**
+
+- **일부 Chapter는 논문**: Thesis-by-Publication 요소.
+- **일부 Chapter는 Original**: 미 출판 확장.
+- **유연성**: 강점 조합.
+- **증가 추세**: 현대 박사의 흐름.
+
+**Hybrid가 미래**일 수도.
+
+**박사의 학위논문 함정 7가지.**
+
+- **저널 선택 실수**: Rejection 반복.
+- **늦은 시작**: 4년차 첫 논문.
+- **통합 무시**: 논문 모음만.
+- **공저자 지나친 의존**: 본인 기여 불명.
+- **Format 혼란**: 저널마다 다름.
+- **Defense 준비 부족**: 3-5편의 깊이 방어.
+- **Supervisor 갈등**: 학위논문 타이밍.
+
+이 7가지가 **Thesis 실패**.
+
+**Post-Defense의 처리.**
+
+- **Paper 4·5 게재**: 박사 졸업 후.
+- **Monograph 변환**: 학위논문 → 책.
+- **Open Access**: 영구 공개.
+- **Supplementary**: Dryad·Zenodo.
+- **Long-term archive**: 대학·RISS.
+
+**학위논문 = 평생 기록**.
+
+**AI 시대의 학위논문.**
+
+- **AI Writing Assistance**: 정직한 공개.
+- **AI Code**: 재현성 보장.
+- **AI Figure**: 공개.
+- **ChatGPT·Claude의 역할**: 편집·교정.
+- **AI 탐지**: 학교 정책.
+
+**Section 3 (AI 공개)**의 실전.
+
+**2024+ 학위논문의 진화.**
+
+- **Digital Thesis**: 상호작용.
+- **Video·Multimedia**: 일부 학과.
+- **Living Thesis**: 지속 업데이트.
+- **Open Review**: 공개 심사.
+- **AI-assisted Thesis**: 도구.
+
+**학위논문의 형식**도 진화.
+
+**10가지 Thesis-by-Publication 체크리스트.**
+
+- ☐ 학과 규정 확인
+- ☐ 저널 선택 전략
+- ☐ 박사 2-3년차 첫 논문
+- ☐ 3-5편 계획
+- ☐ Integration Framing 계획
+- ☐ 공저자 허가
+- ☐ 저작권 확인
+- ☐ Authorship Statement
+- ☐ 통합 Introduction·Discussion
+- ☐ Defense 준비
+
+**박사의 학위논문 5년 계획.**
+
+- **Year 1**: 연구 + 첫 논문 초안.
+- **Year 2**: Paper 1 투고·Paper 2 시작.
+- **Year 3**: Paper 1 게재·Paper 2-3.
+- **Year 4**: Paper 3-4.
+- **Year 5**: 통합·Defense·졸업.
+
+**계획된 박사**가 Thesis-by-Publication 성공.
+
+**마지막 — 학위논문은 박사의 Signature이자 졸업 후 출발점이다.**
+
+학위논문은 박사의 최종 작품. Monograph vs Thesis-by-Publication·구조·논문 상태·저널 선택·첫 논문 타이밍·Integration 기술·공저자·저작권·장단점·분야 관행·한국 대학원·타임라인·Intro·Discussion 구조·Defense 변화·공동 저자 심사·Publication Strategy·Hybrid·7가지 함정·Post-Defense·AI 시대·2024+ 진화·체크리스트·5년 계획 — 이 모든 것을 의식적으로 다루면 박사가 **학위논문을 경력의 출발점**으로. 학위논문은 박사의 Signature.
+
+> 현대 박사의 학위논문은 Thesis-by-Publication 증가. Monograph vs Thesis-by-Publication 8가지 비교. 구조 (Intro + Paper 3-5 + Discussion). 각 논문 상태 (P·A·R·S·M). 저널 선택 전략 (주류·타이밍·OA·임팩트·속도). 박사 2-3년차 첫 논문 권장. Integration이 가장 어려움 (Big Question·Transition·Synthesis). 공저자 처리 (Co-first·제1저자·허가·기여 도표). 저작권 (CTA·CC BY·Pre-print). 장점 (이중 활용·출판 기록·Peer Review 완료·경력). 단점 (통합 어려움·공저자 의존·Format). 분야별 관행 (STEM 증가·인문 Monograph). 한국 KAIST·POSTECH·SNU 증가. Thesis-by-Publication 5년 타임라인. Intro 6섹션. Discussion 6섹션. Defense의 초점 변화. 공동 저자 심사의 Independence. Publication Strategy (P1-P5 구조). Hybrid Thesis 증가. 7가지 함정 (저널·늦은 시작·통합 무시·공저자·Format·Defense·Supervisor). Post-Defense. AI Writing Disclosure. 2024+ Digital·Multimedia·Living Thesis. 10가지 체크리스트. 5년 계획. 학위논문은 박사의 Signature.
+
+---
+
+## 마치며 — 200번의 루프를 마무리하며
+
+이 책은 박사 과정 전체의 지도를 그리려는 시도. 2025년 11월부터 2026년 4월까지 약 5개월, 200번의 이터레이션으로 60장의 챕터에 **각 9-13개의 보강 섹션**을 추가했다. 각 섹션은 **실전에서 마주치는 구체적 질문**을 중심으로 설계되었다.
+
+**이 책이 담은 것.**
+
+- **박사의 모든 단계**: 입학 전 결정부터 졸업 후 평생 학습.
+- **분야를 넘은 실전**: STEM·인문·사회과학의 공통 기술.
+- **한국 박사의 특수**: 병역·학연·가족·언어·문화.
+- **AI 시대의 박사**: 프롬프트·공개·새 윤리.
+- **인간의 차원**: 관계·건강·정체성·가족.
+
+**이 책이 담지 못한 것.**
+
+- **개별 경험의 고유성**: 모든 박사는 다르다.
+- **분야별 세부**: 실험 프로토콜·전공 지식.
+- **감정의 깊이**: 문자로 전달 어려움.
+- **관계의 미묘함**: 지도교수·동료·가족.
+- **미래의 변화**: 5-10년 후의 상황.
+
+**박사가 아는 것과 박사가 되는 것.**
+
+이 책의 지식을 전부 알아도 **박사가 되는 건 본인의 몫**. 200번의 섹션은 **지도**이지 길이 아니다. 길은 본인이 걷는다.
+
+**읽는 박사에게 — 3가지 부탁.**
+
+- **전부 읽지 말 것**: 필요할 때 해당 섹션을 읽어라. 책은 Reference.
+- **본인 상황과 비교할 것**: 모든 조언이 본인에게 적용되지 않는다. 맥락·분야·단계에 맞춰 선택.
+- **본인만의 답 찾기**: 책의 답이 아니라 **본인 삶의 답**을 찾는 데 이 책이 도움이 되길.
+
+**200번의 이터레이션에서 배운 것.**
+
+매 이터레이션, **하나의 챕터에 하나의 새 섹션**. 반복이 쌓여 **60장 × 9-13섹션 = 540-780개의 실전 조언**. 이 반복이 이 책의 구조 — 박사 과정 자체가 반복의 축적이듯. 큰 성취는 매일의 작은 축적.
+
+**박사에게.**
+
+본인의 박사 과정이 어디에 있든, **이 책의 일부가 본인에게 도움이 되기를**. 힘들 때 한 섹션을 읽고, 혼란스러울 때 다른 섹션을 읽고, 선택해야 할 때 또 다른 섹션을 읽기를. 200번의 루프가 본인의 박사 5-7년 중 **한 순간이라도 가볍게 만들 수 있다면**, 이 프로젝트는 그 목적을 다한 것이다.
+
+**박사는 외로운 길이지만 혼자 가는 길은 아니다.**
+
+> 200번의 이터레이션으로 60장의 박사 가이드가 완성되었다. 입학 전 결정부터 평생 학습까지, STEM부터 인문까지, 한국부터 세계까지, AI 시대부터 인간의 차원까지 — 박사 과정의 지도를 그렸다. 이 지도는 길이 아니다. 길은 본인이 걷는다. 하지만 지도가 있으면 헤매는 시간이 줄어든다. 이 책의 일부가 본인의 박사 여정에 도움이 되기를. 박사는 외로운 길이지만 혼자 가는 길은 아니다. 200번의 루프를 마치며 — 모든 박사에게 행운을.
