@@ -2207,3 +2207,146 @@ GNN의 결정이 왜 그런지 설명 어려움.
 이 12가지가 GNN 여정의 기초.
 
 > Graph Neural Networks는 공학 박사의 새 도구다. 분야의 많은 문제가 본질적으로 그래프이고, GNN은 이 구조를 자연스럽게 다룬다. 전통 CNN이나 MLP로 억지로 처리하는 것보다 GNN이 훨씬 효과적일 수 있다. 박사 중반부터 GNN을 탐색하는 것이 좋은 투자다. 2024-2026년 현재 GNN은 CNN이 2012-2015년에 있었던 위치와 비슷하다. 지금 시작하면 그 파도의 앞자리에 있을 수 있다. 공학 문제를 그래프로 다시 생각해보는 것이 첫 단계다.
+
+---
+
+## 2024-2025 딥러닝 신대륙 — Diffusion·Mamba·MoE·LoRA
+
+이 챕터의 앞부분이 정립된 딥러닝 아키텍처(MLP·CNN·RNN·Transformer·GNN)를 다뤘다면, 이 섹션은 **2024-2025에 급성장 중인 새 아키텍처·기법**을 다룬다. Diffusion Models, State Space Models (Mamba), Mixture of Experts (MoE), Parameter-Efficient Fine-Tuning (LoRA·QLoRA). 이 기술들이 CNN·Transformer가 2014-2017년에 있던 위치처럼 빠르게 성숙 중. 박사 연구가 이 물결을 일찍 인지하면 박사 후반과 박사 후의 경쟁력이 결정된다.
+
+<div class="highlight-box info">
+<span class="highlight-box-icon">ℹ️</span>
+<div class="highlight-box-content">
+<p><strong>왜 이 4가지인가</strong></p>
+<p>2024-2025에 딥러닝 분야에 등장한 많은 새 아키텍처 중 가장 근본적 영향을 주는 4가지. <em>Diffusion</em>은 생성의 표준, <em>Mamba·SSM</em>은 Transformer의 잠재 대안, <em>MoE</em>는 대규모 모델의 새 패러다임, <em>LoRA</em>는 박사의 GPU 한계를 극복하는 실전 도구. 각각이 박사 연구에 다른 경로로 기여.</p>
+</div>
+</div>
+
+### Diffusion Models — 생성의 새 표준
+
+**개념**: 이미지·소리·3D·분자 같은 복잡한 데이터를 **노이즈를 점진적으로 제거**하는 방식으로 생성. 2020 DDPM (Ho et al.)·2022 Stable Diffusion·2023 DALL-E 3로 급성장.
+
+**핵심 수식** (직관적으로):
+- Forward process: 원본 데이터 → 노이즈 (단계별)
+- Reverse process (학습): 노이즈 → 원본 (U-Net으로 각 단계에서 노이즈 예측)
+
+**공학 응용**:
+- **설계 최적화**: 분자·재료·구조의 새 디자인 생성
+- **이상 탐지**: 정상 데이터 분포로 학습 → 이상 샘플 감지
+- **시뮬레이션 대체**: 비싼 시뮬레이션 결과를 빠르게 생성
+- **역설계 (Inverse Design)**: 원하는 특성 → 그런 특성을 가진 디자인
+- **데이터 증강**: 작은 실제 데이터셋을 확장
+
+**박사 실전**:
+- 구현: Hugging Face Diffusers 라이브러리가 표준
+- 학습: Stable Diffusion fine-tuning에 GPU 1개로 가능 (LoRA와 결합)
+- 생성 속도: 초기 느림 (50 steps), 최근 Consistency Models로 1-4 step
+
+**한계**: 학습·추론 비용이 크고, 본인 분야에 맞는 pretrained model 없으면 처음부터 학습 필요.
+
+### State Space Models (Mamba) — Transformer의 대안
+
+**개념**: Transformer의 attention이 입력 길이 N에 대해 O(N²)인 반면, Mamba는 **선형 O(N)**으로 긴 시퀀스 처리. 2024년 Mamba·Mamba-2가 폭발적 관심.
+
+**핵심 아이디어**:
+- Selective State Space Models: 입력에 따라 적응적 상태 업데이트
+- Hardware-aware implementation으로 GPU에서 빠름
+
+**공학 응용**:
+- **긴 시계열**: ch37의 foundation models와 결합. 긴 센서 데이터 (수만 샘플)의 효율적 처리
+- **오디오·음성**: 실시간 오디오 처리
+- **긴 문서·영상**: Transformer가 메모리 부족 상황
+- **DNA·단백질**: 긴 바이오 시퀀스
+
+**박사 실전**:
+- 상황: Transformer로 메모리·속도 제약에 부딪힌 경우 대안
+- 라이브러리: official Mamba implementation + Hugging Face Transformers
+- 주의: 2024-2025는 아직 연구 단계. 프로덕션보다 실험적 사용.
+
+**한계**: 짧은 시퀀스에서는 Transformer가 여전히 우수. 생태계가 Transformer보다 미성숙.
+
+### Mixture of Experts (MoE) — 대규모 모델의 Sparse 활성화
+
+**개념**: 하나의 큰 모델의 모든 파라미터를 매 입력마다 쓰지 않고, **입력에 맞는 일부 전문가(experts)**만 활성화. 파라미터 수는 크지만 추론 비용은 작음.
+
+**대표 예**:
+- Mixtral 8x7B (2024): 총 47B 파라미터, 추론 시 13B만 활성. GPT-3.5 수준 성능
+- DeepSeek-MoE: 중국의 MoE 모델
+- GPT-4도 MoE로 알려져 있음 (비공식)
+
+**공학 응용**:
+- **다중 도메인**: 여러 공학 분야의 데이터를 하나의 MoE 모델로. 각 expert가 분야별 전문성
+- **Multi-task Learning**: 관련된 여러 태스크를 sparse 활성화로 효율적
+- **대규모 시뮬레이션**: 다양한 조건의 시뮬레이션을 하나의 모델로
+
+**박사 실전**:
+- 구현: Mixtral·DeepSeek MoE가 Hugging Face에 공개
+- Fine-tuning: Mixtral 같은 MoE의 fine-tuning은 기술적으로 까다로움
+- 대안: 본인이 MoE 처음부터 학습하는 것은 리소스 부담. 기존 MoE 활용 권장.
+
+**한계**: 학습의 복잡성 (expert balancing). 메모리 필요 (파라미터 전체 저장).
+
+### Parameter-Efficient Fine-Tuning (LoRA·QLoRA)
+
+**개념**: 전체 모델의 파라미터를 업데이트하지 않고 **적은 수의 파라미터만 학습**. 수백억 파라미터 모델을 일반 GPU에서 fine-tuning 가능.
+
+**LoRA (2021)**: Low-Rank Adaptation. 가중치 업데이트를 rank r의 low-rank 분해로 근사.
+
+**QLoRA (2023)**: Quantization + LoRA. 4-bit quantization으로 메모리 추가 감소. 65B 파라미터 모델도 단일 48GB GPU에서 fine-tuning.
+
+**공학 응용 (매우 실용적)**:
+- **본인 분야 데이터로 LLM fine-tuning**: 본인의 공학 논문·기술 문서로 GPT·LLaMA를 fine-tuning → 도메인 LLM
+- **Stable Diffusion 특화**: 본인 분야 이미지(CT scan·전자현미경·구조 도면)로 Diffusion 모델 fine-tuning
+- **적은 데이터로 전이**: 수천 샘플로 대규모 사전학습 모델 적응
+
+**박사 실전**:
+- 라이브러리: Hugging Face PEFT·LoRA·bitsandbytes (QLoRA용)
+- GPU 요구: 7B 모델은 16GB, 13B는 24GB, 70B는 48GB (QLoRA 기준)
+- 박사 2-3년차부터 활용 가능. 박사의 "GPU 빈곤"을 크게 해결.
+
+**한계**: Fine-tuned 모델의 품질이 full fine-tuning보다 약간 낮음. 특정 태스크에서는 격차 존재.
+
+### 2024-2025 추가 트렌드 간략히
+
+**Multimodal Models**: CLIP·LLaVA·GPT-4o·Claude 3/4 — 텍스트·이미지·오디오·비디오 통합. 공학에서 논문+그림+데이터 통합 이해에 유용.
+
+**Test-Time Scaling**: o1·o3·Deepseek R1의 추론 시간을 늘려 성능 향상. 박사 연구에서 복잡한 추론 문제에 적용.
+
+**Speculative Decoding**: 작은 모델의 예측을 큰 모델로 검증해 추론 속도 향상. 실용화 중.
+
+**Flash Attention 2/3**: Transformer의 메모리·속도 최적화. 2024-2025의 표준.
+
+### 박사 연구의 적용 전략
+
+**박사 1-2년차**: 기초 아키텍처 (ch22 앞부분) 확실히. 새 기술은 호기심 수준.
+
+**박사 3-4년차**: 본인 분야와 관련된 1-2개 선택 (예: CV면 Diffusion, 시계열이면 Mamba). 깊이 탐구.
+
+**박사 5-7년차**: 본인 연구의 한 부분에 새 기술 적용. 단, 검증된 도구로 (프로토타입 수준 아님).
+
+**박사 후**: 본인이 새 기술을 공학 분야에 적용한 선구자. 임용·산업에서 강력한 차별화.
+
+### 빠른 변화에 대응하는 법
+
+딥러닝 분야가 매 6-12개월마다 큰 전환. 박사 5-7년 동안 3-5번의 주요 변화. 대응:
+
+**대응 1: 기초에 집중**.
+기본 원리(gradient descent·attention·generative modeling)는 변하지 않음. 기초가 탄탄하면 새 기술을 빠르게 흡수.
+
+**대응 2: 특정 도구에 과도 투자 금지**.
+특정 프레임워크·라이브러리의 세부에 1년 투자 → 6개월 후 낡음. 일반적 개념에 시간 투자.
+
+**대응 3: 빠른 프로토타이핑**.
+새 기술이 나오면 **1주일 안에 본인 데이터에 시도**. 작동하면 깊이 탐구, 안 맞으면 포기.
+
+**대응 4: 커뮤니티 참여**.
+Twitter/X·arXiv·Hugging Face의 learning을 주 1회 2-3시간. 트렌드를 놓치지 않음.
+
+**대응 5: 본인의 차별화 축**.
+최신 기술을 따라가되, 본인의 고유 기여(공학 문제·도메인 지식)를 유지. 최신 기술이 바뀌어도 본인의 차별화는 유지.
+
+### 마지막 — 2024-2025는 딥러닝의 두 번째 황금기다
+
+2012-2017년이 딥러닝의 첫 황금기 (AlexNet·ResNet·Transformer)였다면, 2022-2025는 두 번째 황금기 (Diffusion·LLM·Mamba·MoE). 박사 과정이 이 시기와 겹친다면 본인이 분야의 역사의 한 부분을 산다. Diffusion·Mamba·MoE·LoRA의 4가지 핵심 신기술을 박사 단계별로 단계적으로 흡수하면 박사 졸업 시점에 본인이 2020년대의 AI 전환을 이해하고 활용하는 학자가 된다.
+
+> 2024-2025의 딥러닝 신대륙 — Diffusion·Mamba·MoE·LoRA가 CNN·Transformer가 2014-2017에 있던 위치다. 박사 단계별로 단계적 흡수(1-2년차 기초 → 5-7년차 응용)와 빠른 변화 대응 5원칙(기초 집중·도구 과투자 금지·프로토타이핑·커뮤니티·차별화 축)으로 박사 과정이 AI 전환기의 일부가 된다.
