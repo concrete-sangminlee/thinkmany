@@ -1432,3 +1432,199 @@ NIH·NRF 심사자가 보는 기준:
 제안서의 Research Plan은 본인이 5년간 할 연구의 **공식 약속**. 4개 축·Specific Aims·Gap 분석·Preliminary Data·Approach·Pitfalls·Timeline·심사자 관점·5가지 실수·분야별 특성·한국 맥락·AI 시대·7단계 프로세스·협업·체크리스트 — 이 모든 것을 의식적으로 다루면 박사의 제안서가 **펀딩을 받는 제안서**가 된다. 좋은 Research Plan은 연구의 지도이자 약속.
 
 > Research Plan은 제안서의 본질. 4개 축 (Specific Aims·Background·Approach·Timeline). Specific Aims의 1페이지 구조와 5가지 원칙. Gap 분석의 정량성. Preliminary Data의 4가지 가치. 각 Aim의 Rationale·Methods·Outcomes·Pitfalls·Alternatives 구조. Timeline의 Gantt chart. NIH 심사 5기준 (Significance·Innovation·Approach·Investigator·Environment). 5가지 실수 (모호함·의존·예비 부족·pitfall 부정·비현실 timeline). 분야별 특성. 한국 박사 맥락. 2024+ AI 시대. 7단계 작성 프로세스. 지도교수 협업. 10가지 체크리스트. Research Plan은 5년의 약속이다.
+
+---
+
+## 박사의 연구비 예산 설계 — "돈의 과학"
+
+Research Plan이 과학의 지도라면, **Budget은 그 지도를 실행하는 재정 엔진**. 박사의 많은 제안서가 탈락하는 이유는 연구 아이디어가 아니라 예산이 비현실적이어서다. 심사자는 **"이 돈으로 이 연구가 될까?"**를 묻는다. 예산이 과도하면 낭비, 부족하면 실현 불가능. 둘 다 탈락 사유. 박사는 예산을 **"과학"**으로 다뤄야 한다. 추측이 아니라 계산. 희망이 아니라 견적.
+
+**Budget의 3가지 원칙.**
+
+- **Justifiable**: 모든 항목이 연구에 필요한 이유가 있다.
+- **Realistic**: 실제 비용을 반영한다 (과소·과대 모두 탈락).
+- **Aligned**: Research Plan과 일치한다 (없는 활동에 돈 없고, 있는 활동에 돈 있다).
+
+이 3가지가 **Budget의 뼈대**.
+
+**주요 예산 카테고리.**
+
+- **Personnel (인건비)**: 연구원 급여·학생 등록금·Fringe Benefits. **보통 50-70%**.
+- **Equipment (장비)**: 5,000 USD 이상 단일 장비.
+- **Supplies (소모품)**: reagents·소모성 장비·software license.
+- **Travel (출장)**: 학회·현지 조사·협력 기관 방문.
+- **Publication (출판)**: OA fee·page charges.
+- **Consultant (자문)**: 외부 전문가 자문비.
+- **Subcontract (하도급)**: 협력 기관의 연구비.
+- **Other (기타)**: 분명히 정당화되는 항목.
+- **Indirect Costs (간접비)**: 기관의 overhead (보통 50-80%).
+
+각 카테고리별로 **세부 항목·단가·수량·총액**을 표로 만든다.
+
+**Budget Justification의 중요성.**
+
+숫자만이 아니라 **왜 그 돈이 필요한지 서술**. 심사자는 Justification을 읽고 납득해야 한다.
+
+- "포스닥 1명 100% effort" → **"Aim 2의 실험을 주도할 포스닥. 해당 분야 박사 5년 이상 경력 필수. 1년차부터 3년차까지 100%."**
+- "Confocal Microscope $50,000" → **"Aim 1의 live-cell imaging에 필수. 기관 공용 장비는 예약 불가·해상도 부족. 본 연구 전용."**
+- "Travel $10,000" → **"매년 국제학회 2회 × 3년 = 6회. 각 $1,500 (항공·호텔·등록). 연구 결과 발표 및 협력 네트워크."**
+
+정당화 없는 숫자는 **의심 대상**.
+
+**분야별 예산 특성.**
+
+- **실험 생물**: Supplies (reagents·animal) 비중 높음 (30-40%). Equipment 선택적.
+- **계산**: Personnel 중심 (60-70%). Computing (AWS·HPC) 추가.
+- **현장 조사**: Travel 비중 높음 (20-30%). 장비도.
+- **임상**: Patient recruitment·IRB·의료진 비용.
+- **공학**: Equipment·프로토타입 제작 비중.
+- **이론**: Personnel 거의 전부.
+
+본인 분야의 **표준 비율**을 먼저 파악.
+
+**박사의 Budget 함정 7가지.**
+
+- **과소 산정**: "싸게 보이려고" 비용을 낮게 책정 → 실행 불가능 → 탈락.
+- **과대 산정**: "혹시 모르니" 여유 있게 → 낭비 의심 → 탈락.
+- **Justification 부실**: 숫자만 있고 이유 없음 → 심사자 불신.
+- **Aim과 불일치**: Aim 3에 필요한 장비가 Budget에 없음 → 실현 가능성 의심.
+- **Personnel effort 계산 오류**: 0.5 FTE의 의미를 모름.
+- **Indirect Cost 누락**: 기관의 overhead rate 확인 안 함.
+- **Inflation 무시**: 3-5년 과제인데 1년차 가격으로 전체 계산.
+
+이 7가지가 **Budget 검토의 기본**.
+
+**Personnel Effort의 이해.**
+
+- **FTE (Full-Time Equivalent)**: 1 FTE = 100% 전일제.
+- **0.5 FTE**: 50% effort = 주 20시간.
+- **Calendar Months**: 12개월 기준 몇 개월 effort.
+- **Summer Months**: 교수의 여름 3개월 (9개월 계약 교수 기준).
+
+포스닥은 보통 100% effort. 교수는 10-30%. 대학원생은 50-100%.
+
+**Fringe Benefits의 계산.**
+
+- **미국**: 급여의 25-35% (건보·퇴직·기타).
+- **한국**: 급여의 10-20% (4대보험·퇴직금).
+- **EU**: 급여의 30-50%.
+
+기관별로 **표준 rate**가 있다. 인사과 확인 필수.
+
+**Indirect Costs (간접비)의 의미.**
+
+- **기관의 overhead**: 건물·전기·행정·도서관·IT.
+- **미국 대학**: 50-70% of Modified Total Direct Costs.
+- **한국 대학**: 15-30% (기관별 다름).
+- **민간 재단**: 10-20% 또는 불허.
+
+Indirect가 **Direct의 50%면**, 전체 예산이 **Direct × 1.5**.
+
+**예시**: Direct Costs $500,000, Indirect 50% → Total $750,000.
+
+**Modular Budget vs Detailed Budget.**
+
+- **Modular (NIH R01)**: $25,000 단위로 요청. 상세 내역 생략. $250K/year까지.
+- **Detailed**: 모든 항목 상세히. 보통 $250K 이상 또는 특정 기관.
+
+본인 프로그램의 **요구 형식** 확인.
+
+**Subcontract (하도급)의 처리.**
+
+- **다른 기관과 협력**: 해당 기관의 예산을 별도로.
+- **Sub 기관의 Indirect**: Sub 기관 rate 적용 (복잡).
+- **Sub 기관 PI**: Letter of Support·생성·CV 첨부.
+- **Sub의 예산도 Justification**: 왜 그 기관이 필요한지.
+
+하도급은 **행정 부담**이 크다. 정말 필요할 때만.
+
+**Cost Sharing (매칭).**
+
+- **Required Match**: 일부 프로그램은 기관 매칭 필수 (예: 50:50).
+- **Voluntary Commitment**: 약속 시 의무가 됨.
+- **In-Kind**: 현금이 아닌 자원 (장비 사용·공간).
+
+매칭은 **기관 승인** 필요. 사전 확인.
+
+**한국 박사의 Budget 특수.**
+
+- **한국연구재단**: 직접비·간접비 구분 엄격. 간접비 rate 낮음 (15-25%).
+- **BK21**: 인건비 중심. 장비 제한.
+- **기업 과제**: 상세 내역 요구. 마진 없음.
+- **국제 공동**: 양국 기관의 규정 모두 준수.
+- **한국 인건비 단가**: 정부 단가표 참조 (박사급·석사급·학사급).
+
+한국은 **규정이 엄격**. 단가표·증빙 철저.
+
+**2024+ AI 시대 Budget의 변화.**
+
+- **Computing Credits**: AWS·GCP·Azure credits의 예산화.
+- **LLM API 사용료**: OpenAI·Anthropic 사용료 (연구 비용).
+- **GPU cluster 사용료**: 시간당 요금.
+- **AI tool 구독**: Copilot·ChatGPT Plus·Claude Pro.
+- **데이터 주석 외주**: Amazon Mechanical Turk·Scale AI.
+- **새 항목**: "Cloud Computing Services" 등.
+
+심사자도 AI 비용에 익숙해지는 중.
+
+**Year-by-Year Budget의 구조.**
+
+- **Year 1**: Setup·Preliminary (장비 많음).
+- **Year 2-3**: Main Execution (인건비·소모품 많음).
+- **Year 4-5**: Analysis·Publication (Travel·OA fee 많음).
+
+각 연도별로 **활동이 다르면 비용도 달라야 한다**.
+
+**Inflation 반영.**
+
+- **미국**: 연 3-4% inflation 반영.
+- **한국**: 연 2-3%.
+- **Personnel**: 연 3-5% 인상 반영.
+- **장비·소모품**: 연 2-3% 인상.
+
+Year 5의 급여가 Year 1의 급여보다 **최소 15% 이상 높아야** 자연스럽다.
+
+**Budget Reductions (삭감) 준비.**
+
+심사 후 "예산을 80%로 줄여라" 요청이 흔하다.
+
+- **어떤 항목을 줄일지 미리 계획**: Travel·소모품 우선.
+- **핵심 항목은 보존**: Personnel·Core Equipment.
+- **Scope 조정과 연계**: 예산 줄면 Aim 3 축소 등.
+
+삭감 요청에 **당황하지 않도록** 미리 준비.
+
+**박사의 Budget 3단계 프로세스.**
+
+- **1단계 (Research Plan 확정 후)**: 각 Aim별 필요 자원 목록.
+- **2단계**: 단가 조사 (인사과·구매부·공급업체 견적).
+- **3단계**: 표로 정리·Justification 작성·검토.
+
+먼저 **활동 정의**, 다음 **비용 산출**.
+
+**기관 Grants Office의 역할.**
+
+- **Pre-award**: 제안서 제출 지원. Budget 검토. Indirect rate 확인.
+- **Post-award**: 집행 감독. Audit 대응.
+- **본인의 역할**: Budget 초안·Justification. Grants Office와 협력.
+
+Grants Office와 **일찍 소통**. 마감 1주일 전은 늦다.
+
+**Budget 작성 10가지 체크리스트.**
+
+- ☐ 각 Aim의 필요 자원 목록
+- ☐ Personnel effort 계산 (FTE·months)
+- ☐ Fringe Benefits rate 확인
+- ☐ Equipment $5,000 기준 분리
+- ☐ Supplies 상세 내역
+- ☐ Travel 연 단위 계획
+- ☐ Publication cost 반영
+- ☐ Indirect Cost rate 적용
+- ☐ Year-by-Year inflation 반영
+- ☐ Justification 각 항목별 작성
+
+**마지막 — Budget은 Research Plan의 금융적 표현이다.**
+
+Budget은 숫자의 나열이 아니라 **연구의 금융적 표현**. 3가지 원칙 (Justifiable·Realistic·Aligned)·주요 카테고리·Justification의 중요성·분야별 특성·7가지 함정·Personnel Effort·Fringe Benefits·Indirect Costs·Modular vs Detailed·Subcontract·Cost Sharing·한국 맥락·AI 시대·Year-by-Year·Inflation·Reductions 준비·3단계 프로세스·Grants Office·체크리스트 — 이 모든 것을 의식적으로 다루면 박사의 Budget이 **심사자를 납득시키는 예산**이 된다. 좋은 Budget은 연구의 현실적 기반.
+
+> Budget은 돈의 과학. 3가지 원칙 (Justifiable·Realistic·Aligned). 주요 카테고리 (Personnel·Equipment·Supplies·Travel·Publication·Consultant·Subcontract·Other·Indirect). Budget Justification의 중요성. 분야별 특성. 7가지 함정 (과소·과대·Justification 부실·Aim 불일치·effort 오류·Indirect 누락·Inflation 무시). Personnel Effort (FTE·Calendar Months·Summer Months). Fringe Benefits. Indirect Costs (50-70%). Modular vs Detailed. Subcontract 처리. Cost Sharing. 한국 박사 특수. 2024+ AI 시대 (Computing·API·GPU). Year-by-Year 구조. Inflation 반영. Budget Reductions 준비. 3단계 프로세스. Grants Office 협력. 10가지 체크리스트. Budget은 Research Plan의 금융적 표현이다.
