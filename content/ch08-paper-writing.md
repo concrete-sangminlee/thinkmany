@@ -1163,3 +1163,134 @@ Related Work를 완성한 후 점검.
 - **ch36**: 학위논문의 Related Work 챕터
 
 > Related Work는 "목록"이 아니라 "지도"다. 이 차이를 이해하고 Related Work를 지도로 쓰는 순간, 논문의 품질이 한 단계 올라간다. 리뷰어의 첫인상이 긍정적이 되고, 기여가 명확해지고, 독자가 분야를 이해하게 된다. Related Work에 논문 작성 시간의 20-30%를 투자하는 것이 박사급 논문의 기본이다. 이것을 "마지막에 대충 쓰는 섹션"으로 두지 말자.
+
+---
+
+## Rebuttal과 Reviewer 응답의 기술 — 논문이 거절에서 accept로 바뀌는 순간
+
+논문을 제출하고 4-12주 후 리뷰가 돌아온다. 이 순간부터 accept까지의 과정이 **rebuttal**이다. 많은 박사가 논문 작성에는 몇 달을 쓰면서 rebuttal에는 며칠만 쓴다. 이것은 큰 실수다. **Major revision 논문의 최종 결과는 대체로 rebuttal의 품질로 결정된다**. 같은 논문이라도 rebuttal을 잘 쓰면 accept, 못 쓰면 reject. 박사 5-7년에 10-20번의 rebuttal을 쓰게 된다. 이 기술은 박사의 핵심 역량 중 하나이지만 명시적으로 가르쳐지지 않는다.
+
+**리뷰를 받은 첫날 — 하지 말아야 할 것.**
+
+리뷰가 도착한 첫날은 감정이 정점이다. 특히 부정적 리뷰를 받으면 분노·좌절·방어적 태도가 자동으로 나온다. 이 시기에 하지 말아야 할 것:
+
+- **즉시 답장하지 않기**: 첫 분노로 쓴 답장은 거의 항상 관계를 망친다. 최소 **24-48시간** 기다린다.
+- **리뷰어에 대한 감정적 반응**: "이 리뷰어는 무식하다"는 생각이 들어도 글로 쓰지 않는다. 공동저자에게 비공식적으로 조차 쓰지 않기를 권장 (이메일이 나중에 유출될 위험).
+- **팀 전체에 바로 공유하지 않기**: 감정이 가라앉은 후 공유. 첫 리뷰를 읽고 감정적으로 공유하면 팀 전체의 모멘텀이 떨어진다.
+- **결론부터 내리지 않기**: "이 논문은 이제 끝이다"라는 결론을 하루 만에 내리지 마라. 다음 날에 다시 보면 리뷰가 덜 나쁘게 보인다.
+
+**첫 단계 (24시간 후): 리뷰의 객관적 분석.**
+
+감정이 가라앉은 후 리뷰를 체계적으로 분석한다:
+
+1. **리뷰 전체를 출력**: 물리적으로 종이에 인쇄. 디지털로만 읽으면 감정이 다시 올라온다. 형광펜으로 표시하며 읽는다.
+2. **각 comment를 유형 분류**: (a) 팩트 오류 지적, (b) 실험 부족 지적, (c) 명확성 부족 지적, (d) 기여도 의문, (e) 철학적 반대, (f) 리뷰어의 오해. 6가지 유형을 라벨로 각 comment에 붙인다.
+3. **comment의 수정 가능성 평가**: (a) 쉽게 수정 가능, (b) 추가 실험 필요, (c) 변론/설명으로 해결, (d) 수정 불가능. 4단계 라벨.
+4. **리뷰어 톤 파악**: 적대적 / 중립적 / 친절한 / 무관심한. 같은 지적이라도 리뷰어의 의도가 다르다.
+5. **승산 평가**: 이 논문이 accept 가능한지의 현실적 평가. 공동저자·지도교수와 함께 판단.
+
+이 분석이 끝나면 rebuttal의 전략이 정해진다. 분석 없이 rebuttal을 쓰면 구조 없는 답변이 된다.
+
+**리뷰어 유형별 대응 전략.**
+
+**유형 1, 적대적 리뷰어**: "이 논문은 novelty가 부족", "방법론이 알려진 것과 유사" 같은 reject 지향. 대응: 정중하게, 구체적 증거로 반박. 감정 배제. "We thank Reviewer for the careful reading. We respectfully disagree that... Specifically, [공손하게 구체 반박]." 적대적 리뷰어를 우리 편으로 만드는 것이 최고의 rebuttal.
+
+**유형 2, 친절한 리뷰어**: Minor 개선점을 제안, 기본적으로 논문을 긍정. 대응: 감사 표현 후 모든 제안을 구체적으로 반영 또는 토론. 이런 리뷰어의 champion 역할을 강화.
+
+**유형 3, 무관심한 리뷰어**: 짧은 리뷰, 피상적 comment. 대응: 짧지만 완성도 있게 답. 너무 길게 답하면 리뷰어가 읽지 않는다. 핵심만 3-5줄로.
+
+**유형 4, 전문가 리뷰어**: 분야 전문가가 깊이 있는 technical comments. 대응: 같은 깊이로 답. 기술적 정확성이 최우선. "We implemented [specific method] as suggested and the results are..."
+
+**리뷰어의 오해 vs 실제 문제 구분.**
+
+리뷰어가 지적한 것이 **리뷰어의 오해** (논문의 존재하는 내용을 리뷰어가 놓침) vs **실제 문제** (논문이 실제로 부족)인지 구분하는 것이 rebuttal의 핵심.
+
+**리뷰어 오해의 5가지 징후**:
+- Comment가 언급한 내용이 이미 논문에 있음.
+- 리뷰어가 방법론의 구체를 잘못 이해.
+- 리뷰어가 인용하는 논문이 본인 논문과 무관.
+- 리뷰어가 잘못된 단순화로 오해.
+- 리뷰어가 분야 용어를 다르게 사용.
+
+**대응**: 오해를 **지적하지 말고, 공손하게 명확화**. "We appreciate the comment. To clarify, Section 3.2 discusses [구체]... To make this clearer, we have [구체 변경]." 리뷰어가 틀렸다고 직접 말하면 감정적 반응. "Our presentation wasn't clear enough"의 프레이밍.
+
+**실제 문제의 3가지 대응 수준**:
+- 수준 1, **완전 수정**: 실험 추가, 분석 보완, 섹션 재작성. Rebuttal에 "We have [구체 행동]. See revised Section X, Figure Y."
+- 수준 2, **부분 수정**: 전체 수정은 불가능하지만 약점 일부를 보완. 한계로 명시적 인정. "We agree this is a limitation. We have added discussion in Section 6.1."
+- 수준 3, **방어**: 수정 불가능하지만 해당 선택의 정당성 변론. "We chose X because [구체 이유]. Y would be an interesting future direction."
+
+**Rebuttal 문서의 구조.**
+
+체계적 rebuttal은 다음 구조로 작성한다:
+
+1. **개관 (1단락)**: 리뷰어들에게 감사. 주요 수정사항 3-5개를 bullet으로 요약. 리뷰어가 2분만 읽어도 논문의 변화를 파악할 수 있게.
+2. **리뷰어별 응답 (리뷰어 1, 2, 3...)**: 각 리뷰어의 comment를 그대로 인용한 후 응답. "R1-Comment 1" 같은 라벨링.
+3. **각 comment 응답의 3단계 구조**:
+   - **감사/인정**: "We thank Reviewer for this comment. We agree that..."
+   - **행동**: "We have [구체 변경]. See revised Section X."
+   - **요약**: 어떻게 바뀌었는지 1-2 문장.
+4. **수정된 논문의 summary**: 마지막에 전체 변경사항 요약. 변경된 섹션 목록, 추가된 실험 목록, 수정된 그림 목록.
+
+이 구조를 벗어나면 리뷰어가 혼란. 리뷰어는 rebuttal을 **첫 리뷰와 함께 병렬로 읽는다**. 어떤 comment에 어떤 응답인지 즉시 찾을 수 있어야 한다.
+
+**"감사-인정-행동-요약" 4단 구조 — 각 응답의 템플릿.**
+
+개별 comment 응답의 4단 구조:
+
+```
+[R1-C3] Reviewer's comment: "The baseline comparison seems insufficient.
+Why not compare with Method X (Wang et al., 2023)?"
+
+Response:
+감사: We thank the reviewer for pointing out this important baseline.
+인정: We agree that Method X is a relevant comparison and should have been included.
+행동: We have implemented Method X on our benchmark and added the results in
+   Table 2 and Section 4.3. Our method outperforms Method X by 3.2% on average.
+요약: The revised Table 2 now includes 7 baselines, including Method X.
+```
+
+이 4단 구조가 모든 comment에 일관되게 적용되면 리뷰어의 readability가 크게 올라간다. 일부 응답만 이 구조이고 일부는 다르면 "어떤 것이 핵심인가"를 리뷰어가 헷갈린다.
+
+**Rebuttal의 분량 — "짧고 완전하게".**
+
+Rebuttal의 분량은 학회마다 다르다:
+- **NeurIPS/ICLR**: 1-2페이지 (매우 짧음). 핵심 3-5개만.
+- **CVPR/ICCV**: 1페이지. 초집중.
+- **Nature/Science**: 길어도 20-40페이지. 세부 완전성.
+- **일반 저널**: 5-15페이지. 각 comment를 빠짐없이.
+
+분량 한계 내에서 **가장 중요한 응답을 먼저**. 리뷰어가 마지막까지 읽지 않을 수 있음. 분량 초과는 반드시 리뷰어의 불만을 산다.
+
+**수정 논문의 diff 기법 — 변경점을 쉽게 찾게.**
+
+수정된 논문 제출 시 **변경된 부분을 색으로 표시**하는 것이 2024년 이후 표준. 파란색 or 빨간색으로 변경된 섹션을 강조. 리뷰어는 수정 논문을 처음부터 읽지 않고 변경 부분만 보는 것이 보통.
+
+- **LaTeX의 `\color{blue}{...}`**: 변경된 텍스트에 색 적용.
+- **차이 문서 (diff document)**: 원본과 수정본을 나란히 배치한 부록 문서. 일부 저널 요구.
+- **수정된 그림에 "Updated"**: 그림 caption에 "Updated in revision" 같은 라벨.
+
+**감정 관리 — Rebuttal의 숨은 도전.**
+
+Rebuttal 작성은 기술적 작업이 아니라 심리적 마라톤이다. 박사의 5-7년에 10-20회를 반복하는 이 과정의 심리 관리:
+
+- **Reject의 2-3주 회복 기간**: Reject 후 바로 다음 학회에 제출하지 마라. 2-3주의 거리를 둔 후 리뷰를 다시 읽으면 다르게 보인다.
+- **리뷰어와의 개인적 감정 분리**: "이 리뷰어는 나의 적이 아니다"의 명시적 재확인. 리뷰어도 다른 박사 또는 교수.
+- **지도교수의 지원 활용**: 지도교수는 수십 번의 rebuttal 경험. 전략 조언. 감정적 지지.
+- **동료와의 rebuttal workshop**: 연구실의 동료들과 서로의 rebuttal을 review. 맹점 발견.
+- **긴 호흡**: 한 번의 reject가 경력의 끝이 아님. 박사 5년에 2-3번의 major reject는 정상.
+
+**AI 시대의 Rebuttal — 2024+ 주의사항.**
+
+LLM이 rebuttal 작성을 도울 수 있지만, 경계선이 있다:
+
+- **ALLOWED**: 문법 교정, 영어 다듬기, 구조 제안, 톤 조정 (적대적 → 정중한).
+- **CAUTION**: 리뷰어 comment에 대한 답변 초안 생성. AI가 틀린 기술적 답변을 줄 수 있음. 반드시 본인이 검증.
+- **FORBIDDEN**: 본인이 논문 내용을 제대로 모르는 상태에서 AI에게 rebuttal 작성을 맡기는 것. Rebuttal은 저자의 논문 이해를 증명하는 문서.
+
+**원칙: AI는 rebuttal의 언어를 다듬지만, 논리와 내용은 본인이 만든다.** 2024년 이후 리뷰어들이 "AI-generated rebuttal"을 직감적으로 구별하기 시작. 특징: 일반화된 언어, 구체성 부족, 실험 세부 언급 없음. AI로 작성한 rebuttal은 accept 확률이 오히려 낮아진다.
+
+**마지막 — Rebuttal은 논문의 일부다.**
+
+많은 박사가 "논문 쓰기"와 "rebuttal 쓰기"를 분리해서 생각한다. 실제로는 **rebuttal이 논문의 최종 모습을 결정하는 마지막 장**이다. 리뷰어 4명과의 대화가 accept된 논문의 일부가 된다. 이 대화를 잘 이끌면 같은 연구가 더 높이 평가받는다. 첫 24시간의 감정 관리, 6가지 comment 분류, 리뷰어 오해와 실제 문제 구분, 4단 응답 구조, 분량 조절, AI 시대 주의사항 — 이 기술들을 박사 2-3년차부터 의식적으로 훈련하면 박사 10-20편의 논문이 같은 연구 품질에서 더 높이 올라간다.
+
+> Rebuttal은 논문의 마지막 장이다. 첫 24시간은 감정 관리, 24시간 후 6가지 comment 유형 분류와 4단계 수정 가능성 평가. 리뷰어 유형별(적대적·친절한·무관심한·전문가) 대응과 오해 vs 실제 문제 구분. "감사-인정-행동-요약" 4단 응답 구조와 분량 내 핵심 먼저. AI 시대에는 언어 도구로만, 논리와 내용은 본인. Rebuttal 기술이 같은 연구를 accept 논문으로 만드는 박사의 숨은 역량이다.
