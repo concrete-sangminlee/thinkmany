@@ -1523,3 +1523,375 @@ LLM이 노트 검색을 혁신:
 박사 5-7년 동안 수천 페이지의 노트를 쓰는 것만으로는 부족. 검색 가능하게 만들어야 가치. 3가지 검색 층위·명명 규칙·계층적 태그·메타데이터·백링크·주기적 인덱스·검색 쿼리·AI 시대 도구·마이그레이션·백업·5년 습득 계획 — 이 모든 것을 박사 1년차부터 설계하면, 5년 후 본인이 쓴 모든 것에 언제든 접근 가능하다. 학위논문 작성 시 과거의 본인이 **훌륭한 공동저자**가 된다.
 
 > 쓴 노트는 절반, 찾을 수 있는 노트가 전부. 3가지 검색 층위 (제목·태그·전문)을 모두 지원하는 시스템. 일관된 명명 규칙(YYYY-MM-DD_project_type_topic). 계층적 태그(#project·#type·#status·#topic·#person). YAML 메타데이터 블록. 양방향 백링크로 노트 연결. 일·주·월·연 인덱스 노트. 2024+ AI 시매틱 검색·자동 요약·질의응답·태깅. 플랫폼 마이그레이션의 원칙. 5년 습득 계획. 과거의 본인이 학위논문의 공동저자가 된다.
+
+---
+
+## 실험 데이터와 연구 노트의 연결 — 기록의 통합 시스템
+
+박사의 연구 기록은 **여러 레이어**: 실험 raw data, 분석 스크립트, 시각화 결과, 실험 노트, 아이디어 노트, 논문 드래프트. 이것들이 따로따로 저장되면 **6개월 후 재현 불가**. 이 섹션은 박사가 실험 데이터와 연구 노트를 통합 관리하는 실전을 다룬다. ch52의 다른 섹션(종이·디지털·실패 로그·AI 시대·검색 인덱싱)이 **노트 자체**였다면, 이 섹션은 **노트와 데이터의 연결**이다.
+
+**박사 연구의 6가지 기록 레이어.**
+
+**레이어 1, Raw Data**:
+- 실험 장비 출력.
+- 센서·측정값.
+- 원본 파일.
+
+**레이어 2, Processed Data**:
+- 전처리 결과.
+- 중간 변환.
+- 분석 입력.
+
+**레이어 3, Analysis Code**:
+- 스크립트.
+- Jupyter notebook.
+- 재현 가능.
+
+**레이어 4, Results**:
+- 그래프·표.
+- 통계 결과.
+- 시각화.
+
+**레이어 5, Research Notes**:
+- 실험 의도·해석.
+- 아이디어.
+- 결정 근거.
+
+**레이어 6, Papers/Thesis**:
+- 초안.
+- 최종본.
+
+**각 레이어의 연결**이 재현성의 핵심.
+
+**통합 기록의 폴더 구조.**
+
+**프로젝트별**:
+
+```
+project-X/
+├── 01-data/
+│   ├── raw/
+│   │   └── 2024-03-15_exp01_raw.csv
+│   ├── processed/
+│   │   └── 2024-03-16_exp01_cleaned.csv
+│   └── README.md (데이터 설명)
+├── 02-notebooks/
+│   ├── 2024-03-15_exp01_analysis.ipynb
+│   └── 2024-03-20_exp01_visualization.ipynb
+├── 03-code/
+│   ├── src/
+│   └── tests/
+├── 04-results/
+│   ├── figures/
+│   └── tables/
+├── 05-notes/
+│   ├── 2024-03-15_exp01_design.md
+│   ├── 2024-03-16_exp01_results.md
+│   └── 2024-03-20_exp01_discussion.md
+├── 06-papers/
+│   └── draft_v1.tex
+└── README.md
+```
+
+**각 파일의 이름·날짜**로 시간 순서 추적.
+
+**실험 ID 시스템.**
+
+각 실험에 **고유 ID**:
+
+**형식**: `YYYY-MM-DD_projectX_expNN_description`
+
+**예시**:
+- `2024-03-15_projectA_exp01_baseline`
+- `2024-03-20_projectA_exp02_ablation-attention`
+- `2024-04-01_projectA_exp03_scaling`
+
+**모든 파일에 이 ID 포함**:
+- 데이터: `2024-03-15_projectA_exp01_raw.csv`
+- 분석: `2024-03-15_projectA_exp01_analysis.ipynb`
+- 노트: `2024-03-15_projectA_exp01_design.md`
+- 결과: `2024-03-15_projectA_exp01_results.png`
+
+실험 ID로 **전 파일 연결 검색**.
+
+**연구 노트의 표준 템플릿.**
+
+실험 노트의 구조:
+
+```markdown
+---
+date: 2024-03-15
+experiment_id: 2024-03-15_projectA_exp01
+project: projectA
+status: completed
+tags: [baseline, attention, transformer]
+---
+
+# Experiment 01: Baseline on dataset X
+
+## 1. Motivation
+왜 이 실험을 하는가.
+
+## 2. Hypothesis
+예상되는 결과.
+
+## 3. Setup
+- Dataset: X (v1.2)
+- Model: baseline Transformer
+- Hyperparameters: lr=1e-4, batch=32, epochs=50
+- Compute: 1x A100, 8 hours
+
+## 4. Procedure
+1. 데이터 로드.
+2. 학습.
+3. 평가.
+
+## 5. Results
+- Accuracy: 82.3%
+- Confusion matrix: [link to figure]
+- Details: [link to notebook]
+
+## 6. Observations
+관찰·놀라움.
+
+## 7. Issues
+문제·실패.
+
+## 8. Next Steps
+다음 실험.
+
+## 9. Related
+- 이전 실험: [[2024-03-10_projectA_exp00]]
+- 다음 실험: [[2024-03-20_projectA_exp02]]
+
+## 10. Files
+- Data: `data/processed/2024-03-15_projectA_exp01_cleaned.csv`
+- Notebook: `notebooks/2024-03-15_projectA_exp01_analysis.ipynb`
+- Results: `results/figures/2024-03-15_projectA_exp01_accuracy.png`
+```
+
+이 템플릿이 **통합 기록**.
+
+**Experiment Tracking 도구.**
+
+**Weights & Biases (W&B)**:
+- 실험 자동 추적.
+- 하이퍼파라미터·metric.
+- 시각화 대시보드.
+- 무료 플랜 충분.
+
+**MLflow**:
+- 오픈소스.
+- 로컬·클라우드.
+- 모델 관리.
+
+**TensorBoard**:
+- PyTorch/TensorFlow 기본.
+- 간단·무료.
+- 제한적.
+
+**Neptune·ClearML**:
+- 유료·고급.
+- 대규모 팀.
+
+**박사의 권장**: W&B 또는 MLflow. 하나 선택 후 5년 일관.
+
+**Git 기반 통합.**
+
+모든 것을 Git으로:
+
+```bash
+# 구조
+.git/
+data/           # 작은 데이터는 Git, 큰 것은 LFS
+notebooks/
+code/
+notes/
+results/
+papers/
+.gitignore      # data/raw/ 제외
+```
+
+**장점**:
+- 시간순 추적.
+- 실험 별 branch.
+- Collaborator와 공유.
+
+**단점**:
+- 큰 파일 부적합.
+- Git LFS·DVC로 보완.
+
+**DVC (Data Version Control)**:
+- 데이터의 Git.
+- 큰 파일 버전 관리.
+- 실험 pipeline.
+
+**재현 가능 워크플로.**
+
+실험 하나의 완전한 재현:
+
+```bash
+# 1. Git clone
+git clone https://github.com/my-project.git
+cd my-project
+
+# 2. Environment
+conda env create -f environment.yml
+conda activate myenv
+
+# 3. Data
+dvc pull  # 또는 download_data.sh
+
+# 4. Run experiment
+python src/train.py --config configs/exp01.yaml
+
+# 5. Check results
+jupyter notebook notebooks/2024-03-15_exp01.ipynb
+```
+
+이 **5단계**가 재현성.
+
+**실험 lifecycle 관리.**
+
+**실험 단계**:
+
+1. **Planning**: 실험 설계 노트.
+2. **Setup**: 환경·데이터 준비.
+3. **Execution**: 실제 실행.
+4. **Analysis**: 결과 해석.
+5. **Documentation**: 노트 완성.
+6. **Archive**: 장기 보관.
+
+각 단계의 **산출물을 기록**.
+
+**팀·공저자와의 공유.**
+
+박사는 혼자 아닌 경우:
+
+**Shared Workspace**:
+- GitHub·GitLab repo.
+- Shared Notion·Coda.
+- 정기 미팅 노트.
+
+**Data Sharing**:
+- Shared drive (Google, Dropbox).
+- 학교 서버.
+- S3·cloud storage.
+
+**Collaboration Rules**:
+- 이름 규칙 통일.
+- Commit 메시지 관례.
+- Branch 전략.
+
+**팀의 일관성**이 핵심.
+
+**장기 보관의 원칙.**
+
+박사 졸업 후 10-30년:
+
+**우선순위 높음 (영구 보관)**:
+- 출판 논문의 raw data.
+- 학위논문의 실험 데이터.
+- 분석 스크립트.
+
+**우선순위 중간 (10년)**:
+- 실패 실험.
+- 대안 분석.
+- 연구 노트.
+
+**우선순위 낮음 (3-5년)**:
+- 중간 파일.
+- 임시 결과.
+
+**형식**:
+- **오픈 포맷**: CSV, JSON, HDF5.
+- **압축**: tar.gz, zip.
+- **문서화**: README 필수.
+
+**Zenodo·OSF 영구 보관**:
+- DOI 발급.
+- 공개 가능한 것.
+
+**실험 데이터의 5가지 함정.**
+
+**함정 1, 파일 이름의 혼란**: "final_v2_real_final.csv".
+
+**함정 2, 레이어 분리**: 데이터·노트·코드가 따로.
+
+**함정 3, 복붙 분석**: 동일 분석 코드 여러 번.
+
+**함정 4, 손실**: 외장하드 고장으로 전체 손실.
+
+**함정 5, 문서화 부재**: 6개월 후 본인도 모름.
+
+**통합 관리의 시간 투자.**
+
+**초기 설정**: 5-10시간.
+
+**실험당 추가**: 30분-1시간 (문서화·정리).
+
+**유지 보수**: 주 1-2시간.
+
+**ROI**:
+- 재현성 확보.
+- 논문 작성 가속.
+- 학위 심사 편리.
+- 박사 후 자산.
+
+초기 투자가 **5년 지속 가치**.
+
+**AI 시대의 통합 관리 — 2024+.**
+
+**AI 도구**:
+- **GitHub Copilot**: 분석 스크립트 작성.
+- **Claude/GPT**: 노트 정리·요약.
+- **Cursor**: AI 통합 IDE.
+- **LLM 기반 실험 탐색**: 과거 노트에서 패턴 발견.
+
+**자동화**:
+- 실험 로그 자동 생성.
+- 결과 자동 시각화.
+- 이상 자동 탐지.
+
+**주의**:
+- AI 의존이 이해 부족으로.
+- 본인의 검증 필수.
+
+**한국 박사의 통합 관리 특수.**
+
+- **연구실 서버 의존**: 공유 환경.
+- **Windows vs Linux**: 인프라 다양.
+- **클라우드 접근**: 학교 네트워크 제한.
+- **기업 공동연구**: NDA·보안.
+
+**박사 5-7년의 통합 관리 계획.**
+
+**1년차**: 폴더 구조·명명 규칙 수립.
+
+**2년차**: Git·W&B 통합.
+
+**3년차**: DVC·재현 파이프라인.
+
+**4년차**: 팀 협업 워크플로.
+
+**5년차**: 학위논문·졸업 준비.
+
+**박사 후**: 포트폴리오·레포.
+
+**기록 시스템의 5가지 원칙.**
+
+**원칙 1, 단일 진실의 소스**: 한 곳에 공식 기록.
+
+**원칙 2, 모든 것에 타임스탬프**: 시간순 추적.
+
+**원칙 3, 모든 것에 ID**: 검색 가능.
+
+**원칙 4, 관계 명시**: 노트 간 링크.
+
+**원칙 5, 정기 점검**: 주·월·분기.
+
+**마지막 — 통합 기록이 박사의 과학적 성숙이다.**
+
+박사의 개별 기록들이 아니라 **통합된 시스템**이 재현성·효율성·학위논문 기반. 6가지 레이어·통합 폴더·실험 ID·연구 노트 템플릿·Experiment Tracking 도구·Git·DVC·재현 워크플로·팀 공유·장기 보관·5가지 함정·시간 투자·AI 시대·한국 맥락·5년 계획·5가지 원칙 — 이 모든 것을 의식적으로 다루면 박사의 5-7년이 **과학적 자산**이 된다. 통합 기록은 박사의 공적인 과학적 자아.
+
+> 박사 연구의 6가지 기록 레이어 (Raw Data·Processed·Code·Results·Notes·Papers). 프로젝트별 통합 폴더 구조. 실험 ID 시스템 (YYYY-MM-DD_project_exp_desc). 연구 노트의 10-섹션 템플릿. W&B·MLflow·TensorBoard의 Experiment Tracking. Git + DVC의 버전 관리. 재현 가능 5단계 워크플로. 실험 lifecycle 6단계. 팀 공유의 규칙. 장기 보관의 3단계 우선순위. 5가지 함정 (이름 혼란·레이어 분리·복붙·손실·문서 부재). 초기 5-10시간 투자. 2024+ AI 도구 자동화. 한국 특수. 박사 5년 계획. 5가지 원칙 (단일 진실·타임스탬프·ID·관계·점검). 통합 기록은 박사의 공적 과학적 자아.
