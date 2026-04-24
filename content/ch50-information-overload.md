@@ -1462,3 +1462,272 @@ Cal Newport의 "Deep Work":
 박사 5-7년의 정보 환경에서 깊이 있는 학자가 되려면 **의식적 절제**가 필수. 5가지 과식 증상·정보 유형·5단계 다이어트·Minimum Viable Information·Deep Focus·디지털 단식·이메일·SNS·알림 관리·의식적 질문·5가지 함정·사회적 지원·한국 맥락·AI 시대·1주일 실험·일/주/월/연 루틴·5년 계획 — 이 모든 것을 의식적으로 다루면 박사가 **정보 과잉의 시대**에 깊이 있는 사고를 유지. 적게 먹을수록 건강해지듯, 적게 소비할수록 깊어진다.
 
 > 정보 과식은 박사의 인지 건강 위협. 5가지 과식 증상. 영양 있는 정보 vs 칼로리 정보. 정보 다이어트 5단계 (인식·감축·대체·시간 블록·유지). Minimum Viable Information 정의. Deep Focus 2-4시간. 일일·주간·월간·연간 디지털 단식. 이메일 batch processing. SNS 주 5시간 이하. 알림 전면 차단. 소비 전 4가지 질문 (Why·What·Alternative·Time). 5가지 함정. 사회적 지원. 한국의 카톡 압박 특수. 2024+ AI 정보 폭증의 대응. 1주일 실험. 박사 5년의 정보 다이어트 계획. 적게 소비할수록 깊어진다.
+
+---
+
+## 박사의 논문 Reading Pipeline — "매주 100편의 제목과 3편의 정독"
+
+박사의 정보 과부하에서 가장 중요한 영역은 **논문 읽기**. 분야의 arXiv만 해도 **하루 50-200편**이 쏟아지고, 학회는 **한 번에 수천 편**의 논문이 출시된다. 모든 것을 읽을 수는 없고, 읽어서도 안 된다. 박사는 **읽는 것이 아니라 선별하고 소화**해야 한다. 이 섹션은 박사가 평생 활용할 **체계적 논문 읽기 파이프라인**을 제시한다.
+
+**박사의 3-Layer Reading Framework.**
+
+- **Layer 1 — Scanning (제목·Abstract만)**: 주당 50-100편.
+- **Layer 2 — Skimming (10분 속독)**: 주당 10-20편.
+- **Layer 3 — Deep Reading (1-3시간)**: 주당 2-5편.
+
+**각 Layer의 역할**과 시간 배분이 중요.
+
+**Layer 1 — Scanning의 소스.**
+
+- **arXiv 일일 메일**: 본인 카테고리 구독.
+- **Google Scholar Alerts**: 키워드·저자.
+- **Papers With Code**: Trending.
+- **Semantic Scholar**: AI 추천.
+- **Twitter/X·Mastodon**: 분야 계정 팔로우.
+- **주요 저널 목차**: Nature·Science·IEEE·ACM 등.
+- **Reddit r/MachineLearning**: 분야별 커뮤니티.
+
+**다양한 소스**가 다양한 관점.
+
+**Scanning의 30초 결정.**
+
+제목 + Abstract 첫 1-2줄로:
+
+- **이 논문은 나의 연구와 관련 있는가?**: 예→Skim, 아니면 Skip.
+- **노벨티가 흥미로운가?**: 예→메모.
+- **저자·기관이 주목할 만한가?**: 유명 저자면 Skim.
+
+**30초 내 결정**—고민 금지.
+
+**Layer 2 — Skimming의 기법.**
+
+10분 내에:
+
+- **제목·Abstract·Conclusion 재독**: 1분.
+- **Introduction 마지막 문단**: Contribution. 2분.
+- **Figure 1·2 + Caption**: 3분.
+- **Results·Table 훑기**: 2분.
+- **Limitations·Future Work**: 2분.
+
+**목적**: 이 논문의 **메인 주장**을 5문장으로 요약할 수 있는 수준.
+
+**Skimming의 결정 기준.**
+
+- **Worth Deep Reading?**: 본 연구에 직접 관련·흥미롭다면 Layer 3.
+- **Reference로 충분?**: 본 연구에 인용만 할 정도면 메모.
+- **Future Reading**: 관련성 낮으나 미래 참고.
+
+**Skim 후 3가지 결정**.
+
+**Layer 3 — Deep Reading.**
+
+1-3시간 집중:
+
+- **1회독**: 전체 흐름.
+- **2회독**: 각 섹션 세부.
+- **3회독**: 수학·방법 깊이.
+- **메모 작성**: 본인 언어로 요약.
+- **Figure 분석**: 각 Figure의 의미.
+- **Strengths·Weaknesses**: 평가.
+- **본 연구와의 연결**: 어떻게 활용.
+
+**Deep Reading은 학습**—시간 아끼지 말 것.
+
+**The Three-Pass Method (Keshav, 2007).**
+
+ACM SIGCOMM에서 널리 인용:
+
+- **Pass 1 (5-10분)**: Title·Abstract·Intro·Sections·Conclusion·References. "읽을 가치 판단".
+- **Pass 2 (1시간)**: 그림·표·주요 증거. "주요 아이디어 이해".
+- **Pass 3 (수 시간)**: 증명·세부·실험 재현. "완전한 이해".
+
+**표준 방법론**—박사 1년차에 학습.
+
+**논문 관리 도구.**
+
+- **Zotero**: 메타데이터·태그·노트. Free·Open source.
+- **Mendeley**: Elsevier 소유. 인기 있으나 기업 리스크.
+- **Paperpile**: Google Drive 통합. 유료.
+- **Papers**: Mac 생태계.
+- **Readwise·Matter**: 하이라이트 정리.
+
+**Zotero가 대부분 박사의 기본**.
+
+**PDF Annotation 도구.**
+
+- **PDF Expert·GoodNotes (iPad)**: 손글씨 마크업.
+- **Adobe Acrobat**: 표준.
+- **Zotero PDF Viewer**: 통합.
+- **Highlights·Notes 동기화**: Readwise·Zotero.
+
+**디지털 vs 종이**: 깊은 이해는 종이, 양적 소비는 디지털.
+
+**Reading Notes의 구조.**
+
+각 논문의 노트:
+
+- **1. Citation**: 완전한 인용.
+- **2. Problem**: 다루는 문제.
+- **3. Contribution**: 5-7개 Bullet.
+- **4. Method**: 핵심 방법.
+- **5. Results**: 주요 발견·수치.
+- **6. Strengths·Weaknesses**: 본인 평가.
+- **7. Connections**: 본 연구와의 관계.
+- **8. Future Use**: 어떻게 활용.
+
+**표준 템플릿**으로 일관성.
+
+**Literature Map 만들기.**
+
+- **Citation network**: 어떤 논문이 어떤 논문을 인용.
+- **Connected Papers·Litmaps**: 시각화.
+- **Research Rabbit**: 주제 트리.
+- **본인 지도**: 분야의 개념 지도.
+
+**분야 전체의 조감도** 그리기.
+
+**박사의 주간 Reading 예산.**
+
+- **Scanning (매일 30분)**: 주 3.5시간.
+- **Skimming (주 3회 × 1시간)**: 주 3시간.
+- **Deep Reading (주 2회 × 2시간)**: 주 4시간.
+- **합계**: 주 10시간.
+
+**주 10시간이 박사 최소 독서**—박사 1년차엔 20시간.
+
+**논문 읽기의 8가지 함정.**
+
+- **모든 논문 Deep Reading**: 시간 부족.
+- **Scanning 생략**: 분야 감각 상실.
+- **메모 없이 읽기**: 곧 잊음.
+- **인용 실수**: 논문 읽고도 인용 잘못.
+- **최신만 읽기**: 고전 놓침.
+- **본인 관심만**: 시야 좁음.
+- **완독 집착**: 모든 논문 끝까지.
+- **비판적 읽기 부재**: 맹목적 수용.
+
+이 8가지가 **읽기 실수**.
+
+**비판적 읽기의 질문.**
+
+- **Claim is consistent with results?**
+- **Sample size sufficient?**
+- **Alternatives explanations?**
+- **Confounders controlled?**
+- **Generalizability?**
+- **Replication possible?**
+- **Authors' assumptions?**
+
+**의심의 눈**으로 읽어야 학습.
+
+**고전 vs 최신의 균형.**
+
+- **Foundational papers**: 본인 분야 최초 10편—평생 참조.
+- **Seminal Reviews**: Annual Review 시리즈.
+- **최신 (지난 1년)**: arXiv·학회.
+- **비율**: 고전 30% + 최신 70%.
+
+**고전 없이 최신 이해 불가**.
+
+**서베이·Review 논문의 활용.**
+
+- **분야 진입**: 3-5편의 Review로 시작.
+- **Nature Review·Annual Review**: 가장 신뢰.
+- **Systematic Review**: 의학.
+- **Position Paper**: 논쟁의 시작.
+
+**서베이는 빠른 학습**.
+
+**Reading Group의 힘.**
+
+- **주간 Paper Reading**: 랩·학과.
+- **공동 읽기**: 다양한 관점.
+- **Presentation**: 이해 확인.
+- **토론**: 깊이 있음.
+- **책임감**: 혼자 안 하는 것을 강제.
+
+**Reading Group이 박사의 공동체 학습**.
+
+**Journal Club의 운영.**
+
+- **주 1회**: 일정한 리듬.
+- **Leader 순환**: 각자 리더.
+- **논문 선정**: 주간 3-5편 후보.
+- **Discussion 포맷**: Structured.
+
+**랩 문화의 핵심**.
+
+**박사의 논문 소비 vs 생산 비율.**
+
+- **초기 (1-2년)**: 100:1 (100편 읽고 1편 씀).
+- **중기 (3-4년)**: 50:1.
+- **후기 (5년+)**: 20:1.
+
+**결국 논문 쓰기 > 읽기**—하지만 읽기가 생산 기반.
+
+**한국 박사의 Reading 특수.**
+
+- **영어 독해 속도**: 원어민보다 2-3배 느림.
+- **한국어 Review·교재**: 초기에 활용.
+- **학회 제출 전 집중 독서**: 관련 논문 20-30편.
+- **지도교수와 읽기 공유**: 선후배 관계.
+- **도서관 자원**: 본인 학교의 논문 구독 활용.
+
+**한국 박사는 영어 속도** 의식적 훈련.
+
+**2024+ AI 시대의 Reading.**
+
+- **AI 요약**: Claude·ChatGPT로 논문 요약.
+- **Elicit·Scite·Consensus**: AI 논문 검색.
+- **AI 평가**: 논문 비평을 AI에게 부탁.
+- **Semantic Scholar TLDR**: AI 요약 자동.
+- **주의**: AI는 첫 인상, Deep Reading은 인간.
+
+**AI가 Scanning·Skimming 가속**, Deep Reading은 본인.
+
+**Physical vs Digital Reading.**
+
+- **Physical**: 깊은 이해·기억·집중.
+- **Digital**: 양·검색·메모 동기화.
+- **Hybrid**: 중요 논문은 인쇄.
+- **iPad + Apple Pencil**: Middle ground.
+
+**각자의 최적점** 찾기.
+
+**학위논문을 위한 Reading.**
+
+- **박사 3-4년차**: Literature Review 작성 위한 집중 Reading.
+- **100-200편 인용**: 학위논문 평균.
+- **초기 단계 재독**: 박사 1년차 읽었던 논문 다시.
+- **외부 자료**: 책·Standard·Specification.
+
+**학위논문 Reading은 별도 프로젝트**.
+
+**10가지 Reading 체크리스트.**
+
+- ☐ 3-Layer Framework
+- ☐ 주간 Reading 예산
+- ☐ 표준 노트 템플릿
+- ☐ Zotero·Mendeley 설정
+- ☐ Literature Map
+- ☐ 비판적 질문
+- ☐ 고전·최신 균형
+- ☐ Reading Group 참여
+- ☐ AI 도구 활용
+- ☐ 메모의 재활용
+
+**박사의 Reading 5년 진화.**
+
+- **1년차**: 주 20시간·다양한 분야.
+- **2-3년차**: 주 10-15시간·집중 분야.
+- **4년차**: 주 10시간·학위논문 중심.
+- **5년차**: 주 8시간·깊이.
+- **졸업 후**: 평생 기술.
+
+**Reading은 박사의 입력**—생산의 조건.
+
+**마지막 — 논문 읽기가 박사의 학문적 근력이다.**
+
+박사의 사고는 읽기의 누적. 3-Layer Framework·Scanning 소스·30초 결정·Skimming 10분·Deep Reading 1-3시간·Three-Pass Method·논문 관리 도구·Annotation·표준 노트·Literature Map·주간 예산·8가지 함정·비판적 질문·고전 vs 최신·Review 활용·Reading Group·Journal Club·소비 vs 생산·한국 특수·AI 시대·Physical vs Digital·학위논문 Reading·체크리스트·5년 진화 — 이 모든 것을 의식적으로 설계하면 박사가 **정보 과부하의 시대에도 깊이 있는 학자**. 읽기는 박사의 근력.
+
+> 논문 읽기는 박사의 학문적 근력. 3-Layer Framework (Scanning·Skimming·Deep). 다양한 소스 (arXiv·Google Scholar·Papers With Code). 30초 Scanning 결정. Skimming 10분 기법. Deep Reading 1-3시간. Three-Pass Method (Keshav). Zotero가 기본. 표준 노트 8요소. Literature Map. 주간 10시간 예산. 8가지 함정 (모두 Deep·Scanning 생략·메모 없음·인용 실수·최신만·본인 관심·완독 집착·비판 부재). 비판적 읽기의 질문. 고전 30% + 최신 70%. Review는 빠른 학습. Reading Group·Journal Club. 소비:생산 5년 진화 (100:1→50:1→20:1). 한국 영어 속도. 2024+ AI (Elicit·Scite·TLDR). Physical vs Digital Hybrid. 학위논문 Reading은 별도. 10가지 체크리스트. 5년 진화. 읽기는 박사의 근력.
