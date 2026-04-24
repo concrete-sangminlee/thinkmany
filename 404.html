@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>404 — 이 페이지는 본인의 분야가 아닌 것 같다</title>
+  <meta name="description" content="찾으시는 페이지가 없습니다. 대학원생 연구 가이드로 돌아가세요.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="/thinkmany/assets/favicon.svg">
+  <style>
+    :root {
+      --bg: #fafafa;
+      --fg: #1a1a1f;
+      --muted: #6a6a7a;
+      --accent: #6366f1;
+      --accent2: #a78bfa;
+      --border: #e5e5ec;
+      --card: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0a0a0f;
+        --fg: #e8e8ed;
+        --muted: #9898a8;
+        --accent: #8b8bff;
+        --accent2: #c4a5ff;
+        --border: #2a2a3a;
+        --card: #111118;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 640px;
+      text-align: center;
+    }
+    .code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+    }
+    .quote {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+      text-align: left;
+      font-size: 0.95rem;
+      color: var(--muted);
+      border-left: 3px solid var(--accent);
+    }
+    .quote strong {
+      color: var(--fg);
+    }
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+    }
+    .btn-secondary {
+      background: var(--card);
+      color: var(--fg);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+    }
+    .hint {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .hint code {
+      background: var(--card);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+      border: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="code">404</div>
+    <h1>이 페이지는 본인의 분야가 아닌 것 같다</h1>
+    <p class="subtitle">찾으시는 페이지가 존재하지 않거나 이동되었습니다.</p>
+
+    <div class="quote">
+      <strong>논문 읽기의 원칙 중 하나</strong> — 모든 논문을 이해할 필요는 없다. 첫 번째 패스에서 "이것은 본인의 분야가 아닌 것 같다"고 판단되면 10분 안에 넘어간다. 이 페이지도 그런 논문 중 하나일 수 있다.
+    </div>
+
+    <div class="actions">
+      <a href="/thinkmany/" class="btn btn-primary">메인으로 돌아가기</a>
+      <a href="/thinkmany/#part-1" class="btn btn-secondary">첫 챕터 열기</a>
+    </div>
+
+    <p class="hint">
+      URL을 직접 입력하셨다면 챕터 ID를 확인해 주세요: 예) <code>/#ch32</code>
+    </p>
+  </main>
+</body>
+</html>
