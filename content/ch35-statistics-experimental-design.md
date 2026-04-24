@@ -1497,3 +1497,290 @@ Reviewer가 자주 지적:
 많은 박사 논문이 다중 검정을 **무시**하고 출판된다. 그 결과 분야의 재현성 위기. 박사가 이 함정을 의식하면 **본인의 논문은 재현 가능한 과학**. 3가지 에러 율·Bonferroni·BH·5가지 시나리오·7가지 함정·사전 등록·검정 독립성·분야 관행·논문 심사·2020년대 논쟁·AI 시대·체크리스트 — 이 모든 것을 다루면 박사의 통계가 분야의 평균 이상이 된다. 다중 검정의 엄격함이 **박사의 과학적 정직성**.
 
 > 다중 검정은 박사가 자주 놓치는 함정. 100회 검정 중 H0 참이어도 99.4% false positive. 3가지 에러 율 (FWER·FDR·PFER) 중 FDR이 박사 표준. Bonferroni는 N 작을 때, BH는 N 클 때. 5가지 시나리오 (유전·fMRI·다중 비교·feature·A/B). 7가지 함정 (무시·사후 선택·HARKing·부적절 보정·α 조정·marginal·subgroup). Pre-registration이 최강 방어. 독립성 확인. 분야별 표준 관행. 2020년대 p-value 논쟁과 효과 크기 병기. 2024+ AI 시대의 대량 비교. 8가지 체크리스트. 다중 검정의 엄격함이 박사의 과학적 정직성.
+
+---
+
+## 효과 크기 (Effect Size)의 실전 — p-value 너머의 통계
+
+2016년 ASA (American Statistical Association) 성명 이후 **p-value 단독 보고는 부족**. 박사 논문은 **효과 크기 (Effect Size)**를 반드시 병기. 하지만 많은 박사가 효과 크기를 **대충 이해**하고 습관적으로 사용. 잘못된 효과 크기는 논문의 신뢰도 훼손. 이 섹션은 박사가 효과 크기를 정확히 선택·계산·해석하는 실전을 다룬다. ch35의 다른 섹션(가설 검정·인과·베이지안·다중 검정)이 **방법**이었다면, 이 섹션은 **결과의 의미**다.
+
+**왜 효과 크기인가.**
+
+**p-value만의 한계**:
+- 표본 크기에 의존.
+- 유의성 = 중요성 X.
+- Binary 결정.
+
+**효과 크기의 가치**:
+- 크기의 실질적 의미.
+- 표본 독립.
+- 연속적 해석.
+
+**예시**:
+- p = 0.001, 그런데 효과 크기 d = 0.05 → 작은 효과.
+- p = 0.06, 효과 크기 d = 0.8 → 큰 효과 (통계 유의 X).
+
+박사는 **둘 다 보고**.
+
+**주요 효과 크기 지표.**
+
+**표준화된 평균 차이 (Standardized Mean Difference)**:
+- **Cohen's d**: 두 집단의 차이.
+- **Hedges' g**: d의 소샘플 보정.
+- 해석: 0.2 작음, 0.5 중간, 0.8 큼.
+
+**상관 지표**:
+- **Pearson's r**: 선형 상관.
+- **R²**: 설명 분산.
+- 해석: 0.1 작음, 0.3 중간, 0.5 큼.
+
+**비율 지표**:
+- **Odds Ratio**: 로지스틱 회귀.
+- **Risk Ratio**: 상대 위험.
+- **NNT (Number Needed to Treat)**: 의학.
+
+**분산 지표**:
+- **η² (eta-squared)**: ANOVA.
+- **f²**: 회귀의 효과.
+
+**박사의 분야별 선택**.
+
+**Cohen's d의 계산과 해석.**
+
+**공식**:
+d = (M1 - M2) / SD_pooled
+
+**예시**:
+- 처리군 평균 75, 통제군 70.
+- Pooled SD = 10.
+- d = 0.5 (중간 효과).
+
+**해석 가이드**:
+- d = 0.2: 작음 (감지 어려움).
+- d = 0.5: 중간 (일반적 유의미).
+- d = 0.8: 큼 (명확).
+- d > 1.0: 매우 큼 (드물음).
+
+**주의**:
+- Cohen의 기준은 일반적.
+- 분야별 다름.
+
+**신뢰 구간의 필수.**
+
+효과 크기 + **95% CI**:
+- 추정의 불확실성.
+- 재현성 신호.
+
+**예시**:
+- d = 0.5, 95% CI [0.3, 0.7]: 명확.
+- d = 0.5, 95% CI [-0.1, 1.1]: 불확실.
+
+**박사 논문의 표준**:
+- Point estimate + CI.
+- 둘 다 보고.
+
+**효과 크기의 검정력 분석.**
+
+**Power Analysis**:
+- 검출 가능한 최소 효과 크기.
+- 필요 샘플 크기.
+
+**사전 계산**:
+- α = 0.05.
+- Power = 0.8.
+- Expected effect d = 0.5.
+- Required n = 64 per group.
+
+**도구**:
+- **G*Power**: 무료·강력.
+- **pwr (R 패키지)**.
+- **statsmodels (Python)**.
+
+**박사의 실험 설계**의 기반.
+
+**효과 크기의 분야별 기준.**
+
+**교육학**:
+- d = 0.4가 의미 있음 (Hattie).
+- 작은 효과도 중요.
+
+**의학**:
+- NNT 중심.
+- 임상적 유의미.
+
+**심리학**:
+- Cohen의 기준 표준.
+- Replication Project의 교훈.
+
+**ML/AI**:
+- Accuracy 개선 %.
+- 비표준화된 metric.
+
+**물리·공학**:
+- 측정 불확실성.
+- 오차 전파.
+
+본인 분야의 **관행 이해**.
+
+**효과 크기의 5가지 실수.**
+
+**실수 1, p-value만 보고**: 효과 크기 누락.
+
+**실수 2, 잘못된 지표**: 연속 데이터에 binary 지표.
+
+**실수 3, CI 없이**: 불확실성 숨김.
+
+**실수 4, 분야 관행 무시**: 일반 기준 고집.
+
+**실수 5, 과대 해석**: 작은 효과를 큰 것처럼.
+
+**Meta-analysis와 효과 크기.**
+
+효과 크기의 활용:
+
+- **여러 연구의 종합**.
+- 공통 metric 필요.
+- 분야의 cumulative 이해.
+
+**박사의 기여**:
+- 표준 지표로 보고.
+- 미래 meta-analysis 기여.
+
+**재현성과 효과 크기.**
+
+**Replication Crisis**:
+- 많은 효과가 과장.
+- 작은 효과가 실제.
+- Publication bias.
+
+**박사의 책임**:
+- 정직한 효과 크기.
+- 과대 주장 금지.
+- Pre-registration.
+
+**Bayesian Effect Size.**
+
+Bayesian 접근:
+
+- **Posterior distribution**: 효과 크기의 분포.
+- **Credible interval**: 95%.
+- **Probability of direction**: p(d > 0).
+- **ROPE (Region of Practical Equivalence)**: 실질적 동등.
+
+**장점**:
+- 풍부한 정보.
+- 직관적.
+
+박사의 **현대적 접근**.
+
+**효과 크기의 시각화.**
+
+**Forest plot**:
+- 여러 연구·그룹.
+- 중앙치·CI.
+
+**Funnel plot**:
+- Publication bias 확인.
+
+**Violin plot**:
+- 분포 전체.
+
+**Raincloud plot**:
+- 개별 + 분포 + 요약.
+
+**박사의 권장**: Raincloud plot. 풍부한 정보.
+
+**실전 논문 보고 예시.**
+
+**잘못된 보고**:
+"Group A was significantly higher than Group B (p < 0.05)."
+
+**올바른 보고**:
+"Group A (M = 75, SD = 10) scored significantly higher than Group B (M = 70, SD = 10), t(98) = 2.50, p = 0.014, Cohen's d = 0.50, 95% CI [0.10, 0.90]."
+
+**차이**:
+- 구체적 숫자.
+- 효과 크기.
+- CI.
+- 완전한 정보.
+
+**박사 논문의 Methods 기술.**
+
+**필수 보고**:
+- Effect size measure 선택 이유.
+- Point estimate.
+- 95% CI.
+- Power analysis (사전).
+
+**예시**:
+"We report Cohen's d as the effect size measure, with 95% bootstrapped CIs. A priori power analysis (G*Power 3.1) indicated N = 128 to detect d = 0.5 with 80% power."
+
+**투명성이 표준**.
+
+**한국 박사의 효과 크기 특수.**
+
+- **SCI 논문의 요구**: 많은 저널 필수.
+- **한국 저널**: 점진적 도입.
+- **교육용**: 박사 과정 강의.
+- **소프트웨어**: G*Power·R·Python.
+
+**AI 시대의 효과 크기 — 2024+.**
+
+**ML 논문**:
+- 벤치마크 accuracy.
+- 효과 크기 논의 부족.
+
+**개선 방향**:
+- Accuracy 차이의 CI.
+- Multiple seeds·runs.
+- Bootstrap CI.
+
+**박사의 기여**:
+- ML에 효과 크기 도입.
+- 엄격한 보고.
+
+**5가지 함정.**
+
+**함정 1, 표준화 무시**: 비교 불가.
+
+**함정 2, 작은 효과의 과장**: 실질 중요성 X.
+
+**함정 3, 큰 효과의 축소**: 인간 크기 무시.
+
+**함정 4, 부적절 지표**: 데이터 유형 불일치.
+
+**함정 5, CI 생략**: 불확실성 숨김.
+
+**박사의 효과 크기 실천.**
+
+**1년차**:
+- Cohen's d·r 익힘.
+- G*Power 사용.
+
+**2-3년차**:
+- 본인 분야 지표.
+- CI 보고.
+
+**4-5년차**:
+- Meta-analysis 참여.
+- Bayesian 접근.
+
+**박사 후**:
+- 평생 엄격한 보고.
+
+**효과 크기의 미래.**
+
+- **Open Science**: 투명성 증가.
+- **Pre-registration**: 표준화.
+- **Registered Reports**: 효과 크기 중심.
+- **Meta-research**: 분야의 자기 평가.
+
+**박사의 역할**:
+- 이 변화의 일부.
+- 최신 표준 따름.
+
+**마지막 — 효과 크기는 박사의 결과 언어다.**
+
+p-value의 시대는 저물고, 효과 크기의 시대. 주요 지표·Cohen's d·CI·Power analysis·분야 기준·5가지 실수·Meta-analysis·재현성·Bayesian·시각화·논문 보고·Methods 기술·한국 특수·AI 시대·5가지 함정·박사 실천·미래 — 이 모든 것을 의식적으로 다루면 박사 논문의 **결과가 정직·정확**. p-value는 묻는 질문, 효과 크기는 답이다.
+
+> 효과 크기는 p-value 너머의 통계. 주요 지표 (Cohen's d·Hedges' g·r·R²·OR·RR·NNT·η²·f²). Cohen's d의 계산과 해석 (0.2·0.5·0.8). 신뢰 구간의 필수. Power Analysis (G*Power·pwr·statsmodels). 분야별 기준 (교육·의학·심리·ML·물리). 5가지 실수. Meta-analysis 기여. 재현성과 효과 크기. Bayesian Effect Size (Credible interval·ROPE). 시각화 (Forest·Funnel·Violin·Raincloud). 논문 보고의 구체 예시. Methods 기술 (투명성). 한국 SCI 요구. 2024+ ML에 효과 크기 도입. 5가지 함정. 박사의 효과 크기 실천. p-value는 질문, 효과 크기는 답.
