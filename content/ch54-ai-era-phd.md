@@ -1338,3 +1338,265 @@ AI 시대의 새 형태:
 AI가 더 많은 일을 할수록 박사의 **방향 설정**이 중요. AI가 빠를수록 박사의 **깊이**가 가치. 7가지 AI 못하는 능력·AI 7가지 한계·인간+AI 5가지 레벨·박사의 7가지 독창성 영역·AI가 박사를 더 필요하게·새 정체성·imposter의 변형·박사 교육 재설계·10년 궤적·한국 독창성·5가지 오해·5가지 원칙 — 이 모든 것을 의식적으로 다루면 박사가 **AI 시대에 축소되지 않고 확장**. 박사는 AI 시대의 방향 설정자.
 
 > AI가 문헌·코드·가설을 다룰 때 박사의 독창적 기여는? AI가 못하는 7가지 박사 능력 (질문 정의·실세계·가치·창의·실패·관계·장기). AI의 7가지 한계 (hallucination·학습 의존·실세계·장기 맥락·가치·창발·의식). 인간+AI 5가지 레벨 (Tool·Partner·Pair·Collaborator·Coach). 박사의 7가지 독창성 영역 (Problem·Embodied·Vision·Community·Bridge·Ethics·Expertise). AI가 박사를 더 필요하게. 새 정체성 vs 피해야 할 정체성. AI 시대 imposter의 대응. 박사 교육의 재설계. 박사 10년 궤적. 한국 박사의 AI 시대 독창성. 5가지 오해와 5가지 원칙. 박사는 AI 시대의 길잡이.
+
+---
+
+## 박사의 AI 사용 공개 — "투명성과 윤리의 새 표준"
+
+2024년 이후 학술계는 **AI 사용 공개 (AI Use Disclosure)**를 새로운 윤리 표준으로 채택했다. Nature·Science·NEJM·주요 학회 모두 **저자가 ChatGPT·Claude·Copilot을 사용한 경우 명시적으로 공개**하도록 요구한다. 이는 **투명성·재현성·신뢰성**의 문제이며, 박사의 **평생 윤리 관행**을 형성한다. 공개 원칙을 몰라서 공개를 안 하면 **윤리 위반**이 된다. 이 섹션은 박사가 2024년 이후 AI를 사용할 때 **어떻게 공개하는지**의 실전 가이드.
+
+**AI 공개의 3가지 원칙.**
+
+- **Transparency (투명성)**: 무엇을·어떻게·어디에 사용했는지.
+- **Accountability (책임)**: AI가 생성한 내용도 저자의 책임.
+- **Reproducibility (재현성)**: 다른 연구자가 유사하게 재현 가능.
+
+이 3가지가 **AI 공개의 뼈대**.
+
+**주요 저널의 정책 (2024+).**
+
+- **Nature**: AI는 저자가 될 수 없음. 사용한 경우 Methods·Acknowledgments에 공개.
+- **Science**: 생성적 AI 사용 명시. 이미지 AI 금지 원칙.
+- **NEJM**: AI 사용 공개·책임은 저자.
+- **Elsevier·Springer·Wiley**: 유사 정책.
+- **ACL·NeurIPS·ICML**: AI 보조 허용, 공개 필수.
+- **IEEE**: 저자 가이드라인에 AI 섹션.
+
+**각 저널의 정확한 규정**을 투고 전 확인.
+
+**공개해야 할 AI 사용 5가지.**
+
+- **Writing Assistance**: 문장 개선·번역·교정.
+- **Code Generation**: Copilot·Cursor·ChatGPT.
+- **Data Analysis**: AI 기반 통계·시각화.
+- **Literature Search**: Elicit·Scite·Perplexity.
+- **Idea Generation**: Brainstorming·Hypothesis.
+
+**모든 실질적 기여**를 공개.
+
+**공개하지 않아도 되는 것.**
+
+- **검색엔진**: Google·Scholar.
+- **기본 IDE 기능**: Syntax highlighting·autocomplete.
+- **맞춤법 검사**: Word·Grammarly 기본 기능.
+- **사소한 편집**: 한두 단어 교정.
+- **번역의 간단한 확인**: 사전 수준.
+
+**경계는 애매**—모호하면 공개 선택.
+
+**공개 방법 — Methods Section.**
+
+논문 Methods 섹션에 AI 사용 명시:
+
+```
+"We used ChatGPT-4 (OpenAI, March 2024 version) to improve 
+the clarity of Sections 2-4. All content was reviewed and 
+verified by the authors."
+
+"Claude Opus 4.5 (Anthropic) was used for initial code 
+drafting; final implementations were tested and modified 
+by the authors."
+```
+
+**구체적**: 어느 모델·어느 버전·무엇에 사용.
+
+**공개 방법 — Acknowledgments.**
+
+Methods에 적합하지 않으면 Acknowledgments:
+
+```
+"We acknowledge the use of [AI tool] for [specific purpose]. 
+The authors are responsible for all content."
+```
+
+**책임 선언**이 필수.
+
+**AI를 저자로 못 쓰는 이유.**
+
+- **책임의 결여**: AI는 법적·윤리적 책임 못 짐.
+- **동의 불가**: 투고에 동의 과정.
+- **의도성 부재**: AI는 의도 없음.
+- **커뮤니티의 합의**: 학술계 표준.
+- **권위·identity**: 저자의 학술 인격.
+
+**AI는 도구**—저자가 아님.
+
+**박사의 흔한 AI 사용과 공개.**
+
+**논문 작성 시**:
+- "초록 스타일 교정은 Claude로."
+- "영어 문법은 Grammarly 기본."
+- "브레인스토밍은 ChatGPT Plus."
+
+**코드 작성 시**:
+- "데이터 전처리 코드 초안은 Cursor."
+- "검증은 저자."
+
+**그림 생성 시**:
+- "Figure X는 DALL-E 3로 컨셉 생성, 수작업 수정."
+- "Figure Y는 완전 수작업."
+
+**각 용도별 명시**가 표준.
+
+**AI 생성 이미지의 금지.**
+
+- **Nature·Science**: AI 생성 과학 이미지 금지.
+- **이유**: 데이터 조작 우려.
+- **예외**: 컨셉 다이어그램·추상적 그림.
+- **의학**: 환자 이미지는 AI 생성 금지.
+
+**과학적 이미지는 실제 데이터만**.
+
+**Hallucination의 책임.**
+
+- **AI가 생성한 가짜 인용**: 저자의 책임.
+- **AI의 틀린 사실**: 검증 안 하면 저자 책임.
+- **AI의 윤리 위반**: 저자가 공동 책임.
+- **"AI가 한 일"이라는 변명**: 통하지 않음.
+
+**AI 사용은 저자의 책임**.
+
+**박사의 AI 공개 함정 7가지.**
+
+- **공개 누락**: AI 사용 숨김.
+- **모호한 공개**: "AI 도움 받음"만.
+- **저자 자격**: AI를 저자로 등재.
+- **AI 생성 데이터**: 실제 데이터처럼.
+- **검증 생략**: AI 출력 그대로.
+- **선택적 공개**: 일부만 공개.
+- **정책 모름**: 저널 규정 미숙지.
+
+이 7가지가 **AI 공개의 실수**.
+
+**Detector 도구와의 관계.**
+
+- **GPTZero·Originality.ai**: AI 탐지 도구.
+- **학술 심사**: 일부 저널이 사용.
+- **False Positive**: 인간 글도 AI로 오인.
+- **False Negative**: AI 글이 통과.
+- **주의**: Detector에 의존하지 말고 공개가 정답.
+
+**Detector는 불완전**—공개가 최선.
+
+**프리프린트·arXiv의 정책.**
+
+- **arXiv**: 최소한의 공개 권장.
+- **biorxiv·medrxiv**: 명시적 공개 요구.
+- **SSRN**: 분야별 다름.
+- **투고 시스템**: 대부분 AI 사용 체크박스.
+
+**프리프린트도 공개 대상**.
+
+**학회 논문의 정책.**
+
+- **NeurIPS 2024+**: AI 사용 공개 필수.
+- **ICML·ICLR**: 유사.
+- **ACL**: AI Writing Assistant 정책.
+- **CVPR·ICCV**: 이미지 AI 특별 주의.
+- **CHI**: HCI 분야—AI 사용이 연구 주제인 경우도.
+
+**주요 학회**의 정책을 학기초에 확인.
+
+**박사 학위논문의 AI 공개.**
+
+- **학위논문도 동일**: 공개 의무.
+- **학교 정책**: 각 대학의 학위규정.
+- **지도교수 논의**: 초기 합의.
+- **아카이브**: RISS·ProQuest의 표시.
+
+**학위논문은 영구 기록**—신중한 공개.
+
+**Co-authored vs Assisted 구분.**
+
+- **Co-authored**: AI가 저자 (금지).
+- **Assisted**: AI는 도구, 저자가 책임 (허용).
+- **구분**: Substantial vs Minor contribution.
+- **판단**: 저자의 양심.
+
+**"도움 받음"은 허용**, "같이 작성"은 금지.
+
+**Peer Review에서의 AI.**
+
+- **리뷰어의 AI 사용**: 저널마다 다름.
+- **Confidentiality**: 원고를 AI에 업로드 금지 (ch42 관련).
+- **자신의 리뷰 개선**: 허용 가능 (문법 등).
+- **AI가 리뷰 작성**: 금지.
+
+**Peer Review는 인간의 판단**.
+
+**AI Ethics Board·Committee.**
+
+- **대학의 AI Ethics Board**: 일부 대학.
+- **학과의 정책**: 교수회의.
+- **연구 윤리 교육**: CITI Program의 AI 모듈.
+- **IRB의 AI 섹션**: 증가.
+
+**기관 차원의 가이드라인**에 익숙해지기.
+
+**AI 공개의 연간 업데이트.**
+
+- **저널 정책 변화**: 매년 확인.
+- **새 AI 도구**: 새 공개 방식.
+- **학계 표준**: 수렴 중.
+- **법적 변화**: EU AI Act·한국 AI 기본법.
+
+**연 1-2회 정책 리뷰** 의식.
+
+**박사의 AI 공개 워크플로.**
+
+- **프로젝트 시작**: AI 사용 계획.
+- **로그 유지**: 언제·어떻게 사용했는지.
+- **초안 완성**: 공개 섹션 작성.
+- **투고 전**: 저널 정책 확인.
+- **리뷰 대응**: 공개 관련 질문 대비.
+
+**처음부터 공개 의식** 구축.
+
+**한국 박사의 AI 공개 특수.**
+
+- **한국어 저널**: 정책 아직 미성숙.
+- **국내 대학**: 가이드라인 확립 중.
+- **KCI·RISS**: 학위논문 공개 규정.
+- **국제 투고**: 영어권 규정 준수.
+- **한국 학술 윤리**: KAMJE·KoSWA.
+
+**한국도 빠른 정착 중**.
+
+**2024+ 진화.**
+
+- **AI Agent**: Autonomous AI의 공개.
+- **Multi-modal AI**: 텍스트·이미지·음성 통합.
+- **LLM Fine-tuning**: 본인 모델.
+- **RAG**: 검색 통합.
+- **법적 규제**: EU·US·한국.
+
+**규정은 변화 중**—업데이트 필요.
+
+**박사의 AI 공개 체크리스트 (10가지).**
+
+- ☐ 저널·학회 정책 확인
+- ☐ 모든 AI 도구·버전 기록
+- ☐ 사용 용도 구체화
+- ☐ Methods·Acknowledgments 작성
+- ☐ Hallucination 검증
+- ☐ AI 생성 이미지 주의
+- ☐ AI 저자 등재 금지
+- ☐ 공저자 동의
+- ☐ 학위논문 정책
+- ☐ 연간 정책 리뷰
+
+**박사의 AI 공개 5년 진화.**
+
+- **1-2년차**: 기본 공개 익히기.
+- **3년차**: 투고·학위논문의 공개.
+- **4-5년차**: 리뷰어로서 공개 판단.
+- **졸업 후**: 평생 윤리 관행.
+- **교수·리더**: 팀의 AI 공개 문화 형성.
+
+**AI 공개는 현대 박사의 새 윤리 기본**.
+
+**마지막 — AI 공개가 박사의 새 윤리다.**
+
+AI 시대의 박사는 새로운 윤리 책임. 3가지 원칙 (Transparency·Accountability·Reproducibility)·주요 저널 정책·공개할 5가지·공개 안 할 것·Methods·Acknowledgments 방법·AI 저자 금지·흔한 사용 패턴·AI 이미지 금지·Hallucination 책임·7가지 함정·Detector 한계·프리프린트·학회·학위논문·Co-authored vs Assisted·Peer Review·Ethics Board·연간 업데이트·워크플로·한국 특수·2024+ 진화·체크리스트·5년 진화 — 이 모든 것을 의식적으로 관리하면 박사가 **투명하고 책임 있는 AI 사용자**. 공개는 새 학술 윤리.
+
+> AI 공개는 박사의 새 윤리 표준. 3가지 원칙 (Transparency·Accountability·Reproducibility). Nature·Science·NEJM의 2024+ 정책. 공개할 5가지 (Writing·Code·Analysis·Literature·Idea). 공개 안 해도 되는 것 (검색·기본 IDE·맞춤법·사소한 편집·간단 번역). Methods·Acknowledgments 작성법. AI는 저자 불가. AI 생성 이미지 금지. Hallucination의 저자 책임. 7가지 함정 (누락·모호·저자 등재·AI 데이터·검증 생략·선택적·정책 모름). Detector 불완전. 프리프린트·학회·학위논문 정책. Co-authored vs Assisted 구분. Peer Review의 Confidentiality. AI Ethics Board. 연간 정책 리뷰. 공개 워크플로. 한국 정착 중. 2024+ Agent·Multi-modal·규제. 10가지 체크리스트. 5년 진화. AI 공개는 현대 박사의 새 윤리.
