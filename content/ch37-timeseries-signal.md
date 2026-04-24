@@ -1561,3 +1561,360 @@ df.resample('1s').mean()
 모델이 눈에 띄지만, 전처리가 실제 결과를 만든다. 7가지 핵심 단계·missing 전략·outlier 처리·resampling·정규화·stationarity·feature engineering·7가지 함정·한국 맥락·AI 시대·문서화·ROI — 이 모든 것을 의식적으로 다루면 박사 시계열 연구가 **재현 가능하고 산업 적용 가능**하게 된다. 전처리를 등한시한 박사의 모델은 **유리 위의 성**.
 
 > 시계열 연구의 80%는 전처리. 7가지 핵심 단계 (수집·missing·outlier·resampling·filtering·normalization·feature). Missing의 7가지 전략 (forward fill·linear·spline·model·multiple·masking·drop). Outlier의 4가지 유형과 처리. Resampling의 up/down과 Pandas 예시. 정규화의 분야별 관례와 train/test split 주의. Stationarity의 정의·검정·변환. Feature engineering의 lag·rolling·time·frequency·rate. 7가지 함정 (leakage·look-ahead·일관성·smoothing·주파수·자동 outlier·missing 무시). 한국 박사의 공휴일·반도체·공공 데이터 맥락. 2024+ AutoML과 LLM의 자동화와 한계. 전처리 문서화의 8가지. 전처리는 박사 시계열 연구의 숨은 중심이다.
+
+---
+
+## 시계열 예측의 평가 지표 — 올바른 metric 선택의 과학
+
+시계열 예측 모델의 평가는 **간단해 보이지만 미묘**. MAE vs RMSE vs MAPE vs SMAPE. 각 지표의 특성이 다르고, 잘못된 선택은 **모델의 실제 품질 왜곡**. 박사 논문의 reviewer가 가장 자주 지적하는 부분. 이 섹션은 박사가 시계열 평가 지표를 정확히 선택·해석하는 실전을 다룬다. ch37의 다른 섹션(Foundation Model·이상 탐지·다변량·전처리)이 **방법**이었다면, 이 섹션은 **평가의 과학**이다.
+
+**시계열 평가 지표의 5가지 카테고리.**
+
+**카테고리 1, 오차 기반**:
+- **MAE (Mean Absolute Error)**.
+- **RMSE (Root Mean Squared Error)**.
+- 절대 차이.
+
+**카테고리 2, 백분율 기반**:
+- **MAPE (Mean Absolute Percentage Error)**.
+- **SMAPE (Symmetric MAPE)**.
+- 상대적 오차.
+
+**카테고리 3, 방향·패턴**:
+- **DA (Directional Accuracy)**.
+- **Correlation**.
+- 움직임 예측.
+
+**카테고리 4, 확률적**:
+- **CRPS (Continuous Ranked Probability Score)**.
+- **Pinball Loss**.
+- 분포 예측.
+
+**카테고리 5, 도메인 특화**:
+- **MASE (Mean Absolute Scaled Error)**.
+- 분야별 특수.
+
+각 카테고리의 **다른 용도**.
+
+**MAE vs RMSE — 기본 선택.**
+
+**MAE (Mean Absolute Error)**:
+- 절대 오차의 평균.
+- 이상치에 덜 민감.
+- 해석 쉬움 (같은 단위).
+
+**RMSE (Root Mean Squared Error)**:
+- 제곱 오차의 평균 제곱근.
+- 이상치에 민감.
+- 큰 오차 강조.
+
+**선택 기준**:
+- **MAE**: 모든 오차 동등 중요.
+- **RMSE**: 큰 오차가 더 나쁨.
+- **Both**: 완전 그림.
+
+박사의 권장: **둘 다 보고**.
+
+**MAPE의 함정.**
+
+**MAPE = mean(|actual - forecast| / |actual|) × 100**
+
+**장점**:
+- 백분율.
+- 다른 스케일 비교.
+- 직관적.
+
+**치명적 문제**:
+- **Actual = 0**: 무한대.
+- **비대칭**: 과대예측 vs 과소예측.
+- **Skew**: 대칭성 부재.
+
+**예시**:
+- Actual=100, Forecast=110: MAPE=10%.
+- Actual=100, Forecast=90: MAPE=10%.
+- Actual=10, Forecast=20: MAPE=100%.
+- Actual=1, Forecast=2: MAPE=100%.
+
+같은 오차가 **다른 MAPE**.
+
+**SMAPE (Symmetric MAPE)**:
+- 비대칭 문제 완화.
+- 하지만 여전히 한계.
+
+**박사의 교훈**: MAPE는 **신중한 사용**.
+
+**MASE의 우수성.**
+
+**Mean Absolute Scaled Error**:
+- 분모: Naive forecast (seasonal·전 기간).
+- 스케일 독립.
+- 해석 용이 (1 미만 = naive보다 나음).
+
+**공식 (non-seasonal)**:
+MASE = MAE / MAE_naive
+
+**장점**:
+- 0 나눗셈 X.
+- 여러 시계열 비교.
+- M4 competition의 기준.
+
+**박사의 권장**: MASE를 **기본 지표**로.
+
+**Horizon별 평가.**
+
+한 시점이 아닌 **여러 시점**:
+
+**1-step ahead**:
+- 단기 예측.
+- 쉬움.
+
+**Multi-step**:
+- 장기 예측.
+- 오차 누적.
+
+**박사의 보고**:
+- Horizon 1, 3, 7, 30.
+- 각 horizon의 metric.
+
+**그래프**:
+- X: Horizon.
+- Y: Error.
+- 모델 간 비교.
+
+**확률 예측의 평가.**
+
+Point forecast가 아닌 **분포**:
+
+**CRPS**:
+- 연속 분포.
+- Generalization of MAE.
+- 낮을수록 좋음.
+
+**Pinball Loss (Quantile Loss)**:
+- 특정 quantile.
+- Confidence interval.
+
+**Coverage**:
+- 95% PI의 실제 포함 비율.
+
+**박사의 확률 예측**:
+- 단순 MAE 부족.
+- CRPS·Coverage 병기.
+
+**시간 시리즈의 Cross-Validation.**
+
+**잘못된 방법**:
+- K-fold random split.
+- **Data leakage** (미래 → 과거).
+
+**올바른 방법**:
+
+**Rolling Window**:
+- 시간순 split.
+- 학습: 과거.
+- 평가: 미래.
+
+**Expanding Window**:
+- 학습 창 점점 커짐.
+- 평가 창 이동.
+
+**Time Series Split (sklearn)**:
+- 표준 구현.
+
+**박사의 필수**: 시간순 CV.
+
+**Baseline의 중요성.**
+
+단순 baseline:
+
+**Naive**:
+- y_t+1 = y_t.
+- 가장 단순.
+
+**Seasonal Naive**:
+- y_t+1 = y_t-s (s = 계절 주기).
+
+**Moving Average**:
+- 최근 k개 평균.
+
+**ARIMA·ETS**:
+- 전통 통계.
+
+**박사의 비교**:
+- 본인 deep model.
+- vs 이 baselines.
+- 개선 명확히.
+
+**Baseline 없이는 의미 없음**.
+
+**한국 박사 시계열의 벤치마크.**
+
+**공개 벤치마크**:
+- **M4, M5 Competition**: 10만 시계열.
+- **Monash Time Series Forecasting Repository**.
+- **ETT (Electricity Transformer Temperature)**.
+- **Weather**.
+- **Traffic**.
+- **Exchange Rate**.
+
+**박사 논문**:
+- 최소 3개 데이터셋.
+- 공정한 비교.
+
+**벤치마크 Leakage의 위험.**
+
+**Contamination**:
+- Foundation Model이 벤치마크 데이터로 학습.
+- 평가가 무의미.
+
+**박사의 점검**:
+- 모델의 학습 데이터 확인.
+- 최신 데이터로 평가.
+
+**2024+ 문제**:
+- TimeGPT 등의 학습 데이터.
+- 공개 벤치마크 포함 여부.
+
+**Ensemble의 평가.**
+
+여러 모델 결합:
+
+**Simple Average**:
+- 모든 모델 평균.
+
+**Weighted Average**:
+- 성능 기반 가중치.
+
+**Stacking**:
+- Meta-learner.
+
+**M4 교훈**:
+- Ensemble이 거의 항상 winner.
+- 박사 논문의 baseline.
+
+**도메인 특화 지표.**
+
+**수요 예측**:
+- Stock-out cost.
+- Overstock cost.
+- 비즈니스 영향.
+
+**의료**:
+- Clinical impact.
+- Cost.
+
+**기상**:
+- Equitable Threat Score.
+
+**박사의 적용**:
+- 일반 metric + 도메인 지표.
+- 실무 적용성 증가.
+
+**5가지 흔한 실수.**
+
+**실수 1, MAPE만 사용**: 0 근처 문제.
+
+**실수 2, Random CV**: Data leakage.
+
+**실수 3, Baseline 없이**: 개선 모호.
+
+**실수 4, Single horizon**: 장기 무시.
+
+**실수 5, Single dataset**: 일반화 X.
+
+**평가 결과의 시각화.**
+
+**Bar chart**:
+- 모델 간 metric 비교.
+- 간단.
+
+**Box plot**:
+- Metric의 분포.
+- 불확실성.
+
+**Prediction vs Actual**:
+- Scatter plot.
+- 예측 패턴.
+
+**Error time series**:
+- 시간별 오차.
+- 어디서 실패?
+
+**Residual analysis**:
+- 잔차 패턴.
+- Bias 진단.
+
+**박사의 권장**: 4-5개 시각화.
+
+**박사 논문의 평가 섹션.**
+
+**구조**:
+1. Datasets.
+2. Baselines.
+3. Metrics (이유와 함께).
+4. Main results (테이블).
+5. Per-horizon analysis.
+6. Ablation study.
+7. Error analysis.
+8. Qualitative examples.
+
+**8개 섹션**이 철저한 평가.
+
+**한국 박사의 평가 특수.**
+
+**한국 시계열**:
+- 주식·금리·환율.
+- 부동산.
+- 기후 (한국).
+- 전력.
+
+**특수 과제**:
+- 한국 공휴일.
+- 음력.
+- 정책 변화.
+
+**AI 시대의 평가 — 2024+.**
+
+**Foundation Models**:
+- Zero-shot 평가.
+- Fine-tuning 평가.
+
+**도전**:
+- 학습 데이터 contamination.
+- 비교 기준.
+
+**박사의 대응**:
+- 새 데이터.
+- Rigorous protocol.
+
+**5가지 함정.**
+
+**함정 1, Single metric**: 불완전.
+
+**함정 2, 벤치마크 의존**: 실제와 다름.
+
+**함정 3, Train/test leakage**: 과대 평가.
+
+**함정 4, 무리한 비교**: 다른 조건.
+
+**함정 5, 도메인 무시**: 실무 가치 X.
+
+**박사의 평가 실천 5단계.**
+
+**1단계**: Metric 이해.
+
+**2단계**: 여러 metric 병기.
+
+**3단계**: 시간순 CV.
+
+**4단계**: 다수 baseline.
+
+**5단계**: 도메인 특화 지표.
+
+**5년의 평가 숙련**.
+
+**마지막 — 평가는 연구의 진실이다.**
+
+아무리 좋은 모델도 잘못된 평가는 신뢰 X. 5가지 카테고리·MAE/RMSE·MAPE 함정·MASE·Horizon·확률 예측·시간순 CV·Baseline·벤치마크·Leakage·Ensemble·도메인 지표·5가지 실수·시각화·논문 섹션·한국 특수·AI 시대·5가지 함정·5단계 실천 — 이 모든 것을 의식적으로 다루면 박사의 시계열 연구가 **신뢰할 만한 과학**. 정확한 평가가 박사의 정직성.
+
+> 시계열 평가는 간단해 보이지만 미묘. 5가지 카테고리 (오차·백분율·방향·확률·도메인). MAE vs RMSE (둘 다 보고). MAPE의 3가지 치명적 함정 (0·비대칭·Skew). MASE의 우수성 (스케일 독립·M4 표준). Horizon별 평가. 확률 예측의 CRPS·Pinball Loss·Coverage. 시간순 Cross-Validation (Rolling·Expanding). Baseline의 중요성 (Naive·Seasonal Naive·ARIMA). 한국 박사의 공개 벤치마크 (M4·M5·ETT). 벤치마크 Contamination 주의. Ensemble의 M4 교훈. 도메인 특화 지표. 5가지 실수. 시각화 (Bar·Box·Prediction·Error·Residual). 박사 논문의 8-섹션 평가. 2024+ Foundation Model 평가 도전. 5가지 함정. 박사 5단계 평가 실천. 정확한 평가가 박사의 정직성.
