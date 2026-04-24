@@ -1823,3 +1823,309 @@ ch36 학위논문과 연결.
 
 > 리뷰 논문은 박사의 분야 지도. 5가지 가치 (지도·맥락·논문·인물·열린 질문). 5가지 유형 (Comprehensive·Focused·Tutorial·Position·Benchmark). Google Scholar·arXiv·지도교수·학회·Annual Reviews의 찾기. 5단계 읽기 (Abstract·TOC·Intro·핵심·Refs). 리뷰 노트 템플릿. 리뷰 + 원 논문의 왕복. 3가지 한계 (편향·지연·얕음). 박사 후 5년의 리뷰 쓰기. 분야별 관례. 학위논문 Related Work와 연결. 박사 첫 6개월의 120시간 투자. 비판적 리뷰 읽기. 5가지 함정. 한국 박사 특수. 2024+ AI 시대. 지도 없는 탐험가는 길을 잃는다.
 
+---
+
+## 박사의 Adversarial Reading — "논문을 적으로 읽기"
+
+박사의 논문 읽기 스킬 중 가장 어려운 것은 **비판적 읽기**, 특히 **Adversarial Reading** — "이 논문이 틀렸다면 어디일까?"라는 관점으로 읽기. 대부분의 박사는 논문을 **숭배적으로** 읽는다. 유명 저널·유명 저자라면 "맞겠지" 수용. 이것은 **위험한 습관**. 논문의 30-50%는 **재현 불가능**하거나 **과장된 주장**이 포함된다 (재현성 위기). Adversarial Reading은 박사의 **과학적 성숙** 그 자체다.
+
+**Naive Reading vs Adversarial Reading.**
+
+| 측면 | Naive | Adversarial |
+|------|-------|-------------|
+| 가정 | 저자가 맞음 | 증거를 요구 |
+| 결과 | 수용 | 검증 |
+| 방법 | 이해만 | 대안 고려 |
+| Limitations | 스킵 | 집중 |
+| 인용 | 재인용 | 확인 |
+| 질문 | 무엇을 | 정말? 왜? |
+
+**박사는 Naive로 시작, Adversarial로 성숙**.
+
+**Adversarial Reading의 5가지 질문.**
+
+- **"Claim이 증거와 일치하는가?"**: 주장이 결과로 뒷받침되는가.
+- **"표본이 충분한가?"**: 일반화 가능성.
+- **"대안 설명이 있는가?"**: Confounders·제3의 변수.
+- **"저자의 가정은 무엇인가?"**: 암묵적 전제.
+- **"재현 가능한가?"**: 코드·데이터·세부.
+
+**5가지를 체크**하면 논문의 강도 평가.
+
+**10가지 Red Flags.**
+
+- **Cherry-picked results**: 좋은 결과만.
+- **Unreasonable baselines**: 약한 비교.
+- **Missing ablations**: 요소별 기여 불명.
+- **P-hacking 흔적**: p < 0.05에 집착.
+- **No error bars**: 불확실성 숨김.
+- **Small N with big claim**: 표본 부족.
+- **No code·data**: 재현 불가.
+- **Overfitting signs**: Train·Test 구분 모호.
+- **Grandiose language**: "Revolutionary"·"Paradigm shift".
+- **No limitations section**: 약점 숨김.
+
+**10가지 중 3개 이상 보이면 의심**.
+
+**Abstract·Intro에서 찾는 Red Flags.**
+
+- **"The first to..."**: 진짜 최초인가?
+- **"Outperforms state-of-the-art"**: 어떤 SOTA?
+- **"Significant improvement"**: 얼마만큼?
+- **"Generalizable"**: 어디까지?
+- **Bold claims without qualifiers**: "always"·"never".
+
+**첫 페이지의 과장**이 논문 톤을 결정.
+
+**Methods에서 찾는 Red Flags.**
+
+- **Vague descriptions**: "We trained until convergence."
+- **Missing hyperparameters**: 세부 없음.
+- **No random seed**: 재현 불가.
+- **Weird evaluation metric**: 표준과 다름.
+- **Data preprocessing 생략**: 숨겨진 조작.
+
+**Methods가 모호하면 결과 의심**.
+
+**Results에서 찾는 Red Flags.**
+
+- **평균만**: Variance 없음.
+- **단 1회 실행**: Seed 1개.
+- **Best run만 선택**: Multiple seeds 평균 아님.
+- **Unfair comparison**: 비교가 불공정.
+- **Missing metrics**: 중요 지표 빠짐.
+
+**Results의 robustness** 확인.
+
+**Figure에서 찾는 Red Flags.**
+
+- **Y-axis 조작**: 시작점 조작으로 차이 과장.
+- **Log scale 불명**: 시각적 속임수.
+- **3D bar chart**: 정보 왜곡.
+- **Misleading Captions**: 주장 vs 그림 불일치.
+- **Color choice**: 그룹 강조 조작.
+
+**시각적 조작**이 미묘.
+
+**Ablation의 부재.**
+
+- **Ablation이 없으면**: 어느 요소가 기여하는지 모름.
+- **박사는 자문**: "X 없이도 같은 결과?"
+- **Critical reader**: "Novel contribution은 진짜 X인가?"
+
+**Ablation이 박사 논문의 필수**.
+
+**Baseline의 공정성.**
+
+- **약한 Baseline**: 비교가 쉬움.
+- **오래된 Baseline**: SOTA 무시.
+- **Baseline의 Hyperparameter**: 최적화 안 됨.
+- **Baseline의 Dataset**: 다른 데이터.
+
+**Baseline이 약하면 제안 방법이 강해 보임**—흔한 트릭.
+
+**Dataset의 편향.**
+
+- **Training = Test의 누설**: Data leakage.
+- **Dataset selection**: 유리한 데이터만.
+- **Small dataset**: 과적합.
+- **Dataset의 편향**: 인종·성별·지역.
+
+**Dataset 다양성**을 확인.
+
+**Statistical Significance vs Practical Significance.**
+
+- **p < 0.05**: 통계적.
+- **Effect size**: 실용적.
+- **Large N**: 사소한 차이도 유의.
+- **박사는 두 가지 모두 확인**.
+
+**Statistical은 Practical의 필요 조건, 충분 아님**.
+
+**재현성 확인.**
+
+- **Code 공개**: GitHub.
+- **Data 공개**: 또는 Synthetic.
+- **Seeds 명시**: 결정론적.
+- **Hyperparameters**: 완전 공개.
+- **Compute**: Hardware·시간.
+
+**공개된 논문만 믿기**—점차 표준.
+
+**Adversarial Reading의 단계.**
+
+- **1단계**: Abstract·Intro 주장 정리.
+- **2단계**: Methods·Results의 세부.
+- **3단계**: 각 주장을 뒷받침하는 증거 체크.
+- **4단계**: 대안·Confounders 탐색.
+- **5단계**: Limitations 재평가.
+- **6단계**: 본인이 리뷰어라면 점수.
+- **7단계**: 결론 — 믿을 만한가.
+
+**Systematic 비판**.
+
+**박사의 Adversarial Reading 함정 7가지.**
+
+- **유명 저자 숭배**: 저자 이름에 속음.
+- **저널 명예**: Nature·Science라 믿음.
+- **표면 수용**: 세부 안 봄.
+- **대안 무시**: Confounders 간과.
+- **과도한 비판**: 모든 논문 거부.
+- **본인 편향**: 가설에 맞는 것만 수용.
+- **시간 부족**: 주장만 수용.
+
+이 7가지가 **Reading 실수**.
+
+**Adversarial Reading과 Scientific Skepticism.**
+
+- **건강한 회의**: 모든 주장에 증거 요구.
+- **Extraordinary claims**: 특별한 증거 필요 (Sagan).
+- **재현성**: 여러 연구 일치 필요.
+- **Peer Review의 한계**: 리뷰도 완벽 안 함.
+- **시간의 검증**: 5-10년 후 생존.
+
+**과학적 회의**가 박사의 기본.
+
+**Adversarial Reading의 실전 예.**
+
+**AI 논문의 과장**:
+- "Solves [benchmark] at human level."
+- Adversarial: 어느 benchmark? 어떤 human? Edge cases?
+
+**의학 논문의 과장**:
+- "New treatment reduces mortality."
+- Adversarial: N·Duration·Population·Bias·Effect size?
+
+**경제 논문의 과장**:
+- "Causal effect of X on Y."
+- Adversarial: Causal 증명? Selection bias? Confounders?
+
+**분야별 전형적 과장**.
+
+**LLM·AI 논문의 특수.**
+
+- **Cherry-picked examples**: 성공 사례만.
+- **Benchmark 과적합**: Data contamination.
+- **Hallucination 무시**: 실패 사례 축소.
+- **Scaling laws 과잉**: 외삽.
+- **Compute 숨김**: 진짜 비용.
+
+**AI 논문 독서에 특히 회의**.
+
+**Preprint vs Peer-reviewed.**
+
+- **Preprint**: 빠르나 검증 전.
+- **Peer-reviewed**: 검증 있으나 완벽 아님.
+- **Preprint → Published**: 큰 변화 가능.
+- **박사의 태도**: 둘 다 비판적.
+
+**공식 출판이 결함을 없애지는 않음**.
+
+**Controversial 논문 대응.**
+
+- **다른 전문가 의견**: Reviews·Commentaries.
+- **Reply·Rebuttal**: 저자들의 응답.
+- **PubPeer**: 공개 비평.
+- **Twitter/X 토론**: 분야 반응.
+- **시간의 검증**: 1-2년 후.
+
+**Controversial 논문**은 여러 관점.
+
+**박사 본인의 논문에 Adversarial Reading.**
+
+- **초안에 자기 비판**: 본인 Red Flags.
+- **친구 Adversarial Reading**: 외부 시각.
+- **Reviewer Simulation**: 심사 전.
+- **Counter-argument 준비**: 예상 비판.
+
+**본인 논문도 Adversarial**.
+
+**Reading Group의 Adversarial.**
+
+- **한 편 매주**: 깊이 있는 분석.
+- **Devil's Advocate**: 1명 지정.
+- **Pro·Con 토론**: 양측.
+- **Red Flags 찾기**: 경쟁.
+- **Reviewer 모의**: 평가.
+
+**그룹이 Adversarial 훈련의 장**.
+
+**Adversarial Reading의 윤리.**
+
+- **저자 존중**: 인신공격 아님.
+- **건설적**: 파괴 아닌 개선.
+- **겸손**: 본인도 틀릴 수 있음.
+- **공개 vs 비공개**: 공개 비평은 신중.
+- **Impostor에 빠지지 않기**: 비판이 실력 측정 아님.
+
+**Adversarial = 적대가 아니라 엄밀**.
+
+**한국 박사의 Adversarial 특수.**
+
+- **위계 존중**: 교수·선배 논문 비판 어려움.
+- **체면**: 공개 비판의 위험.
+- **한국 저자 논문**: 국내 커뮤니티 내 조심.
+- **영어 장벽**: 세부 읽기 어려움.
+- **Peer Review의 약한 전통**: 한국 저널.
+
+한국에서는 **비공개 Adversarial**이 안전.
+
+**2024+ AI 시대의 Adversarial.**
+
+- **AI 요약의 맹점**: AI가 중요한 비판 놓침.
+- **AI 검증 도구**: PaperQA·Elicit의 Critical Reading.
+- **AI의 Hallucination**: AI가 인용하는 논문 확인.
+- **Fake Papers**: AI 생성 논문의 검증.
+- **Reproducibility Tools**: 자동 재현.
+
+**AI가 Adversarial의 일부 자동화** — 단, 인간 판단 필요.
+
+**Adversarial Reading의 습관.**
+
+- **매주 1편 Deep Critical**: 1-2시간.
+- **Red Flags Checklist**: 표준.
+- **본인 Adversarial Notebook**: 기록.
+- **월간 리뷰**: 가장 흔한 Red Flags.
+- **연례 회고**: 본인의 Adversarial 성장.
+
+**Systematic 훈련**.
+
+**Scientific Reasoning의 연결.**
+
+- **Deductive**: 논리적 연역.
+- **Inductive**: 경험의 일반화.
+- **Abductive**: 최선의 설명.
+- **Bayesian**: 사전 확률의 수정.
+- **Causal**: 원인·결과.
+
+**다양한 추론**이 Adversarial의 기반.
+
+**10가지 Adversarial Reading 체크리스트.**
+
+- ☐ 5가지 질문 매 논문
+- ☐ 10가지 Red Flags
+- ☐ Abstract·Intro 과장
+- ☐ Methods 모호성
+- ☐ Results 단 1회 여부
+- ☐ Figure 조작
+- ☐ Ablation 존재
+- ☐ Baseline 공정성
+- ☐ Statistical vs Practical
+- ☐ 재현성 확인
+
+**박사의 Adversarial 5년 진화.**
+
+- **1년차**: Naive 중심·Red Flags 학습.
+- **2년차**: 기본 Adversarial 습관.
+- **3년차**: 체계적 Critical Reading.
+- **4-5년차**: Peer Reviewer 수준.
+- **졸업 후**: 평생 과학적 회의.
+
+**Adversarial Reading은 박사의 지적 근력**.
+
+**마지막 — Adversarial Reading이 박사의 과학적 성숙이다.**
+
+맹목적 수용에서 엄밀한 검증으로. Naive vs Adversarial·5가지 질문·10가지 Red Flags·Abstract·Methods·Results·Figure·Ablation·Baseline·Dataset·Significance·재현성·7단계·7가지 함정·Scientific Skepticism·실전 예·AI 논문 특수·Preprint vs Published·Controversial·본인 논문·Reading Group·윤리·한국 특수·2024+ AI·습관·Reasoning·체크리스트·5년 진화 — 이 모든 것을 의식적으로 다루면 박사가 **비판적 과학자**. Adversarial Reading은 과학적 성숙.
+
+> Adversarial Reading은 박사의 과학적 성숙. Naive vs Adversarial 비교. 5가지 질문 (Claim·표본·대안·가정·재현). 10가지 Red Flags (Cherry-picked·약한 Baseline·Missing Ablations·P-hacking·No error·Small N·No code·Overfitting·Grandiose·No limitations). Abstract·Methods·Results·Figure의 각 Red Flags. Ablation 필수. Baseline 공정성. Dataset 편향. Statistical vs Practical Significance. 재현성 체크. 7단계 Adversarial. 7가지 함정 (저자 숭배·저널·표면·대안 무시·과도 비판·본인 편향·시간). Scientific Skepticism (Sagan·Extraordinary claims). 분야별 과장 (AI·의학·경제). LLM·AI 논문 특수. Preprint vs Peer-reviewed. Controversial 대응. 본인 논문 Adversarial. Reading Group Devil's Advocate. 윤리 (존중·건설적·겸손). 한국 위계·체면 특수. 2024+ AI 검증 도구. 주간 1편 Deep Critical. Scientific Reasoning 5가지. 10가지 체크리스트. 5년 진화. Adversarial은 과학적 성숙.
+
