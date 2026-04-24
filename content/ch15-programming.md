@@ -1483,3 +1483,440 @@ docker-compose up -d
 박사 5-7년의 실험을 Docker로 감싸면 재현성이 극적으로 향상. 5가지 가치·3가지 기본 개념·Dockerfile 템플릿·빌드·실행·Compose·5가지 시나리오·5가지 실수·대안·학습 곡선·한국 환경·2024+ AI 시대·체크리스트 — 이 모든 것을 박사 1-2년차부터 도입하면 졸업 후 10-20년의 연구 재현성이 기반된다. Docker 없는 박사 연구는 **모래 위의 성**.
 
 > Docker는 박사 연구 재현성의 핵심 도구. 5가지 가치 (재현성·격리·공유·표준·10년 재현). 3가지 개념 (이미지·컨테이너·레지스트리). Dockerfile 템플릿 + 빌드/실행 명령. Docker Compose로 복잡한 환경. 5가지 시나리오 (개인·연구실·클라우드·논문·학위논문). 5가지 실수 (비대·비밀·cache·root·latest) 회피. Podman·Singularity·Nix·conda·uv의 대안. 박사 1-2년차 Docker 기본기. 한국 연구실·HPC·KISTI 환경. 2024+ NVIDIA NGC·HuggingFace·vLLM 컨테이너. 논문 공개 10가지 체크리스트. Docker 없는 연구는 모래 위의 성.
+
+---
+
+## 박사의 Linux·Shell 숙련 — 터미널이 연구의 손이 되는 법
+
+박사 연구의 상당 부분은 **Linux 서버**에서 일어난다. 연구실 GPU 서버·학교 클러스터·클라우드 VM·HPC 슈퍼컴퓨터. 본인 노트북의 Mac·Windows로만은 부족. Linux·Shell 숙련이 **박사의 생산성을 2-5배** 바꾼다. 하지만 대부분 박사가 기초 명령만 쓰고 진전 없음. 이 섹션은 박사가 Linux·Shell을 체계적으로 숙련하는 실전을 다룬다. ch15의 다른 섹션(코드 진화·AI 페어·GPU·Docker)이 **프로그래밍**이었다면, 이 섹션은 **연구 환경**이다.
+
+**Linux·Shell이 박사에게 중요한 5가지 이유.**
+
+**이유 1, 연구 서버의 표준**:
+- 대부분 Linux (Ubuntu·CentOS·Red Hat).
+- GUI 없는 headless.
+- SSH로 접속.
+
+**이유 2, 자동화의 힘**:
+- 반복 작업 script화.
+- 수동 → 자동.
+- 일 10시간 → 10분.
+
+**이유 3, 파이프·조합**:
+- 작은 도구의 조합.
+- 복잡한 작업 한 줄.
+
+**이유 4, 원격 작업**:
+- 본인 노트북에서 서버 제어.
+- 24시간 실행.
+
+**이유 5, 오픈 소스 생태계**:
+- 대부분 도구가 Linux 우선.
+- 설치·관리 용이.
+
+Linux 숙련이 **박사의 차별화**.
+
+**박사가 익혀야 할 Shell 명령 3단계.**
+
+**단계 1, 기본 (박사 1-2개월)**:
+- `ls`, `cd`, `pwd`, `mkdir`, `rm`.
+- `cp`, `mv`, `cat`, `head`, `tail`.
+- `grep`, `find`, `wc`, `sort`.
+- 기본 탐색·조작.
+
+**단계 2, 중급 (박사 3-6개월)**:
+- `awk`, `sed`, `cut`, `tr`.
+- 파이프·리다이렉션 (`|`, `>`, `>>`).
+- 정규표현식.
+- `ssh`, `scp`, `rsync`.
+
+**단계 3, 고급 (박사 1년+)**:
+- Shell 스크립트 작성.
+- `tmux`, `screen`.
+- `cron`, `at`.
+- 환경 변수·alias.
+- `find -exec`, `xargs`.
+
+**단계별 점진 학습**.
+
+**필수 Shell 명령 20가지.**
+
+박사가 자주 쓰는:
+
+**파일 관리**:
+1. `ls -lah`: 상세 목록.
+2. `du -sh *`: 크기 확인.
+3. `df -h`: 디스크 용량.
+4. `find . -name "*.py"`: 파일 찾기.
+
+**텍스트 처리**:
+5. `grep -r "keyword" .`: 재귀 검색.
+6. `head -20 file`: 앞 20줄.
+7. `awk '{print $1}' file`: 특정 컬럼.
+8. `sed 's/old/new/g'`: 치환.
+
+**프로세스 관리**:
+9. `ps aux | grep process`: 프로세스 확인.
+10. `kill -9 PID`: 강제 종료.
+11. `top` / `htop`: 리소스 모니터.
+12. `nohup ./script &`: 백그라운드.
+
+**네트워크**:
+13. `ssh user@host`: 원격 접속.
+14. `scp file user@host:path`: 파일 전송.
+15. `rsync -av src dest`: 동기화.
+
+**시스템**:
+16. `nvidia-smi`: GPU 확인.
+17. `free -h`: 메모리.
+18. `history | grep cmd`: 이전 명령.
+19. `watch -n 1 cmd`: 1초마다 실행.
+20. `tmux`: 세션 관리.
+
+이 20가지 숙련이 **박사 생산성 기반**.
+
+**Shell Script의 실전.**
+
+반복 작업 자동화:
+
+**예시 1, 여러 실험 실행**:
+```bash
+#!/bin/bash
+# run_experiments.sh
+
+for lr in 1e-3 1e-4 1e-5; do
+  for bs in 32 64 128; do
+    echo "Running lr=$lr, bs=$bs"
+    python train.py --lr $lr --batch $bs \
+      > logs/lr${lr}_bs${bs}.log 2>&1
+  done
+done
+```
+
+**예시 2, 데이터 전처리**:
+```bash
+#!/bin/bash
+# preprocess.sh
+
+for file in data/raw/*.csv; do
+  name=$(basename $file .csv)
+  python clean.py --input $file \
+    --output data/processed/${name}_clean.csv
+done
+```
+
+**예시 3, 결과 수집**:
+```bash
+#!/bin/bash
+# collect_results.sh
+
+echo "experiment,accuracy,loss" > results.csv
+for log in logs/*.log; do
+  acc=$(grep "Accuracy" $log | awk '{print $2}')
+  loss=$(grep "Loss" $log | awk '{print $2}')
+  echo "$log,$acc,$loss" >> results.csv
+done
+```
+
+**박사의 권장**: 3번 이상 반복하는 것은 **스크립트화**.
+
+**tmux의 필수 활용.**
+
+긴 실행:
+
+**tmux의 가치**:
+- SSH 끊어져도 실행 지속.
+- 여러 세션·창.
+- 24시간 실험.
+
+**기본 명령**:
+```bash
+tmux new -s exp1     # 새 세션
+tmux attach -t exp1  # 재접속
+tmux ls              # 세션 목록
+tmux kill-session -t exp1
+```
+
+**단축키 (Ctrl-b 후)**:
+- `c`: 새 창.
+- `n`: 다음 창.
+- `d`: detach.
+- `"`: 수평 분할.
+- `%`: 수직 분할.
+
+박사가 **tmux 없이 SSH는 위험**.
+
+**SSH의 고급 활용.**
+
+**SSH Key**:
+- 비밀번호 없이 접속.
+- `ssh-keygen` → `ssh-copy-id`.
+- 안전·편리.
+
+**SSH Config**:
+```
+# ~/.ssh/config
+Host gpu-server
+  HostName 123.45.67.89
+  User myname
+  IdentityFile ~/.ssh/id_rsa
+  
+Host cluster
+  HostName cluster.uni.edu
+  User myname
+  ProxyJump gateway.uni.edu
+```
+
+**단축 접속**:
+```bash
+ssh gpu-server  # 원래: ssh -i ~/.ssh/id_rsa myname@123.45.67.89
+```
+
+**Port Forwarding**:
+```bash
+# 원격 Jupyter를 로컬에서
+ssh -L 8888:localhost:8888 gpu-server
+# 브라우저: localhost:8888
+```
+
+**X Forwarding**:
+```bash
+ssh -X server  # GUI 애플리케이션
+```
+
+**rsync의 실전.**
+
+파일 동기화:
+
+```bash
+# 로컬 → 원격
+rsync -av --progress local/ user@host:remote/
+
+# 원격 → 로컬
+rsync -av user@host:remote/ local/
+
+# 삭제 동기화 (위험)
+rsync -av --delete local/ remote/
+
+# .gitignore처럼 제외
+rsync -av --exclude='*.pyc' --exclude='__pycache__' \
+  local/ remote/
+```
+
+**박사의 작업**:
+- 실험 결과 가져오기.
+- 코드 서버로 전송.
+- 백업.
+
+**Vim·Emacs — 터미널 편집.**
+
+서버 편집:
+
+**Vim 최소 숙련**:
+- `i`: 입력 모드.
+- `Esc`: 일반 모드.
+- `:w`: 저장.
+- `:q`: 종료.
+- `dd`: 줄 삭제.
+- `/keyword`: 검색.
+
+**Neovim (현대적)**:
+- Vim 개선.
+- 플러그인 풍부.
+- 많은 박사의 선택.
+
+**Nano (초보)**:
+- 간단.
+- 임시 편집.
+
+**박사의 권장**: Vim 기본 숙련.
+
+**Cron·At — 스케줄링.**
+
+```bash
+# Crontab 편집
+crontab -e
+
+# 매일 3시 백업
+0 3 * * * /path/to/backup.sh
+
+# 매주 월요일 리포트
+0 9 * * 1 python /path/to/report.py
+
+# 한 번만 실행 (at)
+echo "python train.py" | at 3am tomorrow
+```
+
+**박사의 활용**:
+- 자동 백업.
+- 정기 보고서.
+- 긴 실험 스케줄.
+
+**환경 변수와 Alias.**
+
+**Alias**:
+```bash
+# ~/.bashrc
+alias ll='ls -lah'
+alias gs='git status'
+alias gpu='nvidia-smi'
+alias act='source venv/bin/activate'
+```
+
+**환경 변수**:
+```bash
+export CUDA_VISIBLE_DEVICES=0
+export PYTHONPATH=$PYTHONPATH:/path/to/my/code
+export WANDB_API_KEY=xxxx
+```
+
+**.bashrc vs .zshrc**:
+- Bash: 전통.
+- Zsh: 더 풍부 (oh-my-zsh).
+
+**박사의 추천**: Zsh + oh-my-zsh.
+
+**Shell 스크립트의 Best Practices.**
+
+```bash
+#!/bin/bash
+set -euo pipefail  # 엄격 모드
+
+# 변수
+DATA_DIR="${DATA_DIR:-./data}"  # 기본값
+readonly CONFIG="config.yaml"
+
+# 함수
+function process_file() {
+    local file=$1
+    echo "Processing $file"
+    # ...
+}
+
+# 메인
+main() {
+    for file in "$DATA_DIR"/*.csv; do
+        process_file "$file"
+    done
+}
+
+main "$@"
+```
+
+**원칙**:
+- Shebang 명시.
+- 엄격 모드.
+- 함수 분리.
+- 변수 따옴표.
+
+**Python vs Shell 선택.**
+
+**Shell이 좋은 경우**:
+- 파일 조작.
+- 간단한 파이프라인.
+- 시스템 명령.
+- 10-50줄.
+
+**Python이 좋은 경우**:
+- 복잡한 로직.
+- 자료구조.
+- 에러 처리.
+- 100줄+.
+
+**박사의 규칙**:
+- 50줄 이하: Shell.
+- 그 이상: Python.
+
+**디버깅 도구.**
+
+**`echo`**:
+- 변수 출력.
+- 간단 디버그.
+
+**`set -x`**:
+- 실행 전 명령 출력.
+
+**`shellcheck`**:
+- Shell 린터.
+- 오류·경고.
+
+**박사의 사용**:
+- 스크립트 작성 후 shellcheck.
+
+**Performance 측정.**
+
+```bash
+# 명령 시간
+time python train.py
+
+# 디스크 IO
+iostat -x 1
+
+# 네트워크
+iftop
+
+# 프로세스 상세
+strace -p PID
+```
+
+**박사의 실험 프로파일링**.
+
+**한국 박사의 Linux 환경.**
+
+- **연구실 서버**: 대부분 Linux.
+- **학교 HPC**: SLURM·PBS 스케줄러.
+- **KISTI**: 슈퍼컴퓨터.
+- **Korean encoding**: UTF-8 설정.
+- **한국어 파일명**: 한글 처리 주의.
+
+**AI 시대의 Shell — 2024+.**
+
+**AI 도구**:
+- **GitHub Copilot CLI**: Shell 명령 AI 보조.
+- **ShellGPT**: 자연어 → Shell.
+- **Claude/GPT**: 복잡한 스크립트 작성.
+
+**주의**:
+- AI 제안 실행 전 검증.
+- `rm -rf` 같은 위험 명령 확인.
+
+**Shell 숙련의 5가지 함정.**
+
+**함정 1, 기초만**: 오래전 배운 것 반복.
+
+**함정 2, Script 없음**: 매번 수동.
+
+**함정 3, Tmux 안 씀**: SSH 끊어짐 피해.
+
+**함정 4, 위험 명령**: `rm -rf` 실수.
+
+**함정 5, 백업 없음**: 실수 복구 불가.
+
+**박사의 Shell 숙련 5년 계획.**
+
+**1년차**: 기본 20가지 명령.
+
+**2년차**: Shell 스크립트·tmux.
+
+**3년차**: 고급 (SSH 고급·rsync·cron).
+
+**4년차**: 복잡한 pipeline.
+
+**5년차**: Shell expertise.
+
+**Shell의 장기 가치.**
+
+박사 졸업 후:
+
+- **서버 관리**: 연구실 PI 되면.
+- **자동화**: 평생.
+- **DevOps**: 산업에서.
+- **리더십**: 후배 지도.
+
+**Shell은 사라지지 않음**.
+
+**마지막 — Shell은 박사의 터미널 손이다.**
+
+GUI에만 머물면 박사 생산성 제한. 5가지 이유·3단계 명령·20가지 필수·Shell 스크립트·tmux·SSH·rsync·Vim·cron·alias·best practices·Python vs Shell·디버깅·성능·한국 맥락·AI 시대·5가지 함정·5년 계획·장기 가치 — 이 모든 것을 의식적으로 다루면 박사가 **터미널에서 물 흐르듯** 작업. Shell 숙련이 **연구 속도의 2-5배 차이**.
+
+> Linux·Shell이 박사 생산성의 2-5배 차이. 5가지 이유 (서버 표준·자동화·조합·원격·오픈소스). 3단계 명령 (기본·중급·고급). 20가지 필수 명령. Shell 스크립트로 반복 자동화. tmux로 SSH 끊김 방지. SSH Key·Config·Port Forward. rsync의 동기화. Vim 최소 숙련. cron·at의 스케줄링. Alias·환경 변수. Shell Best Practices (set -euo·함수·따옴표). Python vs Shell (50줄 기준). shellcheck 린터. 한국 박사의 SLURM·KISTI. 2024+ AI Shell 도구. 5가지 함정. 박사 5년 Shell 숙련 계획. Shell은 평생 도구.
