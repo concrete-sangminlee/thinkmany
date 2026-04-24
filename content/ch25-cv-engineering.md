@@ -2084,3 +2084,311 @@ CV DA를 시작한다면.
 **박사 과정에서의 DA 경험이** 경력 전반에 가치.
 
 > CV 도메인 적응은 박사 CV 연구의 "현실 점검"이다. 벤치마크에서 잘 되는 모델이 실제 배포에 실패하면 박사의 실질적 영향은 적다. DA를 연구에 포함시키면 논문이 "잘 작동하는 모델"에서 "실제 환경에서도 잘 작동하는 모델"로 격상된다. 이것이 공학 CV 박사의 차별화된 가치다. 박사 중반부터 DA를 탐색하라. 연구가 학술 벤치마크를 넘어 실제 세계에 영향을 주는 다리가 된다.
+
+---
+
+## CV의 Vision-Language Models — 2024+ 멀티모달 AI의 박사
+
+2022-2024년 CV는 **Vision-Language Models (VLM)**로 재편됐다. CLIP, GPT-4V, Claude Vision, Gemini Vision. 텍스트·이미지의 통합이 **CV 연구의 새 표준**. 순수 CV가 점점 좁아지고 멀티모달이 주류. 이 섹션은 박사가 VLM 시대의 CV 연구를 수행하는 실전을 다룬다. ch25의 다른 섹션(CV 기초·engineering·도메인 적응)이 **전통 CV**였다면, 이 섹션은 **멀티모달 CV**다.
+
+**VLM의 5가지 진화 단계.**
+
+**단계 1, 초기 (2019-2021)**:
+- LXMERT, VisualBERT.
+- 소규모·단순.
+
+**단계 2, CLIP 이후 (2021-2022)**:
+- OpenAI CLIP.
+- Contrastive learning.
+- Zero-shot 강력.
+
+**단계 3, LLaVA·MiniGPT (2023)**:
+- LLM + Vision.
+- 대화 가능.
+
+**단계 4, GPT-4V·Claude Vision (2023-2024)**:
+- 강력한 이해.
+- 실용 수준.
+
+**단계 5, Native Multimodal (2024+)**:
+- Gemini·GPT-4o.
+- 완전 통합.
+- 이미지·비디오·오디오.
+
+박사 연구는 **이 진화 이해** 위.
+
+**VLM의 5가지 주요 task.**
+
+**Task 1, Image Captioning**:
+- 이미지 → 설명.
+- 전통 + VLM.
+
+**Task 2, Visual Question Answering (VQA)**:
+- 이미지 + 질문 → 답.
+- 넓은 응용.
+
+**Task 3, Visual Grounding**:
+- 텍스트로 이미지의 영역 찾기.
+
+**Task 4, Image Generation**:
+- 텍스트 → 이미지.
+- DALL-E, Stable Diffusion.
+
+**Task 5, Video Understanding**:
+- 긴 비디오 분석.
+- VLM의 frontier.
+
+각 task의 **본인 기여** 찾기.
+
+**VLM의 기술 구조.**
+
+**Vision Encoder**:
+- 대체로 ViT.
+- CLIP pretrained.
+
+**Language Model**:
+- LLM (Llama, Mistral).
+- Decoder.
+
+**Connection**:
+- Linear projection.
+- Q-Former (BLIP-2).
+- Cross-attention.
+
+**Training**:
+- Stage 1: Alignment (LLM frozen).
+- Stage 2: Instruction tuning.
+
+**박사의 이해**:
+- 각 구성요소의 역할.
+- 개선 기회.
+
+**CLIP의 역사적 역할.**
+
+**CLIP (2021)**:
+- 400M image-text pairs.
+- Contrastive pretraining.
+- Zero-shot classification.
+
+**영향**:
+- 이후 모든 VLM의 기초.
+- Foundation model의 CV 진입.
+- Open-vocabulary 가능.
+
+**박사의 기회**:
+- CLIP extension.
+- Domain-specific CLIP.
+- Medical·satellite·industrial.
+
+**VLM의 박사 연구 5가지 방향.**
+
+**방향 1, 효율화**:
+- 작은 VLM.
+- Edge device.
+- Distillation.
+
+**방향 2, 특정 분야**:
+- Medical VLM.
+- Scientific VLM.
+- Robot VLM.
+
+**방향 3, 평가**:
+- VLM 벤치마크.
+- Hallucination 측정.
+- 견고성.
+
+**방향 4, 설명 가능성**:
+- VLM 해석.
+- Attention 분석.
+
+**방향 5, 응용**:
+- 실제 문제.
+- 산업 적용.
+
+박사의 **본인 강점에 맞는 방향**.
+
+**VLM 평가의 함정.**
+
+기존 CV 벤치마크의 한계:
+
+**문제 1, Saturation**:
+- 기존 벤치마크 포화.
+- 모델 차이 작음.
+
+**문제 2, Hallucination**:
+- 이미지에 없는 내용 설명.
+- 검증 어려움.
+
+**문제 3, Data Contamination**:
+- 평가 데이터가 학습에.
+- 과대 평가.
+
+**문제 4, Static benchmarks**:
+- 실세계 변화.
+- 업데이트 어려움.
+
+**새 평가**:
+- **MMMU, MME**: 종합.
+- **MMVet**: 다양성.
+- **HallusionBench**: 환각.
+- **Dynamic evaluation**.
+
+**VLM의 윤리·편향.**
+
+주요 이슈:
+
+- **Bias**: 학습 데이터의 편향.
+- **Privacy**: 이미지의 사생활.
+- **Misuse**: Deepfake·위조.
+- **Copyright**: 훈련 데이터.
+- **Cultural bias**: 서양 중심.
+
+**박사의 책임**:
+- 편향 측정.
+- 완화 방법.
+- 투명한 공개.
+
+**VLM 연구의 자원.**
+
+**계산**:
+- 대형 모델 학습: 수백 GPU.
+- Fine-tuning: 1-8 GPU.
+- Inference: 1 GPU 충분.
+
+**박사의 현실**:
+- Fine-tuning 중심.
+- 오픈 모델 활용.
+- LoRA·QLoRA.
+
+**오픈 VLM**:
+- LLaVA·LLaVA-Next.
+- InstructBLIP.
+- Qwen-VL.
+- Cambrian-1.
+
+**한국의 VLM 연구.**
+
+- **Naver·Kakao**: HyperCLOVA Vision.
+- **LG AI**: EXAONE Vision.
+- **대학**: 서울대·KAIST·POSTECH.
+- **정부**: AI 그랜드챌린지.
+- **한국어 VLM**: 희소, 기회.
+
+**한국 박사의 고유 방향**:
+- 한국어 VLM.
+- 한국 문화 이해.
+- K-Healthcare VLM.
+
+**VLM과 기존 CV의 관계.**
+
+VLM이 모든 CV를 대체?
+
+**여전히 중요한 전통 CV**:
+- Object detection·segmentation.
+- 3D reconstruction.
+- Video processing.
+- Edge·embedded.
+
+**VLM의 강점**:
+- Zero-shot.
+- Open-vocabulary.
+- 자연어 interface.
+
+**박사의 전략**:
+- 기초 CV + VLM 양쪽.
+- 융합 연구.
+
+**VLM 논문 쓰기의 특수.**
+
+**Related Work**:
+- VLM 진화.
+- 본인 contribution의 위치.
+
+**Method**:
+- 어느 구성요소 개선?
+- 명확한 설명.
+
+**Experiments**:
+- 여러 벤치마크.
+- Hallucination 측정.
+- Compute cost.
+
+**Discussion**:
+- VLM 시대의 의의.
+- 한계 인식.
+
+**VLM의 5가지 함정.**
+
+**함정 1, Hype 따라가기**: Novelty 없이.
+
+**함정 2, 거대 모델에만**: 실용성 무시.
+
+**함정 3, Hallucination 무시**: 주요 이슈.
+
+**함정 4, 편향 간과**: 윤리 부족.
+
+**함정 5, 재현성 부재**: 큰 모델의 특수.
+
+**2024-2026 VLM 트렌드.**
+
+**Long-video Understanding**:
+- Long context.
+- Memory mechanism.
+
+**Agentic VLM**:
+- VLM + Action.
+- Robot·Web.
+
+**Efficient VLM**:
+- Small (1-3B).
+- Edge deployment.
+
+**Specialized VLM**:
+- Medical·Legal·Science.
+
+**Native Multimodal**:
+- Any-to-Any.
+- Unified.
+
+박사의 **기회 많음**.
+
+**VLM 시대의 박사 정체성.**
+
+"나는 CV 박사 + VLM":
+
+- 전통 CV 기초.
+- VLM 최신.
+- 두 세대의 다리.
+
+**경력**:
+- 학계 CV 연구실.
+- 산업 멀티모달 팀.
+- 스타트업 창업.
+
+**박사의 VLM 5단계 성장.**
+
+**1년차**: 전통 CV 기초.
+
+**2년차**: VLM 이해 (CLIP·LLaVA).
+
+**3년차**: 첫 VLM 논문.
+
+**4년차**: 분야 전문성.
+
+**5년차**: 학위논문·차별화.
+
+**VLM의 3가지 철학적 질문.**
+
+**Q1**: 언어가 시각 이해를 바꾸나?
+
+**Q2**: VLM의 understanding은 진짜?
+
+**Q3**: 인간 인지와 VLM의 차이?
+
+박사의 **깊은 사유** 필요.
+
+**마지막 — VLM은 CV의 새 시대다.**
+
+2022년 이전과 이후는 다른 CV. 5단계 진화·5가지 task·기술 구조·CLIP·5가지 연구 방향·평가 함정·윤리·자원·한국·전통 CV 관계·논문 쓰기·5가지 함정·2024-2026 트렌드·정체성·5단계 성장·철학적 질문 — 이 모든 것을 의식적으로 다루면 박사가 **VLM 시대의 CV 리더**. 언어와 시각의 통합은 새 과학.
+
+> VLM의 5단계 진화 (초기·CLIP·LLaVA·GPT-4V·Native Multimodal). 5가지 주요 task (captioning·VQA·grounding·generation·video). 기술 구조 (Vision Encoder·LM·Connection·Training). CLIP의 역사적 역할. 박사의 5가지 VLM 연구 방향 (효율화·특정 분야·평가·설명 가능성·응용). 평가의 함정 (Saturation·Hallucination·Contamination·Static). 윤리 (Bias·Privacy·Misuse·Copyright·Cultural). 자원 (오픈 VLM 활용). 한국의 VLM 연구 (Naver·Kakao·LG·한국어 VLM 기회). 전통 CV와의 관계. VLM 논문 쓰기 특수. 5가지 함정. 2024-2026 트렌드 (Long-video·Agentic·Efficient·Specialized·Native). 박사의 VLM 정체성. 언어와 시각의 통합은 새 과학.
