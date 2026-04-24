@@ -1391,6 +1391,52 @@ input:focus-visible,
   color: var(--accent-red);
 }
 
+.footer-main {
+  margin-bottom: 0.75rem;
+}
+
+.footer-title {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.footer-author {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer-links a {
+  color: var(--text-secondary, var(--text-muted));
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.footer-links a:hover {
+  color: var(--accent-purple, var(--accent));
+}
+
+.footer-sep {
+  color: var(--border-subtle);
+  user-select: none;
+}
+
+.footer-meta {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: 0.5rem;
+}
+
 /* ========================================
    Responsive Design
    ======================================== */
