@@ -2963,3 +2963,236 @@ Figure 자동화의 장기 이점.
 **평생 기술**: 한 번 익히면 평생. 소프트웨어 공학과 학술 글쓰기의 결합.
 
 > Figure 자동화는 박사 과정의 "투자"다. 초기에 10-20시간을 투자하면 박사 전체에서 수백 시간을 절약한다. 단순히 시간만이 아니라 일관성, 재현성, 품질까지 얻는다. 이것이 현대적 박사의 표준이어야 한다. 수작업 Figure는 박사 초반에는 괜찮지만 박사 중반부터는 부담이 된다. 일찍 파이프라인을 구축하면 박사 후반의 리비전 시기에 크게 이익을 본다. 박사 논문의 모든 Figure가 한 명령으로 재생성 가능한 상태를 목표로 하라.
+
+---
+
+## 박사의 Figure 색상 설계 — "Colorblind-safe·접근성의 과학"
+
+논문 그림의 **색상**은 흔히 취향의 문제로 여겨지지만 실제로는 **과학과 윤리의 문제**. 색상이 잘못 선택되면 독자의 **5-10%가 그림을 제대로 해석 못하고** (색맹 인구), 흑백 인쇄에서 정보가 소실되고, 학술지 리뷰어로부터 "figures are hard to read"라는 지적을 받는다. 색상은 **접근성·재현성·미학**이 교차하는 영역이며, 박사는 이것을 **의식적으로 설계**해야 한다.
+
+**색맹의 실태 — 왜 Colorblind-safe인가.**
+
+- **남성 8%, 여성 0.5%**: 색맹 (Color Vision Deficiency, CVD).
+- **가장 흔한 유형**: Deuteranopia (녹색 약) 6%, Protanopia (적색 약) 1-2%.
+- **완전 색맹**: 매우 드물 (0.003%).
+- **리뷰어·독자 중 상당수**: 본인도 모르게 색맹일 수 있음.
+- **학회 청중**: 100명 중 4-5명이 일부 색 구분 어려움.
+
+**Red-Green 조합이 가장 큰 문제**—전통적 매트랩·엑셀 기본값.
+
+**피해야 할 5가지 색상 조합.**
+
+- **Red-Green**: Deuteranopia에서 동일하게 보임.
+- **Blue-Purple**: 구분 어려움.
+- **Yellow-Light Green**: 포화도 비슷.
+- **Rainbow (Jet) colormap**: 지각적 불균일·색맹 문제.
+- **빨강+검정**: 흑백 인쇄에서 혼동.
+
+**Jet colormap은 2010년대 이후 과학계에서 퇴출** 중.
+
+**Colorblind-safe Palettes.**
+
+추천 팔레트:
+
+- **ColorBrewer**: Cynthia Brewer 팔레트. Sequential·Diverging·Qualitative 3종.
+- **Viridis**: Python matplotlib 2.0 기본. 지각 균일·색맹 안전.
+- **Cividis**: Viridis의 color-blind 최적화 버전.
+- **Magma·Inferno·Plasma**: Viridis 패밀리.
+- **Okabe-Ito**: 7색 categorical. 색맹 구별 가능.
+- **Paul Tol palettes**: 학술용 표준.
+
+**Viridis를 default로 사용**—거의 언제나 안전.
+
+**Sequential vs Diverging vs Qualitative.**
+
+색상의 목적에 따른 선택:
+
+- **Sequential**: 작은→큰 값 (인구·온도·확률). Viridis·Blues·Greens.
+- **Diverging**: 음·양 값 (편차·상관). RdBu·PRGn·BrBG.
+- **Qualitative**: 카테고리 (분류). Set1·Set2·Okabe-Ito.
+
+**데이터 성격에 맞는 팔레트**가 해석력 결정.
+
+**흑백 인쇄 호환.**
+
+- **현실**: 학술지는 흑백 인쇄 증가 (비용).
+- **테스트**: 그림을 흑백 복사기로 인쇄해보기.
+- **방어**: 색상 + 패턴·점선·마커 조합.
+- **Luminance 차이**: 색상이 밝기 달라야.
+
+**색상만으로 구분하지 말 것**—패턴 추가.
+
+**라벨링·직접 주석.**
+
+- **Legend의 한계**: 눈이 왕복.
+- **Direct Labeling**: 선·점 바로 옆에 라벨.
+- **Arrow·Annotation**: 중요 부분 강조.
+- **장점**: Legend 무관, 색맹에도 읽히기.
+
+**예**: 4가지 선의 Legend 대신, 각 선 끝에 "A", "B", "C", "D" 쓰기.
+
+**Contrast Ratio.**
+
+- **WCAG 기준**: 본문 4.5:1, 큰 글자 3:1.
+- **배경 vs 전경**: 대비 충분해야.
+- **텍스트 색**: 배경에 따라 조정.
+- **Gray on White**: 중간 회색은 안 보임.
+
+**접근성 체크 도구**: WebAIM Contrast Checker.
+
+**색 공간 (RGB·CMYK·HSL).**
+
+- **RGB**: 화면용. 빨·초·파.
+- **CMYK**: 인쇄용. 시안·마젠타·노랑·검정.
+- **HSL**: 색상·채도·명도—조정 용이.
+- **논문 Figure**: 일반적으로 RGB (PDF는 CMYK 변환).
+
+**인쇄 시 색 차이** 주의.
+
+**박사의 색상 함정 7가지.**
+
+- **Jet colormap 사용**: Matlab/Python 기본.
+- **Red-Green 조합**: 구분·강조 용도.
+- **Random 색 선택**: 매번 다른 팔레트.
+- **Legend 의존**: 직접 라벨링 없음.
+- **색상만으로 구분**: 패턴 없음.
+- **Low contrast**: 회색 겹침.
+- **Accessibility 무시**: 색맹 테스트 안 함.
+
+이 7가지가 **색상 실수**.
+
+**색맹 시뮬레이션 도구.**
+
+- **Sim Daltonism (Mac)**: 실시간 시뮬레이션.
+- **Color Oracle**: 크로스 플랫폼.
+- **Coblis**: 웹 기반.
+- **Photoshop·Figma**: Proof 기능.
+- **matplotlib의 grayscale 확인**: `plt.savefig('test.png', cmap='gray')`.
+
+**그림 완성 후 시뮬레이션**이 필수.
+
+**LaTeX·Matplotlib의 색상 설정.**
+
+```python
+import matplotlib.pyplot as plt
+plt.rcParams.update({
+    'axes.prop_cycle': plt.cycler(
+        color=['#0173b2', '#de8f05', '#029e73', '#d55e00']),  # Okabe-Ito
+})
+plt.imshow(data, cmap='viridis')
+```
+
+**Project-wide 설정**으로 일관성.
+
+**논문 Figure 색상 표준화.**
+
+박사 5년 동안 **본인의 팔레트**를 정립:
+
+- **카테고리 색**: Okabe-Ito 8색.
+- **Heatmap**: Viridis.
+- **Correlation**: RdBu 또는 PRGn.
+- **배경**: 흰색 또는 연한 회색.
+
+**스타일 파일**로 자동화.
+
+**Figure 디자인의 12-factor.**
+
+- **색상**: 위의 원칙.
+- **폰트**: 논문 본문과 일관 (Sans-serif 권장).
+- **크기**: 최종 출력 크기 고려.
+- **해상도**: 300 DPI 이상 (인쇄).
+- **Aspect ratio**: 황금 비율.
+- **Padding**: 너무 빽빽하지 않게.
+- **Axis**: Scale 명확.
+- **Units**: 단위 표기.
+- **Error bars**: 불확실성 표시.
+- **Sample size**: n 표기.
+- **Significance**: p 값.
+- **Caption**: 충분한 설명.
+
+**12가지를 체크**하면 Figure 완성도 급상승.
+
+**과학 Figure vs 대중 Figure.**
+
+- **과학 Figure**: 정확성·정보 밀도.
+- **대중 Figure**: 단순성·스토리.
+- **같은 데이터, 다른 버전**: 각 청중에게 맞춤.
+- **논문 Figure ≠ 발표 Figure**: 논문은 세부, 발표는 요약.
+
+**청중이 다르면 Figure도 다르다**.
+
+**Figure의 정직성 윤리.**
+
+- **Axis 조작**: 시작점을 0이 아니게 하여 차이 과장.
+- **3D 효과**: 비교 왜곡.
+- **색의 감정 조작**: Red = 위험.
+- **데이터 삭제**: Outlier 제거 없이 표시.
+- **Significance 표시 오남용**: p < 0.05 강조.
+
+**Figure도 논문의 주장**—정직해야 한다.
+
+**Colormap 학습 자료.**
+
+- **Matplotlib Colormaps**: https://matplotlib.org/stable/gallery/color/
+- **ColorBrewer**: https://colorbrewer2.org/
+- **Paul Tol's Palettes**: https://personal.sron.nl/~pault/
+- **Viridis Paper**: "A Better Default Colormap" 논문.
+
+**정식 자료 공부**가 기초.
+
+**한국 박사의 색상 특수.**
+
+- **전통적 매트랩 사용**: Jet colormap 관성.
+- **한글 폰트**: 영어 논문이라도 한국 저자 이름 표기.
+- **흑백 인쇄**: 한국 출판의 일부.
+- **교수의 선호**: 구세대의 레트로 색상.
+
+한국에서는 **표준 팔레트로의 전환**이 도전.
+
+**2024+ AI 시대의 색상.**
+
+- **AI 생성 Figure**: DALL-E·Stable Diffusion.
+- **자동 팔레트 생성**: AI 기반 추천.
+- **색상 접근성 검사**: 자동 도구.
+- **Adaptive UI**: 다크 모드에 적응.
+- **Colormap generator**: 데이터에 맞춰 생성.
+
+**AI는 색상 설계의 도구**.
+
+**Dark Mode 호환.**
+
+- **논문**: 대부분 백지 기준.
+- **디지털 배포**: Dark mode 지원.
+- **색상 반전**: 자동 반전의 부작용.
+- **Transparent background**: 다목적.
+
+**PDF 뷰어·웹 뷰어의 Dark mode** 의식.
+
+**10가지 색상 체크리스트.**
+
+- ☐ Colorblind-safe 팔레트
+- ☐ Sequential·Diverging·Qualitative 선택
+- ☐ 흑백 인쇄 호환
+- ☐ Direct Labeling
+- ☐ Contrast 4.5:1 이상
+- ☐ Jet colormap 회피
+- ☐ Red-Green 조합 회피
+- ☐ 패턴·마커 추가
+- ☐ 색맹 시뮬레이션
+- ☐ 프로젝트 wide 팔레트
+
+**박사의 색상 5년 진화.**
+
+- **1년차**: Viridis·Okabe-Ito 학습.
+- **2년차**: 프로젝트 팔레트 정립.
+- **3년차**: 모든 Figure에 접근성 체크.
+- **4년차**: 학위논문 전체 통합.
+- **5년차**: 평생 표준 확립.
+
+**색상은 박사의 미학적 서명**.
+
+**마지막 — 색상은 박사 Figure의 접근성·윤리·미학이다.**
+
+박사의 Figure는 색상의 과학. 색맹 실태·피할 조합·Colorblind-safe 팔레트 (Viridis·Okabe-Ito)·Sequential·Diverging·Qualitative·흑백 호환·직접 라벨링·Contrast·색 공간·7가지 함정·시뮬레이션 도구·LaTeX·Matplotlib·12-factor·과학 vs 대중·정직성·학습 자료·한국 특수·AI 시대·Dark Mode·체크리스트·5년 진화 — 이 모든 것을 의식적으로 다루면 박사의 Figure가 **모든 독자에게 접근 가능**한 과학 이미지가 된다. 색상은 미학이 아니라 윤리.
+
+> 박사의 Figure 색상은 과학·접근성·윤리. 남성 8% 색맹. Red-Green·Jet colormap 회피. Colorblind-safe (Viridis·Okabe-Ito·ColorBrewer·Paul Tol). Sequential (Viridis)·Diverging (RdBu)·Qualitative (Set2) 용도별. 흑백 인쇄 호환 (패턴 추가). Direct Labeling. WCAG Contrast 4.5:1. RGB·CMYK·HSL 색 공간. 7가지 함정 (Jet·Red-Green·Random·Legend 의존·색만 구분·Low contrast·색맹 무시). Sim Daltonism·Color Oracle 시뮬레이션. matplotlib rcParams 프로젝트 설정. Figure 디자인 12-factor. 과학 vs 대중 Figure. Axis 조작·3D 왜곡 정직성. ColorBrewer·Paul Tol 자료. 한국 매트랩 관성. 2024+ AI 색상 도구. Dark Mode 호환. 10가지 체크리스트. 5년 진화. 색상은 미학이 아니라 윤리.
