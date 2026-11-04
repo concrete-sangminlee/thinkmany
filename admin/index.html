@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>관리자 — 연구 가이드</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.21.0/dist/easymde.min.css">
   <style>
     :root {
       --bg: #0a0a0f; --bg2: #111118; --bg3: #16161f;
@@ -16,15 +17,15 @@
       --radius: 12px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body { font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
     /* Login */
     #login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
     #login-screen h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
     #login-screen p { color: var(--text2); margin-bottom: 2rem; text-align: center; font-size: 0.9rem; max-width: 400px; }
-    #login-screen input { width: 100%; max-width: 400px; padding: 12px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; margin-bottom: 1rem; }
+    #login-screen input { width: 100%; max-width: 400px; padding: 12px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.9rem; margin-bottom: 1rem; }
     #login-screen input:focus { outline: none; border-color: var(--purple); }
-    .login-btn { padding: 12px 32px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .login-btn { padding: 12px 32px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; }
     #login-error { color: var(--red); margin-top: 1rem; font-size: 0.85rem; display: none; }
 
     /* App */
@@ -33,7 +34,7 @@
     .app-header h1 { font-size: 1rem; font-weight: 600; }
     .header-actions { display: flex; gap: 0.5rem; align-items: center; }
 
-    .btn { padding: 7px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg3); color: var(--text); font-size: 0.82rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+    .btn { padding: 7px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg3); color: var(--text); font-size: 0.82rem; cursor: pointer; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; transition: all 0.2s; }
     .btn:hover { border-color: var(--purple); }
     .btn-save { background: linear-gradient(135deg, var(--purple), var(--blue)); border: none; color: white; font-weight: 600; }
     .btn-save:hover { opacity: 0.9; }
@@ -44,7 +45,7 @@
 
     /* Tabs */
     .mode-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); background: var(--bg2); }
-    .mode-tab { padding: 10px 20px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .mode-tab { padding: 10px 20px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; }
     .mode-tab:hover { color: var(--text); }
     .mode-tab.active { color: var(--purple); border-bottom-color: var(--purple); }
 
@@ -61,7 +62,7 @@
     /* Editor */
     .editor-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
     .editor-header { padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border); background: var(--bg2); display: flex; align-items: center; justify-content: space-between; }
-    .editor-filename { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--cyan); }
+    .editor-filename { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.9rem; color: var(--cyan); }
     .editor-status { font-size: 0.8rem; color: var(--muted); }
     .editor-status.modified { color: var(--purple); }
     .editor-status.saving { color: var(--cyan); }
@@ -74,35 +75,39 @@
     #toc-manager { display: none; padding: 2rem; overflow-y: auto; max-width: 800px; margin: 0 auto; }
     .toc-section-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.5rem; overflow: hidden; }
     .toc-section-header { display: flex; align-items: center; gap: 0.8rem; padding: 1rem 1.2rem; background: var(--bg3); border-bottom: 1px solid var(--border); }
-    .toc-section-header input { flex: 1; padding: 6px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.9rem; }
+    .toc-section-header input { flex: 1; padding: 6px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; font-size: 0.9rem; }
     .toc-section-header input:focus { outline: none; border-color: var(--purple); }
     .toc-section-header select { padding: 6px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 0.8rem; }
+    .toc-section-desc { padding: 0.6rem 1.2rem 0; }
+    .toc-section-desc textarea { width: 100%; min-height: 52px; padding: 6px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text2); font: inherit; font-size: 0.82rem; resize: vertical; }
+    .toc-section-desc textarea:focus { outline: none; border-color: var(--purple); }
+    .toc-sub-id { font-family: ui-monospace, Menlo, monospace; font-size: 0.72rem; color: var(--muted); min-width: 3.2rem; }
     .color-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
     .toc-sub-list { padding: 0.5rem 0; }
     .toc-sub-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1.2rem; }
-    .toc-sub-item input { flex: 1; padding: 5px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.85rem; }
+    .toc-sub-item input { flex: 1; padding: 5px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; font-size: 0.85rem; }
     .toc-sub-item input:focus { outline: none; border-color: var(--purple); }
     .toc-sub-actions { display: flex; gap: 4px; }
     .toc-add-sub { padding: 0.5rem 1.2rem; }
-    .toc-add-sub button { padding: 5px 12px; font-size: 0.8rem; background: none; border: 1px dashed var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.15s; }
+    .toc-add-sub button { padding: 5px 12px; font-size: 0.8rem; background: none; border: 1px dashed var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; transition: all 0.15s; }
     .toc-add-sub button:hover { border-color: var(--purple); color: var(--purple); }
     .icon-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; padding: 4px; border-radius: 4px; transition: all 0.15s; line-height: 1; }
     .icon-btn:hover { color: var(--text); background: var(--bg3); }
     .icon-btn.delete:hover { color: var(--red); }
-    #add-section-btn { display: block; width: 100%; padding: 12px; background: none; border: 2px dashed var(--border); border-radius: var(--radius); color: var(--muted); font-size: 0.9rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.15s; margin-bottom: 1rem; }
+    #add-section-btn { display: block; width: 100%; padding: 12px; background: none; border: 2px dashed var(--border); border-radius: var(--radius); color: var(--muted); font-size: 0.9rem; cursor: pointer; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; transition: all 0.15s; margin-bottom: 1rem; }
     #add-section-btn:hover { border-color: var(--purple); color: var(--purple); }
     #save-toc-btn { display: block; width: 100%; margin-top: 1rem; }
 
     /* EasyMDE */
     .EasyMDEContainer { height: 100%; }
-    .EasyMDEContainer .CodeMirror { background: var(--bg) !important; color: var(--text) !important; border: none !important; font-family: 'JetBrains Mono', monospace !important; font-size: 0.9rem !important; height: 100% !important; }
+    .EasyMDEContainer .CodeMirror { background: var(--bg) !important; color: var(--text) !important; border: none !important; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace !important; font-size: 0.9rem !important; height: 100% !important; }
     .EasyMDEContainer .CodeMirror-cursor { border-left-color: var(--purple) !important; }
     .EasyMDEContainer .CodeMirror-selected { background: rgba(167,139,250,0.2) !important; }
     .EasyMDEContainer .editor-toolbar { background: var(--bg2) !important; border-bottom: 1px solid var(--border) !important; border-top: none !important; opacity: 1 !important; }
     .EasyMDEContainer .editor-toolbar button { color: var(--text2) !important; }
     .EasyMDEContainer .editor-toolbar button:hover, .EasyMDEContainer .editor-toolbar button.active { background: var(--bg3) !important; color: var(--purple) !important; border-color: var(--border) !important; }
     .EasyMDEContainer .editor-statusbar { display: none !important; }
-    .EasyMDEContainer .editor-preview { background: var(--bg) !important; color: var(--text) !important; font-family: 'Inter', sans-serif !important; }
+    .EasyMDEContainer .editor-preview { background: var(--bg) !important; color: var(--text) !important; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif !important; }
     .EasyMDEContainer .editor-preview h1, .EasyMDEContainer .editor-preview h2, .EasyMDEContainer .editor-preview h3 { color: white !important; }
     .EasyMDEContainer .editor-preview code { background: var(--bg3) !important; color: var(--cyan) !important; }
 
@@ -170,12 +175,12 @@
     <!-- TOC manager mode -->
     <div id="toc-manager">
       <div id="toc-sections"></div>
-      <button id="add-section-btn">+ 새 섹션 추가</button>
+      <button id="add-section-btn">+ 새 파트 추가</button>
       <button class="btn btn-save" id="save-toc-btn" style="width:100%;">목차 저장</button>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/easymde@2.21.0/dist/easymde.min.js"></script>
   <script>
     const REPO_OWNER = 'concrete-sangminlee';
     const REPO_NAME = 'thinkmany';
@@ -190,6 +195,19 @@
     let currentSha = null;
     let originalContent = '';
     let editor = null;
+
+    // --- Helpers ---
+    function esc(s) {
+      return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    async function apiError(res) {
+      let detail = '';
+      try { detail = (await res.json()).message || ''; } catch {}
+      if (res.status === 401) return new Error('토큰이 만료되었거나 유효하지 않습니다. 다시 로그인하세요.');
+      if (res.status === 409) return new Error('다른 곳에서 먼저 수정되었습니다. 새로고침 후 다시 시도하세요.');
+      return new Error(`GitHub API ${res.status}${detail ? ': ' + detail : ''}`);
+    }
 
     // --- GitHub API ---
     async function ghAPI(path, options = {}) {
@@ -211,19 +229,21 @@
 
     async function loadGHFile(filePath) {
       if (!filePath.startsWith('content/')) return { content: '', sha: null };
-      const res = await ghAPI(`contents/${filePath}`);
+      const res = await ghAPI(`contents/${filePath}?ref=main`);
       if (res.status === 404) return { content: '', sha: null };
+      if (!res.ok) throw await apiError(res);
       const data = await res.json();
       return { content: base64ToUtf8(data.content), sha: data.sha };
     }
 
     async function saveGHFile(filePath, content, sha) {
       if (!filePath.startsWith('content/')) return null;
-      const body = { message: `docs: ${filePath} 업데이트`, content: utf8ToBase64(content) };
+      const body = { message: `docs: ${filePath} 업데이트`, content: utf8ToBase64(content), branch: 'main' };
       if (sha) body.sha = sha;
       const res = await ghAPI(`contents/${filePath}`, { method: 'PUT', body: JSON.stringify(body) });
+      if (!res.ok) throw await apiError(res);
       const data = await res.json();
-      return data.content ? data.content.sha : null;
+      return data.content.sha;
     }
 
     // --- Login ---
@@ -249,12 +269,20 @@
     if (savedToken) { token = savedToken; initApp(); }
 
     async function initApp() {
+      try {
+        const { content, sha } = await loadGHFile(CONTENT_DIR + '/config.json');
+        config = JSON.parse(content);
+        configSha = sha;
+      } catch (e) {
+        localStorage.removeItem('sw_admin_token');
+        token = '';
+        const el = document.getElementById('login-error');
+        el.textContent = e.message;
+        el.style.display = 'block';
+        return;
+      }
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('app').style.display = 'block';
-      // Load config
-      const { content, sha } = await loadGHFile(CONTENT_DIR + '/config.json');
-      config = JSON.parse(content);
-      configSha = sha;
       renderFileList();
       renderTOCManager();
     }
@@ -339,9 +367,9 @@
         const newSha = await saveGHFile(CONTENT_DIR + '/' + currentFile, content, currentSha);
         currentSha = newSha;
         originalContent = content;
-        setStatus('저장 완료', 'saved');
-        showToast('저장되었습니다', 'success');
-        setTimeout(() => setStatus('', ''), 3000);
+        setStatus('저장 완료 · 1–2분 뒤 사이트에 반영', 'saved');
+        showToast('저장되었습니다. 배포까지 1–2분 걸립니다.', 'success');
+        setTimeout(() => setStatus('', ''), 5000);
       } catch (e) {
         setStatus('저장 실패', 'error');
         showToast('저장 실패: ' + e.message, 'error');
@@ -359,16 +387,20 @@
         card.innerHTML = `
           <div class="toc-section-header">
             <span class="color-dot" style="background:${COLOR_HEX[sec.color]||'#a78bfa'}"></span>
-            <input type="text" value="${sec.title}" data-field="title" data-si="${si}" placeholder="섹션 제목">
+            <input type="text" value="${esc(sec.title)}" data-field="title" data-si="${si}" placeholder="파트 제목">
             <select data-field="color" data-si="${si}">${COLORS.map(c=>`<option value="${c}"${c===sec.color?' selected':''}>${c}</option>`).join('')}</select>
             <button class="icon-btn" title="위로" onclick="moveSection(${si},-1)">↑</button>
             <button class="icon-btn" title="아래로" onclick="moveSection(${si},1)">↓</button>
             <button class="icon-btn delete" title="섹션 삭제" onclick="deleteSection(${si})">✕</button>
           </div>
+          <div class="toc-section-desc">
+            <textarea data-field="desc" data-si="${si}" placeholder="파트 설명 (홈 화면에 표시)">${esc(sec.desc)}</textarea>
+          </div>
           <div class="toc-sub-list" id="sub-list-${si}">
             ${sec.subsections.map((sub, ssi) => `
               <div class="toc-sub-item">
-                <input type="text" value="${sub.title}" data-field="sub-title" data-si="${si}" data-ssi="${ssi}" placeholder="소제목">
+                <span class="toc-sub-id">${esc(sub.id)}</span>
+                <input type="text" value="${esc(sub.title)}" data-field="sub-title" data-si="${si}" data-ssi="${ssi}" placeholder="소제목">
                 <div class="toc-sub-actions">
                   <button class="icon-btn" title="위로" onclick="moveSub(${si},${ssi},-1)">↑</button>
                   <button class="icon-btn" title="아래로" onclick="moveSub(${si},${ssi},1)">↓</button>
@@ -378,13 +410,16 @@
             `).join('')}
           </div>
           <div class="toc-add-sub">
-            <button onclick="addSub(${si})">+ 하위 항목 추가</button>
+            <button onclick="addSub(${si})">+ 장 추가</button>
           </div>
         `;
         container.appendChild(card);
       });
 
       // Sync input changes to config
+      container.querySelectorAll('textarea[data-field="desc"]').forEach(ta => {
+        ta.addEventListener('input', () => { config.sections[parseInt(ta.dataset.si)].desc = ta.value; });
+      });
       container.querySelectorAll('input[data-field]').forEach(input => {
         input.addEventListener('input', () => {
           const si = parseInt(input.dataset.si);
@@ -417,16 +452,17 @@
     }
 
     window.addSub = function(si) {
-      const secNum = si + 1;
-      const subNum = config.sections[si].subsections.length + 1;
-      const id = `${secNum}-${subNum}-new`;
-      config.sections[si].subsections.push({ id, file: `${secNum}-${subNum}-new.md`, title: `${secNum}.${subNum} 새 항목` });
+      const used = config.sections.flatMap(s => s.subsections.map(c => c.id));
+      const max = Math.max(0, ...used.map(id => parseInt((/^ch(\d+)$/.exec(id) || [])[1] || '0', 10)));
+      const id = 'ch' + String(max + 1).padStart(2, '0');
+      config.sections[si].subsections.push({ id, file: `${id}-new.md`, title: '새 장' });
       renderTOCManager();
     };
 
     window.deleteSub = function(si, ssi) {
-      if (!confirm(`"${config.sections[si].subsections[ssi].title}" 항목을 삭제할까요?`)) return;
-      config.sections[si].subsections.splice(ssi, 1);
+      if (!confirm(`"${config.sections[si].subsections[ssi].title}" 항목을 목차에서 뺄까요? (파일은 남습니다)`)) return;
+      const [removed] = config.sections[si].subsections.splice(ssi, 1);
+      for (const p of config.paths || []) p.chapters = p.chapters.filter(id => id !== removed.id);
       renderTOCManager();
     };
 
@@ -439,8 +475,10 @@
     };
 
     window.deleteSection = function(si) {
-      if (!confirm(`"${config.sections[si].title}" 섹션 전체를 삭제할까요?`)) return;
-      config.sections.splice(si, 1);
+      if (!confirm(`"${config.sections[si].title}" 파트를 목차에서 뺄까요? (파일은 남습니다)`)) return;
+      const [removed] = config.sections.splice(si, 1);
+      const gone = new Set(removed.subsections.map(c => c.id));
+      for (const p of config.paths || []) p.chapters = p.chapters.filter(id => !gone.has(id));
       renumberSections();
       renderTOCManager();
     };
@@ -456,9 +494,9 @@
     document.getElementById('add-section-btn').addEventListener('click', () => {
       const num = config.sections.length + 1;
       config.sections.push({
-        id: `section-${num}`,
+        id: `part-${num}`,
         number: String(num).padStart(2, '0'),
-        title: '새 섹션',
+        title: '새 파트',
         color: COLORS[(num - 1) % COLORS.length],
         desc: '',
         subsections: []
@@ -473,22 +511,20 @@
       btn.textContent = '저장 중...';
       try {
         renumberSections();
-        // Create any new .md files that don't exist
+        // Create .md files for newly added chapters (one directory listing, not one call per file)
+        const listing = await ghAPI(`contents/${CONTENT_DIR}?ref=main`);
+        if (!listing.ok) throw await apiError(listing);
+        const existing = new Set((await listing.json()).map(f => f.name));
         for (const sec of config.sections) {
           for (const sub of sec.subsections) {
-            try {
-              const res = await ghAPI(`contents/${CONTENT_DIR}/${sub.file}`);
-              if (res.status === 404) {
-                await saveGHFile(CONTENT_DIR + '/' + sub.file, '', null);
-              }
-            } catch(e) {}
+            if (!existing.has(sub.file)) await saveGHFile(CONTENT_DIR + '/' + sub.file, `# ${sub.title}\n`, null);
           }
         }
         // Save config.json
         const newSha = await saveGHFile(CONTENT_DIR + '/config.json', JSON.stringify(config, null, 2), configSha);
         configSha = newSha;
         renderFileList();
-        showToast('목차가 저장되었습니다', 'success');
+        showToast('목차가 저장되었습니다. 배포까지 1–2분 걸립니다.', 'success');
       } catch (e) {
         showToast('목차 저장 실패: ' + e.message, 'error');
       }
