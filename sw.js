@@ -1,109 +1,81 @@
-// Service Worker for 연구 많이 된다 (thinkmany)
-// Strategy: network-first for markdown content, cache-first for core assets, offline fallback
+/**
+ * Service worker — offline reading for 연구 많이 된다.
+ *
+ * Every path is resolved against the registration scope, so it works both at
+ * https://concrete-sangminlee.github.io/thinkmany/ and on a local server.
+ *
+ * - App shell (HTML/CSS/JS, config, index): precached, network-first.
+ * - Chapters (content/*.md): network-first, cached as they are read, so any
+ *   chapter opened once stays readable offline.
+ * - Cross-origin (fonts, KaTeX): left to the browser's HTTP cache.
+ */
+const VERSION = 'v3';
+const SHELL = `thinkmany-shell-${VERSION}`;
+const CONTENT = 'thinkmany-content';
+const scope = new URL(self.registration.scope);
 
-const CACHE_NAME = 'thinkmany-v2';
-const CORE_ASSETS = [
-  '/',
-  '/index.html',
-  '/css/styles.css',
-  '/js/main.js',
-  '/content/config.json',
-  '/assets/favicon.svg',
-  '/assets/og-image.svg',
-  '/404.html'
-];
+const SHELL_FILES = [
+  './',
+  'index.html',
+  '404.html',
+  'manifest.webmanifest',
+  'css/styles.css',
+  'js/app.js',
+  'js/book.js',
+  'js/render.js',
+  'js/search.js',
+  'js/search-worker.js',
+  'js/lib/html.js',
+  'js/lib/markdown.js',
+  'js/lib/store.js',
+  'js/vendor/marked.esm.js',
+  'js/vendor/purify.es.mjs',
+  'content/config.json',
+  'content/index.json',
+  'assets/favicon.svg',
+].map((p) => new URL(p, scope).href);
 
-// Install: cache core assets
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(CORE_ASSETS))
-      .then(() => self.skipWaiting())
+    caches
+      .open(SHELL)
+      .then((cache) => cache.addAll(SHELL_FILES))
+      .then(() => self.skipWaiting()),
   );
 });
 
-// Activate: clean old caches
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    caches
+      .keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== SHELL && k !== CONTENT).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim()),
   );
 });
 
-// Fetch: strategy by resource type
-self.addEventListener('fetch', event => {
-  const url = new URL(event.request.url);
-
-  // Only handle same-origin requests
-  if (url.origin !== location.origin) return;
-
-  // Markdown content files: network first, cache on success, fallback to cache
-  if (url.pathname.startsWith('/content/') && url.pathname.endsWith('.md')) {
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          if (response && response.ok) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-          }
-          return response;
-        })
-        .catch(() => caches.match(event.request))
-    );
-    return;
+async function networkFirst(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  try {
+    const response = await fetch(request);
+    if (response.ok) cache.put(request, response.clone());
+    return response;
+  } catch (err) {
+    const cached = (await cache.match(request, { ignoreSearch: true })) ?? (await caches.match(request, { ignoreSearch: true }));
+    if (cached) return cached;
+    if (request.mode === 'navigate') {
+      const shell = await caches.match(new URL('./', scope).href);
+      if (shell) return shell;
+    }
+    throw err;
   }
+}
 
-  // config.json: network first (fresh TOC) with cache fallback
-  if (url.pathname === '/content/config.json' || url.pathname.endsWith('/content/config.json')) {
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          if (response && response.ok) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-          }
-          return response;
-        })
-        .catch(() => caches.match(event.request))
-    );
-    return;
-  }
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  if (request.method !== 'GET') return;
+  const url = new URL(request.url);
+  if (url.origin !== scope.origin || !url.pathname.startsWith(scope.pathname)) return;
 
-  // Navigation requests (HTML pages): network first with 404 fallback
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-        .catch(() =>
-          caches.match(event.request)
-            .then(cached => cached || caches.match('/404.html') || caches.match('/index.html'))
-        )
-    );
-    return;
-  }
-
-  // Core assets and everything else: cache first with network fallback
-  event.respondWith(
-    caches.match(event.request)
-      .then(cached => {
-        if (cached) return cached;
-        return fetch(event.request).then(response => {
-          // Opportunistically cache successful responses
-          if (response && response.ok && event.request.method === 'GET') {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-          }
-          return response;
-        });
-      })
-  );
-});
-
-// Message handler: allow manual cache clear from client
-self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'CLEAR_CACHE') {
-    caches.delete(CACHE_NAME).then(() => {
-      event.ports[0] && event.ports[0].postMessage({ cleared: true });
-    });
-  }
+  const isChapter = url.pathname.startsWith(new URL('content/', scope).pathname) && url.pathname.endsWith('.md');
+  event.respondWith(networkFirst(request, isChapter ? CONTENT : SHELL));
 });
