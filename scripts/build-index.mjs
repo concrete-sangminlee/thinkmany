@@ -52,6 +52,27 @@ for (const f of fs.readdirSync(CONTENT)) {
   if (f.endsWith('.md') && !files.has(f)) warnings.push(`목차에 없는 파일: content/${f}`);
 }
 
+/* ---------- house style: no em dash (U+2014) or en dash (U+2013) anywhere ---------- */
+const DASH = /[\u2013\u2014]/;
+const TEXT_FILE = /\.(md|json|html|js|mjs|css|webmanifest|xml|txt|yml)$/;
+const SKIP_DIRS = new Set(['.git', 'node_modules', 'vendor']);
+
+(function checkDashes(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (!SKIP_DIRS.has(entry.name)) checkDashes(p);
+      continue;
+    }
+    if (!TEXT_FILE.test(entry.name) || p === OUT) continue;
+    fs.readFileSync(p, 'utf8')
+      .split('\n')
+      .forEach((line, i) => {
+        if (DASH.test(line)) errors.push(`긴 줄표(U+2014, U+2013) 사용 금지, 쉼표·콜론·괄호로 바꾸세요: ${path.relative(ROOT, p)}:${i + 1}`);
+      });
+  }
+})(ROOT);
+
 /* ---------- chapters ---------- */
 const chapters = {};
 let totalChars = 0;
@@ -74,7 +95,7 @@ for (const part of config.sections) {
 
     const opens = countTags(md, /<div\b/gi);
     const closes = countTags(md, /<\/div>/gi);
-    if (opens !== closes) warnings.push(`${ch.id}: <div> ${opens}개 / </div> ${closes}개 — 짝이 맞지 않음`);
+    if (opens !== closes) warnings.push(`${ch.id}: <div> ${opens}개 / </div> ${closes}개, 짝이 맞지 않음`);
 
     const ids = [...md.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
     const dupIds = ids.filter((id, i) => ids.indexOf(id) !== i);

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>관리자 — 연구 가이드</title>
+  <title>관리자 · 연구 많이 된다</title>
   <meta name="robots" content="noindex">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -367,8 +367,8 @@
         const newSha = await saveGHFile(CONTENT_DIR + '/' + currentFile, content, currentSha);
         currentSha = newSha;
         originalContent = content;
-        setStatus('저장 완료 · 1–2분 뒤 사이트에 반영', 'saved');
-        showToast('저장되었습니다. 배포까지 1–2분 걸립니다.', 'success');
+        setStatus('저장 완료 · 1-2분 뒤 사이트에 반영', 'saved');
+        showToast('저장되었습니다. 배포까지 1-2분 걸립니다.', 'success');
         setTimeout(() => setStatus('', ''), 5000);
       } catch (e) {
         setStatus('저장 실패', 'error');
@@ -524,7 +524,7 @@
         const newSha = await saveGHFile(CONTENT_DIR + '/config.json', JSON.stringify(config, null, 2), configSha);
         configSha = newSha;
         renderFileList();
-        showToast('목차가 저장되었습니다. 배포까지 1–2분 걸립니다.', 'success');
+        showToast('목차가 저장되었습니다. 배포까지 1-2분 걸립니다.', 'success');
       } catch (e) {
         showToast('목차 저장 실패: ' + e.message, 'error');
       }

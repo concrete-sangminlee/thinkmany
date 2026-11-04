@@ -1,5 +1,5 @@
 /**
- * 연구 많이 된다 — reader app.
+ * 연구 많이 된다: reader app.
  *
  * Routes (hash based, so GitHub Pages needs no rewrites):
  *   #            home
@@ -330,7 +330,7 @@ async function route() {
 
 function showHome(part) {
   current = { kind: 'home' };
-  document.title = '연구 많이 된다 — 대학원생 연구 가이드';
+  document.title = '연구 많이 된다 · 대학원생 연구 가이드';
   document.body.dataset.view = 'home';
 
   const t = book.totals;
