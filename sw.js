@@ -1,5 +1,5 @@
 /**
- * Service worker — offline reading for 연구 많이 된다.
+ * Service worker: offline reading for 연구 많이 된다.
  *
  * Every path is resolved against the registration scope, so it works both at
  * https://concrete-sangminlee.github.io/thinkmany/ and on a local server.

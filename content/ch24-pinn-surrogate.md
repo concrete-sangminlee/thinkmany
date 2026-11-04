@@ -555,7 +555,7 @@ ch19에서 실험-시뮬레이션 융합을 다뤘고, ch24의 PINN은 본질적
 
 ---
 
-## Neural Operator — PINN 이후의 새로운 패러다임
+## Neural Operator: PINN 이후의 새로운 패러다임
 
 PINN과 전통 대리 모델을 다뤘다면, 최근(2020년 이후) 빠르게 성장하는 세 번째 패러다임이 있다. **Neural Operator**다. 이름이 낯설 수 있지만, 원리는 매우 강력하고 공학 연구에서 앞으로 몇 년간 핵심 도구가 될 가능성이 높다. PDE 기반 연구를 한다면 이 개념을 반드시 알아야 한다.
 
@@ -630,7 +630,7 @@ PINN과 전통 대리 모델을 다뤘다면, 최근(2020년 이후) 빠르게 �
 
 ---
 
-## 역문제와 파라미터 추정 — PINN이 진짜 빛나는 영역
+## 역문제와 파라미터 추정: PINN이 진짜 빛나는 영역
 
 PINN의 가장 강력한 응용은 보통의 forward 시뮬레이션이 아니라 **역문제(inverse problem)**다. 역문제는 "관측 데이터로부터 모델의 숨겨진 파라미터나 초기/경계 조건을 추정하는" 문제다. 전통 FEM/FDM은 forward 문제(주어진 조건 → 해)에 최적화되어 있지만, 역문제에는 본질적으로 적합하지 않다. PINN은 이 영역에서 FEM을 명확히 압도하며, 많은 박사 연구의 실제 가치를 창출한다. 그런데 이것을 제대로 이해하고 활용하는 학생이 드물다.
 
@@ -830,7 +830,7 @@ class InverseModel(nn.Module):
 **검증 5: Posterior Distribution (Bayesian PINN)**.
 점 추정이 아니라 분포를 추정. 각 파라미터에 대한 신뢰 구간을 제공. MCMC나 Variational Inference로 구현.
 
-**역문제 PINN의 실전 예시 — 재료 파라미터 추정.**
+**역문제 PINN의 실전 예시: 재료 파라미터 추정.**
 
 구체적인 시나리오를 본다.
 
@@ -1174,7 +1174,7 @@ KISTI, ETRI, KAERI, KIMM 같은 정부 출연 연구소의 계산 과학 부서.
 
 ---
 
-## 마지막 — PINN 연구의 자리 찾기
+## 마지막: PINN 연구의 자리 찾기
 
 박사 과정에서 PINN 연구를 할 때 "모든 문제를 PINN으로 풀 수 있다"는 과신과 "PINN은 쓸모없다"는 회의주의의 두 극단 사이의 균형을 찾는다. PINN이 특정 종류의 문제 (역문제, 데이터 통합, 고차원 PDE)에서 진짜 가치를 준다. 다른 문제에서는 기존 방법이 더 낫다. 박사 학위가 이 구분을 명확히 한다면 박사 학위가 PINN 분야의 한 기여가 된다.
 
@@ -1182,7 +1182,7 @@ PINN 논문의 리뷰가 엄격한 것은 분야가 성숙하고 있다는 신�
 
 박사 학위 후의 경로가 PINN 분야의 성장과 함께 넓어진다. 박사 1-2년차에 PINN을 선택했다면 박사 후반에 선택이 옳았다는 것을 본다. 박사 5-7년 동안 분야의 한 전문가가 된다. 박사 후의 자리를 자신감으로 선택한다.
 
-## PINN 손실 가중치의 튜닝 — 성공과 실패를 가르는 숨은 하이퍼파라미터
+## PINN 손실 가중치의 튜닝: 성공과 실패를 가르는 숨은 하이퍼파라미터
 
 PINN 연구에서 가장 조용하고 가장 결정적인 문제는 **손실 함수의 가중치 밸런싱**이다. PINN의 손실 함수는 보통 여러 항의 합으로 구성된다. PDE 잔차, 경계 조건, 초기 조건, 데이터 맞춤, 때로는 정규화까지. 각 항의 크기 스케일이 전혀 다르다. 단순히 더하면 한 항이 지배하고 나머지는 무시된다. 이 문제가 PINN이 "잘 안 될 때"의 가장 흔한 원인이지만, 교과서와 튜토리얼은 이것을 자세히 다루지 않는다. 많은 박사생이 몇 달 동안 "왜 PINN이 수렴하지 않지?"로 고생하다가 결국 손실 가중치 문제였음을 뒤늦게 깨닫는다. 이 섹션은 손실 가중치 튜닝의 체계적 전략이다.
 
@@ -1192,7 +1192,7 @@ PINN 연구에서 가장 조용하고 가장 결정적인 문제는 **손실 함
 
 </div>
 
-**문제의 본질 — 왜 가중치가 중요한가.**
+**문제의 본질: 왜 가중치가 중요한가.**
 
 PINN의 손실은 일반적으로 다음과 같은 형태다.
 
@@ -1245,7 +1245,7 @@ PINN이 "이상하게" 작동할 때의 증상과 그 원인.
 
 이 증상들을 인식하면 어떤 가중치를 조정할지 파악할 수 있다.
 
-**가중치 튜닝 전략 — 5가지 접근.**
+**가중치 튜닝 전략: 5가지 접근.**
 
 PINN 연구의 역사에서 여러 가중치 전략이 제안되었다. 각각의 장단점이 있다.
 
@@ -1266,7 +1266,7 @@ PINN 연구의 역사에서 여러 가중치 전략이 제안되었다. 각각�
 **전략 2: 기울기 기반 (Gradient-Based).**
 각 항의 기울기 크기를 측정하고 자동으로 가중치 조정.
 
-**대표 방법 — Learning Rate Annealing (Wang et al. 2021)**:
+**대표 방법: Learning Rate Annealing (Wang et al. 2021)**:
 학습 중 각 항의 기울기 놈(norm)을 측정. 큰 기울기의 항은 $\lambda$를 감소, 작은 기울기는 증가.
 
 ```python
@@ -1288,7 +1288,7 @@ for step in range(max_iter):
 **장점**: 자동. 문제 간 일반화.
 **단점**: 계산 비용. 매 스텝마다 여러 기울기 계산.
 
-**전략 3: 동적 가중치 (Dynamic Weighting) — GradNorm 스타일**.
+**전략 3: 동적 가중치 (Dynamic Weighting), GradNorm 스타일**.
 각 항의 상대적 감소 속도를 균등하게 만듦.
 
 **아이디어**: 어떤 항이 다른 항보다 빠르게 감소하면 그 항의 $\lambda$를 줄임. 모든 항이 같은 속도로 감소하도록.
@@ -1330,7 +1330,7 @@ optimizer = torch.optim.Adam([*params, lambda_pde, lambda_bc])
 **장점**: 이론적 근거 강력.
 **단점**: 계산 매우 복잡. 큰 문제에 적용 어려움.
 
-**실전 — 어떤 전략을 쓸 것인가.**
+**실전: 어떤 전략을 쓸 것인가.**
 
 이론적으로는 기울기 기반이나 GradNorm이 좋지만, 실전에서는 다음 순서로 시도.
 
@@ -1391,7 +1391,7 @@ def adaptive_sample(model, n_samples):
 **아키텍처 3: Hard constraint**.
 경계 조건이나 초기 조건을 네트워크 구조에 내장. 해당 손실 항 자체를 없앨 수 있음.
 
-**예시 — 1D 열방정식 $u(0,x) = \sin(\pi x)$, $u(t,0) = u(t,1) = 0$**:
+**예시: 1D 열방정식 $u(0,x) = \sin(\pi x)$, $u(t,0) = u(t,1) = 0$**:
 
 ```python
 # Soft constraint (일반적)
@@ -1511,7 +1511,7 @@ PINN 논문에서 손실 가중치는 "사소한 디테일"이 아니다. 명시
 
 > PINN 연구의 성공은 이론적 엄밀성이 아니라 손실 가중치 튜닝의 기술에서 결정된다. 많은 학생이 몇 달 동안 "왜 내 PINN은 안 되지?"로 고생하지만, 사실은 손실 가중치 문제다. 이 섹션의 원칙들을 일찍 익히면 PINN 연구가 몇 주에서 몇 개월 더 빨리 진행될 수 있다. 박사 1년차에 이 기술을 마스터하는 것이 박사 전체의 성공을 좌우한다. 가중치는 "하이퍼파라미터"가 아니라 "PINN의 핵심 설계"임을 기억하라.
 
-## PINN의 훈련 전략 — Curriculum Learning과 Multi-stage Training
+## PINN의 훈련 전략: Curriculum Learning과 Multi-stage Training
 
 PINN의 손실 가중치를 완벽히 설정했어도 훈련이 실패할 수 있다. 손실이 진동하거나, 수렴이 느리거나, 국소 최적해에 빠지거나, 물리 법칙을 부분적으로만 만족한다. 이것은 단순한 최적화의 문제가 아니라 **훈련 순서의 문제**다. PINN은 일반 신경망과 다르게, "어떤 순서로 학습하는가"가 결과에 큰 영향을 준다. 인간이 쉬운 것부터 어려운 것으로 배우는 것처럼, PINN도 단계적 학습이 필요하다. 이 섹션은 **Curriculum Learning**과 **Multi-stage Training**이라는 PINN의 훈련 전략을 다룬다.
 
@@ -1521,7 +1521,7 @@ PINN의 손실 가중치를 완벽히 설정했어도 훈련이 실패할 수 �
 
 </div>
 
-**훈련 실패의 패턴 — 왜 단순 훈련이 부족한가**.
+**훈련 실패의 패턴: 왜 단순 훈련이 부족한가**.
 
 "config 설정 → fit() → 끝"의 순진한 접근의 실패 양상.
 
@@ -1588,7 +1588,7 @@ PINN의 손실 가중치를 완벽히 설정했어도 훈련이 실패할 수 �
 
 **접근**: 작은 도메인에서 시작, 점차 확장.
 
-**예시 — 열전달**:
+**예시: 열전달**:
 - Stage 1: 1x1 사각형에서 훈련
 - Stage 2: 2x2 사각형
 - Stage 3: 4x4 사각형
@@ -1602,7 +1602,7 @@ PINN의 손실 가중치를 완벽히 설정했어도 훈련이 실패할 수 �
 
 **접근**: 짧은 시간에서 시작, 점차 연장.
 
-**예시 — 열방정식 (t: 0→10)**:
+**예시: 열방정식 (t: 0→10)**:
 - Stage 1: t ∈ [0, 1]
 - Stage 2: t ∈ [0, 2]
 - Stage 3: t ∈ [0, 5]
@@ -1616,7 +1616,7 @@ PINN의 손실 가중치를 완벽히 설정했어도 훈련이 실패할 수 �
 
 **접근**: 쉬운 물리 조건에서 시작, 점차 어렵게.
 
-**예시 — Navier-Stokes**:
+**예시: Navier-Stokes**:
 - Stage 1: Re = 10 (laminar, 부드러움)
 - Stage 2: Re = 100
 - Stage 3: Re = 1000
@@ -1857,7 +1857,7 @@ Multi-stage training의 세부 스케줄.
 **요소 5: 검증**.
 각 단계 후 홀드아웃 데이터로 검증. 과적합 확인.
 
-**실전 예시 — 1D 열방정식의 Curriculum**.
+**실전 예시: 1D 열방정식의 Curriculum**.
 
 구체적 예시로 보자.
 
@@ -1869,7 +1869,7 @@ Multi-stage training의 세부 스케줄.
 
 **Curriculum 접근**:
 
-**Stage 1 — 초기 조건만**:
+**Stage 1: 초기 조건만**:
 ```python
 def loss_ic_only(model, x):
     u_pred = model(x, t=0)
@@ -1879,7 +1879,7 @@ def loss_ic_only(model, x):
 
 **이유**: 먼저 네트워크가 sin 함수를 학습.
 
-**Stage 2 — BC + IC**:
+**Stage 2: BC + IC**:
 ```python
 def loss_bcic(model, x, t):
     ic_loss = loss_ic(model, x)
@@ -1889,7 +1889,7 @@ def loss_bcic(model, x, t):
 
 **이유**: 시간 의존 없이 경계와 초기 학습.
 
-**Stage 3 — 짧은 시간 + 모든 손실**:
+**Stage 3: 짧은 시간 + 모든 손실**:
 ```python
 def loss_short_time(model, x, t):
     # t ∈ [0, 0.1]
@@ -1898,13 +1898,13 @@ def loss_short_time(model, x, t):
 
 **이유**: 시간 전파를 조금씩.
 
-**Stage 4 — 점진적 시간 확장**:
+**Stage 4: 점진적 시간 확장**:
 ```python
 for t_max in [0.1, 0.2, 0.5, 1.0]:
     train(model, t_range=[0, t_max])
 ```
 
-**Stage 5 — 전체 도메인**:
+**Stage 5: 전체 도메인**:
 ```python
 train(model, t_range=[0, 1], epochs=2000)
 ```
@@ -2143,7 +2143,7 @@ Curriculum 구현에 쓸 수 있는 도구.
 
 **권장**: DeepXDE로 시작. 필요하면 커스텀.
 
-**체크리스트 — PINN 훈련 전략**.
+**체크리스트: PINN 훈련 전략**.
 
 <div class="highlight-box highlight-info">
 
@@ -2170,7 +2170,7 @@ Curriculum 구현에 쓸 수 있는 도구.
 
 ---
 
-## Scientific ML의 박사 연구 방법론 — 물리·AI 교차 연구의 실전
+## Scientific ML의 박사 연구 방법론: 물리·AI 교차 연구의 실전
 
 PINN을 넘어 **Scientific Machine Learning (SciML)** 전체 영역이 2022년 이후 급성장. AI for Science, Neural Operators, Differentiable Simulation, AI for Physics/Chemistry/Biology. 박사가 이 교차점에서 연구할 때 **전통 ML 논문과 다른 방법론**이 필요. 이 섹션은 박사가 SciML 분야에서 성공적 연구를 수행하는 실전을 다룬다. ch24의 다른 섹션(PINN 원리·훈련·논문 심사)이 **PINN 중심**이었다면, 이 섹션은 **SciML 전반**이다.
 
@@ -2467,15 +2467,15 @@ SciML은 종종 **여러 전문가**:
 - **실험과의 연결**: 순수 이론 X.
 - **장기 시야**: 10년의 분야.
 
-**마지막 — SciML은 박사의 두 세계를 잇는다.**
+**마지막: SciML은 박사의 두 세계를 잇는다.**
 
-물리와 AI 어느 한쪽에 머물지 않고 **양쪽의 다리**. 5가지 영역·4가지 접근·논문 구조·특수 평가·데이터 문제·벤치마크·전산 자원·심사 특수·협업·윤리·산업·한국 생태계·5단계 성장·5가지 함정·2024-2025 트렌드·철학·조언 — 이 모든 것을 의식적으로 다루면 박사가 **SciML의 차세대 리더**. AI가 과학을 바꾸는 시대의 박사 역할.
+물리와 AI 어느 한쪽에 머물지 않고 **양쪽의 다리**. 5가지 영역·4가지 접근·논문 구조·특수 평가·데이터 문제·벤치마크·전산 자원·심사 특수·협업·윤리·산업·한국 생태계·5단계 성장·5가지 함정·2024-2025 트렌드·철학·조언, 이 모든 것을 의식적으로 다루면 박사가 **SciML의 차세대 리더**. AI가 과학을 바꾸는 시대의 박사 역할.
 
 > SciML의 5가지 주요 영역 (PINN·Neural Operators·Differentiable Physics·AI for Science·Foundation Models). 4가지 접근 (Physics→AI·AI→Physics·Hybrid·Data-driven). SciML 논문의 물리+ML 구조. 5가지 특수 평가 지표 (물리 일관성·Extrapolation·Noise·Speed·Interpretability). 데이터 문제 (부족·sim-to-real·multi-fidelity·경계). 벤치마크 (PDEBench·ClimateBench·Open Catalyst). 논문 심사의 두 리뷰어 대응. 대규모 협업의 박사 역할. 재현성. 산업 적용. 한국 SciML 생태계 (KISTI·대학·정부·기업). 박사 5단계 성장. 5가지 함정. 2024-2025 Foundation Model·Differentiable 트렌드. AI for Science의 철학. SciML은 박사의 두 세계를 잇는다.
 
 ---
 
-## 박사의 PINN 디버깅 — "훈련이 안 될 때"
+## 박사의 PINN 디버깅: "훈련이 안 될 때"
 
 PINN(Physics-Informed Neural Networks)을 논문에서 본 박사는 "**Navier-Stokes·열방정식·파동방정식을 PINN으로 풀 수 있다**"고 감탄한다. 하지만 실제로 구현해보면 **훈련이 발산하거나·수렴하지만 물리적으로 틀린 해**를 얻는다. PINN은 **논문처럼 쉬운 도구가 아니다**. 일반 딥러닝보다 훨씬 까다롭다. 이 섹션은 박사가 PINN을 실전에서 디버깅하는 **체계적 방법**을 제공한다.
 
@@ -2513,7 +2513,7 @@ L_total = λ_data·L_data + λ_pde·L_pde + λ_bc·L_bc + λ_ic·L_ic
 - **SoftAdapt**: 자동 조정.
 - **Causal weighting**: 시간 진행에 따른 가중.
 
-**고정된 λ는 대부분 실패**—동적 조정.
+**고정된 λ는 대부분 실패**: 동적 조정.
 
 **Sampling 전략.**
 
@@ -2561,11 +2561,11 @@ L_total = λ_data·L_data + λ_pde·L_pde + λ_bc·L_bc + λ_ic·L_ic
 - **Hard 예**: `u(x,t) = g(x,t) + x(1-x)·N(x,t)` → BC 자동 만족.
 - **장단점**: Hard는 정확하지만 복잡한 경계 어려움.
 
-**가능하면 Hard BC**—훈련 단순.
+**가능하면 Hard BC**: 훈련 단순.
 
-**Causal PINN — 시간의 방향.**
+**Causal PINN: 시간의 방향.**
 
-- **문제**: 표준 PINN은 시간 독립 학습—나중 시간의 해가 초기에 영향.
+- **문제**: 표준 PINN은 시간 독립 학습, 나중 시간의 해가 초기에 영향.
 - **Causal Loss**: 초기 시간 먼저 학습, 점차 후반으로.
 - **Wang et al. (2022)**: Causality in PINN.
 - **성과**: 시간 의존 PDE에서 극적 개선.
@@ -2603,11 +2603,11 @@ L_total = λ_data·L_data + λ_pde·L_pde + λ_bc·L_bc + λ_ic·L_ic
 
 - **1단계**: 분석해 알려진 문제로 검증 (Taylor-Green vortex 등).
 - **2단계**: Loss 각 항의 크기·비율 확인.
-- **3단계**: Sampling 시각화—공간 분포 확인.
+- **3단계**: Sampling 시각화, 공간 분포 확인.
 - **4단계**: 초기 에폭의 solution 시각화.
 - **5단계**: Loss curve의 plateau·oscillation 분석.
 - **6단계**: λ·Network·Optimizer 순차 조정.
-- **7단계**: Ablation—각 요소 제거 확인.
+- **7단계**: Ablation, 각 요소 제거 확인.
 
 **체계적 디버깅 워크플로**.
 
@@ -2634,7 +2634,7 @@ L_total = λ_data·L_data + λ_pde·L_pde + λ_bc·L_bc + λ_ic·L_ic
 | 고차원 | 확장 | 어려움 |
 | 구현 복잡도 | 중 | 고 |
 
-**PINN의 장점은 역문제·고차원**—순문제는 Classical이 여전히 우월.
+**PINN의 장점은 역문제·고차원**: 순문제는 Classical이 여전히 우월.
 
 **Inverse Problem에서의 PINN.**
 
@@ -2673,7 +2673,7 @@ L_total = λ_data·L_data + λ_pde·L_pde + λ_bc·L_bc + λ_ic·L_ic
 - **SciANN**: TensorFlow 기반.
 - **JAX-based**: JAX-PINN.
 
-**처음은 DeepXDE**—빠른 시작.
+**처음은 DeepXDE**: 빠른 시작.
 
 **한국 박사의 PINN 특수.**
 
@@ -2681,7 +2681,7 @@ L_total = λ_data·L_data + λ_pde·L_pde + λ_bc·L_bc + λ_ic·L_ic
 - **KISTI·NIMS의 계산 자원**: 활용.
 - **공학 저널의 SciML 섹션**: 증가.
 - **한국 SciML 커뮤니티**: SIAM Korea Section.
-- **한국어 교재**: 제한적—영어 주류.
+- **한국어 교재**: 제한적, 영어 주류.
 
 **분야 간 다리 역할**이 기회.
 
@@ -2729,8 +2729,8 @@ L_total = λ_data·L_data + λ_pde·L_pde + λ_bc·L_bc + λ_ic·L_ic
 
 **PINN은 박사의 장기 투자**.
 
-**마지막 — PINN은 이론보다 실전이 어렵다.**
+**마지막: PINN은 이론보다 실전이 어렵다.**
 
-PINN 논문은 이상적 시나리오. 실전은 복잡. 7가지 실패 모드·Loss Landscape·λ 튜닝·Sampling·Network Architecture·Scaling·Optimizer·Hard vs Soft BC·Causal·Curriculum·Multi-scale·Gradient Pathology·디버깅 순서·7가지 함정·Classical 비교·Inverse·Validation·Hardware·Open-source·한국 특수·2024+ 진화·커리어·체크리스트·5년 진화 — 이 모든 것을 의식적으로 다루면 박사가 **PINN을 실전에서 정복**한다. PINN은 이론이 아닌 기술.
+PINN 논문은 이상적 시나리오. 실전은 복잡. 7가지 실패 모드·Loss Landscape·λ 튜닝·Sampling·Network Architecture·Scaling·Optimizer·Hard vs Soft BC·Causal·Curriculum·Multi-scale·Gradient Pathology·디버깅 순서·7가지 함정·Classical 비교·Inverse·Validation·Hardware·Open-source·한국 특수·2024+ 진화·커리어·체크리스트·5년 진화, 이 모든 것을 의식적으로 다루면 박사가 **PINN을 실전에서 정복**한다. PINN은 이론이 아닌 기술.
 
 > PINN 디버깅은 박사의 실전 SciML 기술. 7가지 실패 모드 (발산·정체·Trivial·BC 위반·Spectral Bias·Gradient Pathology·Multi-scale). Loss Landscape의 복잡성. λ 튜닝 (수동·NTK·SoftAdapt·Causal). Sampling (Uniform·Latin·Adaptive·Importance·Causal). Architecture (MLP·Fourier·SIREN·LAAF·xPINN). 스케일링·무차원화. Adam + L-BFGS 표준. Hard BC 선호. Causal PINN 시간 의존. Curriculum·Multi-scale. Gradient Pathology (NTK·Weighted·RWF). 디버깅 7단계. 7가지 함정 (Toy 건너뛰기·Loss 한 항·고정 λ·작은 네트워크·짧은 훈련·단일 Seed·논문 맹신). PINN vs FEM 비교. Inverse Problem 강점. 다중 Validation. Hardware GPU. DeepXDE·Modulus·SciANN. 한국 분야 교차 기회. 2024+ Foundation·Neural Operators·Differentiable·Bayesian. 커리어 경로. 10가지 체크리스트. 5년 진화. PINN은 이론이 아닌 기술.
