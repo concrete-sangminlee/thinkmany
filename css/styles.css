@@ -2082,7 +2082,7 @@ dialog::backdrop {
 .search-results mark {
   border-radius: 3px;
   background: var(--mark);
-  color: inherit;
+  color: var(--fg); /* muted snippet text on the highlight would drop below 4.5:1 in dark */
 }
 
 .search-empty {
