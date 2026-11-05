@@ -14,15 +14,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history: each chapter's "last updated" date comes from git.
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      # Validates config.json against content/ and regenerates content/index.json,
-      # so chapters edited from /admin are always deployed with a fresh index.
-      - name: Validate content and build index
-        run: node scripts/build-index.mjs
+      - name: Test
+        run: npm test
+
+      # Validates content/ and writes _site/: a prerendered page per chapter,
+      # index.json, sitemap and the service worker. Chapters edited from
+      # /admin are rebuilt here on every push.
+      - name: Build
+        run: npm run build
 
       - if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
@@ -30,7 +37,7 @@ jobs:
       - if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
   deploy:
     if: github.event_name != 'pull_request'

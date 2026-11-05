@@ -174,51 +174,57 @@
 
 ## 사이트
 
-정적 웹북이다. 빌드 없이 GitHub Pages에서 바로 돌아간다.
+정적 웹북이다. `npm run build`가 장마다 미리 렌더링한 HTML을 `_site/`에 만들고, GitHub Actions가 그것을 GitHub Pages에 올린다.
 
-- **장 단위 읽기**: 한 번에 한 장만 불러온다. 장마다 차례(스크롤 위치 추적), 이전·다음 장, 섹션 링크(`#ch05/섹션-이름`)가 있다.
+- **장마다 고유한 주소**: `/thinkmany/ch05/`, 섹션은 `/thinkmany/ch05/#섹션-이름`. 장마다 제목, 설명, canonical, Open Graph, 구조화 데이터가 따로 있어 검색엔진과 메신저 미리보기에 장 단위로 보인다. 예전 `#ch05` 링크는 새 주소로 넘어간다.
+- **빠른 첫 화면**: 본문이 HTML에 이미 들어 있어 스크립트를 기다리지 않고 보인다. 이후 이동은 History API로 그 자리에서 바꾸고, 뒤로 가기 하면 읽던 위치로 돌아간다. JavaScript가 꺼져 있어도 본문은 읽힌다.
+- **장 사이 링크**: 본문에서 `ch05`처럼 다른 장을 언급하면 그 장으로 가는 링크가 된다 (860여 곳).
 - **검색**: `/` 또는 `Ctrl K`. 장·섹션 제목은 즉시, 본문 전체는 Web Worker가 백그라운드에서 색인해 찾는다. 결과를 열면 해당 위치로 이동해 검색어를 강조한다.
-- **이어 읽기**: 장마다 읽은 위치와 진행률을 기억하고, 다 읽은 장은 목차에 표시한다. 북마크, 체크리스트 체크 상태도 브라우저에 저장된다.
+- **이어 읽기**: 장마다 읽은 위치와 진행률을 기억하고, 다 읽은 장은 목차에 표시한다. 북마크, 체크리스트 상태도 브라우저에 저장된다.
+- **최근 보강**: git 기록에서 장마다 마지막으로 보강한 날을 읽어 장 머리말과 홈의 "최근 보강된 장"에 보여 준다.
+- **읽기 설정**: 글자 크기 4단계(`+`/`-`), 밝은·어두운 테마(`D`, 기본은 시스템 설정), 현재 장만 깔끔하게 인쇄.
 - **수식**: `$…$`, `$$…$$`를 KaTeX로 렌더링한다(수식이 있는 장에서만 불러옴).
 - **오프라인**: Service Worker가 앱 셸과 한 번 연 장을 캐시한다.
-- **다크 모드, 모바일, 인쇄**: 시스템 테마를 따르고(`D`로 전환), 인쇄하면 현재 장만 깔끔하게 PDF로 저장된다.
 - **키보드**: `J`/`K` 섹션 이동, `[`/`]` 장 이동, `B` 북마크, `T` 목차, `?` 도움말. 한글 입력 상태에서도 동작한다.
 
 ### 구조
 
 ```
-index.html              앱 셸
-css/styles.css          스타일 (라이트/다크 토큰)
-js/app.js               라우팅, 홈·장 화면, 목차, 진행률
-js/search.js            검색 대화상자 (+ js/search-worker.js 본문 색인)
-js/render.js            마크다운 렌더링 후처리 (탭, 표, 코드 복사, 수식)
-js/lib/markdown.js      마크다운 파이프라인 (브라우저와 빌드 스크립트가 공유)
-js/vendor/              marked 18.1.1, DOMPurify 3.4.17 (버전 고정)
-content/config.json     파트·장 구성과 읽기 경로 (관리자 페이지에서 편집)
 content/chNN-*.md       본문
-content/index.json      생성 파일: 장별 차례·분량 (배포 때마다 다시 생성)
-scripts/                색인 생성·검증, 이미지 생성
+content/config.json     파트·장 구성, 읽기 경로, siteUrl (관리자 페이지에서 편집)
+templates/              페이지 틀 (page.html), 404, 공유 카드 원본
+js/views.js             홈·장·목차 화면 템플릿. 빌드와 브라우저가 함께 쓴다
+js/lib/markdown.js      마크다운 파이프라인 (헤딩 id, 수식, 장 링크, 분량 계산)
+js/app.js               라우터, 하이드레이션, 진행률, 단축키
+js/search.js            검색 대화상자 (+ js/search-worker.js 본문 색인)
+js/render.js            본문 후처리 (탭, 표, 코드 복사, 수식, 체크리스트)
+js/vendor/              marked 18.1.1, DOMPurify 3.4.17 (버전 고정)
+scripts/build.mjs       검증 + _site/ 생성
+scripts/serve.mjs       로컬 미리보기 서버 (변경 시 다시 빌드)
+tests/                  node --test 단위·빌드 테스트
 admin/                  GitHub API로 본문과 목차를 고치는 관리자 페이지
 ```
 
 ### 로컬에서 보기
 
+Node 22 이상이 필요하다. 설치할 패키지는 없다.
+
 ```bash
-node scripts/build-index.mjs
-python3 -m http.server 8000
+npm run dev
 ```
 
-그다음 http://localhost:8000 을 연다.
+그다음 http://localhost:8000/thinkmany/ 를 연다. 파일을 고치면 자동으로 다시 빌드된다.
 
 ### 글을 고칠 때
 
 1. `content/chNN-*.md`를 고친다(또는 `/admin`에서 편집). 장을 더하거나 순서를 바꾸려면 `content/config.json`을 고친다.
-2. `node scripts/build-index.mjs`로 검증한다. 목차와 파일이 어긋나거나 `<div>` 짝이 맞지 않으면 알려 주고, 긴 줄표(em dash, en dash)가 있으면 실패한다. 쉼표, 콜론, 괄호를 쓴다.
-3. `main`에 푸시하면 GitHub Actions가 색인을 다시 만들고 배포한다. PR에서는 검증만 한다.
+2. `npm run check`로 검증한다. 목차와 파일이 어긋나거나, 장 id가 사이트 폴더 이름과 겹치거나, 긴 줄표(em dash, en dash)가 있으면 실패한다. 쉼표, 콜론, 괄호를 쓴다. `<div>` 짝이 맞지 않으면 경고한다.
+3. `npm test`로 테스트를 돌린다.
+4. `main`에 푸시하면 GitHub Actions가 테스트, 빌드, 배포를 한다. PR에서는 테스트와 빌드만 한다.
 
-본문에서 쓸 수 있는 블록: `highlight-box` (`tip` · `info` · `warning` · `important` · `highlight-important`), `card-grid`/`card`, `pipeline`, `timeline`, `tab-container`, `do-dont`, `check-list`, 그리고 표·코드·수식.
+본문에서 쓸 수 있는 블록: `highlight-box` (`tip` · `info` · `warning` · `important` · `highlight-important`), `card-grid`/`card`, `pipeline`, `timeline`, `tab-container`, `do-dont`, `check-list`, 그리고 표·코드·수식. 다른 장은 `ch05`처럼 id만 쓰면 링크가 된다.
 
-공유 카드 이미지(`assets/og-image.png`)와 아이콘은 `node scripts/render-images.mjs`로 다시 만든다(Playwright 필요).
+공유 카드 이미지(`assets/og-image.png`)와 아이콘은 `npm run images`로 다시 만든다(Playwright 필요).
 
 ---
 
