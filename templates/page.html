@@ -81,7 +81,8 @@
              role="combobox" aria-expanded="true" aria-controls="search-results" aria-autocomplete="list" aria-label="검색어">
       <button class="icon-btn" type="button" data-close aria-label="닫기">{{icon:x}}</button>
     </div>
-    <ul class="search-results" id="search-results" role="listbox" aria-label="검색 결과"></ul>
+    <div class="search-results" id="search-results" role="listbox" aria-label="검색 결과" hidden></div>
+    <p class="search-empty" id="search-empty"></p>
     <div class="search-foot">
       <span id="search-status" aria-live="polite"></span>
       <span class="search-keys"><kbd>↑</kbd><kbd>↓</kbd> 이동 <kbd>Enter</kbd> 열기 <kbd>Esc</kbd> 닫기</span>

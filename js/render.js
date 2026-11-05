@@ -48,13 +48,17 @@ function anchors(root, chapterId) {
 }
 
 function tables(root) {
+  let n = 0;
   for (const table of root.querySelectorAll('table')) {
     if (table.parentElement.classList.contains('table-wrap')) continue;
+    n++;
+    // Each scrollable region needs its own name: use the column headers.
+    const cols = [...table.querySelectorAll('thead th')].map((th) => th.textContent.trim()).filter(Boolean).slice(0, 4);
     const wrap = document.createElement('div');
     wrap.className = 'table-wrap';
     wrap.tabIndex = 0;
     wrap.setAttribute('role', 'region');
-    wrap.setAttribute('aria-label', '표 (가로 스크롤 가능)');
+    wrap.setAttribute('aria-label', cols.length ? `표 ${n}: ${cols.join(', ')}` : `표 ${n}`);
     table.before(wrap);
     wrap.append(table);
   }
@@ -92,6 +96,7 @@ function codeBlocks(root) {
     bar.append(btn);
 
     pre.before(figure);
+    pre.tabIndex = 0; // long lines scroll sideways; keep that reachable by keyboard
     figure.append(bar, pre);
   }
 }
@@ -150,6 +155,7 @@ function checklists(root, chapterId) {
   if (!boxes.length) return;
   const checked = getChecks(chapterId);
   boxes.forEach((box, i) => {
+    labelTaskItem(box);
     box.disabled = false;
     box.checked = checked.has(i);
     box.addEventListener('change', () => {
@@ -158,6 +164,23 @@ function checklists(root, chapterId) {
       setChecks(chapterId, checked);
     });
   });
+}
+
+/**
+ * Markdown task lists render as <li><input> text</li> with no label. Wrap the
+ * box and its inline text in a <label> so the text names it and toggles it.
+ */
+function labelTaskItem(box) {
+  if (box.closest('label')) return;
+  const label = document.createElement('label');
+  label.className = 'task-item';
+  box.before(label);
+  let node = box;
+  while (node && !(node.nodeType === 1 && /^(UL|OL|DIV|P|TABLE|PRE|FIGURE)$/.test(node.tagName))) {
+    const next = node.nextSibling;
+    label.append(node);
+    node = next;
+  }
 }
 
 function links(root) {

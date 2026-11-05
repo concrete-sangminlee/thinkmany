@@ -14,6 +14,7 @@ export function initSearch(book, { onOpenResult }) {
   const dialog = document.getElementById('search-dialog');
   const input = dialog.querySelector('#search-input');
   const list = dialog.querySelector('#search-results');
+  const empty = dialog.querySelector('#search-empty');
   const status = dialog.querySelector('#search-status');
 
   let worker = null;
@@ -35,7 +36,7 @@ export function initSearch(book, { onOpenResult }) {
       const m = e.data;
       if (m.type === 'progress') {
         indexState = { ...indexState, done: m.done };
-        if (input.value.trim()) schedule(250);
+        if (input.value.trim()) refreshSoon();
         else renderStatus();
       } else if (m.type === 'ready') {
         indexState = { ...indexState, ready: true };
@@ -75,6 +76,17 @@ export function initSearch(book, { onOpenResult }) {
     timer = setTimeout(query, ms);
   }
 
+  // Index progress refreshes body results at most every 400 ms, on its own
+  // timer, so it never postpones the query the reader just typed.
+  let refreshTimer = 0;
+  function refreshSoon() {
+    if (refreshTimer) return;
+    refreshTimer = setTimeout(() => {
+      refreshTimer = 0;
+      query();
+    }, 400);
+  }
+
   function query() {
     const q = input.value.trim();
     seq++;
@@ -99,14 +111,23 @@ export function initSearch(book, { onOpenResult }) {
     status.textContent = [extra, indexing].filter(Boolean).join(' · ');
   }
 
+  function showEmpty(message) {
+    list.hidden = true;
+    list.replaceChildren();
+    empty.hidden = false;
+    mount(empty, message);
+  }
+
   function render() {
     const ts = terms();
     const q = input.value.trim();
+    // Results re-render while the body index fills in; keep the reader's selection.
+    const keep = options()[active]?.getAttribute('href');
     active = -1;
     input.removeAttribute('aria-activedescendant');
 
     if (!q) {
-      mount(list, html`<li class="search-empty">챕터 제목, 섹션 제목, 본문을 모두 찾습니다.<br><span>예: 리뷰어, Zotero, 지도교수, PINN</span></li>`);
+      showEmpty(html`챕터 제목, 섹션 제목, 본문을 모두 찾습니다.<br><span>예: 리뷰어, Zotero, 지도교수, PINN</span>`);
       renderStatus();
       return;
     }
@@ -117,57 +138,59 @@ export function initSearch(book, { onOpenResult }) {
 
     const groups = [];
     if (chapters.length) {
-      groups.push(html`<li class="search-group" role="presentation">챕터</li>`);
-      for (const c of chapters) {
-        groups.push(item(chapterHref(c.id), html`${c.part.number} · ${c.part.title}`, mark(c.title, ts), c.lead ? mark(c.lead, ts) : ''));
-      }
+      groups.push(group('챕터', '', chapters.map((c) => item(chapterHref(c.id), html`${c.part.number} · ${c.part.title}`, mark(c.title, ts), c.lead ? mark(c.lead, ts) : ''))));
     }
     if (headings.length) {
-      groups.push(html`<li class="search-group" role="presentation">섹션</li>`);
-      for (const { c, h } of headings) groups.push(item(chapterHref(c.id, h.id), html`${c.title}`, mark(h.text, ts), ''));
+      groups.push(group('섹션', '', headings.map(({ c, h }) => item(chapterHref(c.id, h.id), html`${c.title}`, mark(h.text, ts), ''))));
     }
-    if (bodyHits.length) {
-      groups.push(html`<li class="search-group" role="presentation">본문 <span>${body.total}곳</span></li>`);
-      for (const r of bodyHits) {
-        const c = book.chapter(r.ch);
-        if (!c) continue;
-        groups.push(item(chapterHref(c.id, r.id), html`${c.title}`, r.title ? mark(r.title, ts) : html`들어가며`, mark(r.snippet, ts), true));
-      }
-    }
+    const bodyItems = bodyHits
+      .map((r) => [r, book.chapter(r.ch)])
+      .filter(([, c]) => c)
+      .map(([r, c]) => item(chapterHref(c.id, r.id), html`${c.title}`, r.title ? mark(r.title, ts) : html`들어가며`, mark(r.snippet, ts), true));
+    if (bodyItems.length) groups.push(group('본문', `${body.total}곳`, bodyItems));
 
     if (!groups.length) {
       const waiting = worker && !indexState.ready;
-      mount(list, html`<li class="search-empty">${waiting ? '본문을 색인하는 중입니다. 잠시 후 결과가 나타납니다.' : `“${q}”에 대한 결과가 없습니다.`}</li>`);
+      showEmpty(html`${waiting ? '본문을 색인하는 중입니다. 잠시 후 결과가 나타납니다.' : `“${q}”에 대한 결과가 없습니다.`}`);
     } else {
+      empty.hidden = true;
+      list.hidden = false;
       mount(list, html`${groups}`);
+      const i = keep ? options().findIndex((o) => o.getAttribute('href') === keep) : -1;
+      if (i >= 0) setActive(i, false);
     }
     renderStatus();
+  }
+
+  function group(label, count, items) {
+    return html`<div role="group" aria-label="${label}${count ? ` ${count}` : ''}">
+      <div class="search-group" aria-hidden="true">${label}${count ? html` <span>${count}</span>` : ''}</div>
+      ${items}
+    </div>`;
   }
 
   let uid = 0;
   function item(href, kicker, title, snippet, isBody = false) {
     const id = `sr-${++uid}`;
-    return html`<li role="option" id="${id}" aria-selected="false">
-      <a href="${href}" tabindex="-1" data-body="${isBody ? '1' : ''}">
-        <span class="sr-kicker">${kicker}</span>
-        <span class="sr-title">${title}</span>
-        ${snippet ? html`<span class="sr-snippet">${snippet}</span>` : ''}
-      </a>
-    </li>`;
+    return html`<a role="option" id="${id}" aria-selected="false" href="${href}" tabindex="-1" data-body="${isBody ? '1' : ''}">
+      <span class="sr-kicker">${kicker}</span>
+      <span class="sr-title">${title}</span>
+      ${snippet ? html`<span class="sr-snippet">${snippet}</span>` : ''}
+    </a>`;
   }
 
   function options() {
     return [...list.querySelectorAll('[role="option"]')];
   }
 
-  function setActive(i) {
+  function setActive(i, reveal = true) {
     const opts = options();
     if (!opts.length) return;
     active = (i + opts.length) % opts.length;
     opts.forEach((o, j) => o.setAttribute('aria-selected', String(j === active)));
     const el = opts[active];
     input.setAttribute('aria-activedescendant', el.id);
-    el.scrollIntoView({ block: 'nearest' });
+    if (reveal) el.scrollIntoView({ block: 'nearest' });
   }
 
   function choose(a) {
@@ -188,7 +211,7 @@ export function initSearch(book, { onOpenResult }) {
       setActive(active - 1);
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      choose((options()[active] ?? options()[0])?.querySelector('a'));
+      choose(options()[active] ?? options()[0]);
     }
   });
   list.addEventListener('click', (e) => {
