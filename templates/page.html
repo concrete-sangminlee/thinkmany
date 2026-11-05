@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  {{head}}
+  <meta name="author" content="Sang Min Lee">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111214" media="(prefers-color-scheme: dark)">
+
+  <script>
+    // Apply saved theme and text size before first paint (no flash).
+    try {
+      var d = document.documentElement;
+      var t = JSON.parse(localStorage.getItem('tm:theme'));
+      if (t === 'dark' || t === 'light') d.dataset.theme = t;
+      else if (localStorage.getItem('theme') === 'dark') d.dataset.theme = 'dark';
+      var s = JSON.parse(localStorage.getItem('tm:size'));
+      if (s === 'sm' || s === 'lg' || s === 'xl') d.dataset.size = s;
+    } catch (e) {}
+  </script>
+
+  <link rel="icon" href="{{base}}assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{base}}assets/icon-180.png">
+  <link rel="manifest" href="{{base}}manifest.webmanifest">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="{{base}}css/styles.css?v={{version}}">
+  <link rel="modulepreload" href="{{base}}js/app.js?v={{version}}">
+  <script type="module" src="{{base}}js/app.js?v={{version}}"></script>
+</head>
+<body data-view="{{viewName}}">
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+  <div class="progress" id="progress" aria-hidden="true"><span></span></div>
+
+  <header class="topbar">
+    <button class="icon-btn" id="menu-btn" type="button" aria-label="목차" aria-controls="sidebar" title="목차 (T)">{{icon:menu}}</button>
+    <a class="brand" href="{{base}}" aria-label="연구 많이 된다 처음 화면">
+      <img src="{{base}}assets/favicon.svg" alt="" width="24" height="24">
+      <span>연구 많이 된다</span>
+    </a>
+    <div class="topbar-actions">
+      <button class="search-trigger" id="search-btn" type="button" aria-label="검색" aria-keyshortcuts="/ Control+K">
+        {{icon:search}}
+        <span class="search-trigger-label">검색</span>
+        <kbd>/</kbd>
+      </button>
+      <div class="popover-anchor">
+        <button class="icon-btn" id="display-btn" type="button" aria-label="글자 크기" title="글자 크기 (+ -)" aria-expanded="false" aria-controls="display-menu">{{icon:type}}</button>
+        <div class="popover" id="display-menu" role="dialog" aria-label="보기 설정" hidden>
+          <p class="popover-title">글자 크기</p>
+          <div class="segmented segmented-4" role="group" aria-label="글자 크기">
+            <button type="button" data-size="sm" aria-pressed="false"><span style="font-size:.8em">가</span><span class="sr-only">작게</span></button>
+            <button type="button" data-size="md" aria-pressed="true"><span>가</span><span class="sr-only">보통</span></button>
+            <button type="button" data-size="lg" aria-pressed="false"><span style="font-size:1.15em">가</span><span class="sr-only">크게</span></button>
+            <button type="button" data-size="xl" aria-pressed="false"><span style="font-size:1.3em">가</span><span class="sr-only">아주 크게</span></button>
+          </div>
+        </div>
+      </div>
+      <button class="icon-btn theme-btn" id="theme-btn" type="button" aria-label="테마 전환" title="테마 전환 (D)">{{icon:moon}}{{icon:sun}}</button>
+    </div>
+  </header>
+
+  <aside class="sidebar" id="sidebar" aria-label="책 목차">
+    <div id="book-toc">{{sidebar}}</div>
+  </aside>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <main id="main" tabindex="-1">
+    <div id="view" data-prerendered="{{prerendered}}">{{view}}</div>
+  </main>
+
+  <button class="to-top" id="to-top" type="button" aria-label="맨 위로">{{icon:arrowUp}}</button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog class="search-dialog" id="search-dialog" aria-label="검색">
+    <div class="search-head">
+      {{icon:search}}
+      <input id="search-input" type="search" placeholder="제목, 섹션, 본문 검색" autocomplete="off" spellcheck="false"
+             role="combobox" aria-expanded="true" aria-controls="search-results" aria-autocomplete="list" aria-label="검색어">
+      <button class="icon-btn" type="button" data-close aria-label="닫기">{{icon:x}}</button>
+    </div>
+    <ul class="search-results" id="search-results" role="listbox" aria-label="검색 결과"></ul>
+    <div class="search-foot">
+      <span id="search-status" aria-live="polite"></span>
+      <span class="search-keys"><kbd>↑</kbd><kbd>↓</kbd> 이동 <kbd>Enter</kbd> 열기 <kbd>Esc</kbd> 닫기</span>
+    </div>
+  </dialog>
+
+  <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
+    <div class="help-head">
+      <h2 id="help-title">키보드 단축키</h2>
+      <button class="icon-btn" type="button" data-close aria-label="닫기">{{icon:x}}</button>
+    </div>
+    <dl class="shortcuts">
+      <div><dt><kbd>/</kbd> <kbd>Ctrl</kbd> <kbd>K</kbd></dt><dd>검색</dd></div>
+      <div><dt><kbd>J</kbd> <kbd>K</kbd></dt><dd>다음 · 이전 섹션</dd></div>
+      <div><dt><kbd>]</kbd> <kbd>[</kbd></dt><dd>다음 · 이전 장</dd></div>
+      <div><dt><kbd>B</kbd></dt><dd>현재 장 북마크</dd></div>
+      <div><dt><kbd>+</kbd> <kbd>-</kbd></dt><dd>글자 크게 · 작게</dd></div>
+      <div><dt><kbd>T</kbd></dt><dd>목차 열고 닫기</dd></div>
+      <div><dt><kbd>D</kbd></dt><dd>밝은 · 어두운 테마</dd></div>
+      <div><dt><kbd>?</kbd></dt><dd>이 도움말</dd></div>
+    </dl>
+    <p class="help-note">한글 입력 상태에서도 그대로 동작합니다.</p>
+  </dialog>
+
+  <noscript>
+    <p class="noscript">JavaScript가 꺼져 있어 검색, 북마크, 진행률 기능은 쓸 수 없지만 본문은 그대로 읽을 수 있습니다.</p>
+  </noscript>
+</body>
+</html>

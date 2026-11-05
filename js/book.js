@@ -1,58 +1,30 @@
 /**
- * Book model: content/config.json (structure, edited from /admin) merged with
- * content/index.json (generated outline and reading times).
+ * Browser side of the book model: fetches config.json + index.json once and
+ * caches chapter markdown for the session.
  */
-const LEGACY_PART_IDS = { 'tools-software': 'part-4' };
+import { createBook } from './lib/book-model.js';
+
+/** Site root, derived from where this module is served (…/js/book.js -> …/). */
+export const ROOT = new URL('../', import.meta.url);
 
 export async function loadBook() {
   const [config, index] = await Promise.all([
-    fetchJSON('content/config.json'),
-    fetchJSON('content/index.json').catch(() => null),
+    fetchJSON(new URL('content/config.json', ROOT)),
+    fetchJSON(new URL('content/index.json', ROOT)).catch(() => null),
   ]);
-
-  const chapters = [];
-  const parts = config.sections.map((s, pi) => {
-    const part = { id: s.id, number: s.number ?? String(pi + 1).padStart(2, '0'), title: s.title, desc: s.desc ?? '', color: s.color ?? 'purple', chapters: [] };
-    for (const sub of s.subsections) {
-      const meta = index?.chapters?.[sub.id];
-      const ch = {
-        id: sub.id,
-        file: sub.file,
-        title: sub.title,
-        part,
-        num: /^ch(\d+)$/.exec(sub.id)?.[1] ?? '',
-        lead: meta?.lead ?? '',
-        minutes: meta?.minutes ?? null,
-        toc: (meta?.toc ?? []).map(([depth, text, id]) => ({ depth, text, id })),
-        order: chapters.length,
-      };
-      chapters.push(ch);
-      part.chapters.push(ch);
-    }
-    return part;
-  });
-
-  const byId = new Map(chapters.map((c) => [c.id, c]));
-  const partById = new Map(parts.map((p) => [p.id, p]));
-
-  return {
-    parts,
-    chapters,
-    paths: (config.paths ?? []).map((p) => ({ ...p, chapters: p.chapters.map((id) => byId.get(id)).filter(Boolean) })),
-    totals: index?.totals ?? null,
-    chapter: (id) => byId.get(id) ?? null,
-    part: (id) => partById.get(LEGACY_PART_IDS[id] ?? id) ?? null,
-    prev: (ch) => chapters[ch.order - 1] ?? null,
-    next: (ch) => chapters[ch.order + 1] ?? null,
-  };
+  return createBook(config, index);
 }
 
 const cache = new Map();
 
+export function chapterUrl(ch) {
+  return new URL(`content/${ch.file}`, ROOT).href;
+}
+
 /** Fetch a chapter's markdown once per session. */
 export function fetchChapter(ch) {
   if (!cache.has(ch.id)) {
-    const p = fetch(`content/${ch.file}`).then((r) => {
+    const p = fetch(chapterUrl(ch)).then((r) => {
       if (!r.ok) throw new Error(`${r.status} ${ch.file}`);
       return r.text();
     });
