@@ -32,7 +32,9 @@ test('prerendered heading ids match content/index.json', () => {
   const index = JSON.parse(read('content/index.json'));
   for (const ch of book.chapters) {
     const page = read(`${ch.id}/index.html`);
-    const prose = page.slice(page.indexOf('id="prose"'), page.indexOf('class="pager"'));
+    const start = page.indexOf('id="prose"');
+    const end = page.indexOf('<section class="connected"') > 0 ? page.indexOf('<section class="connected"') : page.indexOf('class="pager"');
+    const prose = page.slice(start, end);
     const ids = [...prose.matchAll(/<h[23] id="([^"]+)"/g)].map((m) => m[1]);
     assert.deepEqual(ids, index.chapters[ch.id].toc.map((t) => t[2]), ch.id);
   }
@@ -55,8 +57,32 @@ test('sitemap, robots and service worker are generated', () => {
   assert.match(sw, /"js\/app\.js"/);
 });
 
+test('reference graph is symmetric and rendered as connected chapters', () => {
+  for (const ch of book.chapters) {
+    for (const r of ch.refs) assert.ok(r.backrefs.includes(ch), `${ch.id} -> ${r.id} has a backref`);
+    assert.ok(!ch.refs.includes(ch), `${ch.id} does not reference itself`);
+    if (ch.refs.length || ch.backrefs.length) assert.ok(read(`${ch.id}/index.html`).includes('class="connected"'), `${ch.id} connected block`);
+  }
+});
+
+test('chapter pages use their own share card when it exists', () => {
+  for (const ch of book.chapters) {
+    const card = fs.existsSync(new URL(`../assets/og/${ch.id}.jpg`, import.meta.url));
+    const expected = card ? `${SITE}assets/og/${ch.id}.jpg` : `${SITE}assets/og-image.png`;
+    assert.ok(read(`${ch.id}/index.html`).includes(`<meta property="og:image" content="${expected}">`), ch.id);
+  }
+});
+
+test('feed.xml is a well-formed Atom feed linked from every page', () => {
+  const feed = read('feed.xml');
+  assert.match(feed, /^<\?xml version="1.0" encoding="utf-8"\?>\n<feed xmlns="http:\/\/www.w3.org\/2005\/Atom"/);
+  assert.equal((feed.match(/<entry>/g) ?? []).length, (feed.match(/<\/entry>/g) ?? []).length);
+  for (const m of feed.matchAll(/<link href="([^"]+)"\/>/g)) assert.ok(m[1].startsWith(SITE), m[1]);
+  assert.ok(read('index.html').includes(`href="${SITE}feed.xml"`));
+});
+
 test('no long dashes anywhere in the output pages', () => {
-  for (const f of ['index.html', 'app.html', '404.html', ...book.chapters.map((c) => `${c.id}/index.html`)]) {
+  for (const f of ['index.html', 'app.html', '404.html', 'feed.xml', ...book.chapters.map((c) => `${c.id}/index.html`)]) {
     assert.doesNotMatch(read(f), /[\u2013\u2014]/, f);
   }
 });
