@@ -5,6 +5,7 @@ import DOMPurify from './vendor/purify.es.mjs';
 import { lexChapter, renderTokens } from './lib/markdown.js';
 import { getChecks, setChecks } from './lib/store.js';
 import { icon } from './lib/html.js';
+import { chapterHref } from './lib/paths.js';
 
 const KATEX = 'https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/';
 const MERMAID = 'https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.esm.min.mjs';
@@ -39,7 +40,7 @@ function anchors(root, chapterId) {
   for (const h of root.querySelectorAll('h2[id], h3[id]')) {
     const a = document.createElement('a');
     a.className = 'anchor';
-    a.href = `#${chapterId}/${h.id}`;
+    a.href = chapterHref(chapterId, h.id);
     a.setAttribute('aria-label', '이 섹션 링크');
     a.innerHTML = String(icon('hash'));
     h.append(a);

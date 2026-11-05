@@ -1,30 +1,45 @@
 /**
  * 연구 많이 된다: reader app.
  *
- * Routes (hash based, so GitHub Pages needs no rewrites):
- *   #            home
- *   #part-2      home, scrolled to a part (legacy #tools-software works too)
- *   #ch05        chapter
- *   #ch05/slug   chapter, scrolled to a heading
+ * Every page is prerendered by scripts/build.mjs; this script hydrates it and
+ * then navigates in place with the History API.
+ *
+ *   /thinkmany/                 home (#part-2 scrolls to a part)
+ *   /thinkmany/ch05/            chapter
+ *   /thinkmany/ch05/#섹션        chapter, scrolled to a heading
+ *   /thinkmany/#ch05, #ch05/섹션 old links, redirected to the paths above
  */
-import { loadBook, fetchChapter } from './book.js';
+import { ROOT, loadBook, fetchChapter } from './book.js';
 import { renderMarkdown, enhance, highlightTerms, clearHighlights } from './render.js';
 import { initSearch } from './search.js';
-import { html, mount, icon } from './lib/html.js';
+import { mount, icon, html } from './lib/html.js';
+import { setBase, getBase, chapterHref, partHref } from './lib/paths.js';
+import { configureChapterRefs } from './lib/markdown.js';
+import { sidebarView, homeView, chapterView, chapterHead, missingView } from './views.js';
 import * as store from './lib/store.js';
+
+setBase(ROOT.pathname);
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const view = $('#view');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const desktop = matchMedia('(min-width: 1024px)');
 
+const readerState = {
+  isBookmarked: store.isBookmarked,
+  progress: store.getProgress,
+  readCount: store.readCount,
+  bookmarkCount: store.bookmarkCount,
+};
+
 let book;
 let search;
 let current = { kind: null };
 let pendingTerms = [];
+let sidebarFilter = 'all';
 
 /* ================================================================== */
-/* Theme                                                              */
+/* Theme and text size                                                */
 /* ================================================================== */
 
 function effectiveTheme() {
@@ -33,20 +48,62 @@ function effectiveTheme() {
 
 function initTheme() {
   const btn = $('#theme-btn');
-  const paint = () => {
-    const dark = effectiveTheme() === 'dark';
-    btn.innerHTML = String(icon(dark ? 'sun' : 'moon'));
-    btn.setAttribute('aria-label', dark ? '밝은 테마로 전환' : '어두운 테마로 전환');
-    btn.title = btn.getAttribute('aria-label') + ' (D)';
+  const label = () => {
+    const text = effectiveTheme() === 'dark' ? '밝은 테마로 전환' : '어두운 테마로 전환';
+    btn.setAttribute('aria-label', text);
+    btn.title = `${text} (D)`;
   };
   btn.addEventListener('click', () => {
     const next = effectiveTheme() === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = next;
     store.setTheme(next);
-    paint();
+    label();
   });
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', paint);
-  paint();
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', label);
+  label();
+}
+
+function applySize(size) {
+  if (size === 'md') delete document.documentElement.dataset.size;
+  else document.documentElement.dataset.size = size;
+  for (const b of document.querySelectorAll('#display-menu [data-size]')) b.setAttribute('aria-pressed', String(b.dataset.size === size));
+}
+
+function setSize(size) {
+  store.setSize(size);
+  applySize(size);
+  toast(`글자 크기: ${{ sm: '작게', md: '보통', lg: '크게', xl: '아주 크게' }[size]}`);
+}
+
+function stepSize(dir) {
+  const i = store.SIZES.indexOf(store.getSize());
+  const next = store.SIZES[Math.min(store.SIZES.length - 1, Math.max(0, i + dir))];
+  if (next !== store.SIZES[i]) setSize(next);
+}
+
+function initDisplayMenu() {
+  const btn = $('#display-btn');
+  const menu = $('#display-menu');
+  const open = (on) => {
+    menu.hidden = !on;
+    btn.setAttribute('aria-expanded', String(on));
+    if (on) menu.querySelector('[aria-pressed="true"]')?.focus();
+  };
+  btn.addEventListener('click', () => open(menu.hidden));
+  menu.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-size]');
+    if (b) setSize(b.dataset.size);
+  });
+  document.addEventListener('click', (e) => {
+    if (!menu.hidden && !e.target.closest('.popover-anchor')) open(false);
+  });
+  menu.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      open(false);
+      btn.focus();
+    }
+  });
+  applySize(store.getSize());
 }
 
 /* ================================================================== */
@@ -54,24 +111,22 @@ function initTheme() {
 /* ================================================================== */
 
 function initChrome() {
-  $('#menu-btn').innerHTML = String(icon('menu'));
-  $('#search-btn .icon-slot').outerHTML = String(icon('search'));
-  $('#to-top').innerHTML = String(icon('arrowUp'));
-
-  $('#menu-btn').addEventListener('click', toggleSidebar);
+  $('#menu-btn').addEventListener('click', () => toggleSidebar());
   $('#scrim').addEventListener('click', () => toggleSidebar(false));
   $('#to-top').addEventListener('click', () => scrollTo({ top: 0, behavior: smooth() }));
   desktop.addEventListener('change', resetSidebar);
   resetSidebar();
 
   const help = $('#help-dialog');
-  help.querySelector('[data-close]').innerHTML = String(icon('x'));
   help.querySelector('[data-close]').addEventListener('click', () => help.close());
   help.addEventListener('click', (e) => e.target === help && help.close());
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-help]')) help.showModal();
+  });
 
   document.addEventListener('keydown', onKey);
   let ticking = false;
-  window.addEventListener(
+  addEventListener(
     'scroll',
     () => {
       if (ticking) return;
@@ -83,9 +138,9 @@ function initChrome() {
     },
     { passive: true },
   );
-  window.addEventListener('resize', onScroll, { passive: true });
+  addEventListener('resize', onScroll, { passive: true });
   document.addEventListener('visibilitychange', () => document.hidden && persistProgress());
-  window.addEventListener('pagehide', persistProgress);
+  addEventListener('pagehide', persistProgress);
 }
 
 function smooth() {
@@ -104,9 +159,7 @@ function toggleSidebar(force) {
   if (desktop.matches) {
     const collapsed = typeof force === 'boolean' ? !force : !body.classList.contains('sidebar-collapsed');
     body.classList.toggle('sidebar-collapsed', collapsed);
-    body.classList.remove('nav-open');
     $('#menu-btn').setAttribute('aria-expanded', String(!collapsed));
-    $('#main').inert = false;
     return;
   }
   const open = typeof force === 'boolean' ? force : !body.classList.contains('nav-open');
@@ -115,8 +168,7 @@ function toggleSidebar(force) {
   $('#scrim').hidden = !open;
   $('#main').inert = open;
   if (open) {
-    const active = $('#sidebar .toc-link[aria-current="page"]') ?? $('#sidebar a');
-    active?.focus({ preventScroll: true });
+    ($('#sidebar .toc-link[aria-current="page"]') ?? $('#sidebar a'))?.focus({ preventScroll: true });
     revealInSidebar();
   }
 }
@@ -138,16 +190,21 @@ function onKey(e) {
   if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
   if (document.querySelector('dialog[open]')) return;
 
-  const chapter = current.kind === 'chapter' ? current.ch : null;
+  const ch = current.kind === 'chapter' ? current.ch : null;
+  const go = (target) => target && navigate(chapterHref(target.id));
   const actions = {
     Slash: () => (e.shiftKey ? $('#help-dialog').showModal() : search.open()),
-    KeyJ: () => chapter && jumpSection(1),
-    KeyK: () => chapter && jumpSection(-1),
-    BracketRight: () => chapter && book.next(chapter) && (location.hash = book.next(chapter).id),
-    BracketLeft: () => chapter && book.prev(chapter) && (location.hash = book.prev(chapter).id),
+    KeyJ: () => ch && jumpSection(1),
+    KeyK: () => ch && jumpSection(-1),
+    BracketRight: () => ch && go(book.next(ch)),
+    BracketLeft: () => ch && go(book.prev(ch)),
+    Equal: () => stepSize(1),
+    NumpadAdd: () => stepSize(1),
+    Minus: () => stepSize(-1),
+    NumpadSubtract: () => stepSize(-1),
     KeyT: () => toggleSidebar(),
     KeyD: () => $('#theme-btn').click(),
-    KeyB: () => chapter && $('[data-action="bookmark"]')?.click(),
+    KeyB: () => ch && $('[data-action="bookmark"]')?.click(),
   };
   const act = actions[e.code];
   if (act) {
@@ -162,23 +219,24 @@ function jumpSection(dir) {
   let i = hs.findIndex((h) => h.getBoundingClientRect().top > y);
   if (i === -1) i = hs.length;
   const target = dir > 0 ? hs[i] : hs[Math.max(0, i - 2)];
-  if (target) target.scrollIntoView({ behavior: smooth(), block: 'start' });
+  target?.scrollIntoView({ behavior: smooth(), block: 'start' });
 }
 
 /**
- * Scroll to `el` and keep it anchored while late layout settles (web fonts,
- * KaTeX, images), until the reader scrolls on their own.
+ * Scroll to an element (or a y offset) and keep it there while late layout
+ * settles (web fonts, KaTeX, images), until the reader scrolls on their own.
  */
 let unpin = null;
-function pin(el, block = 'start') {
+function pin(target, block = 'start') {
   unpin?.();
-  if (!el) return;
-  el.scrollIntoView({ block });
+  if (target == null) return;
+  const go = () => (typeof target === 'number' ? scrollTo(0, target) : target.isConnected && target.scrollIntoView({ block }));
+  go();
   let moved = false;
   const stop = () => (moved = true);
   const events = ['wheel', 'touchstart', 'keydown', 'mousedown'];
   for (const e of events) addEventListener(e, stop, { passive: true });
-  const ro = new ResizeObserver(() => !moved && el.isConnected && el.scrollIntoView({ block }));
+  const ro = new ResizeObserver(() => !moved && go());
   ro.observe(view);
   const timer = setTimeout(() => unpin?.(), 3000);
   unpin = () => {
@@ -205,65 +263,24 @@ function toast(msg) {
 /* Sidebar                                                            */
 /* ================================================================== */
 
-let sidebarFilter = 'all';
-
 function renderSidebar() {
   const nav = $('#book-toc');
-  const marks = store.bookmarkCount();
-  const read = store.readCount();
-  const total = book.chapters.length;
-
-  const filter = html`
-    <div class="sidebar-head">
-      <div class="reading-summary" aria-label="읽은 장 ${read}개, 전체 ${total}개">
-        <span><strong>${read}</strong> / ${total}장 완독</span>
-        <span class="meter" aria-hidden="true"><span style="width:${(read / total) * 100}%"></span></span>
-      </div>
-      <div class="segmented" role="group" aria-label="목차 보기">
-        <button type="button" data-filter="all" aria-pressed="${sidebarFilter === 'all'}">전체</button>
-        <button type="button" data-filter="bookmarks" aria-pressed="${sidebarFilter === 'bookmarks'}">북마크 <span class="count">${marks}</span></button>
-      </div>
-    </div>`;
-
-  const parts = book.parts
-    .map((p) => ({ p, chs: sidebarFilter === 'bookmarks' ? p.chapters.filter((c) => store.isBookmarked(c.id)) : p.chapters }))
-    .filter(({ chs }) => chs.length);
-
-  const body = parts.length
-    ? parts.map(
-        ({ p, chs }) => html`
-        <div class="toc-part" data-color="${p.color}">
-          <a class="toc-part-title" href="#${p.id}"><span class="toc-part-num">${p.number}</span>${p.title}</a>
-          <ol>
-            ${chs.map((c) => html`<li>${tocLink(c)}</li>`)}
-          </ol>
-        </div>`,
-      )
-    : html`<p class="toc-empty">북마크한 장이 없습니다.<br>장 제목 옆의 ${icon('bookmark')} 버튼으로 추가하세요.</p>`;
-
-  mount(nav, html`${filter}<nav class="toc-parts" aria-label="책 목차">${body}</nav>`);
-
-  nav.querySelectorAll('[data-filter]').forEach((b) =>
-    b.addEventListener('click', () => {
-      sidebarFilter = b.dataset.filter;
-      renderSidebar();
-    }),
-  );
-  nav.querySelector('.toc-parts').addEventListener('click', (e) => {
-    if (e.target.closest('a') && !desktop.matches) toggleSidebar(false);
-  });
-  markSidebar();
+  const currentId = current.kind === 'chapter' ? current.ch.id : null;
+  mount(nav, sidebarView(book, { state: readerState, filter: sidebarFilter, currentId }));
+  revealInSidebar();
 }
 
-function tocLink(c) {
-  const pr = store.getProgress(c.id);
-  const state = pr?.done ? 'done' : pr?.p > 0.02 ? 'started' : '';
-  return html`<a class="toc-link" href="#${c.id}" data-id="${c.id}" data-state="${state}">
-    <span class="toc-num">${c.num}</span>
-    <span class="toc-title">${c.title}</span>
-    ${store.isBookmarked(c.id) ? html`<span class="toc-mark" aria-label="북마크">${icon('bookmark')}</span>` : ''}
-    <span class="toc-state" aria-hidden="true"></span>
-  </a>`;
+function initSidebar() {
+  const nav = $('#book-toc');
+  nav.addEventListener('click', (e) => {
+    const f = e.target.closest('[data-filter]');
+    if (f) {
+      sidebarFilter = f.dataset.filter;
+      renderSidebar();
+    } else if (e.target.closest('a') && !desktop.matches) {
+      toggleSidebar(false);
+    }
+  });
 }
 
 function markSidebar() {
@@ -279,48 +296,102 @@ function revealInSidebar() {
   const sb = $('#sidebar');
   const a = sb.querySelector('.toc-link[aria-current="page"]');
   if (!a) return;
-  const top = a.offsetTop - sb.clientHeight / 3;
-  if (a.offsetTop < sb.scrollTop + 80 || a.offsetTop > sb.scrollTop + sb.clientHeight - 80) sb.scrollTop = Math.max(0, top);
+  if (a.offsetTop < sb.scrollTop + 80 || a.offsetTop > sb.scrollTop + sb.clientHeight - 80) {
+    sb.scrollTop = Math.max(0, a.offsetTop - sb.clientHeight / 3);
+  }
 }
 
 /* ================================================================== */
 /* Router                                                             */
 /* ================================================================== */
 
-function parseHash() {
-  const raw = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
-  if (!raw) return { kind: 'home' };
-  const [head, ...rest] = raw.split('/');
-  const ch = book.chapter(head);
-  if (ch) return { kind: 'chapter', ch, anchor: rest.join('/') };
-  const part = book.part(head);
-  if (part) return { kind: 'home', part };
-  return { kind: 'missing', id: raw };
+/** What a URL points at, or 'external' for anything the reader doesn't own. */
+function parse(url) {
+  const base = getBase();
+  const path = decodeURIComponent(url.pathname);
+  if (!path.startsWith(base)) return { kind: 'external' };
+  const rest = path.slice(base.length).replace(/(^|\/)index\.html$/, '').replace(/\/$/, '');
+  const hash = decodeURIComponent(url.hash.slice(1));
+
+  if (rest === '' || rest === 'app.html') {
+    if (!hash) return { kind: 'home' };
+    const [head, ...tail] = hash.replace(/^\//, '').split('/');
+    const legacy = book.chapter(head);
+    if (legacy) return { kind: 'redirect', to: chapterHref(legacy.id, tail.join('/')) };
+    const part = book.part(head);
+    if (part) return part.id === head ? { kind: 'home', part } : { kind: 'redirect', to: partHref(part.id) };
+    return { kind: 'home' };
+  }
+  if (rest.includes('/')) return { kind: 'external' };
+  const ch = book.chapter(rest);
+  if (ch) return { kind: 'chapter', ch, anchor: hash };
+  return /^[a-z0-9-]+$/.test(rest) ? { kind: 'missing', id: rest } : { kind: 'external' };
 }
 
-let homeScroll = 0;
+function rememberScroll() {
+  history.replaceState({ ...(history.state ?? {}), y: scrollY }, '');
+}
 
-async function route() {
+function navigate(href, { terms = [], replace = false } = {}) {
+  if (!replace) rememberScroll();
+  pendingTerms = terms;
+  history[replace ? 'replaceState' : 'pushState']({}, '', href);
+  route();
+}
+
+function interceptLinks() {
+  document.addEventListener('click', (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest('a[href]');
+    if (!a || a.classList.contains('skip-link') || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin) return;
+    const r = parse(url);
+    if (r.kind === 'external' || r.kind === 'missing') return;
+    e.preventDefault();
+    if (url.href === location.href && r.kind === 'chapter' && r.anchor) {
+      scrollToAnchor(r.anchor, true);
+      return;
+    }
+    navigate(url.href);
+  });
+}
+
+async function route({ initial = false, pop = false } = {}) {
   unpin?.();
-  const next = parseHash();
+  const next = parse(location);
+  if (next.kind === 'redirect') {
+    history.replaceState(history.state, '', next.to);
+    return route({ initial, pop });
+  }
+  if (next.kind === 'external') {
+    // Only reachable on first load (e.g. the offline shell at an odd path); never reload in a loop.
+    if (initial) showMissing(decodeURIComponent(location.pathname));
+    else location.reload();
+    return;
+  }
+
   persistProgress();
-  if (current.kind === 'home') homeScroll = scrollY;
   if (!desktop.matches) toggleSidebar(false);
+  const y = pop ? history.state?.y : undefined;
+  const terms = pendingTerms;
+  pendingTerms = [];
 
-  if (next.kind === 'chapter' && current.kind === 'chapter' && current.ch === next.ch) {
-    current.anchor = next.anchor;
-    const terms = pendingTerms;
-    pendingTerms = [];
-    scrollToAnchor(next.anchor, true, terms);
+  if (!initial && next.kind === 'chapter' && current.kind === 'chapter' && current.ch === next.ch) {
+    if (y != null) pin(y);
+    else scrollToAnchor(next.anchor, true, terms);
     return;
   }
-  if (next.kind === 'home' && current.kind === 'home' && next.part) {
-    document.getElementById(next.part.id)?.scrollIntoView({ block: 'start', behavior: smooth() });
+  if (!initial && next.kind === 'home' && current.kind === 'home') {
+    if (next.part) document.getElementById(next.part.id)?.scrollIntoView({ block: 'start', behavior: smooth() });
+    else pin(y ?? 0);
     return;
   }
 
-  if (next.kind === 'chapter') await showChapter(next.ch, next.anchor);
-  else if (next.kind === 'home') showHome(next.part);
+  const hydrate = initial && view.dataset.prerendered === (next.kind === 'chapter' ? next.ch.id : next.kind);
+  view.dataset.prerendered = '';
+  if (next.kind === 'chapter') await showChapter(next.ch, { anchor: next.anchor, terms, y, hydrate });
+  else if (next.kind === 'home') showHome({ part: next.part, y, hydrate });
   else showMissing(next.id);
 }
 
@@ -328,144 +399,29 @@ async function route() {
 /* Home                                                               */
 /* ================================================================== */
 
-function showHome(part) {
+function showHome({ part, y, hydrate }) {
   current = { kind: 'home' };
   document.title = '연구 많이 된다 · 대학원생 연구 가이드';
   document.body.dataset.view = 'home';
 
-  const t = book.totals;
-  const hours = t ? Math.round(t.minutes / 60) : null;
-  const first = book.chapters[0];
-  const lastId = store.lastChapter();
-  let resume = lastId ? book.chapter(lastId) : null;
-  let resumePr = resume ? store.getProgress(resume.id) : null;
-  if (resume && resumePr?.done) {
-    resume = book.next(resume);
-    resumePr = resume ? store.getProgress(resume.id) : null;
-  }
+  let resume = store.lastChapter() ? book.chapter(store.lastChapter()) : null;
+  if (resume && store.getProgress(resume.id)?.done) resume = book.next(resume);
 
-  mount(
-    view,
-    html`
-    <section class="hero">
-      <p class="eyebrow">한국 공학 대학원 실전 가이드</p>
-      <h1 class="hero-title">연구 많이 된다<span>잘 때도 생각날 거야</span></h1>
-      <p class="hero-lede">박사 과정의 시행착오를 줄이는 ${book.chapters.length}개의 장. 논문, 실험, AI, 멘탈, 커리어를 한국 연구실의 현실에 맞춰 한 흐름으로 엮었습니다.</p>
-      <div class="hero-actions">
-        ${
-          resume
-            ? html`<a class="btn btn-primary" href="#${resume.id}">${icon('book')}<span>이어 읽기 <small>${resume.num ? resume.num + '. ' : ''}${resume.title}${resumePr?.p ? ` · ${Math.round(resumePr.p * 100)}%` : ''}</small></span></a>
-                   <a class="btn btn-ghost" href="#${first.id}">처음부터</a>`
-            : html`<a class="btn btn-primary" href="#${first.id}">${icon('book')}<span>처음부터 읽기</span></a>`
-        }
-        <button class="btn btn-ghost" type="button" data-action="search">${icon('search')}<span>검색</span></button>
-      </div>
-      <dl class="hero-stats">
-        <div><dt>장</dt><dd>${book.chapters.length}</dd></div>
-        <div><dt>파트</dt><dd>${book.parts.length}</dd></div>
-        ${t ? html`<div><dt>섹션</dt><dd>${t.sections.toLocaleString('ko-KR')}</dd></div>` : ''}
-        ${hours ? html`<div><dt>분량</dt><dd>약 ${hours}<small>시간</small></dd></div>` : ''}
-      </dl>
-    </section>
-
-    ${
-      book.paths.length
-        ? html`<section class="home-block" aria-labelledby="paths-title">
-      <div class="block-head">
-        <h2 id="paths-title">어디서 시작할까</h2>
-        <p>처음부터 읽지 않아도 됩니다. 지금 있는 자리에서 시작하세요.</p>
-      </div>
-      <div class="paths">
-        ${book.paths.map(
-          (p) => html`<article class="path-card">
-          <h3>${p.title}</h3>
-          <p>${p.desc}</p>
-          <ol>${p.chapters.map((c) => html`<li><a href="#${c.id}"><span class="num">${c.num}</span>${c.title}</a></li>`)}</ol>
-        </article>`,
-        )}
-      </div>
-    </section>`
-        : ''
-    }
-
-    <section class="home-block" aria-labelledby="contents-title">
-      <div class="block-head">
-        <h2 id="contents-title">차례</h2>
-        <p>${book.parts.length}개 파트 · ${book.chapters.length}개 장${hours ? ` · 약 ${hours}시간 분량` : ''}</p>
-      </div>
-      <div class="parts">
-        ${book.parts.map(
-          (p) => html`<section class="part" id="${p.id}" data-color="${p.color}" aria-labelledby="${p.id}-title">
-          <header class="part-head">
-            <span class="part-num">Part ${p.number}</span>
-            <h3 id="${p.id}-title">${p.title}</h3>
-            ${p.desc ? html`<p>${p.desc}</p>` : ''}
-          </header>
-          <ol class="chapter-list">
-            ${p.chapters.map((c) => chapterRow(c))}
-          </ol>
-        </section>`,
-        )}
-      </div>
-    </section>
-    ${footer()}`,
-  );
-
+  mount(view, homeView(book, { state: readerState, resume }));
   view.querySelector('[data-action="search"]').addEventListener('click', () => search.open());
   markSidebar();
-  updateProgressBar();
 
-  if (part) {
-    pin(document.getElementById(part.id));
-  } else {
-    scrollTo(0, homeScroll);
-  }
-}
-
-function chapterRow(c) {
-  const pr = store.getProgress(c.id);
-  const pct = pr ? Math.round(pr.p * 100) : 0;
-  const state = pr?.done ? html`<span class="row-state is-done" title="완독">${icon('check')}</span>` : pct > 2 ? html`<span class="row-state" title="${pct}% 읽음">${pct}%</span>` : '';
-  return html`<li>
-    <a class="chapter-row" href="#${c.id}">
-      <span class="num">${c.num}</span>
-      <span class="body">
-        <span class="title">${c.title}${store.isBookmarked(c.id) ? html` <span class="row-mark" aria-label="북마크">${icon('bookmark')}</span>` : ''}</span>
-        ${c.lead ? html`<span class="lead">${c.lead}</span>` : ''}
-      </span>
-      <span class="meta">${c.minutes ? `${c.minutes}분` : ''}</span>
-      ${state}
-    </a>
-  </li>`;
-}
-
-function footer() {
-  return html`<footer class="site-footer">
-    <div>
-      <p class="footer-title">연구 많이 된다</p>
-      <p>Sang Min Lee · 계속 자라는 문서</p>
-    </div>
-    <nav aria-label="사이트 링크">
-      <a href="https://github.com/concrete-sangminlee/thinkmany" rel="noopener">GitHub</a>
-      <button type="button" class="link-btn" data-help>단축키</button>
-      <a href="admin/">관리</a>
-    </nav>
-  </footer>`;
+  if (part) pin(document.getElementById(part.id));
+  else if (y != null) pin(y);
+  else if (!hydrate) scrollTo(0, 0);
+  onScroll();
 }
 
 function showMissing(id) {
   current = { kind: 'missing' };
   document.body.dataset.view = 'missing';
   document.title = '찾을 수 없음 · 연구 많이 된다';
-  mount(
-    view,
-    html`<div class="state-message">
-      <p class="eyebrow">404</p>
-      <h1>“${id}”에 해당하는 장이 없습니다</h1>
-      <p>링크가 바뀌었거나 잘못 입력된 주소일 수 있습니다.</p>
-      <p><a class="btn btn-primary" href="#">차례로 돌아가기</a> <button class="btn btn-ghost" type="button" data-action="search">검색하기</button></p>
-    </div>`,
-  );
+  mount(view, missingView(id));
   view.querySelector('[data-action="search"]').addEventListener('click', () => search.open());
   markSidebar();
   scrollTo(0, 0);
@@ -477,117 +433,58 @@ function showMissing(id) {
 
 let renderToken = 0;
 
-async function showChapter(ch, anchor) {
+async function showChapter(ch, { anchor = '', terms = [], y, hydrate = false }) {
   const token = ++renderToken;
-  current = { kind: 'chapter', ch, anchor, headings: [], saved: 0 };
+  current = { kind: 'chapter', ch, headings: [], saved: 0 };
   document.body.dataset.view = 'chapter';
   document.title = `${ch.title} · 연구 많이 된다`;
+  configureChapterRefs({ titles: book.titles, current: ch.id });
   markSidebar();
 
-  mount(view, chapterShell(ch, ch.lead, ch.toc));
-  scrollTo(0, 0);
-  updateProgressBar();
-
-  let md;
-  try {
-    md = await fetchChapter(ch);
-  } catch {
+  const prose = hydrate ? $('#prose') : null;
+  if (prose) {
+    // The page arrived prerendered: keep its prose, refresh the header with reader state.
+    $('.chapter-head').outerHTML = String(chapterHead(book, ch, { state: readerState }));
+  } else {
+    mount(view, chapterView(book, ch, { state: readerState }));
+    if (y == null) scrollTo(0, 0);
+    let md;
+    try {
+      md = await fetchChapter(ch);
+    } catch {
+      if (token !== renderToken) return;
+      const why = navigator.onLine ? '네트워크 상태를 확인한 뒤 다시 시도해 주세요.' : '오프라인에서는 한 번 열어 본 장만 읽을 수 있습니다.';
+      mount($('#prose'), html`<div class="state-message"><h2>이 장을 불러오지 못했습니다</h2><p>${why}</p><p><button class="btn btn-ghost" type="button" data-retry>다시 시도</button></p></div>`);
+      $('[data-retry]').addEventListener('click', () => showChapter(ch, { anchor, terms }));
+      return;
+    }
     if (token !== renderToken) return;
-    const why = navigator.onLine ? '네트워크 상태를 확인한 뒤 다시 시도해 주세요.' : '오프라인에서는 한 번 열어 본 장만 읽을 수 있습니다.';
-    mount($('#prose'), html`<div class="state-message"><h2>이 장을 불러오지 못했습니다</h2><p>${why}</p><p><button class="btn btn-ghost" type="button" data-retry>다시 시도</button></p></div>`);
-    $('[data-retry]').addEventListener('click', () => showChapter(ch, anchor));
-    return;
-  }
-  if (token !== renderToken) return;
 
-  const { html: body, lead: rawLead, headings } = renderMarkdown(md);
-  const lead = rawLead && rawLead !== ch.title ? rawLead : '';
-  const ids = (list) => list.map((h) => h.id).join('\n');
-  if (lead !== ch.lead || ids(headings) !== ids(ch.toc)) {
-    // index.json is stale (e.g. right after an edit in /admin): trust the chapter itself.
-    ch.lead = lead;
-    ch.toc = headings;
-    mount(view, chapterShell(ch, ch.lead, ch.toc));
+    const { html: body, lead: rawLead, headings } = renderMarkdown(md);
+    const lead = rawLead && rawLead !== ch.title ? rawLead : '';
+    const ids = (list) => list.map((h) => h.id).join('\n');
+    if (lead !== ch.lead || ids(headings) !== ids(ch.toc)) {
+      // index.json is stale (e.g. right after an edit in /admin): trust the chapter itself.
+      ch.lead = lead;
+      ch.toc = headings;
+      mount(view, chapterView(book, ch, { state: readerState }));
+    }
+    const el = $('#prose');
+    el.innerHTML = body;
+    el.removeAttribute('aria-busy');
   }
 
-  const prose = $('#prose');
-  prose.innerHTML = body;
-  prose.removeAttribute('aria-busy');
-  enhance(prose, ch.id);
-  current.headings = [...prose.querySelectorAll('h2[id], h3[id]')];
+  const el = $('#prose');
+  enhance(el, ch.id);
+  current.headings = [...el.querySelectorAll('h2[id], h3[id]')];
   wireChapter(ch);
 
-  const terms = pendingTerms;
-  pendingTerms = [];
-  if (anchor || terms.length) scrollToAnchor(anchor, false, terms);
+  if (y != null) pin(y);
+  else if (anchor || terms.length) scrollToAnchor(anchor, false, terms);
   else showResume(ch);
 
-  $('.chapter-title').focus({ preventScroll: true });
+  if (!hydrate) $('.chapter-title').focus({ preventScroll: true });
   onScroll();
-}
-
-function chapterShell(ch, lead, toc) {
-  const prev = book.prev(ch);
-  const next = book.next(ch);
-  const h2 = toc.filter((t) => t.depth === 2).length;
-  const pr = store.getProgress(ch.id);
-  const marked = store.isBookmarked(ch.id);
-
-  return html`
-  <div class="chapter-layout">
-    <article class="chapter" data-color="${ch.part.color}">
-      <header class="chapter-head">
-        <a class="crumb" href="#${ch.part.id}">Part ${ch.part.number} · ${ch.part.title}</a>
-        <h1 class="chapter-title" tabindex="-1">${ch.num ? html`<span class="chapter-num">${ch.num}</span>` : ''}${ch.title}</h1>
-        ${lead ? html`<p class="chapter-lead">${lead}</p>` : ''}
-        <div class="chapter-meta">
-          <span>${[ch.minutes ? `약 ${ch.minutes}분` : '', h2 ? `${h2}개 섹션` : '', pr?.done ? '완독' : ''].filter(Boolean).join(' · ')}</span>
-          <span class="chapter-actions">
-            <button type="button" class="icon-btn${marked ? ' is-on' : ''}" data-action="bookmark" aria-pressed="${marked}" aria-label="북마크" title="북마크 (B)">${icon('bookmark')}</button>
-            <button type="button" class="icon-btn" data-action="copy-link" aria-label="링크 복사" title="링크 복사">${icon('link')}</button>
-            <button type="button" class="icon-btn" data-action="print" aria-label="인쇄 또는 PDF로 저장" title="인쇄 / PDF 저장">${icon('printer')}</button>
-          </span>
-        </div>
-        <div class="resume" id="resume" hidden></div>
-        ${
-          toc.length
-            ? html`<details class="toc-inline">
-          <summary>${icon('list')}<span>이 장의 차례</span></summary>
-          ${pageToc(toc)}
-        </details>`
-            : ''
-        }
-      </header>
-
-      <div class="prose" id="prose" aria-busy="true">
-        <div class="skeleton" aria-label="불러오는 중">${Array.from({ length: 7 }, () => html`<span></span>`)}</div>
-      </div>
-
-      <nav class="pager" aria-label="장 이동">
-        ${prev ? html`<a class="pager-link prev" href="#${prev.id}" rel="prev"><span class="pager-dir">${icon('arrowLeft')} 이전 장</span><span class="pager-title">${prev.title}</span></a>` : html`<span></span>`}
-        ${next ? html`<a class="pager-link next" href="#${next.id}" rel="next"><span class="pager-dir">다음 장 ${icon('arrowRight')}</span><span class="pager-title">${next.title}</span></a>` : html`<a class="pager-link next" href="#"><span class="pager-dir">마지막 장입니다</span><span class="pager-title">차례로 돌아가기</span></a>`}
-      </nav>
-    </article>
-
-    ${toc.length ? html`<aside class="page-toc" aria-label="이 장의 차례"><p class="page-toc-title">이 장의 차례</p>${pageToc(toc)}</aside>` : ''}
-  </div>
-  ${footer()}`;
-}
-
-function pageToc(toc) {
-  const groups = [];
-  for (const t of toc) {
-    if (t.depth === 2 || !groups.length) groups.push({ h: t, children: [] });
-    else groups[groups.length - 1].children.push(t);
-  }
-  return html`<ol class="toc-tree">
-    ${groups.map(
-      (g) => html`<li data-id="${g.h.id}">
-      <a href="#${current.ch.id}/${g.h.id}" data-id="${g.h.id}">${g.h.text}</a>
-      ${g.children.length ? html`<ol>${g.children.map((c) => html`<li><a href="#${current.ch.id}/${c.id}" data-id="${c.id}">${c.text}</a></li>`)}</ol>` : ''}
-    </li>`,
-    )}
-  </ol>`;
 }
 
 function wireChapter(ch) {
@@ -600,7 +497,7 @@ function wireChapter(ch) {
     renderSidebar();
   });
   view.querySelector('[data-action="copy-link"]').addEventListener('click', async () => {
-    const url = new URL(`#${ch.id}`, location.href).href;
+    const url = new URL(chapterHref(ch.id), location.origin).href;
     try {
       await navigator.clipboard.writeText(url);
       toast('링크를 복사했습니다');
@@ -608,7 +505,7 @@ function wireChapter(ch) {
       toast(url);
     }
   });
-  view.querySelector('[data-action="print"]').addEventListener('click', () => window.print());
+  view.querySelector('[data-action="print"]').addEventListener('click', () => print());
   view.querySelector('.toc-inline')?.addEventListener('click', (e) => {
     if (e.target.closest('a')) e.currentTarget.open = false;
   });
@@ -619,9 +516,7 @@ function scrollToAnchor(anchor, animate, terms = []) {
   if (!prose) return;
   clearHighlights(prose);
   const heading = anchor ? prose.querySelector(`#${CSS.escape(anchor)}`) : null;
-  let target = heading;
-  if (terms.length) target = highlightTerms(prose, heading, terms) ?? heading;
-
+  const target = terms.length ? (highlightTerms(prose, heading, terms) ?? heading) : heading;
   if (!target) {
     if (anchor) toast('해당 섹션을 찾지 못해 장의 처음으로 이동했습니다');
     scrollTo({ top: 0 });
@@ -661,19 +556,17 @@ function chapterFraction() {
   const prose = $('#prose');
   if (!prose) return 0;
   const r = prose.getBoundingClientRect();
-  const read = innerHeight - r.top;
-  return Math.min(1, Math.max(0, read / Math.max(1, r.height)));
+  return Math.min(1, Math.max(0, (innerHeight - r.top) / Math.max(1, r.height)));
 }
 
 function updateProgressBar() {
-  const bar = $('#progress span');
   let f;
   if (current.kind === 'chapter') f = chapterFraction();
   else {
     const max = document.documentElement.scrollHeight - innerHeight;
     f = max > 0 ? scrollY / max : 0;
   }
-  bar.style.transform = `scaleX(${f})`;
+  $('#progress span').style.transform = `scaleX(${f})`;
 }
 
 function currentHeading() {
@@ -711,9 +604,8 @@ function spy() {
   }
   const rail = $('.page-toc');
   const a = rail?.querySelector('a[aria-current]');
-  if (a) {
-    const y = a.offsetTop;
-    if (y < rail.scrollTop + 40 || y > rail.scrollTop + rail.clientHeight - 60) rail.scrollTop = Math.max(0, y - rail.clientHeight / 3);
+  if (a && (a.offsetTop < rail.scrollTop + 40 || a.offsetTop > rail.scrollTop + rail.clientHeight - 60)) {
+    rail.scrollTop = Math.max(0, a.offsetTop - rail.clientHeight / 3);
   }
 }
 
@@ -736,7 +628,7 @@ function persistProgress() {
   if (current.kind !== 'chapter' || !current.headings?.length) return;
   current.saved = Date.now();
   const f = chapterFraction();
-  if (f < 0.02 || scrollY < innerHeight / 2) return;
+  if (f < 0.02 || scrollY < innerHeight / 2) return; // opening a chapter is not reading it
   const before = store.getProgress(current.ch.id);
   const after = store.saveProgress(current.ch.id, { p: f, at: currentHeading()?.id });
   if (after.done && !before?.done) {
@@ -753,36 +645,32 @@ function persistProgress() {
 
 async function boot() {
   initTheme();
+  initDisplayMenu();
   initChrome();
+  initSidebar();
 
   try {
     book = await loadBook();
   } catch (err) {
-    mount(view, html`<div class="state-message"><h1>목차를 불러오지 못했습니다</h1><p>네트워크 상태를 확인한 뒤 새로고침해 주세요.</p><p class="muted">${String(err.message ?? err)}</p></div>`);
+    if (!view.dataset.prerendered) {
+      mount(view, html`<div class="state-message"><h1>목차를 불러오지 못했습니다</h1><p>네트워크 상태를 확인한 뒤 새로고침해 주세요.</p><p class="muted">${String(err.message ?? err)}</p></div>`);
+    }
     throw err;
   }
 
-  renderSidebar();
-  search = initSearch(book, {
-    onOpenResult(href, terms) {
-      pendingTerms = terms;
-      if (location.hash === href) route();
-      else location.hash = href;
-    },
-  });
+  search = initSearch(book, { onOpenResult: (href, terms) => navigate(href, { terms }) });
   $('#search-btn').addEventListener('click', () => search.open());
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('[data-help]')) $('#help-dialog').showModal();
-  });
 
-  // The router owns scroll positions; the browser's own restoration would
-  // scroll the outgoing chapter before hashchange and corrupt its progress.
+  // The router owns scroll positions (saved per history entry in history.state).
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  window.addEventListener('hashchange', route);
-  route();
+  interceptLinks();
+  addEventListener('popstate', () => route({ pop: true }));
+
+  await route({ initial: true });
+  renderSidebar();
 
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+    navigator.serviceWorker.register(new URL('sw.js', ROOT).href, { scope: ROOT.pathname }).catch(() => {});
   }
 }
 

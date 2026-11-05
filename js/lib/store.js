@@ -48,6 +48,18 @@ export function setTheme(t) {
   write('theme', t);
 }
 
+/* ---------- reading size ---------- */
+export const SIZES = ['sm', 'md', 'lg', 'xl'];
+
+export function getSize() {
+  const v = read('size', 'md');
+  return SIZES.includes(v) ? v : 'md';
+}
+
+export function setSize(v) {
+  write('size', SIZES.includes(v) ? v : 'md');
+}
+
 /* ---------- bookmarks ---------- */
 let bookmarks = new Set(read('bookmarks', []));
 

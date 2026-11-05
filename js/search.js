@@ -4,6 +4,8 @@
  * background the first time the dialog opens.
  */
 import { html, mount, icon } from './lib/html.js';
+import { chapterHref } from './lib/paths.js';
+import { chapterUrl } from './book.js';
 
 const MAX_CHAPTERS = 5;
 const MAX_HEADINGS = 10;
@@ -46,7 +48,7 @@ export function initSearch(book, { onOpenResult }) {
     };
     worker.postMessage({
       type: 'index',
-      chapters: book.chapters.map((c) => ({ id: c.id, order: c.order, url: new URL(`content/${c.file}`, document.baseURI).href })),
+      chapters: book.chapters.map((c) => ({ id: c.id, order: c.order, url: chapterUrl(c) })),
     });
   }
 
@@ -117,19 +119,19 @@ export function initSearch(book, { onOpenResult }) {
     if (chapters.length) {
       groups.push(html`<li class="search-group" role="presentation">챕터</li>`);
       for (const c of chapters) {
-        groups.push(item(`#${c.id}`, html`${c.part.number} · ${c.part.title}`, mark(c.title, ts), c.lead ? mark(c.lead, ts) : ''));
+        groups.push(item(chapterHref(c.id), html`${c.part.number} · ${c.part.title}`, mark(c.title, ts), c.lead ? mark(c.lead, ts) : ''));
       }
     }
     if (headings.length) {
       groups.push(html`<li class="search-group" role="presentation">섹션</li>`);
-      for (const { c, h } of headings) groups.push(item(`#${c.id}/${h.id}`, html`${c.title}`, mark(h.text, ts), ''));
+      for (const { c, h } of headings) groups.push(item(chapterHref(c.id, h.id), html`${c.title}`, mark(h.text, ts), ''));
     }
     if (bodyHits.length) {
       groups.push(html`<li class="search-group" role="presentation">본문 <span>${body.total}곳</span></li>`);
       for (const r of bodyHits) {
         const c = book.chapter(r.ch);
         if (!c) continue;
-        groups.push(item(`#${c.id}${r.id ? '/' + r.id : ''}`, html`${c.title}`, r.title ? mark(r.title, ts) : html`들어가며`, mark(r.snippet, ts), true));
+        groups.push(item(chapterHref(c.id, r.id), html`${c.title}`, r.title ? mark(r.title, ts) : html`들어가며`, mark(r.snippet, ts), true));
       }
     }
 

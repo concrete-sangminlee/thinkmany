@@ -2,21 +2,22 @@
 /**
  * Regenerates the raster images from their sources (dev-only, needs Playwright):
  *   assets/favicon.svg     -> assets/icon-180.png, icon-192.png, icon-512.png
- *   scripts/og-image.html  -> assets/og-image.png (1200x630 social card)
+ *   templates/og-image.html -> assets/og-image.png (1200x630 social card)
  *
- *   node scripts/build-index.mjs && node scripts/render-images.mjs
+ *   node scripts/render-images.mjs
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { loadBookData } from './lib/book-data.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ASSETS = path.join(ROOT, 'assets');
-const { totals } = JSON.parse(fs.readFileSync(path.join(ROOT, 'content/index.json'), 'utf8'));
+const { index: { totals } } = loadBookData(ROOT);
 
 const proxy = process.env.HTTPS_PROXY ? { server: process.env.HTTPS_PROXY } : undefined;
 const browser = await chromium.launch({ proxy });
@@ -37,9 +38,9 @@ try {
     sections: totals.sections.toLocaleString('ko-KR'),
     hours: Math.round(totals.minutes / 60),
   };
-  const tpl = path.join(ROOT, 'scripts/og-image.html');
+  const tpl = path.join(ROOT, 'templates/og-image.html');
   const htmlSrc = fs.readFileSync(tpl, 'utf8').replace(/\{\{(\w+)\}\}/g, (_, k) => fill[k]);
-  const tmp = path.join(ROOT, 'scripts/.og-render.html');
+  const tmp = path.join(ROOT, 'templates/.og-render.html');
   fs.writeFileSync(tmp, htmlSrc);
   const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
   await page.goto(pathToFileURL(tmp).href, { waitUntil: 'networkidle' });

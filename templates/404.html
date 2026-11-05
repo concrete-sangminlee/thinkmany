@@ -7,13 +7,15 @@
   <meta name="robots" content="noindex">
   <title>404 · 연구 많이 된다</title>
   <script>
-    // /thinkmany/ch05 or /thinkmany/ch05/섹션 -> the reader's hash route
+    // Old-style {{base}}ch05/섹션 links -> {{base}}ch05/#섹션
     (function () {
-      var m = location.pathname.match(/^\/thinkmany\/(ch\d+)(?:\/(.+?))?\/?$/);
-      if (m) location.replace('/thinkmany/#' + m[1] + (m[2] ? '/' + m[2] : ''));
+      var base = '{{base}}';
+      var rest = location.pathname.indexOf(base) === 0 ? location.pathname.slice(base.length) : '';
+      var m = rest.match(/^(ch\d{2})\/(.+?)\/?$/);
+      if (m) location.replace(base + m[1] + '/#' + m[2]);
     })();
   </script>
-  <link rel="icon" href="/thinkmany/assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="{{base}}assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <style>
     :root {
@@ -65,7 +67,7 @@
 </head>
 <body>
   <main>
-    <img src="/thinkmany/assets/favicon.svg" alt="" width="48" height="48">
+    <img src="{{base}}assets/favicon.svg" alt="" width="48" height="48">
     <p class="code">404</p>
     <h1>이 페이지는 본인의 분야가 아닌 것 같다</h1>
     <p>찾는 페이지가 없거나 주소가 바뀌었습니다.</p>
@@ -73,8 +75,8 @@
       <strong>논문 읽기의 원칙 하나.</strong> 모든 논문을 이해할 필요는 없다. 첫 번째 패스에서 “내 분야가 아니다” 싶으면 10분 안에 넘어간다. 이 페이지도 그런 논문이다.
     </blockquote>
     <div class="actions">
-      <a class="btn primary" href="/thinkmany/">차례로 돌아가기</a>
-      <a class="btn" href="/thinkmany/#ch01">첫 장 읽기</a>
+      <a class="btn primary" href="{{base}}">차례로 돌아가기</a>
+      <a class="btn" href="{{base}}ch01/">첫 장 읽기</a>
     </div>
   </main>
 </body>

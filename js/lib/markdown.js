@@ -1,11 +1,12 @@
 /**
- * Markdown pipeline shared by the browser and scripts/build-index.mjs.
+ * Markdown pipeline shared by the browser and scripts/build.mjs.
  *
- * Heading ids, the chapter outline and the reading-time estimate all come
- * from here, so the generated content/index.json always agrees with what the
- * reader renders. Keep this module free of DOM APIs.
+ * Heading ids, the chapter outline, chapter cross-links and the reading-time
+ * estimate all come from here, so the prerendered pages, content/index.json
+ * and what the reader renders always agree. Keep this module free of DOM APIs.
  */
 import { Marked } from '../vendor/marked.esm.js';
+import { chapterHref } from './paths.js';
 
 /** Korean reading speed used for "약 N분" (non-whitespace characters per minute). */
 export const CHARS_PER_MINUTE = 500;
@@ -85,11 +86,41 @@ const mathInline = {
 };
 
 /* ------------------------------------------------------------------ */
+/* Chapter references: "ch05" in prose becomes a link to that chapter. */
+/* ------------------------------------------------------------------ */
+
+let refs = { titles: new Map(), current: '' };
+
+/** Tell the pipeline which chapters exist and which one is being rendered. */
+export function configureChapterRefs({ titles = new Map(), current = '' } = {}) {
+  refs = { titles, current };
+}
+
+const chapterRef = {
+  name: 'chapterRef',
+  level: 'inline',
+  start(src) {
+    const m = /(?<![A-Za-z0-9_./#-])ch\d{2}(?![A-Za-z0-9_-])/.exec(src);
+    return m ? m.index : undefined;
+  },
+  tokenizer(src) {
+    if (this.lexer.state.inLink) return undefined;
+    const m = /^ch\d{2}(?![A-Za-z0-9_-])/.exec(src);
+    if (!m || !refs.titles.has(m[0]) || m[0] === refs.current) return undefined;
+    return { type: 'chapterRef', raw: m[0], text: m[0], id: m[0] };
+  },
+  renderer(token) {
+    const title = refs.titles.get(token.id);
+    return `<a class="xref" href="${escapeHtml(chapterHref(token.id))}" title="${escapeHtml(title)}">${token.text}</a>`;
+  },
+};
+
+/* ------------------------------------------------------------------ */
 
 const marked = new Marked({ gfm: true, breaks: false });
 
 marked.use({
-  extensions: [mathBlock, mathInline],
+  extensions: [mathBlock, mathInline, chapterRef],
   renderer: {
     heading(token) {
       const inner = this.parser.parseInline(token.tokens);
