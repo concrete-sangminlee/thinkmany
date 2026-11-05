@@ -39,6 +39,13 @@ test('chapter references link to existing chapters only', () => {
   assert.equal((out.match(/class="xref"/g) ?? []).length, 1);
 });
 
+test('analyzeChapter lists referenced chapters, most mentioned first', () => {
+  configureChapterRefs({ titles: new Map([['ch01', 'a'], ['ch02', 'b'], ['ch03', 'c']]), current: 'ch03' });
+  const { refs } = analyzeChapter('ch02와 ch01, 다시 ch02. ch03은 자기 자신.');
+  configureChapterRefs();
+  assert.deepEqual(refs, ['ch02', 'ch01']);
+});
+
 test('analyzeChapter splits sections and counts readable characters', () => {
   const info = analyzeChapter('# 리드\n\n들어가며 문단.\n\n## 하나\n\n가나다라\n\n```\ncode is not counted\n```\n');
   assert.deepEqual(info.sections.map((s) => s.id), ['', '하나']);
