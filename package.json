@@ -1,0 +1,16 @@
+{
+  "name": "thinkmany",
+  "private": true,
+  "description": "연구 많이 된다: 대학원생 연구 가이드 웹북",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs --check",
+    "test": "node --test \"tests/*.test.mjs\"",
+    "images": "node scripts/render-images.mjs"
+  }
+}
