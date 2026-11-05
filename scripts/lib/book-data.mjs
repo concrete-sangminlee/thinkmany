@@ -8,7 +8,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { analyzeChapter, CHARS_PER_MINUTE } from '../../js/lib/markdown.js';
+import { analyzeChapter, configureChapterRefs, CHARS_PER_MINUTE } from '../../js/lib/markdown.js';
 
 /** Directories at the site root; a chapter id may not shadow them. */
 export const RESERVED_IDS = new Set(['admin', 'assets', 'content', 'css', 'js', 'templates', 'scripts', 'tests', 'app.html', '404.html']);
@@ -69,6 +69,7 @@ export function loadBookData(root) {
 
   /* ---------- chapters ---------- */
   const updated = lastContentEdits(root);
+  const titles = new Map(config.sections.flatMap((s) => s.subsections.map((c) => [c.id, c.title])));
   const chapters = [];
   const indexChapters = {};
   let totalChars = 0;
@@ -79,6 +80,7 @@ export function loadBookData(root) {
       const file = path.join(contentDir, ch.file);
       if (!fs.existsSync(file)) continue;
       const md = fs.readFileSync(file, 'utf8');
+      configureChapterRefs({ titles, current: ch.id });
       const info = analyzeChapter(md);
       if (!md.trim()) warnings.push(`${ch.id}: 내용이 비어 있음`);
 
@@ -98,11 +100,14 @@ export function loadBookData(root) {
         minutes: info.minutes,
         updated: updated.get(`content/${ch.file}`) ?? '',
         toc: info.headings.map((h) => [h.depth, h.text, h.id]),
+        refs: info.refs,
       };
       totalChars += info.chars;
       totalSections += info.headings.filter((h) => h.depth === 2).length;
     }
   }
+
+  configureChapterRefs();
 
   const index = {
     charsPerMinute: CHARS_PER_MINUTE,
@@ -131,6 +136,30 @@ function summarize(info) {
   const cut = text.slice(0, 150);
   const end = Math.max(cut.lastIndexOf('다. '), cut.lastIndexOf('. '));
   return end > 60 ? cut.slice(0, end + 2).trim() : `${cut.trim()}…`;
+}
+
+/**
+ * The most recent content commits ("docs: ..."), newest first:
+ * [{ hash, date, subject, body, files }]. Empty outside a git checkout.
+ */
+export function contentLog(root, limit = 30) {
+  try {
+    const raw = execFileSync('git', ['log', `-${limit}`, '--format=%x1e%h%x1f%cI%x1f%s%x1f%b%x1f', '--name-only', '--grep=^docs', '--', 'content/'], {
+      cwd: root,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+      maxBuffer: 32 * 1024 * 1024,
+    });
+    return raw
+      .split('\x1e')
+      .filter((r) => r.trim())
+      .map((r) => {
+        const [hash, date, subject, body, files] = r.split('\x1f');
+        return { hash, date, subject: subject.trim(), body: body.trim(), files: files.trim().split('\n').filter(Boolean) };
+      });
+  } catch {
+    return [];
+  }
 }
 
 /**

@@ -18,7 +18,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { loadBookData } from './lib/book-data.mjs';
+import { loadBookData, contentLog } from './lib/book-data.mjs';
 import { createBook } from '../js/lib/book-model.js';
 import { setBase } from '../js/lib/paths.js';
 import { configureChapterRefs, lexChapter, renderTokens, escapeHtml } from '../js/lib/markdown.js';
@@ -101,7 +101,15 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
       out,
       `${ch.id}/index.html`,
       render({
-        head: headTags({ site, title, url, type: 'article', description: describe(c), jsonLd: chapterJsonLd(book, ch, site, url, c.summary) }),
+        head: headTags({
+          site,
+          title,
+          url,
+          type: 'article',
+          description: describe(c),
+          jsonLd: chapterJsonLd(book, ch, site, url, c.summary),
+          ...(fs.existsSync(path.join(ROOT, `assets/og/${ch.id}.jpg`)) ? { image: `assets/og/${ch.id}.jpg`, imageAlt: `${ch.title}: 연구 많이 된다 ${ch.num}장` } : {}),
+        }),
         viewName: 'chapter',
         prerendered: ch.id,
         sidebar: String(sidebarView(book, { currentId: ch.id })),
@@ -114,6 +122,7 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
   /* ---------- 404, sitemap, robots, service worker ---------- */
   writeFile(out, '404.html', fill(fs.readFileSync(path.join(ROOT, 'templates/404.html'), 'utf8'), { base }));
   writeFile(out, 'sitemap.xml', sitemap(book, site));
+  writeFile(out, 'feed.xml', atomFeed(book, site, contentLog(ROOT)));
   writeFile(out, 'robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${site}sitemap.xml\n`);
   writeFile(out, 'sw.js', serviceWorker(out, version));
 
@@ -161,7 +170,7 @@ function finishProse(htmlText) {
     .replace(/<(h[1-6]) data-slug="([^"]+)">/g, '<$1 id="$2">');
 }
 
-function headTags({ site, title, url, type, description, jsonLd }) {
+function headTags({ site, title, url, type, description, jsonLd, image = 'assets/og-image.png', imageAlt = '연구 많이 된다, 잘 때도 생각날 거야. 대학원생 연구 가이드' }) {
   const d = escapeHtml(description.slice(0, 200));
   const t = escapeHtml(title);
   const json = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
@@ -175,11 +184,12 @@ function headTags({ site, title, url, type, description, jsonLd }) {
     `<meta property="og:url" content="${escapeHtml(url)}">`,
     `<meta property="og:title" content="${t}">`,
     `<meta property="og:description" content="${d}">`,
-    `<meta property="og:image" content="${site}assets/og-image.png">`,
+    `<meta property="og:image" content="${site}${image}">`,
     `<meta property="og:image:width" content="1200">`,
     `<meta property="og:image:height" content="630">`,
-    `<meta property="og:image:alt" content="연구 많이 된다, 잘 때도 생각날 거야. 대학원생 연구 가이드">`,
+    `<meta property="og:image:alt" content="${escapeHtml(imageAlt)}">`,
     `<meta name="twitter:card" content="summary_large_image">`,
+    `<link rel="alternate" type="application/atom+xml" title="연구 많이 된다: 보강 소식" href="${site}feed.xml">`,
     `<script type="application/ld+json">${json}</script>`,
   ].join('\n  ');
 }
@@ -236,6 +246,48 @@ function sitemap(book, site) {
     '</urlset>',
     '',
   ].join('\n');
+}
+
+/* Commit messages are the author's prose: keep the house style in the feed. */
+const dedash = (s) => s.replace(/\s*\u2014\s*/g, ': ').replace(/\u2013/g, '-');
+const xml = (s) => escapeHtml(dedash(s));
+
+/** Atom feed of content updates, one entry per "docs:" commit. */
+function atomFeed(book, site, log) {
+  const entries = [];
+  for (const c of log) {
+    const file = c.files.find((f) => /^content\/.+\.md$/.test(f));
+    const ch = file && book.chapters.find((x) => `content/${x.file}` === file);
+    if (!ch) continue;
+    const detail = /보강\s*[\u2014\u2013-]+\s*(.+)$/.exec(c.subject)?.[1] ?? c.subject.replace(/^docs:\s*/, '');
+    const bullets = c.body
+      .split('\n')
+      .filter((l) => /^\s*-\s+/.test(l))
+      .slice(0, 12)
+      .map((l) => `<li>${xml(l.replace(/^\s*-\s+/, ''))}</li>`)
+      .join('');
+    const url = `${site}${ch.id}/`;
+    entries.push(`  <entry>
+    <title>${xml(`${ch.num ? `${ch.num}. ` : ''}${ch.title}: ${detail}`)}</title>
+    <link href="${url}"/>
+    <id>${url}#${c.hash}</id>
+    <updated>${c.date}</updated>
+    <summary type="html">${escapeHtml(bullets ? `<ul>${bullets}</ul>` : xml(c.subject))}</summary>
+  </entry>`);
+  }
+  const updated = log[0]?.date ?? new Date().toISOString();
+  return `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko">
+  <title>연구 많이 된다: 보강 소식</title>
+  <subtitle>계속 자라는 대학원생 연구 가이드의 최근 보강</subtitle>
+  <link href="${site}feed.xml" rel="self"/>
+  <link href="${site}"/>
+  <id>${site}</id>
+  <updated>${updated}</updated>
+  <author><name>Sang Min Lee</name></author>
+${entries.join('\n')}
+</feed>
+`;
 }
 
 /** sw.js with its version and the reader shell to precache. */

@@ -436,6 +436,7 @@ let renderToken = 0;
 async function showChapter(ch, { anchor = '', terms = [], y, hydrate = false }) {
   const token = ++renderToken;
   current = { kind: 'chapter', ch, headings: [], saved: 0 };
+  leftText = '';
   document.body.dataset.view = 'chapter';
   document.title = `${ch.title} · 연구 많이 된다`;
   configureChapterRefs({ titles: book.titles, current: ch.id });
@@ -615,12 +616,23 @@ function findParentH2(h3) {
   return null;
 }
 
+let leftText = '';
+function updateReadingLeft() {
+  const f = chapterFraction();
+  const mins = current.ch.minutes;
+  const text = !mins ? '' : f > 0.985 ? '다 읽었습니다' : `남은 시간 약 ${Math.max(1, Math.round(mins * (1 - f)))}분 · ${Math.round(f * 100)}%`;
+  if (text === leftText) return;
+  leftText = text;
+  for (const el of document.querySelectorAll('[data-reading-left]')) el.textContent = text;
+}
+
 function onScroll() {
   updateProgressBar();
   document.body.classList.toggle('is-scrolled', scrollY > 8);
   $('#to-top').classList.toggle('is-visible', scrollY > 1600);
   if (current.kind !== 'chapter' || !current.headings.length) return;
   spy();
+  updateReadingLeft();
   if (Date.now() - current.saved > 1500) persistProgress();
 }
 
