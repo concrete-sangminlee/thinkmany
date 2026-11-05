@@ -2481,3 +2481,87 @@ dialog::backdrop {
   font-size: 0.85rem;
   text-align: center;
 }
+
+/* 15. Connected chapters, remaining time --------------------------------- */
+
+.connected {
+  margin-top: 4rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.connected h2 {
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.connected-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  gap: 1rem 2rem;
+  margin-top: 1rem;
+}
+
+.connected h3 {
+  margin-bottom: 0.35rem;
+  color: var(--fg-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.connected ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.connected li a {
+  display: grid;
+  grid-template-columns: 1.8rem 1fr;
+  gap: 0.25rem;
+  padding: 0.4rem 0.25rem;
+  border-bottom: 1px dashed var(--line);
+  font-size: 0.92rem;
+}
+
+.connected li a:hover .title {
+  color: var(--accent);
+}
+
+.connected .num {
+  color: var(--fg-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.connected details summary {
+  padding: 0.45rem 0.25rem;
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.reading-left {
+  color: var(--fg-faint);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.page-toc .reading-left {
+  margin-top: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+.toc-inline .reading-left {
+  margin-left: auto;
+  font-weight: 500;
+}
+
+.toc-inline .reading-left:empty {
+  display: none;
+}
+
+@media print {
+  .connected {
+    display: none !important;
+  }
+}

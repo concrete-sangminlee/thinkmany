@@ -188,6 +188,7 @@ export function footerView() {
     </div>
     <nav aria-label="사이트 링크">
       <a href="https://github.com/concrete-sangminlee/thinkmany" rel="noopener">GitHub</a>
+      <a href="${assetHref('feed.xml')}" type="application/atom+xml">보강 소식 피드</a>
       <button type="button" class="link-btn" data-help>단축키</button>
       <a href="${assetHref('admin/')}">관리</a>
     </nav>
@@ -232,7 +233,7 @@ export function chapterHead(book, ch, { state = NO_STATE, lead = ch.lead, toc = 
     ${
       toc.length
         ? html`<details class="toc-inline">
-      <summary>${icon('list')}<span>이 장의 차례</span></summary>
+      <summary>${icon('list')}<span>이 장의 차례</span><span class="reading-left" data-reading-left></span></summary>
       ${pageToc(ch, toc)}
     </details>`
         : ''
@@ -256,6 +257,7 @@ export function chapterView(book, ch, { state = NO_STATE, lead = ch.lead, toc = 
           ? html`<div class="prose" id="prose" aria-busy="true"><div class="skeleton" aria-label="불러오는 중">${Array.from({ length: 7 }, () => html`<span></span>`)}</div></div>`
           : html`<div class="prose" id="prose">${raw(prose)}</div>`
       }
+      ${connectedView(ch)}
       <nav class="pager" aria-label="장 이동">
         ${prev ? html`<a class="pager-link prev" href="${chapterHref(prev.id)}" rel="prev"><span class="pager-dir">${icon('arrowLeft')} 이전 장</span><span class="pager-title">${prev.title}</span></a>` : html`<span></span>`}
         ${
@@ -265,9 +267,27 @@ export function chapterView(book, ch, { state = NO_STATE, lead = ch.lead, toc = 
         }
       </nav>
     </article>
-    ${toc.length ? html`<aside class="page-toc" aria-label="이 장의 차례"><p class="page-toc-title">이 장의 차례</p>${pageToc(ch, toc)}</aside>` : ''}
+    ${toc.length ? html`<aside class="page-toc" aria-label="이 장의 차례"><p class="page-toc-title">이 장의 차례</p>${pageToc(ch, toc)}<p class="reading-left" data-reading-left></p></aside>` : ''}
   </div>
   ${footerView()}`;
+}
+
+/** Chapters this one mentions, and chapters that mention it (from the reference graph). */
+function connectedView(ch) {
+  if (!ch.refs?.length && !ch.backrefs?.length) return '';
+  const item = (c) => html`<li><a href="${chapterHref(c.id)}"><span class="num">${c.num}</span><span class="title">${c.title}</span></a></li>`;
+  const list = (chs) => {
+    const shown = chs.slice(0, 6);
+    const rest = chs.slice(6);
+    return html`<ul>${shown.map(item)}</ul>${rest.length ? html`<details><summary>${rest.length}개 더 보기</summary><ul>${rest.map(item)}</ul></details>` : ''}`;
+  };
+  return html`<section class="connected" aria-labelledby="connected-title">
+    <h2 id="connected-title">연결된 장</h2>
+    <div class="connected-grid">
+      ${ch.refs.length ? html`<div><h3>이 장에서 언급한 장</h3>${list(ch.refs)}</div>` : ''}
+      ${ch.backrefs.length ? html`<div><h3>이 장을 언급한 장</h3>${list(ch.backrefs)}</div>` : ''}
+    </div>
+  </section>`;
 }
 
 export function pageToc(ch, toc) {

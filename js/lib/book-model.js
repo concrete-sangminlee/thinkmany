@@ -29,6 +29,8 @@ export function createBook(config, index = null) {
         minutes: meta?.minutes ?? null,
         updated: meta?.updated ?? '',
         toc: (meta?.toc ?? []).map(([depth, text, id]) => ({ depth, text, id })),
+        refs: meta?.refs ?? [],
+        backrefs: [],
         order: chapters.length,
       };
       chapters.push(ch);
@@ -38,6 +40,11 @@ export function createBook(config, index = null) {
   });
 
   const byId = new Map(chapters.map((c) => [c.id, c]));
+  // The reference graph: c.refs = chapters c mentions, c.backrefs = chapters that mention c.
+  for (const c of chapters) {
+    c.refs = c.refs.map((id) => byId.get(id)).filter(Boolean);
+    for (const r of c.refs) r.backrefs.push(c);
+  }
   const partById = new Map(parts.map((p) => [p.id, p]));
   const recent = chapters
     .filter((c) => c.updated)

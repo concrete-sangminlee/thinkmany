@@ -226,10 +226,18 @@ export function analyzeChapter(md) {
   for (const s of sections) s.text = s.text.replace(/[ \t]+/g, ' ').replace(/\n{2,}/g, '\n').trim();
   if (!sections[0].text) sections.shift();
 
+  // Chapters this one mentions (needs configureChapterRefs), most mentioned first.
+  const counts = new Map();
+  marked.walkTokens(tokens, (t) => {
+    if (t.type === 'chapterRef') counts.set(t.id, (counts.get(t.id) ?? 0) + 1);
+  });
+  const refs = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([id]) => id);
+
   return {
     lead,
     headings,
     sections,
+    refs,
     chars,
     minutes: Math.max(1, Math.round(chars / CHARS_PER_MINUTE)),
   };
