@@ -427,19 +427,19 @@ Kreyszig 공학수학(선형대수, PDE 장) → 구조역학 교과서(Chopra �
 
 <div class="card-grid">
 <div class="card">
-<h4>Goodfellow "Deep Learning"</h4>
+<div class="card-title">Goodfellow "Deep Learning"</div>
 <p><strong>핵심 5장(Part II) 읽기:</strong> 약 30시간. 수식을 따라가면서 읽으면 하루 1-2시간씩 3-4주가 소요된다.<br><strong>전체 통독:</strong> 100시간 이상. Part III까지 포함하면 한 학기 분량이다. 전체를 읽는 것보다 필요한 장을 선별해서 읽는 것이 현실적이다.</p>
 </div>
 <div class="card">
-<h4>Andrew Ng ML Specialization</h4>
+<div class="card-title">Andrew Ng ML Specialization</div>
 <p><strong>비디오 시청:</strong> 약 40시간. 1.5배속으로 들으면 30시간 정도로 줄일 수 있지만, 처음 듣는다면 1배속을 추천한다.<br><strong>과제 포함:</strong> 약 60시간. 프로그래밍 과제를 직접 풀면 이해도가 크게 올라간다. 비디오만 보는 것과는 학습 효과의 차이가 분명하다.</p>
 </div>
 <div class="card">
-<h4>Stanford CS231n</h4>
+<div class="card-title">Stanford CS231n</div>
 <p><strong>비디오 시청:</strong> 약 25시간. 강의가 밀도 있으므로 1배속을 추천한다.<br><strong>과제 포함:</strong> 약 80시간. 과제가 상당히 도전적이고, 직접 CNN을 구현해야 하므로 시간이 많이 소요된다. 과제를 풀지 않으면 절반만 배우는 것이다.</p>
 </div>
 <div class="card">
-<h4>Fast.ai Part 1</h4>
+<div class="card-title">Fast.ai Part 1</div>
 <p><strong>비디오 시청:</strong> 약 15시간. 실용적이고 빠르게 진행되므로, 입문자에게 부담이 적다.<br><strong>실습 포함:</strong> 약 40시간. 각 강의 후 자기 데이터셋에 적용해보는 실습이 핵심이다. 비디오만 보면 "할 수 있을 것 같은" 착각에 빠지기 쉽다.</p>
 </div>
 </div>
@@ -532,15 +532,15 @@ Kreyszig 공학수학(선형대수, PDE 장) → 구조역학 교과서(Chopra �
 
 <div class="card-grid">
 <div class="card">
-<h4>선형대수 리프레셔</h4>
+<div class="card-title">선형대수 리프레셔</div>
 <p><strong>시간:</strong> 1-2주 (하루 1시간)<br><strong>경로:</strong> 3Blue1Brown 영상(3시간) → MIT 18.06 선택 강의 → 연습문제 풀기<br><strong>목표:</strong> 고유값 분해를 손으로 하고, SVD의 기하학적 의미를 설명할 수 있다.</p>
 </div>
 <div class="card">
-<h4>미적분 리프레셔</h4>
+<div class="card-title">미적분 리프레셔</div>
 <p><strong>시간:</strong> 1주 (하루 1시간)<br><strong>경로:</strong> 3Blue1Brown 영상(2시간) → Khan Academy 다변수 미적분 → 체인 룰 연습<br><strong>목표:</strong> 다변수 함수의 그래디언트를 구하고, 역전파의 원리를 설명할 수 있다.</p>
 </div>
 <div class="card">
-<h4>확률/통계 리프레셔</h4>
+<div class="card-title">확률/통계 리프레셔</div>
 <p><strong>시간:</strong> 2주 (하루 1시간)<br><strong>경로:</strong> Khan Academy 확률/통계 → Walpole 해당 장 → Python으로 실습<br><strong>목표:</strong> 베이즈 정리를 적용하고, t-test를 직접 수행하고, p-value를 정확히 해석할 수 있다.</p>
 </div>
 </div>

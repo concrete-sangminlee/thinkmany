@@ -82,7 +82,7 @@ After: "We evaluated the proposed crack detection method on three datasets colle
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ Do</h4>
+    <p class="do-dont-title">✅ Do</p>
     <ul>
       <li>"The results demonstrate that..." (결과가 보여준다)</li>
       <li>"This study proposes..." (본 연구는 제안한다)</li>
@@ -92,7 +92,7 @@ After: "We evaluated the proposed crack detection method on three datasets colle
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ Don't</h4>
+    <p class="do-dont-title">❌ Don't</p>
     <ul>
       <li>"I think this is a good result." (주관적 표현)</li>
       <li>"We can see that..." (불필요한 표현)</li>

@@ -149,7 +149,7 @@
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ Do</h4>
+    <p class="do-dont-title">✅ Do</p>
     <ul>
       <li>벡터 형식(SVG, PDF, EPS)으로 저장</li>
       <li>모든 축에 라벨과 단위 표시</li>
@@ -161,7 +161,7 @@
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ Don't</h4>
+    <p class="do-dont-title">❌ Don't</p>
     <ul>
       <li>스크린 캡처를 그림으로 사용</li>
       <li>불필요한 3D 효과 (3D 막대, 3D 파이)</li>
@@ -543,7 +543,7 @@ project/
 
 <div class="do-dont">
 <div class="do-box">
-<h4>📄 논문 그림 원칙</h4>
+<p class="do-dont-title">📄 논문 그림 원칙</p>
 <ul>
 <li>정보 밀도 높음 (한 그림에 여러 메시지 OK)</li>
 <li>작은 폰트(8-10pt)도 허용</li>
@@ -554,7 +554,7 @@ project/
 </ul>
 </div>
 <div class="do-box">
-<h4>🖥️ 슬라이드 그림 원칙</h4>
+<p class="do-dont-title">🖥️ 슬라이드 그림 원칙</p>
 <ul>
 <li>한 그림에 한 메시지만</li>
 <li>큰 폰트(최소 18pt) 필수</li>

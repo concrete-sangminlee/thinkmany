@@ -281,7 +281,7 @@ PCT(Patent Cooperation Treaty, 특허협력조약) 출원은 이 문제를 완�
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ Do</h4>
+<p class="do-dont-title">✅ Do</p>
 <ul>
 <li>새로운 기술을 개발했다면 논문 공개 전에 TTO에 발명 신고를 한다</li>
 <li>연구실 합류 시 서명하는 IP 관련 서류를 꼼꼼히 읽는다</li>
@@ -293,7 +293,7 @@ PCT(Patent Cooperation Treaty, 특허협력조약) 출원은 이 문제를 완�
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ Don't</h4>
+<p class="do-dont-title">❌ Don't</p>
 <ul>
 <li>논문을 먼저 공개한 후 특허 출원하려고 하기 (특히 해외 특허)</li>
 <li>IP 관련 서류에 내용을 확인하지 않고 서명하기</li>

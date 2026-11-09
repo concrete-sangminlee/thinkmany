@@ -1767,13 +1767,21 @@ body.sidebar-collapsed #main {
   --c: var(--red);
 }
 
-.do-box h4,
-.dont-box h4 {
+/* Component titles are labels, not document headings (the outline stays h1 > h2 > h3). */
+.do-dont-title {
   margin: 0 0 0.5rem;
-  padding: 0;
-  border: 0;
   color: var(--c);
   font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.tab-title {
+  color: var(--fg);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
 }
 
 .do-box ul,

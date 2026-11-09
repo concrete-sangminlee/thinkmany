@@ -210,7 +210,7 @@ ch05 '논문 읽기의 기술'에서 논문을 읽고 정리하는 방법을 다
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ Do</h4>
+    <p class="do-dont-title">✅ Do</p>
     <ul>
       <li>한 문단에 하나의 핵심 주장</li>
       <li>첫 문장에서 문단의 주제 명시</li>
@@ -220,7 +220,7 @@ ch05 '논문 읽기의 기술'에서 논문을 읽고 정리하는 방법을 다
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ Don't</h4>
+    <p class="do-dont-title">❌ Don't</p>
     <ul>
       <li>하나의 문단에 여러 주제를 혼합</li>
       <li>한 문장짜리 문단 (예외: 강조 목적)</li>
@@ -473,7 +473,7 @@ Cover letter를 작성한다. 편집자에게 보내는 편지로, 연구의 핵
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ Do</h4>
+    <p class="do-dont-title">✅ Do</p>
     <ul>
       <li>저널 투고 후, 공저자 전원의 동의를 받고 프리프린트를 올린다</li>
       <li>타겟 저널의 프리프린트 정책을 사전에 확인한다</li>
@@ -482,7 +482,7 @@ Cover letter를 작성한다. 편집자에게 보내는 편지로, 연구의 핵
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ Don't</h4>
+    <p class="do-dont-title">❌ Don't</p>
     <ul>
       <li>지도교수 동의 없이 프리프린트를 올린다</li>
       <li>불완전한 초안을 성급하게 공개한다</li>

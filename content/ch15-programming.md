@@ -209,7 +209,7 @@ plot_result(result)
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ Do</h4>
+    <p class="do-dont-title">✅ Do</p>
     <ul>
       <li>변수명에 의미를 담는다 (displacement, num_iterations)</li>
       <li>함수 하나당 하나의 역할만 부여한다</li>
@@ -219,7 +219,7 @@ plot_result(result)
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ Don't</h4>
+    <p class="do-dont-title">❌ Don't</p>
     <ul>
       <li>변수명을 a, b, x1, x2로 짓는다</li>
       <li>하나의 스크립트에 모든 코드를 넣는다</li>
@@ -417,7 +417,7 @@ Python에서 랜덤 시드를 고정하려면 관련된 모든 라이브러리�
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ Do</h4>
+    <p class="do-dont-title">✅ Do</p>
     <ul>
       <li>데이터 전처리, 모델 I/O shape, 평가 지표에 대한 기본 테스트를 작성한다</li>
       <li>해석해가 있는 간단한 케이스로 코드를 검증한다</li>
@@ -426,7 +426,7 @@ Python에서 랜덤 시드를 고정하려면 관련된 모든 라이브러리�
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ Don't</h4>
+    <p class="do-dont-title">❌ Don't</p>
     <ul>
       <li>"결과가 그럴듯하니까 맞겠지"라고 가정한다</li>
       <li>100% 커버리지에 집착하여 탐색적 코드까지 테스트한다</li>

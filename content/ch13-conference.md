@@ -160,7 +160,7 @@ Travel Grant는 경쟁이 있지만, 의외로 많은 학생이 지원하지 않
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ Q&A에서 해야 할 것</h4>
+    <p class="do-dont-title">✅ Q&A에서 해야 할 것</p>
     <ul>
       <li>질문을 끝까지 듣는다. 중간에 끊지 않는다</li>
       <li>질문을 이해하지 못했으면 반복 확인한다 ("If I understand correctly, you are asking about...?")</li>
@@ -171,7 +171,7 @@ Travel Grant는 경쟁이 있지만, 의외로 많은 학생이 지원하지 않
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ Q&A에서 하지 말아야 할 것</h4>
+    <p class="do-dont-title">❌ Q&A에서 하지 말아야 할 것</p>
     <ul>
       <li>질문을 무시하거나 대충 넘어간다</li>
       <li>방어적으로 반응한다 ("That's not what our paper is about")</li>
@@ -346,7 +346,7 @@ Travel Grant는 경쟁이 있지만, 의외로 많은 학생이 지원하지 않
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 온라인 학회에서 효과적인 행동</h4>
+<p class="do-dont-title">✅ 온라인 학회에서 효과적인 행동</p>
 <ul>
 <li>채팅창에 구체적인 질문을 남긴다</li>
 <li>소규모 세션에서 카메라를 켜고 발언한다</li>
@@ -356,7 +356,7 @@ Travel Grant는 경쟁이 있지만, 의외로 많은 학생이 지원하지 않
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ 온라인 학회에서 비효율적인 행동</h4>
+<p class="do-dont-title">❌ 온라인 학회에서 비효율적인 행동</p>
 <ul>
 <li>모든 세션을 라이브로 참석하려고 무리한다</li>
 <li>카메라와 마이크를 끄고 수동적으로 듣기만 한다</li>

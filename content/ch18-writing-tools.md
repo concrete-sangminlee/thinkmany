@@ -426,19 +426,19 @@ LaTeX은 40년 이상 학술 출판의 표준이었지만, 진입 장벽이 높�
 
 <div class="card-grid">
 <div class="card">
-<h4>Typst</h4>
+<div class="card-title">Typst</div>
 <p>2023년에 정식 출시된 현대적 조판 언어다. LaTeX의 기능을 대부분 유지하면서 문법이 훨씬 직관적이다. 컴파일 속도는 LaTeX의 10배 이상 빠르다. 오류 메시지가 명확하여 디버깅이 쉽다. 웹 에디터(typst.app)를 무료로 제공하므로 Overleaf와 비슷한 사용 경험을 얻을 수 있다. 단점은 학술 템플릿이 아직 적고, 주요 저널이 Typst를 공식 지원하지 않는다는 것이다. 현재로서는 학위논문이나 발표 자료에는 적합하지만, 저널 투고용으로는 LaTeX이 더 안전하다.</p>
 </div>
 <div class="card">
-<h4>Quarto</h4>
+<div class="card-title">Quarto</div>
 <p>R Markdown의 후속 도구로 개발되었지만, 현재는 R, Python, Julia 코드를 직접 실행할 수 있는 범용 출판 시스템이다. 문서 안에 코드를 넣으면 그 결과(그림, 표, 통계)가 컴파일 시 자동 생성된다. 데이터 과학, 통계학, ML 연구자에게 특히 유용하다. 한 .qmd 파일에서 PDF, HTML, Word, 슬라이드, 책 등 여러 형식으로 출력 가능하다. 학술 논문 템플릿(IEEE, ACM, Elsevier)도 점점 늘고 있다.</p>
 </div>
 <div class="card">
-<h4>Pandoc + Markdown</h4>
+<div class="card-title">Pandoc + Markdown</div>
 <p>가장 가벼운 대안이다. Markdown으로 글을 쓰고 Pandoc으로 PDF/Word/LaTeX 등 어떤 형식으로든 변환한다. 학술 인용도 BibTeX과 연동된다. 글의 본질에 집중하고 형식은 나중에 처리하고 싶을 때 유용하다. 대규모 논문보다 짧은 글이나 블로그 형식에 더 적합하다.</p>
 </div>
 <div class="card">
-<h4>LyX</h4>
+<div class="card-title">LyX</div>
 <p>LaTeX의 GUI 프론트엔드다. WYSIWYG 비슷한 환경에서 LaTeX 문서를 작성한다. LaTeX의 강력함을 유지하면서 진입 장벽을 낮춘다. 오래된 도구이지만 안정적이다. LaTeX과 Word 사이의 절충안을 원하는 사람에게 적합하다.</p>
 </div>
 </div>
@@ -463,19 +463,19 @@ LaTeX은 40년 이상 학술 출판의 표준이었지만, 진입 장벽이 높�
 
 <div class="card-grid">
 <div class="card">
-<h4>Obsidian</h4>
+<div class="card-title">Obsidian</div>
 <p>로컬 마크다운 파일 기반의 노트 도구. 노트 간 [[양방향 링크]]가 핵심 기능이다. 한 노트가 다른 노트와 어떻게 연결되는지 그래프로 시각화된다. 플러그인 생태계가 풍부하다(Dataview, Templater, Citations 등). 유료 동기화 서비스를 쓰지 않으면 무료다. 데이터가 본인 컴퓨터에 평문 마크다운으로 저장되므로 plugin이 사라져도 노트는 안전하다.</p>
 </div>
 <div class="card">
-<h4>Logseq</h4>
+<div class="card-title">Logseq</div>
 <p>Obsidian과 유사하지만 outliner(아웃라이너) 방식이다. 모든 노트가 들여쓰기 가능한 블록 단위로 작성된다. 일일 저널(daily note)을 중심으로 작동한다. 오픈소스이고 무료다. Roam Research의 무료 대안으로 인기가 있다. Obsidian보다 더 개방적인 워크플로우를 좋아하는 사람에게 적합하다.</p>
 </div>
 <div class="card">
-<h4>Notion</h4>
+<div class="card-title">Notion</div>
 <p>데이터베이스 기능이 강력하다. 노트뿐 아니라 프로젝트 관리, 일정, 작업 목록, 위키를 모두 한 곳에서 관리할 수 있다. 단점은 클라우드 기반이라 인터넷이 없으면 작동이 제한적이고, 연구 데이터가 외부 서버에 저장된다는 것이다. 협업이 잦은 사람에게 유리하다.</p>
 </div>
 <div class="card">
-<h4>Roam Research</h4>
+<div class="card-title">Roam Research</div>
 <p>양방향 링크의 원조 도구다. 강력하지만 유료(월 15달러)이고 진입 장벽이 있다. 노트를 깊이 연결하여 사고하는 사람들에게 매니아 층이 형성되어 있다. 가성비를 따진다면 Obsidian이나 Logseq이 대안이다.</p>
 </div>
 </div>

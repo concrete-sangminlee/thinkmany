@@ -311,7 +311,7 @@ Instagram, YouTube, 트위터(X), 커뮤니티 사이트. "잠깐만"이라고 �
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ Do</h4>
+    <p class="do-dont-title">✅ Do</p>
     <ul>
       <li>연구 시간에는 메신저와 SNS 알림을 끈다</li>
       <li>한 번에 하나의 작업에만 집중한다</li>
@@ -321,7 +321,7 @@ Instagram, YouTube, 트위터(X), 커뮤니티 사이트. "잠깐만"이라고 �
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ Don't</h4>
+    <p class="do-dont-title">❌ Don't</p>
     <ul>
       <li>논문 읽으면서 카톡을 확인한다</li>
       <li>"잠깐만" SNS를 열고 30분을 날린다</li>

@@ -292,7 +292,7 @@ Partial Dependence Plot(부분 의존성 그래프, 특정 입력 변수 하나�
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 딥러닝 연구 좋은 관행</h4>
+<p class="do-dont-title">✅ 딥러닝 연구 좋은 관행</p>
 <ul>
 <li>베이스라인(간단한 모델) 대비 성능 비교 제시</li>
 <li>학습 곡선(train/val loss) 첨부</li>
@@ -302,7 +302,7 @@ Partial Dependence Plot(부분 의존성 그래프, 특정 입력 변수 하나�
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ 딥러닝 연구 나쁜 관행</h4>
+<p class="do-dont-title">❌ 딥러닝 연구 나쁜 관행</p>
 <ul>
 <li>최신 모델만 사용하고 간단한 모델과 비교 안 함</li>
 <li>학습 곡선 없이 최종 성능만 보고</li>

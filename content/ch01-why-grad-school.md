@@ -275,7 +275,7 @@
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ Do</h4>
+<p class="do-dont-title">✅ Do</p>
 <ul>
 <li>입학 전에 지도교수님과 연구 방향, 재정 지원, 졸업 요건을 명확히 논의한다.</li>
 <li>재학중인 대학원생에게 연구실 생활의 실제를 물어본다.</li>
@@ -285,7 +285,7 @@
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ Don't</h4>
+<p class="do-dont-title">❌ Don't</p>
 <ul>
 <li>"일단 가면 어떻게든 되겠지"라는 마인드로 입학하지 않는다.</li>
 <li>주변 압력만으로 대학원 진학을 결정하지 않는다.</li>

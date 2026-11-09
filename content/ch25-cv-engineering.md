@@ -299,7 +299,7 @@ CV 프로젝트의 전체 흐름을 단계별로 정리한다. 이 워크플로�
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ Do</h4>
+<p class="do-dont-title">✅ Do</p>
 <ul>
 <li>학습/배포 환경의 조건을 최대한 일치시킨다</li>
 <li>다양한 조건(조명, 거리, 각도)의 데이터를 포함한다</li>
@@ -309,7 +309,7 @@ CV 프로젝트의 전체 흐름을 단계별로 정리한다. 이 워크플로�
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ Don't</h4>
+<p class="do-dont-title">❌ Don't</p>
 <ul>
 <li>실험실 데이터만으로 성능을 주장하지 않는다</li>
 <li>클래스 불균형을 무시하고 Accuracy만 보고하지 않는다</li>

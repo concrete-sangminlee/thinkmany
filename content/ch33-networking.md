@@ -436,19 +436,19 @@ LinkedIn에서는 연결 요청을 보낼 때 반드시 메시지를 함께 쓴�
 
 <div class="card-grid">
 <div class="card">
-<h4>GitHub Pages + Jekyll/Hugo</h4>
+<div class="card-title">GitHub Pages + Jekyll/Hugo</div>
 <p>가장 인기 있는 선택지. 무료로 호스팅되고, Markdown으로 글을 쓸 수 있고, 학술 템플릿(<code>academicpages.github.io</code>, <code>al-folio</code>)이 잘 만들어져 있다. Git을 다룰 줄 알면 진입 장벽이 낮다. 도메인은 <code>username.github.io</code>를 무료로 받거나, 별도로 도메인을 구입해 연결할 수 있다.</p>
 </div>
 <div class="card">
-<h4>Quarto Websites</h4>
+<div class="card-title">Quarto Websites</div>
 <p>최근 등장한 강력한 도구. R/Python 코드를 직접 페이지에 포함할 수 있어 기술 블로그도 함께 운영할 수 있다. 학술 사이트 템플릿이 점점 늘어나는 중이다. 데이터 과학자, 통계학자, ML 연구자들 사이에서 빠르게 확산 중이다.</p>
 </div>
 <div class="card">
-<h4>WordPress / Notion / Wix</h4>
+<div class="card-title">WordPress / Notion / Wix</div>
 <p>코드를 다루기 싫다면 이 옵션도 가능하다. 단, 학술 사이트 특유의 깔끔한 출판물 목록 표시는 GitHub Pages 기반보다 어렵다. 빠르게 시작하고 싶으면 Notion(공개 페이지 기능)으로 시작해서, 시간이 생기면 GitHub Pages로 옮기는 것도 합리적인 전략이다.</p>
 </div>
 <div class="card">
-<h4>학교 제공 페이지</h4>
+<div class="card-title">학교 제공 페이지</div>
 <p>많은 대학이 학생/교수에게 개인 페이지 공간을 제공한다(예: <code>people.school.edu/~username</code>). 무료이고 학교 도메인이 신뢰감을 준다. 다만 졸업하면 사라지는 경우가 많다는 단점이 있다.</p>
 </div>
 </div>

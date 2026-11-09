@@ -304,7 +304,7 @@ ML 프로젝트에서 반복적으로 나타나는 실수들이 있다. 이 실�
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 좋은 ML 연구 보고</h4>
+<p class="do-dont-title">✅ 좋은 ML 연구 보고</p>
 <ul>
 <li>교차 검증 결과(평균 ± 표준편차) 보고</li>
 <li>여러 메트릭(R², RMSE, MAE) 동시 보고</li>
@@ -315,7 +315,7 @@ ML 프로젝트에서 반복적으로 나타나는 실수들이 있다. 이 실�
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ 나쁜 ML 연구 보고</h4>
+<p class="do-dont-title">❌ 나쁜 ML 연구 보고</p>
 <ul>
 <li>테스트 세트 성능만 보고 (교차 검증 없음)</li>
 <li>R²만 보고하고 RMSE/MAE는 생략</li>
@@ -343,19 +343,19 @@ ML 프로젝트는 화려한 모델이 아니라 견고한 파이프라인이 �
 
 <div class="card-grid">
 <div class="card">
-<h4>통계적 특성</h4>
+<div class="card-title">통계적 특성</div>
 <p>신호나 측정 데이터의 기본적인 분포 정보를 요약하는 특성이다. 평균, 표준편차, 첨도(kurtosis), 왜도(skewness), RMS(Root Mean Square)가 대표적이다. 진동 신호에서 RMS는 전체 에너지 수준을, 첨도는 충격성 이벤트의 존재를 포착한다. 계산이 간단하고, 물리적 해석이 직관적이라는 장점이 있다.</p>
 </div>
 <div class="card">
-<h4>주파수 특성</h4>
+<div class="card-title">주파수 특성</div>
 <p>FFT(Fast Fourier Transform)로 추출한 주요 주파수 성분, 파워 스펙트럼 밀도(PSD), 대역별 에너지 비율 등이 해당한다. 회전 기계의 고장 진단에서 특정 주파수의 변화가 결함 유형을 직접 가리키는 경우가 많다. 진동, 음향, 전기 신호를 다루는 연구에서 거의 필수적인 특성 범주다.</p>
 </div>
 <div class="card">
-<h4>시간 영역 특성</h4>
+<div class="card-title">시간 영역 특성</div>
 <p>피크 값(peak value), 크레스트 팩터(crest factor, 피크/RMS 비율), 영교차율(zero-crossing rate) 등이 포함된다. 크레스트 팩터는 신호에 순간적인 충격이 존재하는지를 보여주고, 영교차율은 신호의 주파수 특성을 간접적으로 나타낸다. FFT 없이도 시간 영역에서 바로 계산할 수 있어서 실시간 모니터링에 적합하다.</p>
 </div>
 <div class="card">
-<h4>물리 기반 특성</h4>
+<div class="card-title">물리 기반 특성</div>
 <p>무차원수(레이놀즈 수, 누셀트 수 등), 에너지 비율(운동에너지 대비 변형에너지), 감쇠 계수, 응력비(stress ratio) 등 물리 법칙에서 유도된 특성이다. 이런 특성은 데이터에서 자동으로 학습되기 어려운 물리적 관계를 모델에 직접 주입하는 효과가 있다. 도메인 지식이 있는 공학 연구자만이 설계할 수 있는 특성이며, 이것이 공학 ML 연구의 차별화 포인트가 된다.</p>
 </div>
 </div>

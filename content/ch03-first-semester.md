@@ -232,7 +232,7 @@ Git을 모른다면 이 시기에 기초를 익힌다. clone, add, commit, push,
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ Do</h4>
+    <p class="do-dont-title">✅ Do</p>
     <ul>
       <li>"loss function(손실 함수, 모델의 예측이 얼마나 틀렸는지를 수치화하는 함수)에 L1 regularization(가중치가 지나치게 커지는 것을 막는 기법)을 추가했더니 수렴이 안 됩니다. learning rate(학습률)를 줄여봤고 batch size(한 번에 학습하는 데이터 묶음 크기)도 바꿔봤는데 동일한 문제가 있습니다."</li>
       <li>"이 논문의 eq.(7)에서 gradient를 유도하는 과정이 이해가 안 됩니다. 제가 직접 유도해 봤는데 세 번째 항이 다르게 나옵니다."</li>
@@ -240,7 +240,7 @@ Git을 모른다면 이 시기에 기초를 익힌다. clone, add, commit, push,
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ Don't</h4>
+    <p class="do-dont-title">❌ Don't</p>
     <ul>
       <li>"코드가 안 돌아가요." (어떤 에러? 무엇을 시도했는가?)</li>
       <li>"논문이 이해가 안 돼요." (어느 부분? 어디까지 이해했는가?)</li>

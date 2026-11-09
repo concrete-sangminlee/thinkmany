@@ -312,7 +312,7 @@ Green OA는 비용이 들지 않으므로 항상 가능하다. 논문이 accept 
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ Do</h4>
+<p class="do-dont-title">✅ Do</p>
 <ul>
 <li>논문 투고 시 코드와 데이터를 함께 공개한다 (또는 공개 계획을 명시한다)</li>
 <li>GitHub 리포지토리에 라이선스 파일과 README를 포함한다</li>
@@ -324,7 +324,7 @@ Green OA는 비용이 들지 않으므로 항상 가능하다. 논문이 accept 
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ Don't</h4>
+<p class="do-dont-title">❌ Don't</p>
 <ul>
 <li>"데이터는 합리적 요청 시 제공"이라고만 쓰고 실제로는 제공하지 않기</li>
 <li>코드를 공개하면서 라이선스를 누락하기</li>

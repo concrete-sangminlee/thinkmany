@@ -198,7 +198,7 @@ PINN이 기존 수치해석(FEM, FDM, FVM)을 대체할 수 있을까? 솔직한
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ PINN이 유리한 경우</h4>
+<p class="do-dont-title">✅ PINN이 유리한 경우</p>
 <ul>
 <li>역문제: 관측 데이터로부터 물성치나 경계조건을 추정할 때</li>
 <li>희소 데이터 통합: 부분적 실험 데이터 + 물리 법칙으로 전체 해를 복원할 때</li>
@@ -208,7 +208,7 @@ PINN이 기존 수치해석(FEM, FDM, FVM)을 대체할 수 있을까? 솔직한
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ FEM/전통 수치해석이 유리한 경우</h4>
+<p class="do-dont-title">❌ FEM/전통 수치해석이 유리한 경우</p>
 <ul>
 <li>잘 정의된 순방향 문제: 물성치, 경계조건이 모두 알려진 표준 문제</li>
 <li>높은 정확도가 필요한 경우: 메쉬 세분화(h-refinement)로 원하는 정확도 보장 가능</li>

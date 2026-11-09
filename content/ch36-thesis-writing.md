@@ -14,7 +14,7 @@ ch08에서 학술지 논문의 작성법을 다뤘다. 이 장에서는 학위�
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 학술지 논문 (Journal Paper)</h4>
+<p class="do-dont-title">✅ 학술지 논문 (Journal Paper)</p>
 <ul>
 <li>하나의 연구 질문에 답한다</li>
 <li>분량: 10-20페이지 (저널 규정에 따라 다름)</li>
@@ -25,7 +25,7 @@ ch08에서 학술지 논문의 작성법을 다뤘다. 이 장에서는 학위�
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ 학위논문 (Thesis/Dissertation)</h4>
+<p class="do-dont-title">❌ 학위논문 (Thesis/Dissertation)</p>
 <ul>
 <li>연구 여정 전체를 기록한다</li>
 <li>분량: 석사 60-100페이지, 박사 150-300페이지</li>
