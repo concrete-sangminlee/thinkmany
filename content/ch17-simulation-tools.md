@@ -253,7 +253,7 @@ Validation이 Verification보다 근본적으로 어렵다. Verification은 정�
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ 신뢰할 수 있는 시뮬레이션</h4>
+    <p class="do-dont-title">✅ 신뢰할 수 있는 시뮬레이션</p>
     <ul>
       <li>메쉬 수렴 연구를 수행했다</li>
       <li>벤치마크 문제로 도구/코드를 검증했다</li>
@@ -263,7 +263,7 @@ Validation이 Verification보다 근본적으로 어렵다. Verification은 정�
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ 의심스러운 시뮬레이션</h4>
+    <p class="do-dont-title">❌ 의심스러운 시뮬레이션</p>
     <ul>
       <li>메쉬 하나로 결과를 보고했다</li>
       <li>검증 없이 바로 복잡한 문제에 적용했다</li>
@@ -438,19 +438,19 @@ Validation이 Verification보다 근본적으로 어렵다. Verification은 정�
 
 <div class="card-grid">
 <div class="card">
-<h4>몬테카를로 시뮬레이션</h4>
+<div class="card-title">몬테카를로 시뮬레이션</div>
 <p>가장 직관적이고 보편적인 방법이다. 입력 파라미터의 확률 분포에서 무작위로 표본을 추출하여 시뮬레이션을 수천 번 반복한 후, 출력의 통계량(평균, 분산, 분위수)을 계산한다. 구현이 단순하고 어떤 시뮬레이션에도 적용 가능하다는 장점이 있다. 단점은 많은 반복(보통 1000-10000회)이 필요하다는 것이다. 한 번의 시뮬레이션이 1시간 걸리면 몬테카를로는 비현실적이다. 라틴 하이퍼큐브 샘플링(LHS)이나 준-몬테카를로(QMC)는 더 적은 표본으로 같은 정확도를 얻는다.</p>
 </div>
 <div class="card">
-<h4>다항식 카오스 전개(PCE)</h4>
+<div class="card-title">다항식 카오스 전개(PCE)</div>
 <p>입력 불확실성을 직교 다항식의 전개로 표현하여, 적은 수의 시뮬레이션(보통 수십~수백 회)으로 출력 분포를 근사하는 방법이다. 입력이 적고(5-10개 이하) 출력이 매끄러울 때 효과적이다. 표준화된 라이브러리(<code>chaospy</code>, <code>UQpy</code>, <code>OpenTURNS</code>)가 있다. 입력이 많거나 출력에 불연속이 있으면 정확도가 떨어진다.</p>
 </div>
 <div class="card">
-<h4>대리 모델 기반 UQ</h4>
+<div class="card-title">대리 모델 기반 UQ</div>
 <p>비싼 시뮬레이션을 대신할 빠른 대리 모델(가우시안 프로세스, 신경망)을 학습한 후, 대리 모델 위에서 몬테카를로를 수행하는 방법이다. 처음 몇십~몇백 번의 시뮬레이션으로 대리 모델을 만들면, 그 후 수만 번의 몬테카를로가 거의 무료가 된다. ch24에서 다룬 PINN과 대리 모델 개념과 직접 연결된다.</p>
 </div>
 <div class="card">
-<h4>베이지안 보정</h4>
+<div class="card-title">베이지안 보정</div>
 <p>시뮬레이션 출력과 실험 데이터를 비교하여, 불확실한 입력 파라미터의 사후 분포(posterior distribution)를 추정하는 방법이다. 마르코프 체인 몬테카를로(MCMC)나 변분 베이즈(Variational Bayes)를 사용한다. 모델 파라미터를 데이터에 맞게 보정하면서 동시에 불확실성을 정량화한다.</p>
 </div>
 </div>
@@ -1161,27 +1161,27 @@ DVC는 "무엇을 언제 계산했는지"를 추적하고, 데이터 파이프�
 
 <div class="card-grid">
   <div class="card">
-    <h4>ParaView</h4>
+    <div class="card-title">ParaView</div>
     <p>Kitware의 오픈소스 표준. VTK 기반. 수 TB 데이터를 클러스터에서 병렬로 렌더링할 수 있다. Slice, Contour, Streamline, Volume Rendering 등 모든 기본 기능 제공. 학습 곡선이 가파르지만 한 번 익히면 박사 내내 쓴다.</p>
   </div>
   <div class="card">
-    <h4>VisIt</h4>
+    <div class="card-title">VisIt</div>
     <p>로렌스 리버모어 국립연구소의 오픈소스. ParaView와 유사하지만 대규모 병렬 처리에 더 강점. 기후·플라즈마·천체물리 분야에서 많이 쓰인다.</p>
   </div>
   <div class="card">
-    <h4>Tecplot</h4>
+    <div class="card-title">Tecplot</div>
     <p>상용 도구. CFD 분야에서 업계 표준. 매크로로 자동화가 편하고, 유체역학 특화 기능이 풍부하다. 라이선스 비용이 있다.</p>
   </div>
   <div class="card">
-    <h4>Python + PyVista</h4>
+    <div class="card-title">Python + PyVista</div>
     <p>VTK의 Pythonic 래퍼. 스크립트로 완전한 가시화 파이프라인을 만든다. Jupyter 노트북 내 인터랙티브 렌더링 가능. 재현성 측면에서 최고의 선택.</p>
   </div>
   <div class="card">
-    <h4>Matplotlib + NumPy</h4>
+    <div class="card-title">Matplotlib + NumPy</div>
     <p>2D 슬라이스나 라인 플롯에 충분. 통계 비교, 수렴 곡선, 프로파일 같은 전통적 그림에 최적. 논문 Figure의 70%는 여기서 나온다.</p>
   </div>
   <div class="card">
-    <h4>Plotly / Bokeh</h4>
+    <div class="card-title">Plotly / Bokeh</div>
     <p>브라우저 기반 인터랙티브 플롯. 학회 포스터에 QR 코드로 연결하거나, 논문 보충자료의 온라인 버전에 적합. 2024년 이후 점점 표준이 되고 있다.</p>
   </div>
 </div>

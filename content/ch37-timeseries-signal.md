@@ -317,7 +317,7 @@ scikit-learn의 `TimeSeriesSplit`을 사용하면 쉽게 구현할 수 있다. �
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 올바른 접근</h4>
+<p class="do-dont-title">✅ 올바른 접근</p>
 <ul>
 <li>TimeSeriesSplit으로 교차 검증한다</li>
 <li>전통 모델(ARIMA)을 베이스라인으로 먼저 시도한다</li>
@@ -328,7 +328,7 @@ scikit-learn의 `TimeSeriesSplit`을 사용하면 쉽게 구현할 수 있다. �
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ 흔한 실수</h4>
+<p class="do-dont-title">❌ 흔한 실수</p>
 <ul>
 <li>랜덤 셔플로 train/test를 나눈다 (데이터 누수)</li>
 <li>LSTM부터 바로 시작한다 (베이스라인 없음)</li>

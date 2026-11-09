@@ -221,7 +221,7 @@ ch21에서 머신러닝의 회귀(regression)를 다뤘다. 여기서 다루는 
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 통계적 회귀 (해석이 목적)</h4>
+<p class="do-dont-title">✅ 통계적 회귀 (해석이 목적)</p>
 <ul>
 <li>각 변수의 효과를 정량화한다 (계수의 크기와 부호)</li>
 <li>변수 간 관계의 통계적 유의성을 검정한다 (p-value)</li>
@@ -231,7 +231,7 @@ ch21에서 머신러닝의 회귀(regression)를 다뤘다. 여기서 다루는 
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ ML 회귀 (예측이 목적)</h4>
+<p class="do-dont-title">❌ ML 회귀 (예측이 목적)</p>
 <ul>
 <li>새로운 데이터에 대한 예측 정확도를 최대화한다</li>
 <li>교차 검증으로 일반화 성능을 평가한다 (R², RMSE)</li>

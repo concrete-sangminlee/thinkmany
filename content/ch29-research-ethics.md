@@ -68,7 +68,7 @@ PubPeer라는 웹사이트가 있다. 출판된 논문의 이미지 조작, 데�
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ Do</h4>
+<p class="do-dont-title">✅ Do</p>
 <ul>
 <li>원문의 핵심 아이디어를 이해한 후 자신의 언어로 재구성하고 출처를 인용한다</li>
 <li>직접 인용 시 인용 부호를 사용하고 출처를 명시한다</li>
@@ -77,7 +77,7 @@ PubPeer라는 웹사이트가 있다. 출판된 논문의 이미지 조작, 데�
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ Don't</h4>
+<p class="do-dont-title">❌ Don't</p>
 <ul>
 <li>다른 논문의 문장을 복사 후 단어만 바꾸기 (mosaic plagiarism)</li>
 <li>"일반적인 지식이니까" 출처 없이 사용하기</li>
@@ -243,7 +243,7 @@ AI를 데이터 분석에 활용했다면, 분석 과정의 재현성을 보장�
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ Do</h4>
+<p class="do-dont-title">✅ Do</p>
 <ul>
 <li>AI 사용 사실과 도구명을 논문에 명시한다</li>
 <li>AI 생성 결과물을 반드시 직접 검증한다</li>
@@ -252,7 +252,7 @@ AI를 데이터 분석에 활용했다면, 분석 과정의 재현성을 보장�
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ Don't</h4>
+<p class="do-dont-title">❌ Don't</p>
 <ul>
 <li>AI 생성 텍스트를 검증 없이 그대로 논문에 넣기</li>
 <li>AI가 만든 참고문헌을 확인 없이 인용하기</li>
@@ -370,7 +370,7 @@ ChatGPT, Claude, Gemini 같은 대규모 언어 모델(LLM)이 연구 현장에 
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ 일반적으로 허용</h4>
+    <p class="do-dont-title">✅ 일반적으로 허용</p>
     <ul>
       <li>영문법 교정, 문장 다듬기 (Grammarly 수준)</li>
       <li>코드 디버깅 보조, 코드 작성 보조</li>
@@ -380,7 +380,7 @@ ChatGPT, Claude, Gemini 같은 대규모 언어 모델(LLM)이 연구 현장에 
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ 문제가 되는 것</h4>
+    <p class="do-dont-title">❌ 문제가 되는 것</p>
     <ul>
       <li>AI가 생성한 텍스트를 자기 글로 제출</li>
       <li>AI 사용 사실을 숨기는 것</li>

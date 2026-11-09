@@ -116,7 +116,7 @@ print(f"최대 처짐: {delta_max*1000:.2f} mm")
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 바이브 코딩 올바른 활용</h4>
+<p class="do-dont-title">✅ 바이브 코딩 올바른 활용</p>
 <ul>
 <li>기본 문법은 이해한 후 AI 코드 생성 활용</li>
 <li>AI가 생성한 코드를 한 줄씩 읽고 이해</li>
@@ -126,7 +126,7 @@ print(f"최대 처짐: {delta_max*1000:.2f} mm")
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ 바이브 코딩 위험한 사용</h4>
+<p class="do-dont-title">❌ 바이브 코딩 위험한 사용</p>
 <ul>
 <li>코드를 이해하지 않고 복사-붙여넣기</li>
 <li>결과가 "그럴듯해 보이면" 검증 없이 사용</li>
@@ -288,7 +288,7 @@ PyTorch는 scikit-learn보다 배우기 어렵다. 텐서(tensor, 다차원 배�
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 효과적인 학습 습관</h4>
+<p class="do-dont-title">✅ 효과적인 학습 습관</p>
 <ul>
 <li>매일 30분이라도 코드를 쓴다</li>
 <li>작은 문제부터 해결한다 (보의 처짐 계산 → 데이터 정리 → 간단한 ML)</li>
@@ -299,7 +299,7 @@ PyTorch는 scikit-learn보다 배우기 어렵다. 텐서(tensor, 다차원 배�
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ 흔한 실수</h4>
+<p class="do-dont-title">❌ 흔한 실수</p>
 <ul>
 <li>처음부터 논문의 복잡한 코드를 재현하려 한다</li>
 <li>혼자서 모든 것을 이해하려 한다. AI에게 물어보는 것은 부끄러운 일이 아니다</li>
@@ -435,19 +435,19 @@ ML의 학습은 GPU가 있으면 훨씬 빠르다. 단순한 ML(선형 회귀, �
 
 <div class="card-grid">
 <div class="card">
-<h4>본인 컴퓨터(CPU)</h4>
+<div class="card-title">본인 컴퓨터(CPU)</div>
 <p>가장 쉬운 시작점. 학부 시절 사용하던 노트북도 충분히 사용 가능. NumPy, Pandas, scikit-learn 같은 전통적 ML 도구는 모두 CPU로 작동한다. 작은 데이터셋(수천~수만 건)으로 학습 단계에 적합. 단점은 딥러닝이 매우 느리거나 불가능하다는 것.</p>
 </div>
 <div class="card">
-<h4>본인 컴퓨터(GPU)</h4>
+<div class="card-title">본인 컴퓨터(GPU)</div>
 <p>NVIDIA GPU가 있는 게이밍 노트북/데스크탑. RTX 3060 이상이면 입문 딥러닝에 충분. 비용은 100-300만 원. 장점은 인터넷 없이 작업 가능, 데이터 보안. 단점은 초기 비용과 발열/소음. 박사 연구가 ML 중심이라면 투자 가치가 있다.</p>
 </div>
 <div class="card">
-<h4>Google Colab(클라우드)</h4>
+<div class="card-title">Google Colab(클라우드)</div>
 <p>가장 흔한 무료 옵션. 브라우저만 있으면 GPU를 무료로 사용 가능. 무료 버전은 GPU 사용 시간 제한이 있고, 세션이 끊기면 다시 시작해야 한다. Pro($10/월)은 더 안정적인 GPU와 긴 사용 시간 제공. Pro+($50/월)은 A100 같은 고급 GPU 가능. 입문자에게 가장 추천.</p>
 </div>
 <div class="card">
-<h4>학교 HPC/GPU 클러스터</h4>
+<div class="card-title">학교 HPC/GPU 클러스터</div>
 <p>대부분의 대학이 학생에게 무료로 GPU 자원을 제공한다. 본인 학교의 HPC 센터(또는 정보처)에 신청하면 사용 가능. KISTI(한국과학기술정보연구원) 자원도 있다. 장점은 강력한 GPU(V100, A100), 큰 메모리, 무료. 단점은 사용법이 복잡(SSH, SLURM 같은 잡 스케줄러), 박사 연구가 본격화된 후 사용. ch17의 HPC 섹션 참조.</p>
 </div>
 </div>

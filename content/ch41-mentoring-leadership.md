@@ -32,7 +32,7 @@
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 좋은 멘토의 행동</h4>
+<p class="do-dont-title">✅ 좋은 멘토의 행동</p>
 <ul>
 <li>후배의 질문에 즉답하기 전에 "어떻게 생각하느냐"를 먼저 묻는다</li>
 <li>후배의 실수를 실수로 받아들이지 않는다</li>
@@ -44,7 +44,7 @@
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ 나쁜 멘토의 행동</h4>
+<p class="do-dont-title">❌ 나쁜 멘토의 행동</p>
 <ul>
 <li>모든 질문에 즉시 답을 알려준다 (후배의 사고를 빼앗음)</li>
 <li>후배의 실수에 화를 낸다</li>

@@ -103,7 +103,7 @@
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ 시뮬레이션 연구에서 해야 할 것</h4>
+    <p class="do-dont-title">✅ 시뮬레이션 연구에서 해야 할 것</p>
     <ul>
       <li>모델의 가정과 한계를 명시한다</li>
       <li>벤치마크 문제로 코드/도구를 먼저 검증한다</li>
@@ -114,7 +114,7 @@
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ 시뮬레이션 연구에서 하지 말아야 할 것</h4>
+    <p class="do-dont-title">❌ 시뮬레이션 연구에서 하지 말아야 할 것</p>
     <ul>
       <li>검증 없이 결과를 보고한다</li>
       <li>모델의 한계를 숨긴다</li>

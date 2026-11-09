@@ -237,7 +237,7 @@ R&D 이외의 산업계 직무도 있다. 기술 컨설팅, 데이터 사이언�
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 산업계 Resume에서</h4>
+<p class="do-dont-title">✅ 산업계 Resume에서</p>
 <ul>
 <li>"Python, TensorFlow를 활용하여 구조 건전성 모니터링 시스템 개발, 기존 대비 진단 시간 80% 단축"</li>
 <li>"5명 팀의 프로젝트 리더로 12개월간 연구비 2억원 프로젝트 수행"</li>
@@ -245,7 +245,7 @@ R&D 이외의 산업계 직무도 있다. 기술 컨설팅, 데이터 사이언�
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ 산업계 Resume에서</h4>
+<p class="do-dont-title">❌ 산업계 Resume에서</p>
 <ul>
 <li>논문 전체 목록을 3페이지에 걸쳐 나열</li>
 <li>"OO 학회 학생회원" 같은 관련성 낮은 정보</li>
@@ -517,19 +517,19 @@ NST(국가과학기술연구회) 산하 25개 출연연구기관이 있고, 각�
 
 <div class="card-grid">
 <div class="card">
-<h4>기술창업 지원사업 (정부)</h4>
+<div class="card-title">기술창업 지원사업 (정부)</div>
 <p>중소벤처기업부, 과기부, 산업부에서 기술 기반 창업에 대한 다양한 지원을 한다. <strong>창업도약패키지</strong>, <strong>TIPS(Tech Incubator Program for Startup)</strong>, <strong>딥테크 팁스</strong>가 대표적이다. 창업 후 2-3년 차에 1억~5억 원 규모의 R&amp;D 자금을 지원받을 수 있다.</p>
 </div>
 <div class="card">
-<h4>학교 창업보육센터</h4>
+<div class="card-title">학교 창업보육센터</div>
 <p>대부분의 대학(특히 KAIST, POSTECH, 서울대, 연세대 등)이 창업보육센터를 운영한다. 사무 공간 제공, 멘토링, 초기 자금 연결을 도와준다. 박사 과정 중 또는 졸업 직후에 가장 접근하기 쉬운 자원이다.</p>
 </div>
 <div class="card">
-<h4>액셀러레이터</h4>
+<div class="card-title">액셀러레이터</div>
 <p>3-6개월 동안 집중적으로 멘토링과 자금을 제공하는 프로그램이다. 한국에는 <strong>매쉬업엔젤스</strong>, <strong>프라이머</strong>, <strong>퓨처플레이</strong>, <strong>스파크랩스</strong> 등이 있다. 딥테크에 특화된 곳도 있다(예: KAIST의 K-Startup, 카카오벤처스의 딥테크 파트).</p>
 </div>
 <div class="card">
-<h4>기술이전과 라이선싱</h4>
+<div class="card-title">기술이전과 라이선싱</div>
 <p>창업 대신 기술을 기존 기업에 라이선싱하는 방법도 있다. 대학의 기술이전조직(TLO, Technology Licensing Office)이 기업과의 협상을 도와준다. 창업보다 위험이 낮지만, 기술이 어떻게 사용되는지에 대한 통제가 줄어든다(ch40 참조).</p>
 </div>
 </div>

@@ -210,7 +210,7 @@ SNS에는 성공만 올라온다. 논문 게재, 상 수상, 초청 강연. 실�
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ Do</h4>
+<p class="do-dont-title">✅ Do</p>
 <ul>
 <li>규칙적으로 운동한다 (주 3회 이상, 30분 이상)</li>
 <li>수면 시간을 지킨다 (7-8시간)</li>
@@ -222,7 +222,7 @@ SNS에는 성공만 올라온다. 논문 게재, 상 수상, 초청 강연. 실�
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ Don't</h4>
+<p class="do-dont-title">❌ Don't</p>
 <ul>
 <li>연구 = 인생이라고 생각한다</li>
 <li>도움 요청 = 약점이라고 생각한다</li>

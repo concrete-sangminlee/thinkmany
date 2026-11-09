@@ -19,7 +19,7 @@
   </div>
 
   <div class="tab-content active" id="tab-ch07-original">
-    <h4>원저 논문 (Original Research Article)</h4>
+    <p class="tab-title">원저 논문 (Original Research Article)</p>
     <p>학술 논문의 가장 기본적이고 핵심적인 유형이다. 새로운 연구 결과를 처음으로 보고하는 논문으로, 대부분의 대학원생이 쓰게 되는 것이 바로 이것이다.</p>
     <p><strong>목적:</strong> 새로운 방법론, 실험 결과, 이론적 기여를 학계에 보고한다.</p>
     <p><strong>구조:</strong> Introduction → Literature Review → Methodology → Results → Discussion → Conclusion의 표준 구조(IMRAD 변형)를 따른다.</p>
@@ -29,7 +29,7 @@
   </div>
 
   <div class="tab-content" id="tab-ch07-review">
-    <h4>리뷰 논문 (Review / Survey Paper)</h4>
+    <p class="tab-title">리뷰 논문 (Review / Survey Paper)</p>
     <p>특정 분야의 기존 연구를 체계적으로 정리하고 분석하는 논문이다. 새로운 실험 결과를 포함하지 않지만, 분야의 현황, 트렌드, 미해결 과제를 정리하는 것 자체가 기여다.</p>
     <p><strong>목적:</strong> 분야의 지형도를 제공하고, 연구 방향을 제시한다.</p>
     <p><strong>분량:</strong> 보통 30-60페이지. 참고문헌이 100-300편 이상.</p>
@@ -38,7 +38,7 @@
   </div>
 
   <div class="tab-content" id="tab-ch07-letter">
-    <h4>레터 / 숏 커뮤니케이션 (Letter / Short Communication)</h4>
+    <p class="tab-title">레터 / 숏 커뮤니케이션 (Letter / Short Communication)</p>
     <p>짧지만 중요한 연구 결과를 빠르게 보고하는 논문이다. 풀 페이퍼로 발전시키기 전 예비 결과를 발표하거나, 간결한 기여를 빠르게 공유할 때 사용한다.</p>
     <p><strong>목적:</strong> 시의성 있는 결과를 빠르게 공유한다.</p>
     <p><strong>분량:</strong> 4-8페이지. 핵심만 담는다.</p>
@@ -47,7 +47,7 @@
   </div>
 
   <div class="tab-content" id="tab-ch07-conference">
-    <h4>컨퍼런스 페이퍼 (Conference Paper)</h4>
+    <p class="tab-title">컨퍼런스 페이퍼 (Conference Paper)</p>
     <p>학회(학술대회)에서 발표하기 위해 쓰는 논문이다. 저널 논문과 비교하면 분량이 짧고, 심사가 덜 엄격하며, 발표 기회가 함께 제공된다.</p>
     <p><strong>목적:</strong> 진행 중인 연구를 공유하고, 피드백을 받고, 네트워킹한다.</p>
     <p><strong>분량:</strong> 6-12페이지 (학회마다 다름).</p>
@@ -425,7 +425,7 @@ SSRN(ssrn.com)은 원래 사회과학 분야의 프리프린트 서버였지만,
 
 <div class="do-dont">
   <div class="dont-box">
-    <h4>🚩 의심해야 할 신호</h4>
+    <p class="do-dont-title">🚩 의심해야 할 신호</p>
     <ul>
       <li>처음 들어본 저널 이름에서 "당신의 탁월한 연구를…" 이메일이 옴</li>
       <li>저널 이름이 유명 저널(예: Nature, Science, IEEE)과 유사하게 모방됨</li>
@@ -438,7 +438,7 @@ SSRN(ssrn.com)은 원래 사회과학 분야의 프리프린트 서버였지만,
     </ul>
   </div>
   <div class="do-box">
-    <h4>✅ 정상 저널의 특징</h4>
+    <p class="do-dont-title">✅ 정상 저널의 특징</p>
     <ul>
       <li>SCI/SCIE/SCOPUS 등 공인된 인덱스에 등록</li>
       <li>편집위원(Editorial Board)이 실제 활동하는 유명 학자로 구성</li>
@@ -1189,27 +1189,27 @@ A: 분야 워크숍의 수준에 맞는 글쓰기. 멘토/동료의 피드백. �
 
 <div class="card-grid">
   <div class="card">
-    <h4>Scientific Data (Nature)</h4>
+    <div class="card-title">Scientific Data (Nature)</div>
     <p>네이처 그룹의 대표 데이터 저널. IF 약 9. 모든 분야 수용. 엄격한 심사. 채택되면 Nature 저널 중 하나에 게재되는 것이므로 경력에 큰 가치.</p>
   </div>
   <div class="card">
-    <h4>Data in Brief</h4>
+    <div class="card-title">Data in Brief</div>
     <p>엘스비어. 간결한 데이터 설명 논문. 3-6페이지. IF는 낮지만 채택률이 높고 빠르다. 일반 논문에서 데이터 부분을 별도로 분리할 때 적합.</p>
   </div>
   <div class="card">
-    <h4>Earth System Science Data</h4>
+    <div class="card-title">Earth System Science Data</div>
     <p>지구 시스템 관련 데이터의 대표 저널. IF 약 11. 기후, 해양, 지질, 대기 데이터의 주요 출판처.</p>
   </div>
   <div class="card">
-    <h4>Geoscience Data Journal</h4>
+    <div class="card-title">Geoscience Data Journal</div>
     <p>영국 왕립기상학회. 지구과학 데이터. Royal Society 수준의 심사.</p>
   </div>
   <div class="card">
-    <h4>Data</h4>
+    <div class="card-title">Data</div>
     <p>MDPI의 데이터 전용 저널. 모든 분야. 오픈 액세스. APC 지불 필요. 채택률이 높아 빠른 출판에 적합.</p>
   </div>
   <div class="card">
-    <h4>분야별 데이터 저널</h4>
+    <div class="card-title">분야별 데이터 저널</div>
     <p>Materials Data Repository, Biodiversity Data Journal, Neuroinformatics 등 분야 특화 저널이 다수 존재. 분야에 맞는 것을 찾아라.</p>
   </div>
 </div>
@@ -1261,27 +1261,27 @@ A: 분야 워크숍의 수준에 맞는 글쓰기. 멘토/동료의 피드백. �
 
 <div class="card-grid">
   <div class="card">
-    <h4>Nature Protocols</h4>
+    <div class="card-title">Nature Protocols</div>
     <p>생명과학과 인접 분야의 방법 논문 최고 저널. IF 약 14. 엄격한 심사. 한 논문이 수천 회 인용되기도 한다. 공학 방법도 일부 수용.</p>
   </div>
   <div class="card">
-    <h4>MethodsX</h4>
+    <div class="card-title">MethodsX</div>
     <p>엘스비어. 기존 논문에서 분리한 방법론 상세 설명. 모든 분야. 짧고 빠른 출판.</p>
   </div>
   <div class="card">
-    <h4>HardwareX</h4>
+    <div class="card-title">HardwareX</div>
     <p>엘스비어. 과학 장비와 하드웨어의 설계, 제작, 사용법. DIY 장비를 만드는 엔지니어링 박사생에게 적합.</p>
   </div>
   <div class="card">
-    <h4>SoftwareX</h4>
+    <div class="card-title">SoftwareX</div>
     <p>연구용 소프트웨어의 출판. 만든 Python 패키지, MATLAB 툴박스, 전용 시뮬레이터 등. IF 약 3 수준.</p>
   </div>
   <div class="card">
-    <h4>Journal of Open Source Software (JOSS)</h4>
+    <div class="card-title">Journal of Open Source Software (JOSS)</div>
     <p>오픈소스 연구 소프트웨어의 출판. 심사는 GitHub 기반. 논문은 짧지만 코드 품질이 엄격히 검증된다. 개발자 박사생의 필수 출판처.</p>
   </div>
   <div class="card">
-    <h4>분야별 방법 저널</h4>
+    <div class="card-title">분야별 방법 저널</div>
     <p>Measurement Science and Technology, Review of Scientific Instruments, Journal of Microscopy Methods 등 분야 특화 저널 존재.</p>
   </div>
 </div>

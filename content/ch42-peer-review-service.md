@@ -162,7 +162,7 @@ contribution to the field.
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 건설적 표현</h4>
+<p class="do-dont-title">✅ 건설적 표현</p>
 <ul>
 <li>"The authors might consider..."</li>
 <li>"It would strengthen the paper to..."</li>
@@ -174,7 +174,7 @@ contribution to the field.
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ 적대적 표현</h4>
+<p class="do-dont-title">❌ 적대적 표현</p>
 <ul>
 <li>"The authors clearly do not understand..."</li>
 <li>"This is wrong/nonsense/poorly written..."</li>

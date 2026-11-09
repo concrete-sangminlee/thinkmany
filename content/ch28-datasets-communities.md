@@ -217,7 +217,7 @@ MLOps Community(Slack), dbt Community(Slack), Weights & Biases Community(Discord
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ 좋은 질문</h4>
+<p class="do-dont-title">✅ 좋은 질문</p>
 <ul>
 <li>구체적인 환경(OS, 언어, 라이브러리 버전) 명시</li>
 <li>에러 메시지 전문 포함</li>
@@ -227,7 +227,7 @@ MLOps Community(Slack), dbt Community(Slack), Weights & Biases Community(Discord
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ 나쁜 질문</h4>
+<p class="do-dont-title">❌ 나쁜 질문</p>
 <ul>
 <li>"안 됩니다. 도와주세요" (구체적 정보 없음)</li>
 <li>에러 메시지 없이 "에러가 나요"</li>

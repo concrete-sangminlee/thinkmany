@@ -28,7 +28,7 @@
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ 좋은 커버레터</h4>
+    <p class="do-dont-title">✅ 좋은 커버레터</p>
     <ul>
       <li>논문의 핵심 기여를 2-3문장으로 명확히 요약</li>
       <li>이 저널의 scope에 왜 맞는지 구체적으로 설명</li>
@@ -37,7 +37,7 @@
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ 나쁜 커버레터</h4>
+    <p class="do-dont-title">❌ 나쁜 커버레터</p>
     <ul>
       <li>"Please find attached our manuscript..."로 시작하고 끝나는 한 줄 커버레터</li>
       <li>Abstract를 그대로 복사 붙여넣기</li>

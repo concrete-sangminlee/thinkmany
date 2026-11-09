@@ -313,7 +313,7 @@ RA 업무에서 중요한 것은 **프로젝트 마감을 반드시 지키는 �
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ Do</h4>
+<p class="do-dont-title">✅ Do</p>
 <ul>
 <li>갈등 상황을 날짜, 내용, 맥락과 함께 구체적으로 기록한다.</li>
 <li>문제가 작을 때 먼저 직접 대화를 시도한다.</li>
@@ -323,7 +323,7 @@ RA 업무에서 중요한 것은 **프로젝트 마감을 반드시 지키는 �
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ Don't</h4>
+<p class="do-dont-title">❌ Don't</p>
 <ul>
 <li>문제를 혼자 삭이면서 스트레스를 키우지 않는다.</li>
 <li>SNS나 익명 게시판에 연구실 내부 갈등을 공개하지 않는다.</li>

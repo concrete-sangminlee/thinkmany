@@ -155,7 +155,7 @@ t-test, ANOVA, Mann-Whitney U test 등 적절한 통계 검정을 추가하고, 
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ 좋은 대응</h4>
+    <p class="do-dont-title">✅ 좋은 대응</p>
     <ul>
       <li>모든 코멘트에 빠짐없이 대응</li>
       <li>감사를 먼저, 대응을 그 다음에</li>
@@ -166,7 +166,7 @@ t-test, ANOVA, Mann-Whitney U test 등 적절한 통계 검정을 추가하고, 
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ 나쁜 대응</h4>
+    <p class="do-dont-title">❌ 나쁜 대응</p>
     <ul>
       <li>사소한 코멘트를 무시하거나 건너뜀</li>
       <li>"We disagree"만 쓰고 근거를 제시하지 않음</li>
@@ -323,7 +323,7 @@ t-test, ANOVA, Mann-Whitney U test 등 적절한 통계 검정을 추가하고, 
   </div>
 
   <div class="tab-content active" id="tab-ch12-tpl-exp">
-    <h4>"실험/분석이 더 필요하다"</h4>
+    <p class="tab-title">"실험/분석이 더 필요하다"</p>
     <p>리뷰어가 추가 실험이나 분석을 요구하는 경우, 실제로 수행한 내용과 그 결과를 구체적으로 보여주는 것이 핵심이다.</p>
     <p><strong>템플릿:</strong></p>
     <p><em>"We appreciate this suggestion. To address this concern, we have added [구체적 추가 분석 내용, 예: a parametric study on the effect of sensor spacing]. The results are presented in [새 Figure/Table 번호, 예: the new Figure 8 and Table 5]. These additional results confirm that [핵심 발견 요약, 예: the proposed method maintains its accuracy within 3% under varying sensor configurations]. The corresponding discussion has been added in Section [번호] (Pages [X-Y]) of the revised manuscript."</em></p>
@@ -331,7 +331,7 @@ t-test, ANOVA, Mann-Whitney U test 등 적절한 통계 검정을 추가하고, 
   </div>
 
   <div class="tab-content" id="tab-ch12-tpl-baseline">
-    <h4>"비교 대상(baseline)이 부족하다"</h4>
+    <p class="tab-title">"비교 대상(baseline)이 부족하다"</p>
     <p>비교 실험 추가 요구는 리뷰어가 가장 자주 하는 요청 중 하나다. 구체적으로 어떤 방법을 추가했고, 결과가 어떻게 나왔는지를 명확히 보여준다.</p>
     <p><strong>템플릿:</strong></p>
     <p><em>"Following the reviewer's recommendation, we have included comparisons with [방법 A] (Author et al., 20XX) and [방법 B] (Author et al., 20XX). Table [X] summarizes the quantitative comparison across all evaluation metrics. Our method outperforms [방법 A] by [수치]% in [지표] and achieves comparable performance to [방법 B] while requiring [장점, 예: 50% less training data]. We have also added a qualitative comparison in Figure [Y]. These additions can be found in Section [번호] (Pages [X-Y])."</em></p>
@@ -339,7 +339,7 @@ t-test, ANOVA, Mann-Whitney U test 등 적절한 통계 검정을 추가하고, 
   </div>
 
   <div class="tab-content" id="tab-ch12-tpl-novelty">
-    <h4>"Novelty가 약하다"</h4>
+    <p class="tab-title">"Novelty가 약하다"</p>
     <p>가장 대응하기 어려운 코멘트다. 감정적으로 반응하지 말고, 기존 연구와의 차별점을 구조적으로 나열하는 것이 효과적이다.</p>
     <p><strong>템플릿:</strong></p>
     <p><em>"We respectfully note that the novelty of our work lies in the following three aspects: (1) [차별점 1, 예: the integration of physics-based constraints into the learning framework], (2) [차별점 2, 예: a novel data augmentation strategy tailored for sparse sensor data], and (3) [차별점 3, 예: the first application of this approach to full-scale bridge monitoring data]. To clarify these contributions, we have added Table [X] comparing our approach with existing methods across [비교 기준, 예: five key dimensions]. This comparison table is now included in Section [번호] (Page [X]) of the revised manuscript."</em></p>
@@ -347,7 +347,7 @@ t-test, ANOVA, Mann-Whitney U test 등 적절한 통계 검정을 추가하고, 
   </div>
 
   <div class="tab-content" id="tab-ch12-tpl-english">
-    <h4>"영어 품질이 낮다"</h4>
+    <p class="tab-title">"영어 품질이 낮다"</p>
     <p>이 코멘트에는 반박하지 않는 것이 최선이다. 실제로 교정을 받고, 그 사실을 명시한다.</p>
     <p><strong>템플릿:</strong></p>
     <p><em>"We have thoroughly revised the manuscript with the help of a professional editing service [또는: a native English-speaking colleague]. All sections have been carefully reviewed for grammar, clarity, and readability. We believe the revised manuscript is now substantially improved in terms of English quality. We apologize for any inconvenience this may have caused during the review process."</em></p>
@@ -355,7 +355,7 @@ t-test, ANOVA, Mann-Whitney U test 등 적절한 통계 검정을 추가하고, 
   </div>
 
   <div class="tab-content" id="tab-ch12-tpl-lit">
-    <h4>"문헌 조사가 부족하다"</h4>
+    <p class="tab-title">"문헌 조사가 부족하다"</p>
     <p>리뷰어가 특정 논문을 추천한 경우, 해당 논문을 읽고 적절한 위치에 인용을 추가한다. 리뷰어 자신의 논문이 포함되어 있을 수도 있으니, 가급적 인용하는 것이 현실적이다.</p>
     <p><strong>템플릿:</strong></p>
     <p><em>"We thank the reviewer for pointing this out. We have expanded the literature review to include [N]개 additional references covering [주제 영역, 예: recent advances in physics-informed neural networks and domain adaptation techniques]. Specifically, we have added discussions on [Author1 et al. (20XX)], [Author2 et al. (20XX)], and [Author3 et al. (20XX)] in Section 2 (Pages [X-Y]). These additions provide a more comprehensive overview of the related work and better position our contribution within the existing literature."</em></p>

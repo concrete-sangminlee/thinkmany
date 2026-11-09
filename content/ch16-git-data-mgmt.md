@@ -82,7 +82,7 @@ Git의 핵심 개념을 비유로 설명하겠다. Git을 사진첩이라고 생
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ 좋은 커밋 메시지</h4>
+    <p class="do-dont-title">✅ 좋은 커밋 메시지</p>
     <ul>
       <li>fix: 경계 조건 적용 순서 오류 수정</li>
       <li>feat: 메쉬 수렴성 자동 검사 기능 추가</li>
@@ -92,7 +92,7 @@ Git의 핵심 개념을 비유로 설명하겠다. Git을 사진첩이라고 생
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ 나쁜 커밋 메시지</h4>
+    <p class="do-dont-title">❌ 나쁜 커밋 메시지</p>
     <ul>
       <li>수정</li>
       <li>fix</li>

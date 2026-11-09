@@ -92,7 +92,7 @@ S. Keshav의 "How to Read a Paper"에서 제안한 3-Pass 방법은 가장 실�
   </div>
 
   <div class="tab-content active" id="tab-ch05-survey">
-    <h4>서베이용 읽기: 넓게, 빠르게</h4>
+    <p class="tab-title">서베이용 읽기: 넓게, 빠르게</p>
     <p>새로운 분야에 진입하거나, 리뷰 논문을 준비하거나, 연구 트렌드를 파악할 때 사용한다. 목표는 50-100편을 빠르게 훑어서 분야의 지형도를 그리는 것이다.</p>
     <p><strong>방법:</strong> 1st pass만으로 충분하다. 각 논문의 제목, 초록, 결론만 읽고, 한 줄 요약을 적는다. 50편을 이렇게 처리하면 반복되는 키워드, 주요 저자/연구그룹, 방법론의 흐름, 아직 풀리지 않은 문제가 보인다.</p>
     <p><strong>팁:</strong> Google Scholar에서 키워드 검색 후 "cited by" 기준으로 정렬하면 영향력 있는 논문부터 볼 수 있다. 최근 3년 이내 발표된 리뷰 논문을 먼저 찾으면, 그 리뷰의 참고문헌 목록이 곧 읽어야 할 논문 리스트가 된다.</p>
@@ -100,7 +100,7 @@ S. Keshav의 "How to Read a Paper"에서 제안한 3-Pass 방법은 가장 실�
   </div>
 
   <div class="tab-content" id="tab-ch05-reproduce">
-    <h4>재현용 읽기: 좁게, 깊게</h4>
+    <p class="tab-title">재현용 읽기: 좁게, 깊게</p>
     <p>내 연구의 baseline으로 사용하거나, 기존 방법론을 직접 구현해야 할 때 사용한다. 목표는 논문에 적힌 모든 것을 코드로 옮길 수 있는 수준의 이해다.</p>
     <p><strong>방법:</strong> 3rd pass까지 간다. Method 섹션을 집중적으로 읽되, 다음 항목을 반드시 확인한다:</p>
     <ul>
@@ -114,7 +114,7 @@ S. Keshav의 "How to Read a Paper"에서 제안한 3-Pass 방법은 가장 실�
   </div>
 
   <div class="tab-content" id="tab-ch05-related">
-    <h4>Related Work 작성용 읽기: 핵심만, 비교 관점으로</h4>
+    <p class="tab-title">Related Work 작성용 읽기: 핵심만, 비교 관점으로</p>
     <p>논문의 Related Work 섹션을 쓰기 위해 읽을 때 사용한다. 목표는 각 논문의 기여점을 한 줄로 요약하고, 내 연구와의 차이를 명확히 하는 것이다. (Related Work를 포함한 논문 각 섹션의 구체적인 작성법은 ch08 '논문 작성법'에서 다룬다.)</p>
     <p><strong>방법:</strong> 1st-2nd pass 사이 수준으로 읽는다. 초록과 결론에서 "이 논문이 뭘 했다고 주장하는지"를 파악하고, Method에서 "어떤 접근법을 사용했는지"를 확인한다. 그리고 핵심 질문을 던진다: "이 논문과 내 연구는 무엇이 같고, 무엇이 다른가?"</p>
     <p><strong>메모 형식:</strong> 각 논문에 대해 세 줄을 적는다. (1) 한 줄 요약: "Kim et al. (2024)은 GAN을 사용하여 균열 이미지를 생성함" (2) 한계점: "실제 현장 이미지와의 도메인 갭을 다루지 않음" (3) 내 연구와의 관계: "본 연구에서는 domain adaptation을 추가하여 이 한계를 극복함"</p>
@@ -182,7 +182,7 @@ S. Keshav의 "How to Read a Paper"에서 제안한 3-Pass 방법은 가장 실�
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ 신뢰할 수 있는 논문의 특징</h4>
+    <p class="do-dont-title">✅ 신뢰할 수 있는 논문의 특징</p>
     <ul>
       <li>가정과 한계를 명시적으로 기술</li>
       <li>코드와 데이터 공개 (또는 공개 계획 명시)</li>
@@ -193,7 +193,7 @@ S. Keshav의 "How to Read a Paper"에서 제안한 3-Pass 방법은 가장 실�
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ 의심해야 하는 논문의 특징</h4>
+    <p class="do-dont-title">❌ 의심해야 하는 논문의 특징</p>
     <ul>
       <li>설명 없는 비현실적 성능 향상</li>
       <li>데이터 분할/전처리 방법 미기재</li>
@@ -421,7 +421,7 @@ Zotero에서 하이라이트와 메모를 "노트"로 추출할 수 있다. 이 
 
 <div class="do-dont">
   <div class="do-box">
-    <h4>✅ 먼저 읽을 것</h4>
+    <p class="do-dont-title">✅ 먼저 읽을 것</p>
     <ul>
       <li>지도교수/선배가 추천한 논문</li>
       <li>분야의 서베이/리뷰 논문</li>
@@ -431,7 +431,7 @@ Zotero에서 하이라이트와 메모를 "노트"로 추출할 수 있다. 이 
     </ul>
   </div>
   <div class="dont-box">
-    <h4>❌ 나중에 읽을 것</h4>
+    <p class="do-dont-title">❌ 나중에 읽을 것</p>
     <ul>
       <li>제목이 흥미로워서 북마크만 해둔 논문</li>
       <li>인접 분야의 논문 (1st pass로 충분)</li>

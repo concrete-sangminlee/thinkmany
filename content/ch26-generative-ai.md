@@ -214,7 +214,7 @@ AI가 작성한 코드에서 흔히 발생하는 문제: 존재하지 않는 라
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ Do</h4>
+<p class="do-dont-title">✅ Do</p>
 <ul>
 <li>AI를 보조 도구로 활용한다 (코드 초안, 문법 교정, 아이디어 정리)</li>
 <li>AI가 생성한 내용을 반드시 검증한다 (논문 존재 여부, 수식 정확도, 코드 실행)</li>
@@ -224,7 +224,7 @@ AI가 작성한 코드에서 흔히 발생하는 문제: 존재하지 않는 라
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ Don't</h4>
+<p class="do-dont-title">❌ Don't</p>
 <ul>
 <li>AI가 생성한 텍스트를 검증 없이 논문에 사용하지 않는다</li>
 <li>논문의 핵심 기여(방법론, 분석, 해석)를 AI에 의존하지 않는다</li>
@@ -1041,23 +1041,23 @@ ChatGPT에게 코드를 복사-붙여넣기 하는 시대는 지났다. 2024-202
 
 <div class="card-grid">
   <div class="card">
-    <h4>GitHub Copilot</h4>
+    <div class="card-title">GitHub Copilot</div>
     <p>VS Code 등에 통합된 자동완성 AI. 줄 단위 제안이 빠르고 정확. 학생은 GitHub Student Pack으로 무료. 프로젝트 전체 맥락은 약하지만 반복 코딩에 강하다.</p>
   </div>
   <div class="card">
-    <h4>Cursor</h4>
+    <div class="card-title">Cursor</div>
     <p>VS Code 포크 에디터. 여러 파일을 동시에 편집하는 Composer 기능이 강점. Claude, GPT-4, Gemini를 선택 가능. 리팩토링과 대규모 변경에 적합.</p>
   </div>
   <div class="card">
-    <h4>Claude Code</h4>
+    <div class="card-title">Claude Code</div>
     <p>터미널 기반 에이전트. 파일 읽기/쓰기/명령 실행을 자율로 수행. 긴 작업, 디버깅, 전체 프로젝트 탐색에 강하다. 지시한 후 결과만 검토하는 방식.</p>
   </div>
   <div class="card">
-    <h4>Windsurf</h4>
+    <div class="card-title">Windsurf</div>
     <p>Codeium의 에디터. Cursor의 경쟁 제품. Cascade 에이전트로 여러 파일 수정. 무료 플랜이 관대해 예산이 적은 학생에게 매력적.</p>
   </div>
   <div class="card">
-    <h4>Aider</h4>
+    <div class="card-title">Aider</div>
     <p>오픈소스 CLI 도구. Git 통합이 강력해 변경마다 자동 커밋. API 키만 있으면 Claude, GPT, 로컬 LLM 어느 것이든 사용 가능. 재현성을 중시하는 연구자에게 적합.</p>
   </div>
 </div>
@@ -1114,23 +1114,23 @@ ChatGPT에게 코드를 복사-붙여넣기 하는 시대는 지났다. 2024-202
 
 <div class="card-grid">
   <div class="card">
-    <h4>Ollama</h4>
+    <div class="card-title">Ollama</div>
     <p>가장 쉬운 진입점. `ollama run llama3` 한 줄로 실행. GGUF 양자화 모델 지원. 맥북에서 7B 모델이 쾌적하게 돈다. 초심자 추천.</p>
   </div>
   <div class="card">
-    <h4>LM Studio</h4>
+    <div class="card-title">LM Studio</div>
     <p>GUI 기반 데스크톱 앱. 모델 탐색, 다운로드, 채팅이 한 화면에 있다. 코딩 없이 로컬 LLM을 시작하려는 학생에게 적합.</p>
   </div>
   <div class="card">
-    <h4>llama.cpp</h4>
+    <div class="card-title">llama.cpp</div>
     <p>C++ 구현체. 가장 빠르고 가벼운 CPU 추론. Ollama의 기반. 세밀한 제어가 필요한 연구자의 선택.</p>
   </div>
   <div class="card">
-    <h4>vLLM</h4>
+    <div class="card-title">vLLM</div>
     <p>프로덕션급 추론 서버. GPU 활용이 극대화됨. 대규모 배치 추론에 적합. 연구실 서버에 설치해 팀이 공유하는 용도로 적합.</p>
   </div>
   <div class="card">
-    <h4>Hugging Face Transformers</h4>
+    <div class="card-title">Hugging Face Transformers</div>
     <p>가장 유연하지만 가장 느리다. fine-tuning, 커스텀 아키텍처, 연구 수준의 수정이 필요할 때 선택. ch22와 직접 연결된다.</p>
   </div>
 </div>

@@ -521,19 +521,19 @@ ML 모델의 가장 큰 약점 중 하나는 "블랙박스"라는 것이다. 모
 
 <div class="card-grid">
 <div class="card">
-<h4>특징 중요도 (Feature Importance)</h4>
+<div class="card-title">특징 중요도 (Feature Importance)</div>
 <p>각 입력 특징이 모델 전체 예측에 얼마나 기여하는지를 보여준다. 트리 기반 모델(Random Forest, XGBoost)은 자체 feature importance를 제공. 다른 모델은 permutation importance(특징을 무작위로 섞었을 때 성능 하락 정도)로 측정. 가장 단순하고 직관적.</p>
 </div>
 <div class="card">
-<h4>SHAP (SHapley Additive exPlanations)</h4>
+<div class="card-title">SHAP (SHapley Additive exPlanations)</div>
 <p>게임 이론의 Shapley value를 이용하여 각 특징이 개별 예측에 미친 영향을 정량화. 한 샘플에 대해 "이 예측이 X인 이유는 특징 A가 +0.3, B가 -0.2 기여했기 때문"처럼 분해. 가장 이론적으로 견고한 XAI 방법. <code>shap</code> Python 라이브러리.</p>
 </div>
 <div class="card">
-<h4>LIME (Local Interpretable Model-agnostic Explanations)</h4>
+<div class="card-title">LIME (Local Interpretable Model-agnostic Explanations)</div>
 <p>특정 예측 주변에서 단순 모델(선형 회귀)을 학습하여 그 예측을 국소적으로 설명. 모델에 무관하게 적용 가능. SHAP보다 빠르지만 이론적 보장은 약하다. <code>lime</code> Python 라이브러리.</p>
 </div>
 <div class="card">
-<h4>Partial Dependence Plot (PDP)</h4>
+<div class="card-title">Partial Dependence Plot (PDP)</div>
 <p>특정 특징의 값이 변할 때 모델의 예측이 어떻게 변하는지를 시각화. "물-시멘트 비가 높아지면 강도가 어떻게 변하는가"를 모델 전체에서 보여준다. 한두 개의 핵심 특징의 영향을 직관적으로 이해하는 데 좋다. scikit-learn의 <code>PartialDependenceDisplay</code>.</p>
 </div>
 </div>

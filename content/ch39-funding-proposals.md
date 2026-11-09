@@ -185,7 +185,7 @@ ch06에서 "좋은 연구 문제의 3가지 조건"을 다뤘다. 답이 아직 
 
 <div class="do-dont">
 <div class="do-box">
-<h4>✅ Do</h4>
+<p class="do-dont-title">✅ Do</p>
 <ul>
 <li>첫 페이지에서 핵심 문제와 접근법이 바로 보이게 쓴다</li>
 <li>예비 결과(preliminary results)를 포함하여 실현 가능성을 보인다</li>
@@ -196,7 +196,7 @@ ch06에서 "좋은 연구 문제의 3가지 조건"을 다뤘다. 답이 아직 
 </ul>
 </div>
 <div class="dont-box">
-<h4>❌ Don't</h4>
+<p class="do-dont-title">❌ Don't</p>
 <ul>
 <li>배경을 너무 넓게 시작하기 ("AI는 미래의 핵심 기술이다...")</li>
 <li>목표가 모호하거나 측정 불가능하기 ("성능을 개선한다")</li>
