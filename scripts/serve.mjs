@@ -9,7 +9,7 @@ import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { build } from './build.mjs';
+import { execFile } from 'node:child_process';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, '_site');
@@ -32,24 +32,48 @@ const TYPES = {
   '.webmanifest': 'application/manifest+json',
 };
 
-async function rebuild() {
-  try {
-    await build({ out: OUT, siteUrl: SITE_URL, quiet: true });
-    console.log(`[${new Date().toLocaleTimeString('ko-KR')}] 빌드 완료`);
-  } catch (err) {
-    console.error(`빌드 실패: ${err.message}`);
+/**
+ * Each build runs in a fresh process, so edits to the build scripts and to
+ * the modules the build shares with the browser (js/views.js, js/lib/) show
+ * up too, not only content. Changes during a build queue one more build.
+ */
+let building = null;
+let again = false;
+function rebuild() {
+  if (building) {
+    again = true;
+    return building;
   }
+  building = new Promise((resolve) => {
+    execFile(process.execPath, [path.join(ROOT, 'scripts', 'build.mjs')], { cwd: ROOT, env: { ...process.env, SITE_URL } }, (err, _stdout, stderr) => {
+      if (err) console.error(`빌드 실패\n${stderr.trim() || err.message}`);
+      else {
+        if (stderr.trim()) console.warn(stderr.trim());
+        console.log(`[${new Date().toLocaleTimeString('ko-KR')}] 빌드 완료`);
+      }
+      resolve();
+    });
+  }).then(() => {
+    building = null;
+    if (again) {
+      again = false;
+      return rebuild();
+    }
+  });
+  return building;
 }
 
 await rebuild();
 
 let timer = null;
-for (const dir of ['content', 'css', 'js', 'templates', 'assets', 'admin']) {
-  fs.watch(path.join(ROOT, dir), { recursive: true }, () => {
-    clearTimeout(timer);
-    timer = setTimeout(rebuild, 150);
-  });
+const schedule = () => {
+  clearTimeout(timer);
+  timer = setTimeout(rebuild, 150);
+};
+for (const dir of ['content', 'css', 'js', 'templates', 'assets', 'admin', 'scripts']) {
+  fs.watch(path.join(ROOT, dir), { recursive: true }, schedule);
 }
+fs.watch(path.join(ROOT, 'sw.js'), schedule);
 
 http
   .createServer((req, res) => {

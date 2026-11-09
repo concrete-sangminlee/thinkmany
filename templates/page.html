@@ -67,6 +67,14 @@
             <p class="popover-hint">다른 기기에서 링크를 열거나 파일을 불러오면 그 기기의 기록과 합쳐집니다.</p>
             <input type="file" accept="application/json,.json" hidden data-sync-file>
           </div>
+          <div class="popover-section" data-offline-panel hidden>
+            <p class="popover-title">오프라인으로 읽기</p>
+            <p class="popover-note" data-offline-summary aria-live="polite">한 번 연 장은 인터넷 없이도 열립니다.</p>
+            <div class="offline-meter" data-offline-meter role="progressbar" aria-label="저장 진행률" aria-valuemin="0" aria-valuenow="0" hidden><span></span></div>
+            <div class="popover-actions">
+              <button type="button" class="btn btn-small btn-ghost" data-offline="save">책 전체 저장</button>
+            </div>
+          </div>
         </div>
       </div>
       <button class="icon-btn theme-btn" id="theme-btn" type="button" aria-label="테마 전환" title="테마 전환 (D)">{{icon:moon}}{{icon:sun}}</button>

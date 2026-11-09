@@ -13,6 +13,7 @@ import { ROOT, loadBook, fetchChapter } from './book.js';
 import { enhance, highlightTerms, clearHighlights } from './enhance.js';
 import { initSearch } from './search.js';
 import { initSync } from './sync.js';
+import { initOffline } from './offline.js';
 import { mount, icon, html } from './lib/html.js';
 import { setBase, getBase, chapterHref, partHref } from './lib/paths.js';
 import { sidebarView, homeView, chapterView, chapterHead, missingView } from './views.js';
@@ -41,6 +42,7 @@ const readerState = {
 let book;
 let search;
 let sync;
+let offline;
 let current = { kind: null };
 let pendingTerms = [];
 let searchWanted = false;
@@ -96,6 +98,7 @@ function initDisplayMenu() {
     menu.hidden = !on;
     btn.setAttribute('aria-expanded', String(on));
     if (on) sync?.refresh();
+    if (on) offline?.refresh();
     if (on) menu.querySelector('[aria-pressed="true"]')?.focus();
   };
   btn.addEventListener('click', () => open(menu.hidden));
@@ -471,7 +474,7 @@ async function showChapter(ch, { anchor = '', terms = [], y, hydrate = false }) 
       [md, { renderMarkdown }] = await Promise.all([fetchChapter(ch), import('./render.js')]);
     } catch {
       if (token !== renderToken) return;
-      const why = navigator.onLine ? '네트워크 상태를 확인한 뒤 다시 시도해 주세요.' : '오프라인에서는 한 번 열어 본 장만 읽을 수 있습니다.';
+      const why = navigator.onLine ? '네트워크 상태를 확인한 뒤 다시 시도해 주세요.' : '오프라인에서는 한 번 열어 본 장만 읽을 수 있습니다. 설정에서 책 전체를 저장해 두면 모든 장을 읽을 수 있습니다.';
       mount($('#prose'), html`<div class="state-message"><h2>이 장을 불러오지 못했습니다</h2><p>${why}</p><p><button class="btn btn-ghost" type="button" data-retry>다시 시도</button></p></div>`);
       $('[data-retry]').addEventListener('click', () => showChapter(ch, { anchor, terms }));
       return;
@@ -711,6 +714,7 @@ async function boot() {
   search = initSearch(book, { onOpenResult: (href, terms) => navigate(href, { terms }) });
   if (searchWanted) search.open();
   sync = initSync({ root: ROOT, toast, onImported: refreshReaderState });
+  offline = initOffline({ book, toast });
   await sync.takeFromUrl();
 
   // The router owns scroll positions (saved per history entry in history.state).

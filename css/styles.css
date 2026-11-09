@@ -2597,6 +2597,9 @@ dialog::backdrop {
 
 .popover {
   width: 17.5rem;
+  max-height: calc(100dvh - 4.5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .popover-section {
@@ -2627,6 +2630,27 @@ dialog::backdrop {
 .popover-actions .btn {
   justify-content: center;
   width: 100%;
+}
+
+.offline-meter {
+  height: 6px;
+  margin-top: 0.6rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--line);
+}
+
+.offline-meter[hidden] {
+  display: none;
+}
+
+.offline-meter span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.2s ease;
 }
 
 .btn:disabled {
