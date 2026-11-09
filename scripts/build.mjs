@@ -12,7 +12,8 @@
  * title, description, canonical URL, Open Graph tags and JSON-LD, so search
  * engines and link previews see every chapter; the home page; app.html (the
  * empty reader shell, the service worker's offline fallback); 404.html;
- * content/index.json; sitemap.xml; robots.txt; and the static assets.
+ * content/index.json and content/toc.json; feed.xml; sitemap.xml; robots.txt;
+ * and the static assets.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -57,11 +58,20 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
     const src = path.join(ROOT, item);
     if (fs.existsSync(src)) fs.cpSync(src, path.join(out, item), { recursive: true });
   }
-  writeFile(out, 'content/index.json', JSON.stringify(data.index));
+  // index.json stays tiny (it loads on every page); the per-chapter outlines
+  // only matter to search, so they live in toc.json, fetched when search opens.
+  const { chapters: withToc, ...indexRest } = data.index;
+  const toc = Object.fromEntries(Object.entries(withToc).map(([id, c]) => [id, c.toc]));
+  const slim = { ...indexRest, chapters: Object.fromEntries(Object.entries(withToc).map(([id, { toc: _t, ...c }]) => [id, c])) };
+  writeFile(out, 'content/index.json', JSON.stringify(slim));
+  writeFile(out, 'content/toc.json', JSON.stringify(toc));
 
   const version = hashFiles(['css', 'js', 'templates', 'sw.js'].map((p) => path.join(ROOT, p))).slice(0, 10);
+  const graph = moduleGraph(path.join(out, 'js'), 'app.js');
+  versionModules(path.join(out, 'js'), version);
+  const modulepreload = graph.map((m) => `<link rel="modulepreload" href="${base}js/${m}?v=${version}">`).join('\n  ');
   const page = fillIcons(fs.readFileSync(path.join(ROOT, 'templates/page.html'), 'utf8'));
-  const render = (vars) => fill(page, { base, version, ...vars });
+  const render = (vars) => fill(page, { base, version, modulepreload, ...vars });
 
   /* ---------- home ---------- */
   writeFile(
@@ -134,6 +144,37 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
 
 function fill(tpl, vars) {
   return tpl.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? String(vars[k]) : m));
+}
+
+const RELATIVE_SPECIFIER = /(\bfrom\s*|\bimport\s*\(\s*|\bnew URL\(\s*)(['"])(\.{1,2}\/[^'"]+?\.m?js)\2/g;
+const STATIC_IMPORT = /^\s*(?:import|export)\b[^'";]*?\bfrom\s*['"](\.{1,2}\/[^'"]+)['"]|^\s*import\s*['"](\.{1,2}\/[^'"]+)['"]/gm;
+
+/** Modules `entry` loads statically (dynamic import() is left lazy), entry first. */
+function moduleGraph(jsDir, entry) {
+  const seen = [];
+  const visit = (rel) => {
+    if (seen.includes(rel)) return;
+    seen.push(rel);
+    const src = fs.readFileSync(path.join(jsDir, rel), 'utf8');
+    for (const m of src.matchAll(STATIC_IMPORT)) visit(path.posix.normalize(path.posix.join(path.posix.dirname(rel), m[1] ?? m[2])));
+  };
+  visit(entry);
+  return seen;
+}
+
+/**
+ * Append ?v=<version> to every relative module URL in the deployed scripts, so
+ * a deploy never mixes a new module with an old one still in a browser cache.
+ */
+function versionModules(jsDir, version) {
+  const walk = (dir) => {
+    for (const f of fs.readdirSync(dir)) {
+      const p = path.join(dir, f);
+      if (fs.statSync(p).isDirectory()) walk(p);
+      else if (/\.m?js$/.test(f)) fs.writeFileSync(p, fs.readFileSync(p, 'utf8').replace(RELATIVE_SPECIFIER, `$1$2$3?v=${version}$2`));
+    }
+  };
+  walk(jsDir);
 }
 
 function fillIcons(tpl) {

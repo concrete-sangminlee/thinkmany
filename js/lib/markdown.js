@@ -7,24 +7,12 @@
  */
 import { Marked } from '../vendor/marked.esm.js';
 import { chapterHref } from './paths.js';
+import { escapeHtml, decodeEntities } from './escape.js';
+
+export { escapeHtml, decodeEntities };
 
 /** Korean reading speed used for "약 N분" (non-whitespace characters per minute). */
 export const CHARS_PER_MINUTE = 500;
-
-const ENTITIES = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&nbsp;': ' ' };
-
-export function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-export function decodeEntities(s) {
-  return s.replace(/&(?:amp|lt|gt|quot|#39|nbsp);/g, (m) => ENTITIES[m]);
-}
 
 function stripTags(s) {
   return s.replace(/<[^>]*>/g, ' ');
@@ -124,7 +112,7 @@ marked.use({
   renderer: {
     heading(token) {
       const inner = this.parser.parseInline(token.tokens);
-      // The reader turns data-slug into an id after sanitizing (see render.js).
+      // The reader turns data-slug into an id after sanitizing (see enhance.js).
       const id = token.slug ? ` data-slug="${escapeHtml(token.slug)}"` : '';
       return `<h${token.depth}${id}>${inner}</h${token.depth}>\n`;
     },

@@ -1,9 +1,17 @@
 /**
  * Book model shared by the browser and the build: content/config.json
- * (structure, edited from /admin) merged with content/index.json (outline,
- * reading times and last-update dates generated at build time).
+ * (structure, edited from /admin) merged with content/index.json (leads,
+ * reading times, references and last-update dates generated at build time).
+ * Chapter outlines come separately from content/toc.json (see applyToc).
  */
 const LEGACY_PART_IDS = { 'tools-software': 'part-4' };
+
+/** Fill in chapter outlines from content/toc.json ({ chNN: [[depth, text, id], ...] }). */
+export function applyToc(book, toc) {
+  for (const c of book.chapters) {
+    if (!c.toc.length && toc?.[c.id]) c.toc = toc[c.id].map(([depth, text, id]) => ({ depth, text, id }));
+  }
+}
 
 export function createBook(config, index = null) {
   const chapters = [];

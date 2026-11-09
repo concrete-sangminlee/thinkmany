@@ -2,7 +2,7 @@
  * Browser side of the book model: fetches config.json + index.json once and
  * caches chapter markdown for the session.
  */
-import { createBook } from './lib/book-model.js';
+import { createBook, applyToc } from './lib/book-model.js';
 
 /** Site root, derived from where this module is served (…/js/book.js -> …/). */
 export const ROOT = new URL('../', import.meta.url);
@@ -12,7 +12,11 @@ export async function loadBook() {
     fetchJSON(new URL('content/config.json', ROOT)),
     fetchJSON(new URL('content/index.json', ROOT)).catch(() => null),
   ]);
-  return createBook(config, index);
+  const book = createBook(config, index);
+  let tocLoad = null;
+  /** Outlines of every chapter, for heading search. Fetched once, on demand. */
+  book.ensureToc = () => (tocLoad ??= fetchJSON(new URL('content/toc.json', ROOT)).then((toc) => applyToc(book, toc)).catch(() => {}));
+  return book;
 }
 
 const cache = new Map();

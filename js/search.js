@@ -221,6 +221,10 @@ export function initSearch(book, { onOpenResult }) {
     } else if (e.key === 'Enter') {
       e.preventDefault();
       choose(options()[active] ?? options()[0]);
+    } else if (e.key === 'Escape') {
+      // A search field clears itself on the first Escape; close in one press, as the footer says.
+      e.preventDefault();
+      close();
     }
   });
   list.addEventListener('click', (e) => {
@@ -241,6 +245,7 @@ export function initSearch(book, { onOpenResult }) {
     input.select();
     startIndexing();
     render();
+    book.ensureToc?.().then(() => input.value.trim() && render());
   }
 
   function close() {
