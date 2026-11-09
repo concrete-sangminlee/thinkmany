@@ -367,12 +367,21 @@ function interceptLinks() {
     const r = parse(url);
     if (r.kind === 'external' || r.kind === 'missing') return;
     e.preventDefault();
+    if (a.classList.contains('anchor')) copySectionLink(url.href);
     if (url.href === location.href && r.kind === 'chapter' && r.anchor) {
       scrollToAnchor(r.anchor, true);
       return;
     }
     navigate(url.href);
   });
+}
+
+/** A heading's # link also copies the section's address, for sharing a passage. */
+function copySectionLink(href) {
+  navigator.clipboard?.writeText(href).then(
+    () => toast('이 섹션 링크를 복사했습니다'),
+    () => {},
+  );
 }
 
 async function route({ initial = false, pop = false } = {}) {

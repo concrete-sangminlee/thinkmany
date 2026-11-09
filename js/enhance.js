@@ -38,7 +38,8 @@ function anchors(root, chapterId) {
     const a = document.createElement('a');
     a.className = 'anchor';
     a.href = chapterHref(chapterId, h.id);
-    a.setAttribute('aria-label', '이 섹션 링크');
+    a.setAttribute('aria-label', '이 섹션 링크 복사');
+    a.title = '이 섹션 링크 복사';
     a.innerHTML = String(icon('hash'));
     h.append(a);
   }
