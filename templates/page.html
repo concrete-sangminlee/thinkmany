@@ -47,14 +47,25 @@
         <kbd>/</kbd>
       </button>
       <div class="popover-anchor">
-        <button class="icon-btn" id="display-btn" type="button" aria-label="글자 크기" title="글자 크기 (+ -)" aria-expanded="false" aria-controls="display-menu">{{icon:type}}</button>
-        <div class="popover" id="display-menu" role="dialog" aria-label="보기 설정" hidden>
+        <button class="icon-btn" id="display-btn" type="button" aria-label="설정: 글자 크기, 읽기 기록 옮기기" title="설정 (글자 크기 + -)" aria-expanded="false" aria-controls="display-menu">{{icon:sliders}}</button>
+        <div class="popover" id="display-menu" role="dialog" aria-label="설정" hidden>
           <p class="popover-title">글자 크기</p>
           <div class="segmented segmented-4" role="group" aria-label="글자 크기">
             <button type="button" data-size="sm" aria-pressed="false"><span style="font-size:.8em">가</span><span class="sr-only">작게</span></button>
             <button type="button" data-size="md" aria-pressed="true"><span>가</span><span class="sr-only">보통</span></button>
             <button type="button" data-size="lg" aria-pressed="false"><span style="font-size:1.15em">가</span><span class="sr-only">크게</span></button>
             <button type="button" data-size="xl" aria-pressed="false"><span style="font-size:1.3em">가</span><span class="sr-only">아주 크게</span></button>
+          </div>
+          <div class="popover-section" data-sync-panel>
+            <p class="popover-title">읽기 기록 옮기기</p>
+            <p class="popover-note" data-sync-summary aria-live="polite">읽기 기록은 이 브라우저에만 저장됩니다.</p>
+            <div class="popover-actions">
+              <button type="button" class="btn btn-small btn-ghost" data-sync="link">링크로 보내기</button>
+              <button type="button" class="btn btn-small btn-ghost" data-sync="save">파일로 저장</button>
+              <button type="button" class="btn btn-small btn-ghost" data-sync="load">파일 불러오기</button>
+            </div>
+            <p class="popover-hint">다른 기기에서 링크를 열거나 파일을 불러오면 그 기기의 기록과 합쳐집니다.</p>
+            <input type="file" accept="application/json,.json" hidden data-sync-file>
           </div>
         </div>
       </div>
