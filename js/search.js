@@ -6,6 +6,7 @@
 import { html, mount, icon } from './lib/html.js';
 import { chapterHref } from './lib/paths.js';
 import { chapterUrl } from './book.js';
+import { matchRanges, hasConsonant } from './lib/hangul.js';
 
 const MAX_CHAPTERS = 5;
 const MAX_HEADINGS = 10;
@@ -58,7 +59,7 @@ export function initSearch(book, { onOpenResult }) {
   }
 
   function instantMatches(ts) {
-    const hit = (s) => ts.every((t) => s.toLowerCase().includes(t));
+    const hit = (s) => matchRanges(s, ts) !== null; // "ㄴㅁ" and "논ㅁ" find 논문 too
     const chapters = book.chapters.filter((c) => hit(`${c.id} ${c.title} ${c.lead} ${c.part.title}`)).slice(0, MAX_CHAPTERS);
     const headings = [];
     for (const c of book.chapters) {
@@ -90,7 +91,8 @@ export function initSearch(book, { onOpenResult }) {
   function query() {
     const q = input.value.trim();
     seq++;
-    if (q.length < 2 || !worker) {
+    // Body text is matched literally; a bare consonant would match nearly every line.
+    if (q.length < 2 || !worker || hasConsonant(q)) {
       body = { total: 0, results: [] };
       render();
       return;
@@ -100,13 +102,20 @@ export function initSearch(book, { onOpenResult }) {
   }
 
   function mark(text, ts) {
-    if (!ts.length) return html`${text}`;
-    const re = new RegExp(`(${ts.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'gi');
-    return text.split(re).map((part, i) => (i % 2 ? html`<mark>${part}</mark>` : html`${part}`));
+    const ranges = ts.length ? matchRanges(text, ts, { all: false }) : [];
+    const out = [];
+    let at = 0;
+    for (const [a, b] of ranges) {
+      out.push(html`${text.slice(at, a)}`, html`<mark>${text.slice(a, b)}</mark>`);
+      at = b;
+    }
+    out.push(html`${text.slice(at)}`);
+    return out;
   }
 
   function renderStatus(extra = '') {
     const { done, total, ready } = indexState;
+    if (hasConsonant(input.value)) extra = extra || '초성은 장·섹션 제목에서 찾습니다';
     const indexing = worker && !ready ? `본문 색인 중… ${done}/${total}` : '';
     status.textContent = [extra, indexing].filter(Boolean).join(' · ');
   }
@@ -127,7 +136,7 @@ export function initSearch(book, { onOpenResult }) {
     input.removeAttribute('aria-activedescendant');
 
     if (!q) {
-      showEmpty(html`챕터 제목, 섹션 제목, 본문을 모두 찾습니다.<br><span>예: 리뷰어, Zotero, 지도교수, PINN</span>`);
+      showEmpty(html`챕터 제목, 섹션 제목, 본문을 모두 찾습니다.<br><span>예: 리뷰어, Zotero, 지도교수, PINN · 초성도 됩니다: ㄴㅁ → 논문</span>`);
       renderStatus();
       return;
     }
