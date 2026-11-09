@@ -12,6 +12,7 @@
 import { ROOT, loadBook, fetchChapter } from './book.js';
 import { renderMarkdown, enhance, highlightTerms, clearHighlights } from './render.js';
 import { initSearch } from './search.js';
+import { initSync } from './sync.js';
 import { mount, icon, html } from './lib/html.js';
 import { setBase, getBase, chapterHref, partHref } from './lib/paths.js';
 import { configureChapterRefs } from './lib/markdown.js';
@@ -34,6 +35,7 @@ const readerState = {
 
 let book;
 let search;
+let sync;
 let current = { kind: null };
 let pendingTerms = [];
 let sidebarFilter = 'all';
@@ -87,6 +89,7 @@ function initDisplayMenu() {
   const open = (on) => {
     menu.hidden = !on;
     btn.setAttribute('aria-expanded', String(on));
+    if (on) sync?.refresh();
     if (on) menu.querySelector('[aria-pressed="true"]')?.focus();
   };
   btn.addEventListener('click', () => open(menu.hidden));
@@ -445,7 +448,7 @@ async function showChapter(ch, { anchor = '', terms = [], y, hydrate = false }) 
   const prose = hydrate ? $('#prose') : null;
   if (prose) {
     // The page arrived prerendered: keep its prose, refresh the header with reader state.
-    $('.chapter-head').outerHTML = String(chapterHead(book, ch, { state: readerState }));
+    refreshChapterHead(ch);
   } else {
     mount(view, chapterView(book, ch, { state: readerState }));
     if (y == null) scrollTo(0, 0);
@@ -486,6 +489,21 @@ async function showChapter(ch, { anchor = '', terms = [], y, hydrate = false }) 
 
   if (!hydrate) $('.chapter-title').focus({ preventScroll: true });
   onScroll();
+}
+
+function refreshChapterHead(ch) {
+  $('.chapter-head').outerHTML = String(chapterHead(book, ch, { state: readerState }));
+}
+
+/** After importing history from another device, redraw everything that shows it. */
+function refreshReaderState() {
+  renderSidebar();
+  if (current.kind === 'home') showHome({ hydrate: true });
+  else if (current.kind === 'chapter') {
+    refreshChapterHead(current.ch);
+    wireChapter(current.ch);
+    showResume(current.ch);
+  }
 }
 
 function wireChapter(ch) {
@@ -671,6 +689,8 @@ async function boot() {
   }
 
   search = initSearch(book, { onOpenResult: (href, terms) => navigate(href, { terms }) });
+  sync = initSync({ root: ROOT, toast, onImported: refreshReaderState });
+  await sync.takeFromUrl();
   $('#search-btn').addEventListener('click', () => search.open());
 
   // The router owns scroll positions (saved per history entry in history.state).

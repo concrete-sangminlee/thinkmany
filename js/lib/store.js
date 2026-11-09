@@ -108,3 +108,76 @@ export function lastChapter() {
 /* ---------- checklists inside chapters ---------- */
 export const getChecks = (id) => new Set(read(`checks:${id}`, []));
 export const setChecks = (id, set) => write(`checks:${id}`, [...set]);
+
+/* ---------- moving reading history between devices ---------- */
+const CHECKS = 'checks:';
+const validId = (id) => typeof id === 'string' && /^[a-z0-9][a-z0-9-]{0,40}$/.test(id);
+
+function allChecks() {
+  const out = {};
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k?.startsWith(PREFIX + CHECKS)) {
+        const id = k.slice(PREFIX.length + CHECKS.length);
+        const list = read(CHECKS + id, []);
+        if (list.length) out[id] = list;
+      }
+    }
+  } catch {
+    /* storage unavailable */
+  }
+  return out;
+}
+
+/** This device's reading history, as moved by a link or a file. */
+export function exportData() {
+  return { app: 'thinkmany', v: 1, exportedAt: new Date().toISOString(), bookmarks: [...bookmarks], progress, checks: allChecks(), last: read('last', null) };
+}
+
+export function summarize(data = exportData()) {
+  const prog = Object.values(data.progress ?? {});
+  return {
+    done: prog.filter((p) => p?.done).length,
+    reading: prog.filter((p) => p && !p.done && p.p > 0.02).length,
+    bookmarks: (data.bookmarks ?? []).length,
+    checks: Object.values(data.checks ?? {}).reduce((n, list) => n + (Array.isArray(list) ? list.length : 0), 0),
+  };
+}
+
+/**
+ * Merge another device's history into this one; nothing here is lost.
+ * Bookmarks and checklist ticks are united, progress keeps the furthest point
+ * read, and the "where I was" heading comes from whichever side read last.
+ */
+export function importData(data) {
+  if (!data || data.app !== 'thinkmany' || data.v !== 1) throw new Error('읽기 기록이 아닙니다');
+
+  for (const id of Array.isArray(data.bookmarks) ? data.bookmarks : []) if (validId(id)) bookmarks.add(id);
+  write('bookmarks', [...bookmarks]);
+
+  const merged = { ...progress };
+  for (const [id, q] of Object.entries(data.progress ?? {})) {
+    if (!validId(id) || !q || typeof q !== 'object') continue;
+    const cur = merged[id];
+    const t = Number.isFinite(q.t) ? q.t : 0;
+    const theirs = !cur || t > (cur.t ?? 0);
+    merged[id] = {
+      p: Math.max(cur?.p ?? 0, Math.min(1, Math.max(0, Number(q.p) || 0))),
+      at: (theirs ? String(q.at ?? '').slice(0, 120) : cur.at) || cur?.at || '',
+      done: Boolean(cur?.done || q.done),
+      t: Math.max(cur?.t ?? 0, t),
+    };
+  }
+  progress = merged;
+  write('progress', progress);
+
+  for (const [id, list] of Object.entries(data.checks ?? {})) {
+    if (!validId(id) || !Array.isArray(list)) continue;
+    const set = getChecks(id);
+    for (const i of list) if (Number.isInteger(i) && i >= 0 && i < 1000) set.add(i);
+    setChecks(id, set);
+  }
+  if (!read('last', null) && validId(data.last)) write('last', data.last);
+  return summarize();
+}

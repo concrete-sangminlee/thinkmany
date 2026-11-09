@@ -2592,3 +2592,57 @@ dialog::backdrop {
 .search-results[hidden] {
   display: none;
 }
+
+/* 16. Settings popover: moving reading history ----------------------------- */
+
+.popover {
+  width: 17.5rem;
+}
+
+.popover-section {
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+}
+
+.popover-note {
+  color: var(--fg);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.popover-hint {
+  margin-top: 0.6rem;
+  color: var(--fg-muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.popover-actions {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.popover-actions .btn {
+  justify-content: center;
+  width: 100%;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dialog-text {
+  margin-top: 0.25rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
