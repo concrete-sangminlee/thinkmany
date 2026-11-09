@@ -333,7 +333,7 @@ ${entries.join('\n')}
 
 /** sw.js with its version and the reader shell to precache. */
 function serviceWorker(out, version) {
-  const files = ['app.html', 'manifest.webmanifest', 'assets/favicon.svg', 'content/config.json', 'content/index.json', 'css/styles.css'];
+  const files = ['app.html', 'manifest.webmanifest', 'assets/favicon.svg', 'content/config.json', 'content/index.json', 'content/toc.json', 'css/styles.css'];
   const walk = (dir) => {
     for (const f of fs.readdirSync(path.join(out, dir)).sort()) {
       const rel = `${dir}/${f}`;

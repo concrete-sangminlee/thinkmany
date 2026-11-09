@@ -73,6 +73,7 @@ export function loadBookData(root) {
   const chapters = [];
   const indexChapters = {};
   let totalChars = 0;
+  let totalBytes = 0; // markdown size, for the offline save estimate
   let totalSections = 0;
 
   for (const part of config.sections) {
@@ -115,6 +116,7 @@ export function loadBookData(root) {
         refs: info.refs,
       };
       totalChars += info.chars;
+      totalBytes += Buffer.byteLength(md);
       totalSections += info.headings.filter((h) => h.depth === 2).length;
     }
   }
@@ -129,6 +131,7 @@ export function loadBookData(root) {
       sections: totalSections,
       chars: totalChars,
       minutes: Math.round(totalChars / CHARS_PER_MINUTE),
+      bytes: totalBytes,
     },
     chapters: indexChapters,
   };

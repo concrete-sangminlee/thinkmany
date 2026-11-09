@@ -86,6 +86,16 @@ test('sitemap, robots and service worker are generated', () => {
   assert.doesNotMatch(sw, /__VERSION__|__PRECACHE__/);
   assert.match(sw, /"app\.html"/);
   assert.match(sw, /"js\/app\.js"/);
+  assert.match(sw, /"content\/toc\.json"/, 'heading search works offline');
+  assert.match(sw, /"js\/offline\.js"/);
+});
+
+test('the offline save panel knows the book size and the cache it fills', () => {
+  const { totals } = JSON.parse(read('content/index.json'));
+  assert.ok(totals.bytes > 1e6, 'markdown size for the estimate');
+  assert.ok(read('ch01/index.html').includes('data-offline-panel'));
+  const cacheName = (file) => /'(thinkmany-pages)'/.exec(fs.readFileSync(new URL(file, import.meta.url), 'utf8'))?.[1];
+  assert.equal(cacheName('../js/offline.js'), cacheName('../sw.js'), 'offline.js and sw.js share the pages cache');
 });
 
 test('reference graph is symmetric and rendered as connected chapters', () => {
