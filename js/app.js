@@ -10,12 +10,11 @@
  *   /thinkmany/#ch05, #ch05/섹션 old links, redirected to the paths above
  */
 import { ROOT, loadBook, fetchChapter } from './book.js';
-import { renderMarkdown, enhance, highlightTerms, clearHighlights } from './render.js';
+import { enhance, highlightTerms, clearHighlights } from './enhance.js';
 import { initSearch } from './search.js';
 import { initSync } from './sync.js';
 import { mount, icon, html } from './lib/html.js';
 import { setBase, getBase, chapterHref, partHref } from './lib/paths.js';
-import { configureChapterRefs } from './lib/markdown.js';
 import { sidebarView, homeView, chapterView, chapterHead, missingView } from './views.js';
 import * as store from './lib/store.js';
 
@@ -23,6 +22,12 @@ setBase(ROOT.pathname);
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const view = $('#view');
+
+// Make a prerendered chapter interactive right away (tabs, code copy, math,
+// checklists) instead of waiting for the book index to arrive.
+if (view.dataset.prerendered && view.dataset.prerendered !== 'home' && $('#prose')) {
+  enhance($('#prose'), view.dataset.prerendered);
+}
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const desktop = matchMedia('(min-width: 1024px)');
 
@@ -38,6 +43,7 @@ let search;
 let sync;
 let current = { kind: null };
 let pendingTerms = [];
+let searchWanted = false;
 let sidebarFilter = 'all';
 
 /* ================================================================== */
@@ -176,13 +182,19 @@ function toggleSidebar(force) {
   }
 }
 
+/** Open search now, or as soon as the book has loaded (keys work before that). */
+function openSearch() {
+  if (search) search.open();
+  else searchWanted = true;
+}
+
 function onKey(e) {
   if (e.isComposing || e.defaultPrevented) return;
   const typing = e.target.closest?.('input, textarea, select, [contenteditable="true"]');
 
   if ((e.metaKey || e.ctrlKey) && e.code === 'KeyK') {
     e.preventDefault();
-    search.open();
+    openSearch();
     return;
   }
   if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
@@ -196,7 +208,7 @@ function onKey(e) {
   const ch = current.kind === 'chapter' ? current.ch : null;
   const go = (target) => target && navigate(chapterHref(target.id));
   const actions = {
-    Slash: () => (e.shiftKey ? $('#help-dialog').showModal() : search.open()),
+    Slash: () => (e.shiftKey ? $('#help-dialog').showModal() : openSearch()),
     KeyJ: () => ch && jumpSection(1),
     KeyK: () => ch && jumpSection(-1),
     BracketRight: () => ch && go(book.next(ch)),
@@ -411,7 +423,7 @@ function showHome({ part, y, hydrate }) {
   if (resume && store.getProgress(resume.id)?.done) resume = book.next(resume);
 
   mount(view, homeView(book, { state: readerState, resume }));
-  view.querySelector('[data-action="search"]').addEventListener('click', () => search.open());
+  view.querySelector('[data-action="search"]').addEventListener('click', openSearch);
   markSidebar();
 
   if (part) pin(document.getElementById(part.id));
@@ -425,7 +437,7 @@ function showMissing(id) {
   document.body.dataset.view = 'missing';
   document.title = '찾을 수 없음 · 연구 많이 된다';
   mount(view, missingView(id));
-  view.querySelector('[data-action="search"]').addEventListener('click', () => search.open());
+  view.querySelector('[data-action="search"]').addEventListener('click', openSearch);
   markSidebar();
   scrollTo(0, 0);
 }
@@ -442,19 +454,21 @@ async function showChapter(ch, { anchor = '', terms = [], y, hydrate = false }) 
   leftText = '';
   document.body.dataset.view = 'chapter';
   document.title = `${ch.title} · 연구 많이 된다`;
-  configureChapterRefs({ titles: book.titles, current: ch.id });
   markSidebar();
 
   const prose = hydrate ? $('#prose') : null;
   if (prose) {
     // The page arrived prerendered: keep its prose, refresh the header with reader state.
+    if (!ch.toc.length) ch.toc = tocFromDom(prose);
     refreshChapterHead(ch);
   } else {
     mount(view, chapterView(book, ch, { state: readerState }));
     if (y == null) scrollTo(0, 0);
     let md;
+    let renderMarkdown;
     try {
-      md = await fetchChapter(ch);
+      // The markdown and the renderer (parser + sanitizer) download in parallel.
+      [md, { renderMarkdown }] = await Promise.all([fetchChapter(ch), import('./render.js')]);
     } catch {
       if (token !== renderToken) return;
       const why = navigator.onLine ? '네트워크 상태를 확인한 뒤 다시 시도해 주세요.' : '오프라인에서는 한 번 열어 본 장만 읽을 수 있습니다.';
@@ -464,7 +478,7 @@ async function showChapter(ch, { anchor = '', terms = [], y, hydrate = false }) 
     }
     if (token !== renderToken) return;
 
-    const { html: body, lead: rawLead, headings } = renderMarkdown(md);
+    const { html: body, lead: rawLead, headings } = renderMarkdown(md, { titles: book.titles, current: ch.id });
     const lead = rawLead && rawLead !== ch.title ? rawLead : '';
     const ids = (list) => list.map((h) => h.id).join('\n');
     if (lead !== ch.lead || ids(headings) !== ids(ch.toc)) {
@@ -489,6 +503,11 @@ async function showChapter(ch, { anchor = '', terms = [], y, hydrate = false }) 
 
   if (!hydrate) $('.chapter-title').focus({ preventScroll: true });
   onScroll();
+}
+
+/** A chapter's outline read from its rendered headings (when toc.json is not loaded). */
+function tocFromDom(prose) {
+  return [...prose.querySelectorAll('h2[id], h3[id]')].map((h) => ({ depth: Number(h.tagName[1]), text: h.textContent.trim(), id: h.id }));
 }
 
 function refreshChapterHead(ch) {
@@ -678,6 +697,7 @@ async function boot() {
   initDisplayMenu();
   initChrome();
   initSidebar();
+  $('#search-btn').addEventListener('click', openSearch);
 
   try {
     book = await loadBook();
@@ -689,9 +709,9 @@ async function boot() {
   }
 
   search = initSearch(book, { onOpenResult: (href, terms) => navigate(href, { terms }) });
+  if (searchWanted) search.open();
   sync = initSync({ root: ROOT, toast, onImported: refreshReaderState });
   await sync.takeFromUrl();
-  $('#search-btn').addEventListener('click', () => search.open());
 
   // The router owns scroll positions (saved per history entry in history.state).
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -699,6 +719,9 @@ async function boot() {
   addEventListener('popstate', () => route({ pop: true }));
 
   await route({ initial: true });
+  // Warm the in-app renderer while the reader is reading, so the next chapter opens fast.
+  const idle = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 2000));
+  idle(() => import('./render.js').catch(() => {}));
   renderSidebar();
 
   if ('serviceWorker' in navigator && location.protocol === 'https:') {

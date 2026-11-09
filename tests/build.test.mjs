@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { build } from '../scripts/build.mjs';
 
 const SITE = 'https://example.test/book/';
@@ -28,15 +29,31 @@ test('every chapter gets a prerendered page with its own head', () => {
   }
 });
 
-test('prerendered heading ids match content/index.json', () => {
-  const index = JSON.parse(read('content/index.json'));
+test('deployed modules are versioned and the first load skips the markdown parser', () => {
+  const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]));
+  for (const f of walk(path.join(out, 'js')).filter((f) => /\.m?js$/.test(f))) {
+    const unversioned = [...fs.readFileSync(f, 'utf8').matchAll(/(?:\bfrom\s*|\bimport\s*\(\s*|\bnew URL\(\s*)['"](\.{1,2}\/[^'"]+?\.m?js)['"]/g)];
+    assert.deepEqual(unversioned.map((m) => m[1]), [], path.relative(out, f));
+  }
+  const preloads = [...read('ch05/index.html').matchAll(/rel="modulepreload" href="([^"]+)"/g)].map((m) => m[1]);
+  assert.ok(preloads.some((h) => h.includes('/js/app.js?v=')));
+  assert.ok(!preloads.some((h) => /marked|purify|markdown\.js|render\.js/.test(h)), 'parser and sanitizer load only when needed');
+});
+
+test('index.json stays small; outlines live in toc.json', () => {
+  assert.ok(fs.statSync(path.join(out, 'content/index.json')).size < 30 * 1024);
+  assert.ok(!read('content/index.json').includes('"toc"'));
+});
+
+test('prerendered heading ids match content/toc.json', () => {
+  const toc = JSON.parse(read('content/toc.json'));
   for (const ch of book.chapters) {
     const page = read(`${ch.id}/index.html`);
     const start = page.indexOf('id="prose"');
     const end = page.indexOf('<section class="connected"') > 0 ? page.indexOf('<section class="connected"') : page.indexOf('class="pager"');
     const prose = page.slice(start, end);
     const ids = [...prose.matchAll(/<h[23] id="([^"]+)"/g)].map((m) => m[1]);
-    assert.deepEqual(ids, index.chapters[ch.id].toc.map((t) => t[2]), ch.id);
+    assert.deepEqual(ids, toc[ch.id].map((t) => t[2]), ch.id);
   }
 });
 
@@ -93,6 +110,25 @@ test('feed.xml is a well-formed Atom feed linked from every page', () => {
   assert.equal((feed.match(/<entry>/g) ?? []).length, (feed.match(/<\/entry>/g) ?? []).length);
   for (const m of feed.matchAll(/<link href="([^"]+)"\/>/g)) assert.ok(m[1].startsWith(SITE), m[1]);
   assert.ok(read('index.html').includes(`href="${SITE}feed.xml"`));
+});
+
+test('reformatting commits in .git-blame-ignore-revs never count as an update', (t) => {
+  const revs = fs.readFileSync(new URL('../.git-blame-ignore-revs', import.meta.url), 'utf8')
+    .split('\n').map((l) => l.replace(/#.*/, '').trim()).filter(Boolean);
+  assert.ok(revs.length > 0);
+  const index = JSON.parse(read('content/index.json'));
+  const feed = read('feed.xml');
+  for (const rev of revs) {
+    let date;
+    try {
+      date = execFileSync('git', ['show', '-s', '--format=%cI', rev], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    } catch {
+      t.skip(`${rev} is not in this checkout`);
+      continue;
+    }
+    for (const [id, c] of Object.entries(index.chapters)) assert.notEqual(c.updated, date, `${id} dated by ${rev}`);
+    assert.ok(!feed.includes(rev.slice(0, 7)), `feed lists ${rev}`);
+  }
 });
 
 test('no long dashes anywhere in the output pages', () => {

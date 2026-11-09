@@ -4,7 +4,7 @@
  *   html`<ul>${items.map(i => html`<li>${i}</li>`)}</ul>`  -> nesting is kept
  *   raw(trustedString)                    -> opt out of escaping
  */
-import { escapeHtml } from './markdown.js';
+import { escapeHtml } from './escape.js';
 
 class Safe {
   constructor(value) {

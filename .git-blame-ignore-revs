@@ -1,0 +1,8 @@
+# Commits that only reformat content. The build skips them when it dates a
+# chapter's last update and when it writes the feed, and GitHub's blame view
+# skips them too (git blame --ignore-revs-file .git-blame-ignore-revs).
+
+# style: 긴 줄표(em dash, en dash)를 사이트 전체에서 제거
+fa3a1c9a4eff6cbee30e67c76eb0af1457922293
+# docs: 구성 요소 제목 173개를 h4에서 이름표로 (헤딩 순서 정리)
+977704b33967d3f528989e7c700ea4b206526714

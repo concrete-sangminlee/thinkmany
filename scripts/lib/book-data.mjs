@@ -162,24 +162,51 @@ function summarize(info) {
 }
 
 /**
+ * Commits that only reformat content (markup sweeps, punctuation rules) and
+ * so are not edits a reader would care about. Same file and format that
+ * `git blame --ignore-revs-file` and GitHub's blame view use.
+ */
+function ignoredRevs(root) {
+  try {
+    return new Set(
+      fs.readFileSync(path.join(root, '.git-blame-ignore-revs'), 'utf8')
+        .split('\n')
+        .map((l) => l.replace(/#.*/, '').trim())
+        .filter((l) => /^[0-9a-f]{40}$/.test(l)),
+    );
+  } catch {
+    return new Set();
+  }
+}
+
+function gitContentLog(root, format, limit) {
+  const args = ['log', `--format=${format}`, '--name-only', '--grep=^docs', '--', 'content/'];
+  if (limit) args.splice(1, 0, `-${limit}`);
+  return execFileSync('git', args, {
+    cwd: root,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'ignore'],
+    maxBuffer: 32 * 1024 * 1024,
+  });
+}
+
+/**
  * The most recent content commits ("docs: ..."), newest first:
  * [{ hash, date, subject, body, files }]. Empty outside a git checkout.
  */
 export function contentLog(root, limit = 30) {
+  const ignored = ignoredRevs(root);
   try {
-    const raw = execFileSync('git', ['log', `-${limit}`, '--format=%x1e%h%x1f%cI%x1f%s%x1f%b%x1f', '--name-only', '--grep=^docs', '--', 'content/'], {
-      cwd: root,
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-      maxBuffer: 32 * 1024 * 1024,
-    });
-    return raw
+    return gitContentLog(root, '%x1e%H%x1f%cI%x1f%s%x1f%b%x1f', limit + ignored.size)
       .split('\x1e')
       .filter((r) => r.trim())
       .map((r) => {
-        const [hash, date, subject, body, files] = r.split('\x1f');
-        return { hash, date, subject: subject.trim(), body: body.trim(), files: files.trim().split('\n').filter(Boolean) };
-      });
+        const [full, date, subject, body, files] = r.split('\x1f');
+        return { full, hash: full.slice(0, 7), date, subject: subject.trim(), body: body.trim(), files: files.trim().split('\n').filter(Boolean) };
+      })
+      .filter((c) => !ignored.has(c.full))
+      .slice(0, limit)
+      .map(({ full, ...c }) => c);
   } catch {
     return [];
   }
@@ -187,22 +214,22 @@ export function contentLog(root, limit = 30) {
 
 /**
  * Commit time (ISO 8601) of the last content commit ("docs: …") per file.
- * Formatting sweeps such as "style:" commits don't count as an update.
+ * Formatting sweeps ("style:" commits, and anything listed in
+ * .git-blame-ignore-revs) don't count as an update.
  * Returns an empty map outside a git checkout.
  */
 function lastContentEdits(root) {
   const out = new Map();
+  const ignored = ignoredRevs(root);
   try {
-    const log = execFileSync('git', ['log', '--format=@%cI', '--name-only', '--grep=^docs', '--', 'content/'], {
-      cwd: root,
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-      maxBuffer: 32 * 1024 * 1024,
-    });
     let date = '';
-    for (const line of log.split('\n')) {
-      if (line.startsWith('@')) date = line.slice(1);
-      else if (line && !out.has(line)) out.set(line, date);
+    let skip = false;
+    for (const line of gitContentLog(root, '@%H %cI').split('\n')) {
+      if (line.startsWith('@')) {
+        const [hash, iso] = line.slice(1).split(' ');
+        skip = ignored.has(hash);
+        date = iso;
+      } else if (line && !skip && !out.has(line)) out.set(line, date);
     }
   } catch {
     /* not a git checkout: no dates */
