@@ -18,6 +18,11 @@ test('a leading "# title" becomes the chapter lead, not a heading', () => {
   assert.deepEqual(headings.map((h) => [h.depth, h.id]), [[2, '첫-섹션'], [3, '하위']]);
 });
 
+test('outline lists every heading level in order', () => {
+  const { outline } = lexChapter('# 리드\n\n## 둘\n\n#### 넷\n\n### 셋\n');
+  assert.deepEqual(outline.map((h) => h.depth), [2, 4, 3]);
+});
+
 test('duplicate headings get unique ids', () => {
   const { headings } = lexChapter('## 체크리스트\n\n## 체크리스트\n');
   assert.deepEqual(headings.map((h) => h.id), ['체크리스트', '체크리스트-2']);

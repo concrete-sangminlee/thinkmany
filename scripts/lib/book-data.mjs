@@ -88,6 +88,18 @@ export function loadBookData(root) {
       const closes = countOutsideCode(md, /<\/div>/gi);
       if (opens !== closes) warnings.push(`${ch.id}: <div> ${opens}개 / </div> ${closes}개, 짝이 맞지 않음`);
 
+      // Headings: the page title is the h1, sections go ## then ###, never skipping a level.
+      // Card, Do/Don't and tab titles are labels (class="card-title" etc.), not headings.
+      let prev = 1;
+      for (const h of info.outline) {
+        if (h.depth === 1) errors.push(`${ch.id}: 본문 중간의 # 제목 "${h.text}" (장 제목이 h1이므로 ##부터 쓰세요)`);
+        else if (h.depth > prev + 1) errors.push(`${ch.id}: 제목 단계를 건너뜀 (${'#'.repeat(prev)} 다음 ${'#'.repeat(h.depth)}) "${h.text}"`);
+        prev = h.depth;
+      }
+      for (const { line, tag } of rawHeadings(md)) {
+        errors.push(`content/${ch.file}:${line}: HTML <${tag}> 제목 대신 class="card-title", "do-dont-title", "tab-title" 같은 이름표를 쓰세요`);
+      }
+
       const ids = [...md.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
       const dupIds = ids.filter((id, i) => ids.indexOf(id) !== i);
       if (dupIds.length) warnings.push(`${ch.id}: 중복 HTML id ${[...new Set(dupIds)].join(', ')}`);
@@ -122,6 +134,17 @@ export function loadBookData(root) {
   };
 
   return { config, chapters, index, errors, warnings };
+}
+
+/** Raw HTML heading tags outside fenced code: [{ line, tag }]. */
+function rawHeadings(md) {
+  const out = [];
+  let fence = false;
+  md.split('\n').forEach((l, i) => {
+    if (/^\s*(```|~~~)/.test(l)) fence = !fence;
+    else if (!fence) for (const m of l.matchAll(/<(h[1-6])[\s>]/gi)) out.push({ line: i + 1, tag: m[1].toLowerCase() });
+  });
+  return out;
 }
 
 function countOutsideCode(md, re) {

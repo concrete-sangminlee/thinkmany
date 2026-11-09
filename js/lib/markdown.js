@@ -183,6 +183,7 @@ export function lexChapter(md) {
 
   const seen = new Map();
   const headings = [];
+  const outline = []; // every heading, any depth, in document order
   marked.walkTokens(tokens, (t) => {
     if (t.type !== 'heading') return;
     const text = inlineText(t.tokens);
@@ -192,9 +193,10 @@ export function lexChapter(md) {
     t.slug = n > 1 ? `${base}-${n}` : base;
     t.plain = text;
     if (t.depth === 2 || t.depth === 3) headings.push({ depth: t.depth, text, id: t.slug });
+    outline.push({ depth: t.depth, text });
   });
 
-  return { tokens, lead, headings };
+  return { tokens, lead, headings, outline };
 }
 
 /** Render lexed tokens to (unsanitized) HTML. */
@@ -207,7 +209,7 @@ export function renderTokens(tokens) {
  * readable characters (code excluded) for the reading-time estimate.
  */
 export function analyzeChapter(md) {
-  const { tokens, lead, headings } = lexChapter(md);
+  const { tokens, lead, headings, outline } = lexChapter(md);
   const sections = [{ id: '', title: '', text: '' }];
   let chars = 0;
 
@@ -236,6 +238,7 @@ export function analyzeChapter(md) {
   return {
     lead,
     headings,
+    outline,
     sections,
     refs,
     chars,

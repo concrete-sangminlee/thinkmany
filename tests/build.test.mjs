@@ -40,6 +40,20 @@ test('prerendered heading ids match content/index.json', () => {
   }
 });
 
+test('chapter pages never skip a heading level (h1 title, then h2, h3, ...)', () => {
+  for (const ch of book.chapters) {
+    const page = read(`${ch.id}/index.html`);
+    const start = page.indexOf('<h1 class="chapter-title"');
+    const end = page.indexOf('<section class="connected"') > 0 ? page.indexOf('<section class="connected"') : page.indexOf('class="pager"');
+    let prev = 0;
+    for (const m of page.slice(start, end).matchAll(/<h([1-6])[\s>]/g)) {
+      const level = Number(m[1]);
+      assert.ok(level <= prev + 1, `${ch.id}: h${prev} followed by h${level}`);
+      prev = level;
+    }
+  }
+});
+
 test('assets and links use the configured base path', () => {
   const home = read('index.html');
   assert.ok(home.includes('href="/book/css/styles.css?v='));

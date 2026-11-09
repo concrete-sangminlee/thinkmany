@@ -220,7 +220,13 @@ npm run dev
 ### 글을 고칠 때
 
 1. `content/chNN-*.md`를 고친다(또는 `/admin`에서 편집). 장을 더하거나 순서를 바꾸려면 `content/config.json`을 고친다.
-2. `npm run check`로 검증한다. 목차와 파일이 어긋나거나, 장 id가 사이트 폴더 이름과 겹치거나, 긴 줄표(em dash, en dash)가 있으면 실패한다. 쉼표, 콜론, 괄호를 쓴다. `<div>` 짝이 맞지 않으면 경고한다.
+2. `npm run check`로 검증한다. 다음 경우에 실패한다.
+   - 목차와 파일이 어긋나거나, 장 id가 사이트 폴더 이름과 겹칠 때
+   - 긴 줄표(em dash, en dash)가 있을 때. 쉼표, 콜론, 괄호를 쓴다.
+   - 제목 단계를 건너뛸 때(`##` 다음 `####`). 장 제목이 h1이므로 본문은 `##`부터 쓴다.
+   - 본문 HTML에 `<h1>`~`<h6>`를 쓸 때. 카드, Do/Don't, 탭 안의 제목은 문서의 절이 아니라 이름표이므로 `<div class="card-title">`, `<p class="do-dont-title">`, `<p class="tab-title">`을 쓴다.
+
+   `<div>` 짝이 맞지 않으면 경고만 한다.
 3. `npm test`로 테스트를 돌린다.
 4. `main`에 푸시하면 GitHub Actions가 테스트, 빌드, 배포를 한다. PR에서는 테스트와 빌드만 한다.
 
