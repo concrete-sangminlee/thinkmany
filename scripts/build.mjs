@@ -244,13 +244,14 @@ function bookDescription(book) {
   return `박사 과정의 시행착오를 줄이기 위한 ${book.chapters.length}개의 장. 논문, 실험, AI, 멘탈, 커리어를 한국 공학 대학원 현실에 맞춰 정리한 실전 가이드.`;
 }
 
+const BOOK_NAME = '연구 많이 된다. 잘 때도 생각날 거야';
 const AUTHOR = { '@type': 'Person', name: 'Sang Min Lee', url: 'https://github.com/concrete-sangminlee' };
 
 function bookJsonLd(book, site) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Book',
-    name: '연구 많이 된다. 잘 때도 생각날 거야',
+    name: BOOK_NAME,
     alternateName: '대학원생 연구 가이드',
     author: AUTHOR,
     description: bookDescription(book),
@@ -261,18 +262,31 @@ function bookJsonLd(book, site) {
   };
 }
 
+/** The chapter itself, plus the breadcrumb trail search results show (book > part > chapter). */
 function chapterJsonLd(book, ch, site, url, summary) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Chapter',
-    name: ch.title,
-    description: summary,
-    url,
-    position: ch.order + 1,
-    inLanguage: 'ko',
-    author: AUTHOR,
-    ...(ch.updated ? { dateModified: ch.updated } : {}),
-    isPartOf: { '@type': 'Book', name: '연구 많이 된다. 잘 때도 생각날 거야', url: site },
+    '@graph': [
+      {
+        '@type': 'Chapter',
+        name: ch.title,
+        description: summary,
+        url,
+        position: ch.order + 1,
+        inLanguage: 'ko',
+        author: AUTHOR,
+        ...(ch.updated ? { dateModified: ch.updated } : {}),
+        isPartOf: { '@type': 'Book', name: BOOK_NAME, url: site },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { name: '연구 많이 된다', item: site },
+          { name: `Part ${ch.part.number} · ${ch.part.title}`, item: `${site}#${ch.part.id}` },
+          { name: ch.title, item: url },
+        ].map((crumb, i) => ({ '@type': 'ListItem', position: i + 1, ...crumb })),
+      },
+    ],
   };
 }
 

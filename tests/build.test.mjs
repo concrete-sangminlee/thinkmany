@@ -71,6 +71,19 @@ test('chapter pages never skip a heading level (h1 title, then h2, h3, ...)', ()
   }
 });
 
+test('chapter pages carry Chapter and BreadcrumbList structured data', () => {
+  for (const ch of book.chapters) {
+    const page = read(`${ch.id}/index.html`);
+    const ld = JSON.parse(/<script type="application\/ld\+json">(.*?)<\/script>/s.exec(page)[1]);
+    const byType = Object.fromEntries(ld['@graph'].map((n) => [n['@type'], n]));
+    assert.equal(byType.Chapter.url, `${SITE}${ch.id}/`, ch.id);
+    const crumbs = byType.BreadcrumbList.itemListElement;
+    assert.deepEqual(crumbs.map((c) => c.position), [1, 2, 3]);
+    assert.deepEqual(crumbs.map((c) => c.item), [SITE, `${SITE}#${ch.part.id}`, `${SITE}${ch.id}/`]);
+    assert.equal(crumbs[2].name, ch.title);
+  }
+});
+
 test('assets and links use the configured base path', () => {
   const home = read('index.html');
   assert.ok(home.includes('href="/book/css/styles.css?v='));

@@ -84,24 +84,61 @@ export function configureChapterRefs({ titles = new Map(), current = '' } = {}) 
   refs = { titles, current };
 }
 
+/** A mention like "ch05" (not part of a word, path, anchor or file name). */
+const REF = /(?<![A-Za-z0-9_./#-])ch\d{2}(?![A-Za-z0-9_-])/;
+const REF_ALL = new RegExp(REF.source, 'g');
+
+const isRef = (id) => refs.titles.has(id) && id !== refs.current;
+
+function refLink(id) {
+  return `<a class="xref" href="${escapeHtml(chapterHref(id))}" title="${escapeHtml(refs.titles.get(id))}">${id}</a>`;
+}
+
 const chapterRef = {
   name: 'chapterRef',
   level: 'inline',
   start(src) {
-    const m = /(?<![A-Za-z0-9_./#-])ch\d{2}(?![A-Za-z0-9_-])/.exec(src);
-    return m ? m.index : undefined;
+    return REF.exec(src)?.index;
   },
   tokenizer(src) {
     if (this.lexer.state.inLink) return undefined;
     const m = /^ch\d{2}(?![A-Za-z0-9_-])/.exec(src);
-    if (!m || !refs.titles.has(m[0]) || m[0] === refs.current) return undefined;
+    if (!m || !isRef(m[0])) return undefined;
     return { type: 'chapterRef', raw: m[0], text: m[0], id: m[0] };
   },
   renderer(token) {
-    const title = refs.titles.get(token.id);
-    return `<a class="xref" href="${escapeHtml(chapterHref(token.id))}" title="${escapeHtml(title)}">${token.text}</a>`;
+    return refLink(token.id);
   },
 };
+
+/** Elements whose text is never linked: existing links and code. */
+const NO_LINK = /^<(\/?)(a|code|pre|kbd|samp|script|style|textarea)\b/i;
+
+/**
+ * Link chapter mentions in a raw HTML block (markdown isn't parsed inside
+ * one, so the inline extension above never sees them). Only text between
+ * tags changes; attributes, links and code stay as they are. onRef is
+ * called with each linked id.
+ */
+function linkHtmlRefs(html, onRef = () => {}) {
+  let skip = 0;
+  return html
+    .split(/(<[^>]*>)/)
+    .map((part, i) => {
+      if (i % 2) {
+        const m = NO_LINK.exec(part);
+        if (m && !part.endsWith('/>')) skip = Math.max(0, skip + (m[1] ? -1 : 1));
+        return part;
+      }
+      if (skip) return part;
+      return part.replace(REF_ALL, (id) => {
+        if (!isRef(id)) return id;
+        onRef(id);
+        return refLink(id);
+      });
+    })
+    .join('');
+}
 
 /* ------------------------------------------------------------------ */
 
@@ -115,6 +152,9 @@ marked.use({
       // The reader turns data-slug into an id after sanitizing (see enhance.js).
       const id = token.slug ? ` data-slug="${escapeHtml(token.slug)}"` : '';
       return `<h${token.depth}${id}>${inner}</h${token.depth}>\n`;
+    },
+    html(token) {
+      return token.block ? linkHtmlRefs(token.text) : token.text;
     },
   },
 });
@@ -218,8 +258,10 @@ export function analyzeChapter(md) {
 
   // Chapters this one mentions (needs configureChapterRefs), most mentioned first.
   const counts = new Map();
+  const count = (id) => counts.set(id, (counts.get(id) ?? 0) + 1);
   marked.walkTokens(tokens, (t) => {
-    if (t.type === 'chapterRef') counts.set(t.id, (counts.get(t.id) ?? 0) + 1);
+    if (t.type === 'chapterRef') count(t.id);
+    else if (t.type === 'html' && t.block) linkHtmlRefs(t.text, count);
   });
   const refs = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([id]) => id);
 

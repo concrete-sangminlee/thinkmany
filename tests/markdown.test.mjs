@@ -44,6 +44,20 @@ test('chapter references link to existing chapters only', () => {
   assert.equal((out.match(/class="xref"/g) ?? []).length, 1);
 });
 
+test('chapter references inside raw HTML blocks link too, but not in tags, links or code', () => {
+  setBase('/thinkmany/');
+  configureChapterRefs({ titles: new Map([['ch05', '다섯'], ['ch06', '여섯'], ['ch07', '일곱']]), current: 'ch07' });
+  const md = '<div class="card" data-x="ch05">\n정신 건강(ch05), <code>ch06</code>, <a href="#a">ch06</a>, ch07 자신, ch99<br>ch06\n</div>\n';
+  const out = render(md);
+  const { refs } = analyzeChapter(md);
+  configureChapterRefs();
+  assert.match(out, /^<div class="card" data-x="ch05">/);
+  assert.match(out, /정신 건강\(<a class="xref" href="\/thinkmany\/ch05\/" title="다섯">ch05<\/a>\)/);
+  assert.match(out, /<code>ch06<\/code>, <a href="#a">ch06<\/a>, ch07 자신, ch99<br><a class="xref"[^>]*>ch06<\/a>/);
+  assert.equal((out.match(/class="xref"/g) ?? []).length, 2);
+  assert.deepEqual(refs, ['ch05', 'ch06'], 'raw HTML mentions count in the reference graph');
+});
+
 test('analyzeChapter lists referenced chapters, most mentioned first', () => {
   configureChapterRefs({ titles: new Map([['ch01', 'a'], ['ch02', 'b'], ['ch03', 'c']]), current: 'ch03' });
   const { refs } = analyzeChapter('ch02와 ch01, 다시 ch02. ch03은 자기 자신.');
