@@ -9,7 +9,8 @@
  *   next load; responses are cached as they arrive.
  * - Offline, a chapter page or markdown file opened before is served from
  *   the cache. Any other page falls back to app.html, the empty reader shell.
- * - Cross-origin requests (fonts, KaTeX) are left to the HTTP cache.
+ * - Fonts and KaTeX are served from this site, so they follow the same rules.
+ *   Cross-origin requests are left alone.
  */
 const VERSION = '__VERSION__';
 const PRECACHE = [/*__PRECACHE__*/];
@@ -37,11 +38,20 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+/** Pinned third-party files a saved book needs (math): kept with the pages, across deploys. */
+const KEPT_ASSET = /\/js\/vendor\/katex\//;
+
 async function networkFirst(request) {
-  const isPage = request.mode === 'navigate' || /\.md$/.test(new URL(request.url).pathname);
+  const url = new URL(request.url);
+  const kept = KEPT_ASSET.test(url.pathname);
+  const isPage = request.mode === 'navigate' || /\.md$/.test(url.pathname);
   try {
     const response = await fetch(request);
-    if (response.ok) (await caches.open(isPage ? PAGES : SHELL)).put(request, response.clone());
+    if (response.ok) {
+      const cache = await caches.open(isPage || kept ? PAGES : SHELL);
+      // Kept files are stored without their "?v=", so deploys do not pile up copies.
+      cache.put(kept ? url.origin + url.pathname : request, response.clone());
+    }
     return response;
   } catch (err) {
     const cached = await caches.match(request, { ignoreSearch: true });

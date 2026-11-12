@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { slugify, lexChapter, renderTokens, analyzeChapter, configureChapterRefs } from '../js/lib/markdown.js';
+import { slugify, lexChapter, renderTokens, analyzeChapter, configureChapterRefs, configureMath } from '../js/lib/markdown.js';
 import { setBase } from '../js/lib/paths.js';
 import { html } from '../js/lib/html.js';
 
@@ -33,6 +33,21 @@ test('inline and display math are tokenized, prices are not', () => {
   assert.match(render('$$\nJ(\\theta) = \\sum_i x_i\n$$\n'), /<div class="math math-display">J\(\\theta\) = \\sum_i x_i<\/div>/);
   assert.doesNotMatch(render('가격은 $5-$10 사이'), /class="math"/);
   assert.doesNotMatch(render('`$HOME` 경로'), /class="math"/);
+});
+
+test('with a math renderer the pipeline emits finished math, marked as rendered', () => {
+  configureMath((tex, display) => `<b data-display="${display}">${tex.length}</b>`);
+  const inline = render('계수 $k < 2$ 이다');
+  const block = render('$$\nx^2\n$$\n');
+  configureMath((tex) => {
+    throw new Error(tex);
+  });
+  const failed = render('값 $a+b$');
+  configureMath();
+  assert.match(inline, /<span class="math" data-rendered="" title="k &lt; 2"><b data-display="false">5<\/b><\/span>/);
+  assert.match(block, /<div class="math math-display" data-rendered="" title="x\^2"><b data-display="true">3<\/b><\/div>/);
+  assert.match(failed, /<span class="math">a\+b<\/span>/, 'a renderer that throws leaves the TeX for the browser');
+  assert.match(render('값 $a+b$'), /<span class="math">a\+b<\/span>/, 'and without a renderer math stays as TeX');
 });
 
 test('chapter references link to existing chapters only', () => {

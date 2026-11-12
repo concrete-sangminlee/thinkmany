@@ -8,7 +8,6 @@ import { getChecks, setChecks } from './lib/store.js';
 import { icon } from './lib/html.js';
 import { chapterHref } from './lib/paths.js';
 
-const KATEX = 'https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/';
 const MERMAID = 'https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.esm.min.mjs';
 
 /** Upgrade rendered markdown inside `root` for chapter `chapterId`. */
@@ -193,27 +192,40 @@ function links(root) {
 /* ---------- lazy third-party renderers ---------- */
 
 let katexReady;
+/** KaTeX from js/vendor, with its stylesheet (already in the head of prerendered math chapters). */
 function loadKatex() {
   katexReady ??= (async () => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = KATEX + 'katex.min.css';
-    document.head.append(link);
-    return (await import(KATEX + 'katex.mjs')).default;
+    if (!document.querySelector('link[data-katex]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = new URL('./vendor/katex/katex.min.css', import.meta.url).href;
+      link.dataset.katex = '';
+      document.head.append(link);
+    }
+    return (await import('./vendor/katex/katex.mjs')).default;
   })();
+  katexReady.catch(() => (katexReady = undefined)); // let the next chapter try again
   return katexReady;
 }
 
+/**
+ * Render TeX left in the page. Prerendered chapters arrive with their math
+ * already rendered by the build, so this only runs for chapters rendered in
+ * the browser, and only then is KaTeX downloaded.
+ */
 async function math(root) {
+  const pending = [...root.querySelectorAll('.math:not([data-rendered])')];
+  if (!pending.length) return;
   let katex;
   try {
     katex = await loadKatex();
   } catch {
-    return; // offline: the TeX source stays readable
+    return; // offline and not saved: the TeX source stays readable
   }
-  for (const el of root.querySelectorAll('.math:not([data-rendered])')) {
-    el.dataset.rendered = '';
+  for (const el of pending) {
+    if (!el.isConnected || el.dataset.rendered !== undefined) continue;
     const tex = el.textContent;
+    el.dataset.rendered = '';
     try {
       katex.render(tex, el, {
         displayMode: el.classList.contains('math-display'),

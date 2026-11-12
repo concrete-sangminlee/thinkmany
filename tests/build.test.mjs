@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { build } from '../scripts/build.mjs';
+import { build, finishProse } from '../scripts/build.mjs';
 import { missingChars } from '../scripts/lib/font-chars.mjs';
 
 const SITE = 'https://example.test/book/';
@@ -95,6 +95,29 @@ test('pages load the book font from this site, and a CDN only while the font has
     assert.equal((page.match(/rel="preload"[^>]*thinkmany-sans\.woff2/g) ?? []).length, 1, f);
     assert.equal(page.includes('cdn.jsdelivr.net'), gaps.length > 0, `${f}: CDN fallback only when the font lacks characters (${gaps.join(' ')})`);
   }
+});
+
+test('math is rendered by the build: no script needed, stylesheet only where there is math', () => {
+  let withMath = 0;
+  for (const ch of book.chapters) {
+    const page = read(`${ch.id}/index.html`);
+    const formulas = (page.match(/class="math[^"]*" data-rendered=""/g) ?? []).length;
+    assert.ok(!/class="math[^"]*">/.test(page), `${ch.id}: TeX left for the browser`);
+    assert.ok(!page.includes('katex-error'), `${ch.id}: a formula failed to render`);
+    assert.equal(page.includes('js/vendor/katex/katex.min.css'), formulas > 0, `${ch.id}: KaTeX stylesheet`);
+    assert.ok(!page.includes('cdn.jsdelivr.net/npm/katex'), ch.id);
+    if (formulas) withMath++;
+  }
+  assert.ok(withMath >= 5, `${withMath} chapters with math`);
+  assert.ok(fs.existsSync(path.join(out, 'js/vendor/katex/fonts/KaTeX_Main-Regular.woff2')));
+  assert.ok(!read('sw.js').includes('vendor/katex'), 'KaTeX is not precached: most readers never need its script');
+  assert.ok(!read('js/enhance.js').includes('cdn.jsdelivr.net/npm/katex'));
+});
+
+test('finishProse strips event handlers from tags and leaves the same words in text alone', () => {
+  const html = '<p onclick="x()" class="a">once = true, online = "yes"</p><pre><code>only = 3</code></pre><img src="a.png" onerror=alert(1)>';
+  assert.equal(finishProse(html), '<p class="a">once = true, online = "yes"</p><pre><code>only = 3</code></pre><img src="a.png">');
+  assert.equal(finishProse('<h2 data-slug="가-나">가 나</h2><script>x</script><a href="javascript:x">y</a>'), '<h2 id="가-나">가 나</h2><a href="#">y</a>');
 });
 
 test('assets and links use the configured base path', () => {

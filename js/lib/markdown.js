@@ -35,6 +35,30 @@ export function slugify(text) {
 /* Rendered as escaped TeX; the reader upgrades them with KaTeX.      */
 /* ------------------------------------------------------------------ */
 
+let renderMath = null;
+
+/**
+ * Give the pipeline a TeX renderer: (tex, display) => HTML. The build passes
+ * KaTeX, so prerendered pages carry finished math. Without one (the browser,
+ * where the output is sanitized first) math stays as TeX and js/enhance.js
+ * renders it in place. Both ways end in the same markup.
+ */
+export function configureMath(fn = null) {
+  renderMath = fn;
+}
+
+function mathHtml(tag, tex, display) {
+  const cls = `math${display ? ' math-display' : ''}`;
+  if (renderMath) {
+    try {
+      return `<${tag} class="${cls}" data-rendered="" title="${escapeHtml(tex)}">${renderMath(tex, display)}</${tag}>`;
+    } catch {
+      /* fall through: leave the TeX for the browser */
+    }
+  }
+  return `<${tag} class="${cls}">${escapeHtml(tex)}</${tag}>`;
+}
+
 const mathBlock = {
   name: 'mathBlock',
   level: 'block',
@@ -48,7 +72,7 @@ const mathBlock = {
     return undefined;
   },
   renderer(token) {
-    return `<div class="math math-display">${escapeHtml(token.text)}</div>\n`;
+    return `${mathHtml('div', token.text, true)}\n`;
   },
 };
 
@@ -69,7 +93,7 @@ const mathInline = {
     return undefined;
   },
   renderer(token) {
-    return `<span class="math${token.display ? ' math-display' : ''}">${escapeHtml(token.text)}</span>`;
+    return mathHtml('span', token.text, token.display);
   },
 };
 

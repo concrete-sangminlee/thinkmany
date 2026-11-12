@@ -1988,7 +1988,9 @@ ul.check-list {
   color: var(--fg-muted);
 }
 
-.katex {
+/* Sized to sit level with the Korean body text. The extra class keeps this
+   ahead of KaTeX's own ".katex" rule whichever stylesheet loads last. */
+.prose .katex {
   font-size: 1.08em;
 }
 
