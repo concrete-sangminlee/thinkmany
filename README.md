@@ -178,6 +178,7 @@
 
 - **장마다 고유한 주소**: `/thinkmany/ch05/`, 섹션은 `/thinkmany/ch05/#섹션-이름`. 장마다 제목, 설명, canonical, Open Graph, 구조화 데이터가 따로 있어 검색엔진과 메신저 미리보기에 장 단위로 보인다. 예전 `#ch05` 링크는 새 주소로 넘어간다.
 - **빠른 첫 화면**: 본문이 HTML에 이미 들어 있어 스크립트를 기다리지 않고 보인다. 탭, 표, 코드 복사 같은 본문 기능은 목차 색인을 기다리지 않고 바로 동작하고, 마크다운 해석기는 첫 화면에서 받지 않는다(다른 장으로 이동할 때 쓰도록 한가할 때 미리 받는다). 이후 이동은 History API로 그 자리에서 바꾸고, 뒤로 가기 하면 읽던 위치로 돌아간다. JavaScript가 꺼져 있어도 본문은 읽힌다.
+- **글꼴 하나, 172KB**: 본문 글꼴은 Pretendard에서 이 책이 실제로 쓰는 1,400여 자와 굵기 400~800만 추린 파일 하나다(`assets/fonts/thinkmany-sans.woff2`). 전에는 CDN에서 페이지마다 조각 파일 20여 개를 받았다. 같은 곳에서 제공하므로 오프라인에서도 그대로 보인다.
 - **장 사이 링크**: 본문에서 `ch05`처럼 다른 장을 언급하면 그 장으로 가는 링크가 된다 (900여 곳, 카드나 표 같은 HTML 블록 안 포함). 장 끝의 "연결된 장"에는 이 장이 언급한 장과 이 장을 언급한 장이 모인다.
 - **장별 공유 카드**: 장마다 제목이 들어간 미리보기 이미지(`assets/og/chNN.jpg`)가 있어, 장 링크를 공유하면 그 장의 카드가 뜬다.
 - **검색**: `/` 또는 `Ctrl K`. 장·섹션 제목은 즉시, 본문 전체는 Web Worker가 백그라운드에서 색인해 찾는다. 결과를 열면 해당 위치로 이동해 검색어를 강조한다. 장·섹션 제목은 초성으로도 찾는다(`ㄴㅁ`, `논ㅁ` → 논문).
@@ -205,6 +206,8 @@ js/render.js            앱 안에서 장을 열 때만 불러오는 마크다�
 js/offline.js           책 전체 오프라인 저장 (설정 메뉴)
 js/vendor/              marked 18.1.1, DOMPurify 3.4.17 (버전 고정)
 scripts/build.mjs       검증 + _site/ 생성
+scripts/subset-font.py  본문 글꼴 만들기 (npm run fonts, 평소 빌드에서는 돌지 않는다)
+assets/fonts/           본문 글꼴, 담긴 글자 목록, 글꼴 라이선스
 scripts/serve.mjs       로컬 미리보기 서버 (변경 시 다시 빌드)
 tests/                  node --test 단위·빌드 테스트
 admin/                  GitHub API로 본문과 목차를 고치는 관리자 페이지
@@ -237,7 +240,13 @@ npm run dev
 
 본문에서 쓸 수 있는 블록: `highlight-box` (`tip` · `info` · `warning` · `important` · `highlight-important`), `card-grid`/`card`, `pipeline`, `timeline`, `tab-container`, `do-dont`, `check-list`, 그리고 표·코드·수식. 다른 장은 `ch05`처럼 id만 쓰면 링크가 된다.
 
+본문 글꼴에는 책에 쓰인 글자만 들어 있다. 새 글에 처음 나오는 글자(드문 음절, 새 기호)가 있으면 빌드가 "본문 글꼴에 없는 글자"라고 알려 주고, 그 글자는 CDN의 Pretendard로 채워서 화면은 그대로 유지된다. 글꼴을 다시 만들려면 `pip install fonttools brotli` 후 `npm run fonts`를 돌리고 `assets/fonts/`를 커밋한다.
+
 공유 카드(`assets/og-image.png`, 장별 `assets/og/chNN.jpg`)와 아이콘은 `npm run images`로 다시 만든다(Playwright 필요). 장 제목을 바꾸거나 장을 더했을 때 돌리면 되고, 카드가 없는 장은 기본 카드를 쓴다.
+
+### 글꼴 라이선스
+
+본문 글꼴은 [Pretendard](https://github.com/orioncactus/pretendard)(길형진, SIL Open Font License 1.1)를 추린 파생 글꼴이다. 이 라이선스는 수정본에 원래 이름을 쓰지 못하게 하므로 Thinkmany Sans라는 이름으로 제공하고, 라이선스 전문을 `assets/fonts/OFL.txt`에 둔다.
 
 ---
 
