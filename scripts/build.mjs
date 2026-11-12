@@ -23,7 +23,8 @@ import { loadBookData, contentLog } from './lib/book-data.mjs';
 import { missingChars } from './lib/font-chars.mjs';
 import { createBook } from '../js/lib/book-model.js';
 import { setBase } from '../js/lib/paths.js';
-import { configureChapterRefs, lexChapter, renderTokens, escapeHtml } from '../js/lib/markdown.js';
+import { configureChapterRefs, configureMath, lexChapter, renderTokens, escapeHtml } from '../js/lib/markdown.js';
+import katex from '../js/vendor/katex/katex.mjs';
 import { icon } from '../js/lib/html.js';
 import { sidebarView, homeView, chapterView } from '../js/views.js';
 
@@ -107,11 +108,15 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
   );
 
   /* ---------- chapters ---------- */
+  // Math is rendered here, so a reader sees it at once and without KaTeX's script.
+  configureMath((tex, display) => katex.renderToString(tex, { displayMode: display, throwOnError: false, output: 'htmlAndMathml' }));
+  const katexCss = `<link rel="stylesheet" href="${base}js/vendor/katex/katex.min.css" data-katex>`;
   for (const c of data.chapters) {
     const ch = book.chapter(c.id);
     configureChapterRefs({ titles: book.titles, current: ch.id });
     const { tokens } = lexChapter(c.md);
     const prose = finishProse(renderTokens(tokens));
+    const hasMath = prose.includes('class="katex"');
     const url = `${site}${ch.id}/`;
     const title = `${ch.title} · 연구 많이 된다`;
     writeFile(
@@ -129,12 +134,14 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
         }),
         viewName: 'chapter',
         prerendered: ch.id,
+        fonts: hasMath ? `${fonts}\n  ${katexCss}` : fonts,
         sidebar: String(sidebarView(book, { currentId: ch.id })),
         view: String(chapterView(book, ch, { prose })),
       }),
     );
   }
   configureChapterRefs();
+  configureMath();
 
   /* ---------- 404, sitemap, robots, service worker ---------- */
   writeFile(out, '404.html', fill(fs.readFileSync(path.join(ROOT, 'templates/404.html'), 'utf8'), { base, fonts }));
@@ -224,11 +231,12 @@ function hashFiles(paths) {
  * executable anyway, and turn heading data-slug into ids so #anchors work
  * before the script loads.
  */
-function finishProse(htmlText) {
+export function finishProse(htmlText) {
   return htmlText
     .replace(/<script\b[\s\S]*?<\/script>/gi, '')
     .replace(/<\/?(iframe|object|embed)\b[^>]*>/gi, '')
-    .replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+    // Event handler attributes, inside tags only: prose and code may well say "once = true".
+    .replace(/<[a-zA-Z][^>]*>/g, (tag) => tag.replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, ''))
     .replace(/(href|src)\s*=\s*"\s*javascript:[^"]*"/gi, '$1="#"')
     .replace(/<(h[1-6]) data-slug="([^"]+)">/g, '<$1 id="$2">');
 }
@@ -374,7 +382,7 @@ function serviceWorker(out, version) {
     for (const f of fs.readdirSync(path.join(out, dir)).sort()) {
       const rel = `${dir}/${f}`;
       if (fs.statSync(path.join(out, rel)).isDirectory()) walk(rel);
-      else if (/\.(m?js)$/.test(f)) files.push(rel);
+      else if (/\.(m?js)$/.test(f) && !rel.startsWith('js/vendor/katex/')) files.push(rel); // KaTeX is cached when a reader needs it
     }
   };
   walk('js');
