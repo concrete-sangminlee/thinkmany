@@ -40,6 +40,7 @@
       <span>연구 많이 된다</span>
     </a>
     <div class="topbar-actions">
+      <button class="icon-btn outline-btn" id="outline-btn" type="button" aria-label="이 장의 차례" title="이 장의 차례" aria-haspopup="dialog">{{icon:list}}</button>
       <button class="search-trigger" id="search-btn" type="button" aria-label="검색" aria-keyshortcuts="/ Control+K">
         {{icon:search}}
         <span class="search-trigger-label">검색</span>
@@ -105,6 +106,15 @@
       <span id="search-status" aria-live="polite"></span>
       <span class="search-keys"><kbd>↑</kbd><kbd>↓</kbd> 이동 <kbd>Enter</kbd> 열기 <kbd>Esc</kbd> 닫기</span>
     </div>
+  </dialog>
+
+  <dialog class="help-dialog outline-dialog" id="outline-dialog" aria-labelledby="outline-title">
+    <div class="help-head">
+      <h2 id="outline-title">이 장의 차례</h2>
+      <button class="icon-btn" type="button" data-close aria-label="닫기">{{icon:x}}</button>
+    </div>
+    <p class="reading-left" data-reading-left></p>
+    <nav data-outline aria-labelledby="outline-title"></nav>
   </dialog>
 
   <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">

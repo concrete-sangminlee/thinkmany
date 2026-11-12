@@ -120,6 +120,18 @@ test('finishProse strips event handlers from tags and leaves the same words in t
   assert.equal(finishProse('<h2 data-slug="가-나">가 나</h2><script>x</script><a href="javascript:x">y</a>'), '<h2 id="가-나">가 나</h2><a href="#">y</a>');
 });
 
+test('chapter pages carry the outline button and dialog for narrow screens', () => {
+  const page = read('ch07/index.html');
+  assert.match(page, /id="outline-btn"[^>]*aria-haspopup="dialog"/);
+  assert.match(page, /<dialog class="help-dialog outline-dialog" id="outline-dialog" aria-labelledby="outline-title">/);
+});
+
+test('print styles reset the dark theme to paper colours', () => {
+  const css = read('css/styles.css');
+  const print = css.slice(css.indexOf('@media print'));
+  assert.match(print, /:root,\s*:root\[data-theme='dark'\],\s*:root:not\(\[data-theme='light'\]\)\s*\{[^}]*--fg-body: #111;[^}]*color-scheme: light;/);
+});
+
 test('assets and links use the configured base path', () => {
   const home = read('index.html');
   assert.ok(home.includes('href="/book/css/styles.css?v='));
