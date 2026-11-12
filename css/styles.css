@@ -777,6 +777,23 @@ body.sidebar-collapsed #main {
   flex-direction: column-reverse;
 }
 
+/* A returning reader's share of the book, drawn over the rule above the numbers. */
+.hero-stats[data-reader] {
+  position: relative;
+}
+
+.hero-stats[data-reader]::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: calc(var(--p, 0) * 100%);
+  min-width: 6px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
 .hero-stats dt {
   color: var(--fg-muted);
   font-size: 0.85rem;
@@ -901,6 +918,15 @@ body.sidebar-collapsed #main {
   font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+}
+
+.part-done {
+  margin-left: 0.6em;
+  color: var(--fg-muted);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
 }
 
 .part-head h3 {
