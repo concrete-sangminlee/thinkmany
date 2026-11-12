@@ -70,11 +70,36 @@ function tocLink(c, state, currentId) {
 /* Home                                                                */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Where a reader stands in the book: chapters finished and in progress, and
+ * the reading time left (a half-read chapter counts for the half not read).
+ * Null for a reader with no history, so the home page shows the book itself.
+ */
+export function readingStats(book, state = NO_STATE) {
+  let done = 0;
+  let reading = 0;
+  let minutesLeft = 0;
+  for (const c of book.chapters) {
+    const pr = state.progress(c.id);
+    if (pr?.done) done++;
+    else {
+      if (pr?.p > 0.02) reading++;
+      minutesLeft += (c.minutes ?? 0) * (1 - Math.min(1, pr?.p ?? 0));
+    }
+  }
+  if (!done && !reading) return null;
+  return { done, reading, total: book.chapters.length, minutesLeft: Math.round(minutesLeft), share: done / book.chapters.length };
+}
+
+const fmtDuration = (minutes) => (minutes >= 90 ? html`약 ${Math.round(minutes / 60)}<small>시간</small>` : html`약 ${Math.max(1, minutes)}<small>분</small>`);
+
 export function homeView(book, { state = NO_STATE, resume = null } = {}) {
   const t = book.totals;
   const hours = t ? Math.round(t.minutes / 60) : null;
   const first = book.chapters[0];
   const resumePr = resume ? state.progress(resume.id) : null;
+  const mine = readingStats(book, state);
+  const marks = state.bookmarkCount();
 
   return html`
     <section class="hero">
@@ -90,12 +115,21 @@ export function homeView(book, { state = NO_STATE, resume = null } = {}) {
         }
         <button class="btn btn-ghost" type="button" data-action="search">${icon('search')}<span>검색</span></button>
       </div>
-      <dl class="hero-stats">
+      ${
+        mine
+          ? html`<dl class="hero-stats" data-reader style="--p:${mine.share.toFixed(4)}">
+        <div><dt>읽은 장</dt><dd>${mine.done}<small>/ ${mine.total}</small></dd></div>
+        ${mine.reading ? html`<div><dt>읽는 중</dt><dd>${mine.reading}</dd></div>` : ''}
+        ${marks ? html`<div><dt>북마크</dt><dd>${marks}</dd></div>` : ''}
+        <div><dt>남은 분량</dt><dd>${mine.done === mine.total ? '완독' : fmtDuration(mine.minutesLeft)}</dd></div>
+      </dl>`
+          : html`<dl class="hero-stats">
         <div><dt>장</dt><dd>${book.chapters.length}</dd></div>
         <div><dt>파트</dt><dd>${book.parts.length}</dd></div>
         ${t ? html`<div><dt>섹션</dt><dd>${t.sections.toLocaleString('ko-KR')}</dd></div>` : ''}
         ${hours ? html`<div><dt>분량</dt><dd>약 ${hours}<small>시간</small></dd></div>` : ''}
-      </dl>
+      </dl>`
+      }
     </section>
 
     ${
@@ -147,7 +181,7 @@ export function homeView(book, { state = NO_STATE, resume = null } = {}) {
         ${book.parts.map(
           (p) => html`<section class="part" id="${p.id}" data-color="${p.color}" aria-labelledby="${p.id}-title">
           <header class="part-head">
-            <span class="part-num">Part ${p.number}</span>
+            <span class="part-num">Part ${p.number}${partDone(p, state)}</span>
             <h3 id="${p.id}-title">${p.title}</h3>
             ${p.desc ? html`<p>${p.desc}</p>` : ''}
           </header>
@@ -157,6 +191,12 @@ export function homeView(book, { state = NO_STATE, resume = null } = {}) {
       </div>
     </section>
     ${footerView()}`;
+}
+
+/** "3/8 읽음" beside a part's number, once the reader has finished a chapter in it. */
+function partDone(part, state) {
+  const done = part.chapters.filter((c) => state.progress(c.id)?.done).length;
+  return done ? html`<span class="part-done">${done}/${part.chapters.length} 읽음</span>` : '';
 }
 
 function chapterRow(c, state) {
