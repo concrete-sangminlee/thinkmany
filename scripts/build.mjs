@@ -20,6 +20,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { loadBookData, contentLog } from './lib/book-data.mjs';
+import { missingChars } from './lib/font-chars.mjs';
 import { createBook } from '../js/lib/book-model.js';
 import { setBase } from '../js/lib/paths.js';
 import { configureChapterRefs, lexChapter, renderTokens, escapeHtml } from '../js/lib/markdown.js';
@@ -44,6 +45,11 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
   const t = data.index.totals;
   log(`${t.parts}개 파트 · ${t.chapters}개 장 · H2 섹션 ${t.sections}개 · ${(t.chars / 10000).toFixed(1)}만 자 · 약 ${Math.round(t.minutes / 60)}시간 분량`);
   if (data.errors.length) throw new Error(`검증 오류 ${data.errors.length}건`);
+
+  // The reader's font holds only the characters the site used when it was cut.
+  const fontGaps = missingChars(ROOT);
+  if (fontGaps === null) console.warn('경고  assets/fonts/thinkmany-sans.woff2가 없습니다. CDN의 Pretendard를 씁니다 (npm run fonts).');
+  else if (fontGaps.length) console.warn(`경고  본문 글꼴에 없는 글자 ${fontGaps.length}개 (${fontGaps.slice(0, 20).join(' ')}): \`npm run fonts\`로 글꼴을 다시 만드세요. 그때까지 이 글자는 CDN의 Pretendard로 채웁니다.`);
   if (check) return { data };
 
   const site = siteUrl ?? data.config.siteUrl;
@@ -66,12 +72,13 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
   writeFile(out, 'content/index.json', JSON.stringify(slim));
   writeFile(out, 'content/toc.json', JSON.stringify(toc));
 
-  const version = hashFiles(['css', 'js', 'templates', 'sw.js'].map((p) => path.join(ROOT, p))).slice(0, 10);
+  const version = hashFiles(['css', 'js', 'templates', 'sw.js', 'assets/fonts'].map((p) => path.join(ROOT, p))).slice(0, 10);
   const graph = moduleGraph(path.join(out, 'js'), 'app.js');
   versionModules(path.join(out, 'js'), version);
   const modulepreload = graph.map((m) => `<link rel="modulepreload" href="${base}js/${m}?v=${version}">`).join('\n  ');
   const page = fillIcons(fs.readFileSync(path.join(ROOT, 'templates/page.html'), 'utf8'));
-  const render = (vars) => fill(page, { base, version, modulepreload, ...vars });
+  const fonts = fontTags(base, fontGaps);
+  const render = (vars) => fill(page, { base, version, modulepreload, fonts, ...vars });
 
   /* ---------- home ---------- */
   writeFile(
@@ -130,7 +137,7 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
   configureChapterRefs();
 
   /* ---------- 404, sitemap, robots, service worker ---------- */
-  writeFile(out, '404.html', fill(fs.readFileSync(path.join(ROOT, 'templates/404.html'), 'utf8'), { base }));
+  writeFile(out, '404.html', fill(fs.readFileSync(path.join(ROOT, 'templates/404.html'), 'utf8'), { base, fonts }));
   writeFile(out, 'sitemap.xml', sitemap(book, site));
   writeFile(out, 'feed.xml', atomFeed(book, site, contentLog(ROOT)));
   writeFile(out, 'robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${site}sitemap.xml\n`);
@@ -141,6 +148,21 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
 }
 
 /* ------------------------------------------------------------------ */
+
+const PRETENDARD_CDN = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
+
+/**
+ * Font tags for the head. Normally one preload of the book's own font file
+ * (css/styles.css declares it). While that file lacks characters the site
+ * now uses (gaps), or is missing altogether (null), Pretendard from the CDN
+ * is loaded as well and fills in: it is next in the font stack.
+ */
+export function fontTags(base, gaps) {
+  const own = `<link rel="preload" href="${base}assets/fonts/thinkmany-sans.woff2" as="font" type="font/woff2" crossorigin>`;
+  const cdn = `<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>\n  <link rel="stylesheet" href="${PRETENDARD_CDN}">`;
+  if (gaps === null) return cdn;
+  return gaps.length ? `${own}\n  ${cdn}` : own;
+}
 
 function fill(tpl, vars) {
   return tpl.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? String(vars[k]) : m));
@@ -347,7 +369,7 @@ ${entries.join('\n')}
 
 /** sw.js with its version and the reader shell to precache. */
 function serviceWorker(out, version) {
-  const files = ['app.html', 'manifest.webmanifest', 'assets/favicon.svg', 'content/config.json', 'content/index.json', 'content/toc.json', 'css/styles.css'];
+  const files = ['app.html', 'manifest.webmanifest', 'assets/favicon.svg', 'content/config.json', 'content/index.json', 'content/toc.json', 'css/styles.css', 'assets/fonts/thinkmany-sans.woff2'].filter((f) => fs.existsSync(path.join(out, f)));
   const walk = (dir) => {
     for (const f of fs.readdirSync(path.join(out, dir)).sort()) {
       const rel = `${dir}/${f}`;

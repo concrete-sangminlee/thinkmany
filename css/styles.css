@@ -9,8 +9,19 @@
 
 /* 1. Tokens ---------------------------------------------------------------- */
 
+/* The reader's font: Pretendard cut down to the characters this book uses
+   (scripts/subset-font.py). One file holds every weight from 400 to 800.
+   A character it lacks falls through to the next families in --font-sans. */
+@font-face {
+  font-family: 'Thinkmany Sans';
+  src: url('../assets/fonts/thinkmany-sans.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+  --font-sans: 'Thinkmany Sans', 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
     'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
   --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, 'D2Coding', monospace;
 

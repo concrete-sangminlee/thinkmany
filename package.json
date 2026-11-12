@@ -11,6 +11,7 @@
     "build": "node scripts/build.mjs",
     "check": "node scripts/build.mjs --check",
     "test": "node --test \"tests/*.test.mjs\"",
-    "images": "node scripts/render-images.mjs"
+    "images": "node scripts/render-images.mjs",
+    "fonts": "python3 scripts/subset-font.py"
   }
 }

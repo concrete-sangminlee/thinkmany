@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { build } from '../scripts/build.mjs';
+import { missingChars } from '../scripts/lib/font-chars.mjs';
 
 const SITE = 'https://example.test/book/';
 const out = fs.mkdtempSync(path.join(os.tmpdir(), 'thinkmany-build-'));
@@ -81,6 +82,18 @@ test('chapter pages carry Chapter and BreadcrumbList structured data', () => {
     assert.deepEqual(crumbs.map((c) => c.position), [1, 2, 3]);
     assert.deepEqual(crumbs.map((c) => c.item), [SITE, `${SITE}#${ch.part.id}`, `${SITE}${ch.id}/`]);
     assert.equal(crumbs[2].name, ch.title);
+  }
+});
+
+test('pages load the book font from this site, and a CDN only while the font has gaps', () => {
+  const gaps = missingChars(new URL('..', import.meta.url).pathname);
+  assert.match(read('css/styles.css'), /@font-face\s*\{[^}]*'Thinkmany Sans'[^}]*url\('\.\.\/assets\/fonts\/thinkmany-sans\.woff2'\)/);
+  assert.ok(fs.existsSync(path.join(out, 'assets/fonts/thinkmany-sans.woff2')));
+  assert.match(read('sw.js'), /"assets\/fonts\/thinkmany-sans\.woff2"/, 'the font is precached for offline reading');
+  for (const f of ['index.html', 'app.html', '404.html', 'ch01/index.html']) {
+    const page = read(f);
+    assert.equal((page.match(/rel="preload"[^>]*thinkmany-sans\.woff2/g) ?? []).length, 1, f);
+    assert.equal(page.includes('cdn.jsdelivr.net'), gaps.length > 0, `${f}: CDN fallback only when the font lacks characters (${gaps.join(' ')})`);
   }
 });
 
