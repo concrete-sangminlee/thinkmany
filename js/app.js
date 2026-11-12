@@ -46,6 +46,7 @@ let offline;
 let current = { kind: null };
 let pendingTerms = [];
 let searchWanted = false;
+let lastScrollY = 0;
 let sidebarFilter = 'all';
 
 /* ================================================================== */
@@ -129,6 +130,8 @@ function initChrome() {
   desktop.addEventListener('change', resetSidebar);
   resetSidebar();
 
+  initOutline();
+
   const help = $('#help-dialog');
   help.querySelector('[data-close]').addEventListener('click', () => help.close());
   help.addEventListener('click', (e) => e.target === help && help.close());
@@ -189,6 +192,29 @@ function toggleSidebar(force) {
 function openSearch() {
   if (search) search.open();
   else searchWanted = true;
+}
+
+/**
+ * Under 1280px there is no outline rail, and the one in the chapter header
+ * scrolls away; the top bar's list button opens the outline wherever the
+ * reader is, with the current section marked (spy() keeps it in step).
+ */
+function initOutline() {
+  const dialog = $('#outline-dialog');
+  const holder = dialog.querySelector('[data-outline]');
+  $('#outline-btn').addEventListener('click', () => {
+    const tree = document.querySelector('.toc-inline .toc-tree, .page-toc .toc-tree');
+    if (!tree) return;
+    holder.replaceChildren(tree.cloneNode(true));
+    dialog.showModal();
+    const here = holder.querySelector('a[aria-current]') ?? holder.querySelector('a');
+    here?.scrollIntoView({ block: 'center' });
+    here?.focus();
+  });
+  dialog.querySelector('[data-close]').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog || e.target.closest('a')) dialog.close();
+  });
 }
 
 function onKey(e) {
@@ -678,7 +704,9 @@ function updateReadingLeft() {
 function onScroll() {
   updateProgressBar();
   document.body.classList.toggle('is-scrolled', scrollY > 8);
-  $('#to-top').classList.toggle('is-visible', scrollY > 1600);
+  // "Back to top" appears only while scrolling up, so it does not sit on the text as one reads down.
+  $('#to-top').classList.toggle('is-visible', scrollY > 1600 && scrollY < lastScrollY);
+  lastScrollY = scrollY;
   if (current.kind !== 'chapter' || !current.headings.length) return;
   spy();
   updateReadingLeft();

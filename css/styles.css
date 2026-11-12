@@ -1682,6 +1682,23 @@ body.sidebar-collapsed #main {
   font-size: 1.1rem;
 }
 
+/* Phones: one step per row, flowing down. */
+@media (max-width: 600px) {
+  .pipeline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pipeline-step {
+    flex: none;
+    max-width: none;
+  }
+
+  .pipeline-arrow {
+    transform: rotate(90deg);
+  }
+}
+
 .timeline {
   position: relative;
   padding-left: 1.75rem;
@@ -1747,6 +1764,14 @@ body.sidebar-collapsed #main {
 
 .tab-buttons::-webkit-scrollbar {
   display: none;
+}
+
+/* Phones: wrap rather than hide later tabs behind a scrollbar-less scroll. */
+@media (max-width: 600px) {
+  .tab-buttons {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
 }
 
 .tab-btn {
@@ -1837,10 +1862,10 @@ body.sidebar-collapsed #main {
 }
 
 .check-list label {
-  display: flex;
-  gap: 0.6rem;
-  align-items: flex-start;
-  padding: 0.35rem 0.25rem;
+  /* A block with a hanging checkbox, not a flex row: a label mixes text,
+     <strong> and <code>, and flex would lay each run out as its own column. */
+  display: block;
+  padding: 0.35rem 0.25rem 0.35rem 2.05rem;
   border-radius: var(--radius-sm);
   line-height: 1.65;
   cursor: pointer;
@@ -1858,6 +1883,11 @@ body.sidebar-collapsed #main {
   margin: 0.32em 0 0;
   accent-color: var(--accent);
   cursor: pointer;
+}
+
+.check-list label > input[type='checkbox'] {
+  float: left;
+  margin: 0.32em 0 0 -1.65rem;
 }
 
 .check-list label:has(input:checked) {
@@ -1994,6 +2024,10 @@ ul.check-list {
 
 .prose tbody tr:last-child td {
   border-bottom: 0;
+}
+
+.prose td {
+  min-width: 5.25rem; /* room for a range like "30-60분" on one line */
 }
 
 .prose td:first-child {
@@ -2160,6 +2194,57 @@ dialog::backdrop {
   margin: 0 0.1rem;
 }
 
+/* Outline button and dialog: chapter pages narrower than the outline rail. */
+.outline-btn {
+  display: none;
+}
+
+@media (max-width: 1279.98px) {
+  body[data-view='chapter'] .outline-btn {
+    display: inline-grid;
+  }
+}
+
+/* Narrow phones: the outline button needs the room the site name takes
+   (the logo stays, and the link keeps its label). */
+@media (max-width: 379.98px) {
+  body[data-view='chapter'] .brand span {
+    display: none;
+  }
+}
+
+.outline-dialog {
+  width: min(32rem, calc(100vw - 1.5rem));
+  max-height: min(80vh, 44rem);
+}
+
+/* The title and close button stay put; only the list scrolls. */
+.outline-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.outline-dialog [data-outline] {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.outline-dialog .reading-left {
+  margin: -0.25rem 0 0.5rem;
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+}
+
+.outline-dialog .reading-left:empty {
+  display: none;
+}
+
+.outline-dialog .toc-tree li > ol {
+  display: block;
+}
+
 .help-dialog {
   width: min(26rem, calc(100vw - 24px));
   padding: 1.25rem 1.4rem 1.4rem;
@@ -2287,22 +2372,50 @@ dialog::backdrop {
 /* 13. Print: prints the open chapter -------------------------------------- */
 
 @media print {
-  :root {
+  /* Paper is white whatever theme is on screen: the selectors match the dark
+     theme blocks' specificity so they win, and every colour token is reset. */
+  :root,
+  :root[data-theme='dark'],
+  :root:not([data-theme='light']) {
     --bg: #fff;
     --bg-elev: #fff;
     --bg-sunken: #f6f6f6;
+    --bg-hover: #f3f3f1;
     --fg: #000;
     --fg-body: #111;
     --fg-muted: #444;
+    --fg-faint: #555;
     --line: #ccc;
+    --line-strong: #bbb;
+    --accent: #4f46e5;
+    --accent-strong: #4338ca;
+    --accent-soft: rgba(79, 70, 229, 0.08);
+    --on-accent: #fff;
+    --mark: #fff0a3;
+    --green: #047857;
+    --amber: #b45309;
+    --blue: #1d4ed8;
+    --red: #b91c1c;
+    --violet: #6d28d9;
+    --tint: 7%;
+    color-scheme: light;
+  }
+
+  /* Doubled attribute: as specific as the dark theme's part colours, and later. */
+  :root [data-color='purple'][data-color] { --part: #7c3aed; }
+  :root [data-color='blue'][data-color] { --part: #4f46e5; }
+  :root [data-color='cyan'][data-color] { --part: #0e7490; }
+  :root [data-color='green'][data-color] { --part: #047857; }
+  :root [data-color='orange'][data-color] { --part: #c2410c; }
+  :root [data-color='pink'][data-color] { --part: #be185d; }
+
+  html,
+  body {
+    background: #fff;
   }
 
   @page {
     margin: 18mm 16mm;
-  }
-
-  body {
-    background: #fff;
   }
 
   .topbar,
@@ -2350,9 +2463,21 @@ dialog::backdrop {
     break-after: avoid-page;
   }
 
+  .prose p,
+  .prose li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* "예시:" stays on the page of the code or table it introduces. Long code
+     may split (it wraps); small boxes move whole. */
+  .prose p:has(+ .codeblock),
+  .prose p:has(+ .table-wrap) {
+    break-after: avoid;
+  }
+
   .highlight-box,
   .card,
-  .codeblock,
   .pipeline-step,
   .timeline-item,
   .do-box,
@@ -2639,6 +2764,17 @@ dialog::backdrop {
   max-height: calc(100dvh - 4.5rem);
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+/* Narrow phones: the panel is wider than the space left of its button. */
+@media (max-width: 360px) {
+  .popover {
+    position: fixed;
+    top: calc(var(--topbar-h) + 8px);
+    right: 8px;
+    left: 8px;
+    width: auto;
+  }
 }
 
 .popover-section {
