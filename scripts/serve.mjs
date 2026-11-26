@@ -3,7 +3,10 @@
  * Local preview: builds _site/ and serves it at http://localhost:8000/thinkmany/,
  * the same path layout as GitHub Pages. Rebuilds when sources change.
  *
- *   node scripts/serve.mjs [--port 8000]
+ *   node scripts/serve.mjs [--port 8000] [--host 0.0.0.0]
+ *
+ * It listens on this computer only (127.0.0.1) unless --host says otherwise,
+ * for example to open the preview from a phone on the same network.
  */
 import fs from 'node:fs';
 import http from 'node:http';
@@ -15,6 +18,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, '_site');
 const args = process.argv.slice(2);
 const PORT = Number(args.includes('--port') ? args[args.indexOf('--port') + 1] : process.env.PORT || 8000);
+const HOST = args.includes('--host') ? args[args.indexOf('--host') + 1] : '127.0.0.1';
 const BASE = '/thinkmany/';
 const SITE_URL = `http://localhost:${PORT}${BASE}`;
 
@@ -82,8 +86,16 @@ http
       res.writeHead(302, { location: BASE });
       return res.end();
     }
-    let file = path.join(OUT, decodeURIComponent(url.pathname.slice(BASE.length)));
-    if (!file.startsWith(OUT)) {
+    let rel;
+    try {
+      rel = decodeURIComponent(url.pathname.slice(BASE.length));
+    } catch {
+      res.writeHead(400); // a malformed %-escape must not take the server down
+      return res.end();
+    }
+    let file = path.join(OUT, rel);
+    // Inside _site only: "_site2/..." shares the prefix but is another folder.
+    if (file !== OUT && !file.startsWith(OUT + path.sep)) {
       res.writeHead(403);
       return res.end();
     }
@@ -100,4 +112,4 @@ http
     res.writeHead(found ? 200 : 404, { 'content-type': TYPES[path.extname(file)] ?? 'application/octet-stream', 'cache-control': 'no-cache' });
     res.end(body);
   })
-  .listen(PORT, () => console.log(`${SITE_URL} 에서 보는 중 (Ctrl+C로 종료)`));
+  .listen(PORT, HOST, () => console.log(`${SITE_URL} 에서 보는 중 (Ctrl+C로 종료)`));
