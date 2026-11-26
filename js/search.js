@@ -5,7 +5,7 @@
  */
 import { html, mount, icon } from './lib/html.js';
 import { chapterHref } from './lib/paths.js';
-import { chapterUrl } from './book.js';
+import { chapterUrl, ROOT } from './book.js';
 import { matchRanges, hasConsonant } from './lib/hangul.js';
 
 const MAX_CHAPTERS = 5;
@@ -65,6 +65,7 @@ export function initSearch(book, { onOpenResult }) {
     worker.postMessage({
       type: 'index',
       chapters: book.chapters.map((c) => ({ id: c.id, order: c.order, url: chapterUrl(c) })),
+      searchUrl: new URL('content/search.json', ROOT).href,
     });
   }
 

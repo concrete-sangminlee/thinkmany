@@ -146,9 +146,25 @@ test('sitemap, robots and service worker are generated', () => {
   const sw = read('sw.js');
   assert.doesNotMatch(sw, /__VERSION__|__PRECACHE__/);
   assert.match(sw, /"app\.html"/);
-  assert.match(sw, /"js\/app\.js"/);
-  assert.match(sw, /"content\/toc\.json"/, 'heading search works offline');
-  assert.match(sw, /"js\/offline\.js"/);
+  // Precached exactly as pages request them, so the install reuses the page's downloads.
+  const version = /href="[^"]*css\/styles\.css\?v=([^"]+)"/.exec(read('index.html'))[1];
+  assert.match(sw, new RegExp(`"css/styles\\.css\\?v=${version}"`));
+  assert.match(sw, new RegExp(`"js/app\\.js\\?v=${version}"`));
+  assert.match(sw, new RegExp(`"js/offline\\.js\\?v=${version}"`));
+  assert.doesNotMatch(sw, /"js\/app\.js"/, 'no unversioned duplicate');
+  assert.doesNotMatch(sw, /"content\/(toc|search)\.json"/, 'search data is fetched when search opens, not at install');
+  for (const m of sw.matchAll(/"([^"]+\?v=[^"]+)"/g)) assert.ok(fs.existsSync(path.join(out, m[1].split('?')[0])), m[1]);
+});
+
+test('search data: every chapter, split into the same sections as the outline', () => {
+  const data = JSON.parse(read('content/search.json'));
+  assert.deepEqual(data.chapters.map((c) => c.id), book.chapters.map((c) => c.id));
+  const toc = JSON.parse(read('content/toc.json'));
+  for (const c of data.chapters) {
+    const ids = c.sections.map(([id]) => id).filter(Boolean);
+    assert.deepEqual(ids, toc[c.id].map(([, , id]) => id), c.id);
+    for (const [, , text] of c.sections) assert.equal(typeof text, 'string');
+  }
 });
 
 test('the offline save panel knows the book size and the cache it fills', () => {

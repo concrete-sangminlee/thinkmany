@@ -8,7 +8,7 @@
  * markdown), and full-text search works too. KaTeX goes in with it, since a
  * chapter rendered in the browser needs it for its math.
  */
-import { chapterUrl } from './book.js';
+import { chapterUrl, ROOT } from './book.js';
 
 /** The service worker's cache for pages and markdown (see sw.js). */
 const PAGES = 'thinkmany-pages';
@@ -33,13 +33,28 @@ export function initOffline({ book, toast }) {
   const button = panel.querySelector('[data-offline="save"]');
   const meter = panel.querySelector('[data-offline-meter]');
   const urls = book.chapters.map(chapterUrl);
+  // Besides the chapters: the outline file, so heading search works offline too.
+  const extras = [new URL('content/toc.json', ROOT).href];
   const mb = book.totals?.bytes ? Math.max(1, Math.round((book.totals.bytes + MATH_BYTES) / 1e6)) : 0;
   let saving = false;
 
-  async function savedCount() {
+  /**
+   * How many chapters are saved, and how many of those the author has added
+   * to since (their saved copy is older than the chapter's last update).
+   */
+  async function savedState() {
     const cache = await caches.open(PAGES);
-    const have = new Set((await cache.keys()).map((r) => r.url));
-    return urls.filter((u) => have.has(u)).length;
+    let saved = 0;
+    let stale = 0;
+    for (const [i, url] of urls.entries()) {
+      const hit = await cache.match(url);
+      if (!hit) continue;
+      saved++;
+      const at = Date.parse(hit.headers.get('date') ?? '');
+      const updated = Date.parse(book.chapters[i].updated ?? '');
+      if (at && updated && updated > at) stale++;
+    }
+    return { saved, stale };
   }
 
   /** Show the panel only where the service worker runs, with what is saved. */
@@ -48,14 +63,15 @@ export function initOffline({ book, toast }) {
     const reg = await navigator.serviceWorker.getRegistration().catch(() => null);
     panel.hidden = !reg;
     if (!reg) return;
-    const n = await savedCount().catch(() => 0);
+    const { saved: n, stale } = await savedState().catch(() => ({ saved: 0, stale: 0 }));
     const all = n === urls.length;
+    const behind = stale ? ` 그중 ${stale}개 장은 저장한 뒤 보강되었습니다.` : '';
     note.textContent = all
-      ? `책 전체(${urls.length}개 장)가 이 기기에 있어 인터넷 없이도 읽을 수 있습니다.`
+      ? `책 전체(${urls.length}개 장)가 이 기기에 있어 인터넷 없이도 읽을 수 있습니다.${behind}`
       : n
-        ? `${urls.length}개 장 중 ${n}개가 이 기기에 있습니다. 한 번 연 장은 인터넷 없이도 열립니다.`
+        ? `${urls.length}개 장 중 ${n}개가 이 기기에 있습니다.${behind} 한 번 연 장은 인터넷 없이도 열립니다.`
         : '한 번 연 장은 인터넷 없이도 열립니다.';
-    button.textContent = all ? '새 내용으로 다시 저장' : `책 전체 저장${mb ? ` (약 ${mb}MB)` : ''}`;
+    button.textContent = all ? (stale ? `보강된 ${stale}개 장 받기` : '새 내용으로 다시 저장') : `책 전체 저장${mb ? ` (약 ${mb}MB)` : ''}`;
   }
 
   function setMeter(done, total) {
@@ -76,7 +92,7 @@ export function initOffline({ book, toast }) {
     let failed = 0;
     try {
       const cache = await caches.open(PAGES);
-      const all = [...urls, ...(await mathFiles().catch(() => []))];
+      const all = [...urls, ...extras, ...(await mathFiles().catch(() => []))];
       let next = 0;
       let done = 0;
       const worker = async () => {

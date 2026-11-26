@@ -1,15 +1,30 @@
 /**
- * Full-text search worker. Downloads every chapter once, splits it into
- * sections (h2/h3) and answers queries off the main thread. Scoring lives in
- * js/lib/search-core.js.
+ * Full-text search worker. Loads the book's sections once (content/search.json,
+ * written by the build) and answers queries off the main thread. If that file
+ * cannot be had, it falls back to downloading each chapter's markdown and
+ * splitting it here. Scoring lives in js/lib/search-core.js.
  */
-import { analyzeChapter } from './lib/markdown.js';
 import { makeSection, search } from './lib/search-core.js';
 
 const sections = [];
 let indexing = null;
 
-async function buildIndex(chapters) {
+async function fromSearchData(url, chapters) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(String(r.status));
+  const data = await r.json();
+  const order = new Map(chapters.map((c) => [c.id, c.order]));
+  let count = 0;
+  for (const c of data.chapters) {
+    if (!order.has(c.id)) continue; // a chapter the reader's book no longer has
+    for (const [id, title, text] of c.sections) sections.push(makeSection(c.id, order.get(c.id), { id, title, text }));
+    count++;
+  }
+  return chapters.length - count;
+}
+
+async function fromMarkdown(chapters) {
+  const { analyzeChapter } = await import('./lib/markdown.js');
   let done = 0;
   let failed = 0;
   const queue = [...chapters];
@@ -28,6 +43,17 @@ async function buildIndex(chapters) {
     }
   };
   await Promise.all(Array.from({ length: 6 }, worker));
+  return failed;
+}
+
+async function buildIndex({ chapters, searchUrl }) {
+  let failed;
+  try {
+    failed = await fromSearchData(searchUrl, chapters);
+  } catch {
+    sections.length = 0;
+    failed = await fromMarkdown(chapters);
+  }
   sections.sort((a, b) => a.order - b.order);
   postMessage({ type: 'ready', failed });
 }
@@ -35,7 +61,7 @@ async function buildIndex(chapters) {
 onmessage = (e) => {
   const msg = e.data;
   if (msg.type === 'index') {
-    indexing ??= buildIndex(msg.chapters);
+    indexing ??= buildIndex(msg);
   } else if (msg.type === 'query') {
     postMessage({ type: 'results', seq: msg.seq, ...search(sections, msg.q) });
   }
