@@ -217,7 +217,8 @@ scripts/subset-font.py  본문 글꼴 만들기 (npm run fonts, 평소 빌드에
 assets/fonts/           본문 글꼴, 담긴 글자 목록, 글꼴 라이선스
 scripts/serve.mjs       로컬 미리보기 서버 (변경 시 다시 빌드)
 tests/                  node --test 단위·빌드 테스트
-admin/                  GitHub API로 본문과 목차를 고치는 관리자 페이지
+admin/                  GitHub API로 본문과 목차를 고치는 관리자 페이지 (미리 보기는 사이트와 같은 렌더링)
+js/lib/lint.js          장 원고 규칙(제목 단계, 줄표 등). 빌드와 관리자 페이지가 함께 쓴다
 ```
 
 ### 로컬에서 보기
@@ -232,7 +233,7 @@ npm run dev
 
 ### 글을 고칠 때
 
-1. `content/chNN-*.md`를 고친다(또는 `/admin`에서 편집). 장을 더하거나 순서를 바꾸려면 `content/config.json`을 고친다.
+1. `content/chNN-*.md`를 고친다(또는 `/admin`에서 편집). 관리자 페이지는 저장하기 전에 아래 규칙을 검사해 빌드가 거절할 글은 저장하지 않는다. 로그인에는 이 저장소만, Contents 읽기·쓰기 권한만 준 세분화된 토큰을 쓰고, 토큰은 그 탭에만 보관된다. 장을 더하거나 순서를 바꾸려면 `content/config.json`을 고친다.
 2. `npm run check`로 검증한다. 다음 경우에 실패한다.
    - 목차와 파일이 어긋나거나, 장 id가 사이트 폴더 이름과 겹칠 때
    - 긴 줄표(em dash, en dash)가 있을 때. 쉼표, 콜론, 괄호를 쓴다.

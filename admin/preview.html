@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>미리 보기</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    body { background: var(--bg); padding: 1.5rem 1.25rem 4rem; }
+    .prose { max-width: var(--measure); margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <!--
+    The admin editor's preview: the chapter rendered by the site's own
+    pipeline (marked with the site's extensions, DOMPurify, then tabs,
+    tables, math and chapter links), styled by the site's stylesheet.
+    The editor sends { md, id, titles } with postMessage.
+  -->
+  <article class="prose" id="prose"></article>
+  <script type="module">
+    import { renderMarkdown } from '../js/render.js';
+    import { enhance } from '../js/enhance.js';
+    import { setBase } from '../js/lib/paths.js';
+
+    setBase(new URL('../', location.href).pathname);
+    const prose = document.getElementById('prose');
+
+    addEventListener('message', (e) => {
+      if (e.origin !== location.origin || e.source !== parent) return;
+      const { md, id, titles } = e.data ?? {};
+      if (typeof md !== 'string') return;
+      const { html } = renderMarkdown(md, { titles: new Map(titles ?? []), current: id ?? '' });
+      prose.innerHTML = html;
+      delete prose.dataset.enhanced; // a fresh render: enhance it again
+      enhance(prose, id ?? 'preview');
+    });
+    parent.postMessage({ type: 'preview-ready' }, location.origin);
+  </script>
+</body>
+</html>
