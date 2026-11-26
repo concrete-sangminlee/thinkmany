@@ -21,6 +21,7 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { loadBookData, contentLog } from './lib/book-data.mjs';
 import { missingChars } from './lib/font-chars.mjs';
+import { expectedReadme } from './readme.mjs';
 import { createBook } from '../js/lib/book-model.js';
 import { setBase } from '../js/lib/paths.js';
 import { configureChapterRefs, configureMath, lexChapter, renderTokens, escapeHtml } from '../js/lib/markdown.js';
@@ -40,8 +41,8 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
   const log = quiet ? () => {} : console.log;
   const t0 = Date.now();
   const data = loadBookData(ROOT);
-  for (const w of data.warnings) console.warn(`경고  ${w}`);
-  for (const e of data.errors) console.error(`오류  ${e}`);
+  for (const w of data.warnings) warn(w);
+  for (const e of data.errors) report('error', e);
 
   const t = data.index.totals;
   log(`${t.parts}개 파트 · ${t.chapters}개 장 · H2 섹션 ${t.sections}개 · ${(t.chars / 10000).toFixed(1)}만 자 · 약 ${Math.round(t.minutes / 60)}시간 분량`);
@@ -49,8 +50,15 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
 
   // The reader's font holds only the characters the site used when it was cut.
   const fontGaps = missingChars(ROOT);
-  if (fontGaps === null) console.warn('경고  assets/fonts/thinkmany-sans.woff2가 없습니다. CDN의 Pretendard를 씁니다 (npm run fonts).');
-  else if (fontGaps.length) console.warn(`경고  본문 글꼴에 없는 글자 ${fontGaps.length}개 (${fontGaps.slice(0, 20).join(' ')}): \`npm run fonts\`로 글꼴을 다시 만드세요. 그때까지 이 글자는 CDN의 Pretendard로 채웁니다.`);
+  if (fontGaps === null) warn('assets/fonts/thinkmany-sans.woff2가 없습니다. CDN의 Pretendard를 씁니다 (npm run fonts).');
+  else if (fontGaps.length) warn(`본문 글꼴에 없는 글자 ${fontGaps.length}개 (${fontGaps.slice(0, 20).join(' ')}): \`npm run fonts\`로 글꼴을 다시 만드세요. 그때까지 이 글자는 CDN의 Pretendard로 채웁니다.`);
+  // README.md's numbers and table of contents are generated (scripts/readme.mjs).
+  try {
+    const readme = expectedReadme(ROOT, data);
+    if (readme.current !== readme.expected) warn('README.md: 숫자나 차례가 본문과 다릅니다. `npm run readme`로 갱신하세요.');
+  } catch (err) {
+    warn(err.message);
+  }
   if (check) return { data };
 
   const site = siteUrl ?? data.config.siteUrl;
@@ -155,6 +163,24 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
 }
 
 /* ------------------------------------------------------------------ */
+
+/**
+ * Print a build message. In GitHub Actions it becomes an annotation, shown on
+ * the pull request next to the file (and line) it names when the message
+ * starts with "path:line: " or "path: ".
+ */
+export function report(level, msg, env = process.env) {
+  if (!env.GITHUB_ACTIONS) {
+    (level === 'error' ? console.error : console.warn)(`${level === 'error' ? '오류' : '경고'}  ${msg}`);
+    return;
+  }
+  const at = /^([\w./-]+\.(?:md|json|html|js|mjs|css)):(?:(\d+):)?\s*/.exec(msg);
+  const props = at ? ` file=${at[1]}${at[2] ? `,line=${at[2]}` : ''}` : '';
+  // Annotation text is one line; %, CR and LF must be escaped.
+  const text = msg.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+  console.log(`::${level}${props}::${text}`);
+}
+const warn = (msg) => report('warning', msg);
 
 const PRETENDARD_CDN = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
 
