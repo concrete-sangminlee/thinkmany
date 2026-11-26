@@ -4,7 +4,9 @@
 
 **읽기 →** https://concrete-sangminlee.github.io/thinkmany/
 
+<!-- generated:stats -->
 8개 파트 · 60개 장 · 1,211개 섹션 · 약 234만 자 (읽는 데 약 78시간)
+<!-- /generated:stats -->
 
 ---
 
@@ -21,15 +23,18 @@
 
 처음부터 읽지 않아도 된다. 지금 있는 자리에서 시작하면 된다.
 
-- **진학을 고민하고 있다면**: ch01, ch02, ch03, ch58, ch60
-- **박사 1-2년차**: ch03, ch04, ch05, ch06, ch31, ch49
-- **중반의 슬럼프**: ch32, ch55, ch58, ch48
-- **졸업을 준비한다면**: ch36, ch14, ch46, ch34
-- **박사 후 첫 1년**: ch43, ch34, ch46, ch56
-- **한국 연구실을 이해하고 싶다면**: ch49, ch41, ch29, ch47
+<!-- generated:paths -->
+- **진학을 고민하고 있다면**: [01 왜 대학원에 왔는가](https://concrete-sangminlee.github.io/thinkmany/ch01/), [02 대학원생의 역할과 의무](https://concrete-sangminlee.github.io/thinkmany/ch02/), [03 첫 학기 생존 가이드](https://concrete-sangminlee.github.io/thinkmany/ch03/), [58 박사 학생의 단계별 정체성 발달](https://concrete-sangminlee.github.io/thinkmany/ch58/), [60 분야의 학파와 계보 이해](https://concrete-sangminlee.github.io/thinkmany/ch60/)
+- **박사 1-2년차**: [03 첫 학기 생존 가이드](https://concrete-sangminlee.github.io/thinkmany/ch03/), [04 하루를 설계하라](https://concrete-sangminlee.github.io/thinkmany/ch04/), [05 논문 읽기의 기술](https://concrete-sangminlee.github.io/thinkmany/ch05/), [06 연구 문제 찾기](https://concrete-sangminlee.github.io/thinkmany/ch06/), [31 지도교수와 소통하는 법](https://concrete-sangminlee.github.io/thinkmany/ch31/), [49 한국 공학 대학원에서만 마주치는 것들](https://concrete-sangminlee.github.io/thinkmany/ch49/)
+- **중반의 슬럼프**: [32 멘탈 관리와 건강](https://concrete-sangminlee.github.io/thinkmany/ch32/), [55 박사 과정 중 갑작스런 변화 대응](https://concrete-sangminlee.github.io/thinkmany/ch55/), [58 박사 학생의 단계별 정체성 발달](https://concrete-sangminlee.github.io/thinkmany/ch58/), [48 박사 과정의 신체 건강 관리](https://concrete-sangminlee.github.io/thinkmany/ch48/)
+- **졸업을 준비한다면**: [36 학위논문 작성법](https://concrete-sangminlee.github.io/thinkmany/ch36/), [14 종합시험과 학위심사](https://concrete-sangminlee.github.io/thinkmany/ch14/), [46 학계 임용 시장](https://concrete-sangminlee.github.io/thinkmany/ch46/), [34 졸업 후 커리어](https://concrete-sangminlee.github.io/thinkmany/ch34/)
+- **박사 후 첫 1년**: [43 박사 학위 후 첫 1년](https://concrete-sangminlee.github.io/thinkmany/ch43/), [34 졸업 후 커리어](https://concrete-sangminlee.github.io/thinkmany/ch34/), [46 학계 임용 시장](https://concrete-sangminlee.github.io/thinkmany/ch46/), [56 박사 학생을 위한 평생 학습 자세](https://concrete-sangminlee.github.io/thinkmany/ch56/)
+- **한국 연구실을 이해하고 싶다면**: [49 한국 공학 대학원에서만 마주치는 것들](https://concrete-sangminlee.github.io/thinkmany/ch49/), [41 후배 멘토링과 연구실 리더십](https://concrete-sangminlee.github.io/thinkmany/ch41/), [29 연구 윤리](https://concrete-sangminlee.github.io/thinkmany/ch29/), [47 박사 과정의 재정 관리](https://concrete-sangminlee.github.io/thinkmany/ch47/)
+<!-- /generated:paths -->
 
 ## 차례
 
+<!-- generated:toc -->
 <details>
 <summary><b>Part 01. 대학원에 오신 것을 환영한다</b> (8장 · 약 10시간)</summary>
 
@@ -37,14 +42,14 @@
 
 | 장 | 제목 | 분량 |
 |---:|---|---:|
-| 01 | [왜 대학원에 왔는가](content/ch01-why-grad-school.md) | 95분 |
-| 02 | [대학원생의 역할과 의무](content/ch02-roles-and-duties.md) | 96분 |
-| 03 | [첫 학기 생존 가이드](content/ch03-first-semester.md) | 90분 |
-| 04 | [하루를 설계하라](content/ch04-daily-routine.md) | 99분 |
-| 47 | [박사 과정의 재정 관리](content/ch47-financial-management.md) | 65분 |
-| 49 | [한국 공학 대학원에서만 마주치는 것들](content/ch49-korean-grad-school-context.md) | 59분 |
-| 57 | [박사 과정의 연간 자기 점검과 회고](content/ch57-annual-self-review.md) | 61분 |
-| 58 | [박사 학생의 단계별 정체성 발달](content/ch58-developmental-stages.md) | 61분 |
+| 01 | [왜 대학원에 왔는가](https://concrete-sangminlee.github.io/thinkmany/ch01/) | 95분 |
+| 02 | [대학원생의 역할과 의무](https://concrete-sangminlee.github.io/thinkmany/ch02/) | 96분 |
+| 03 | [첫 학기 생존 가이드](https://concrete-sangminlee.github.io/thinkmany/ch03/) | 90분 |
+| 04 | [하루를 설계하라](https://concrete-sangminlee.github.io/thinkmany/ch04/) | 99분 |
+| 47 | [박사 과정의 재정 관리](https://concrete-sangminlee.github.io/thinkmany/ch47/) | 65분 |
+| 49 | [한국 공학 대학원에서만 마주치는 것들](https://concrete-sangminlee.github.io/thinkmany/ch49/) | 59분 |
+| 57 | [박사 과정의 연간 자기 점검과 회고](https://concrete-sangminlee.github.io/thinkmany/ch57/) | 61분 |
+| 58 | [박사 학생의 단계별 정체성 발달](https://concrete-sangminlee.github.io/thinkmany/ch58/) | 61분 |
 
 </details>
 
@@ -55,13 +60,13 @@
 
 | 장 | 제목 | 분량 |
 |---:|---|---:|
-| 05 | [논문 읽기의 기술](content/ch05-reading-papers.md) | 84분 |
-| 06 | [연구 문제 찾기](content/ch06-finding-problems.md) | 103분 |
-| 07 | [논문의 종류와 출판 전략](content/ch07-paper-types.md) | 109분 |
-| 08 | [논문 작성법: 구조에서 완성까지](content/ch08-paper-writing.md) | 79분 |
-| 09 | [영어 학술 글쓰기](content/ch09-academic-english.md) | 120분 |
-| 10 | [논문 그림과 표 만들기](content/ch10-figures-tables.md) | 92분 |
-| 59 | [한국어 학술 글쓰기](content/ch59-korean-academic-writing.md) | 62분 |
+| 05 | [논문 읽기의 기술](https://concrete-sangminlee.github.io/thinkmany/ch05/) | 84분 |
+| 06 | [연구 문제 찾기](https://concrete-sangminlee.github.io/thinkmany/ch06/) | 103분 |
+| 07 | [논문의 종류와 출판 전략](https://concrete-sangminlee.github.io/thinkmany/ch07/) | 109분 |
+| 08 | [논문 작성법: 구조에서 완성까지](https://concrete-sangminlee.github.io/thinkmany/ch08/) | 79분 |
+| 09 | [영어 학술 글쓰기](https://concrete-sangminlee.github.io/thinkmany/ch09/) | 120분 |
+| 10 | [논문 그림과 표 만들기](https://concrete-sangminlee.github.io/thinkmany/ch10/) | 92분 |
+| 59 | [한국어 학술 글쓰기](https://concrete-sangminlee.github.io/thinkmany/ch59/) | 62분 |
 
 </details>
 
@@ -72,12 +77,12 @@
 
 | 장 | 제목 | 분량 |
 |---:|---|---:|
-| 11 | [투고에서 게재까지](content/ch11-submission-review.md) | 101분 |
-| 12 | [리뷰어 대응 전략](content/ch12-reviewer-response.md) | 99분 |
-| 13 | [학회 발표와 네트워킹](content/ch13-conference.md) | 82분 |
-| 36 | [학위논문 작성법](content/ch36-thesis-writing.md) | 62분 |
-| 14 | [종합시험과 학위심사](content/ch14-qualifying-exam.md) | 91분 |
-| 45 | [학술 발표 디자인과 전달 기술](content/ch45-presentation-craft.md) | 72분 |
+| 11 | [투고에서 게재까지](https://concrete-sangminlee.github.io/thinkmany/ch11/) | 101분 |
+| 12 | [리뷰어 대응 전략](https://concrete-sangminlee.github.io/thinkmany/ch12/) | 99분 |
+| 13 | [학회 발표와 네트워킹](https://concrete-sangminlee.github.io/thinkmany/ch13/) | 82분 |
+| 36 | [학위논문 작성법](https://concrete-sangminlee.github.io/thinkmany/ch36/) | 62분 |
+| 14 | [종합시험과 학위심사](https://concrete-sangminlee.github.io/thinkmany/ch14/) | 91분 |
+| 45 | [학술 발표 디자인과 전달 기술](https://concrete-sangminlee.github.io/thinkmany/ch45/) | 72분 |
 
 </details>
 
@@ -88,15 +93,15 @@
 
 | 장 | 제목 | 분량 |
 |---:|---|---:|
-| 15 | [프로그래밍: 연구의 기본 언어](content/ch15-programming.md) | 69분 |
-| 16 | [버전 관리와 데이터 관리](content/ch16-git-data-mgmt.md) | 70분 |
-| 17 | [시뮬레이션과 해석 도구](content/ch17-simulation-tools.md) | 85분 |
-| 18 | [논문 작성과 생산성 도구](content/ch18-writing-tools.md) | 79분 |
-| 19 | [실험 없이 연구하기](content/ch19-no-experiment.md) | 89분 |
-| 35 | [통계와 실험 설계](content/ch35-statistics-experimental-design.md) | 70분 |
-| 50 | [정보 과부하 관리](content/ch50-information-overload.md) | 65분 |
-| 52 | [연구 노트와 실험 노트북](content/ch52-research-notebook.md) | 74분 |
-| 53 | [박사 과정에서 사고 능력 키우기](content/ch53-cognitive-skills.md) | 67분 |
+| 15 | [프로그래밍: 연구의 기본 언어](https://concrete-sangminlee.github.io/thinkmany/ch15/) | 69분 |
+| 16 | [버전 관리와 데이터 관리](https://concrete-sangminlee.github.io/thinkmany/ch16/) | 70분 |
+| 17 | [시뮬레이션과 해석 도구](https://concrete-sangminlee.github.io/thinkmany/ch17/) | 85분 |
+| 18 | [논문 작성과 생산성 도구](https://concrete-sangminlee.github.io/thinkmany/ch18/) | 79분 |
+| 19 | [실험 없이 연구하기](https://concrete-sangminlee.github.io/thinkmany/ch19/) | 89분 |
+| 35 | [통계와 실험 설계](https://concrete-sangminlee.github.io/thinkmany/ch35/) | 70분 |
+| 50 | [정보 과부하 관리](https://concrete-sangminlee.github.io/thinkmany/ch50/) | 65분 |
+| 52 | [연구 노트와 실험 노트북](https://concrete-sangminlee.github.io/thinkmany/ch52/) | 74분 |
+| 53 | [박사 과정에서 사고 능력 키우기](https://concrete-sangminlee.github.io/thinkmany/ch53/) | 67분 |
 
 </details>
 
@@ -107,15 +112,15 @@
 
 | 장 | 제목 | 분량 |
 |---:|---|---:|
-| 20 | [AI 입문: 제로에서 시작하기](content/ch20-ai-from-zero.md) | 94분 |
-| 21 | [머신러닝 기초](content/ch21-ml-fundamentals.md) | 87분 |
-| 22 | [딥러닝 핵심 아키텍처](content/ch22-dl-architectures.md) | 96분 |
-| 23 | [ML 프로젝트 파이프라인](content/ch23-ml-pipeline.md) | 81분 |
-| 24 | [물리 기반 AI와 대리 모델](content/ch24-pinn-surrogate.md) | 97분 |
-| 25 | [컴퓨터 비전과 공학 응용](content/ch25-cv-engineering.md) | 94분 |
-| 26 | [생성형 AI 활용법](content/ch26-generative-ai.md) | 84분 |
-| 37 | [시계열과 신호 데이터 분석](content/ch37-timeseries-signal.md) | 70분 |
-| 54 | [AI 시대의 박사 과정 일상](content/ch54-ai-era-phd.md) | 61분 |
+| 20 | [AI 입문: 제로에서 시작하기](https://concrete-sangminlee.github.io/thinkmany/ch20/) | 94분 |
+| 21 | [머신러닝 기초](https://concrete-sangminlee.github.io/thinkmany/ch21/) | 87분 |
+| 22 | [딥러닝 핵심 아키텍처](https://concrete-sangminlee.github.io/thinkmany/ch22/) | 96분 |
+| 23 | [ML 프로젝트 파이프라인](https://concrete-sangminlee.github.io/thinkmany/ch23/) | 81분 |
+| 24 | [물리 기반 AI와 대리 모델](https://concrete-sangminlee.github.io/thinkmany/ch24/) | 97분 |
+| 25 | [컴퓨터 비전과 공학 응용](https://concrete-sangminlee.github.io/thinkmany/ch25/) | 94분 |
+| 26 | [생성형 AI 활용법](https://concrete-sangminlee.github.io/thinkmany/ch26/) | 84분 |
+| 37 | [시계열과 신호 데이터 분석](https://concrete-sangminlee.github.io/thinkmany/ch37/) | 70분 |
+| 54 | [AI 시대의 박사 과정 일상](https://concrete-sangminlee.github.io/thinkmany/ch54/) | 61분 |
 
 </details>
 
@@ -126,9 +131,9 @@
 
 | 장 | 제목 | 분량 |
 |---:|---|---:|
-| 27 | [교과서, 강의, 필독 논문](content/ch27-learning-resources.md) | 77분 |
-| 28 | [공개 데이터셋과 학술 커뮤니티](content/ch28-datasets-communities.md) | 64분 |
-| 60 | [분야의 학파와 계보 이해](content/ch60-schools-of-thought.md) | 53분 |
+| 27 | [교과서, 강의, 필독 논문](https://concrete-sangminlee.github.io/thinkmany/ch27/) | 77분 |
+| 28 | [공개 데이터셋과 학술 커뮤니티](https://concrete-sangminlee.github.io/thinkmany/ch28/) | 64분 |
+| 60 | [분야의 학파와 계보 이해](https://concrete-sangminlee.github.io/thinkmany/ch60/) | 53분 |
 
 </details>
 
@@ -139,12 +144,12 @@
 
 | 장 | 제목 | 분량 |
 |---:|---|---:|
-| 29 | [연구 윤리](content/ch29-research-ethics.md) | 75분 |
-| 30 | [협업과 공동연구](content/ch30-collaboration.md) | 75분 |
-| 38 | [오픈 사이언스와 재현성](content/ch38-open-science.md) | 67분 |
-| 40 | [지식재산과 기술이전](content/ch40-intellectual-property.md) | 68분 |
-| 42 | [피어 리뷰와 학술 봉사](content/ch42-peer-review-service.md) | 65분 |
-| 44 | [과학 커뮤니케이션과 연구 outreach](content/ch44-science-communication.md) | 61분 |
+| 29 | [연구 윤리](https://concrete-sangminlee.github.io/thinkmany/ch29/) | 75분 |
+| 30 | [협업과 공동연구](https://concrete-sangminlee.github.io/thinkmany/ch30/) | 75분 |
+| 38 | [오픈 사이언스와 재현성](https://concrete-sangminlee.github.io/thinkmany/ch38/) | 67분 |
+| 40 | [지식재산과 기술이전](https://concrete-sangminlee.github.io/thinkmany/ch40/) | 68분 |
+| 42 | [피어 리뷰와 학술 봉사](https://concrete-sangminlee.github.io/thinkmany/ch42/) | 65분 |
+| 44 | [과학 커뮤니케이션과 연구 outreach](https://concrete-sangminlee.github.io/thinkmany/ch44/) | 61분 |
 
 </details>
 
@@ -155,20 +160,21 @@
 
 | 장 | 제목 | 분량 |
 |---:|---|---:|
-| 31 | [지도교수와 소통하는 법](content/ch31-advisor.md) | 89분 |
-| 32 | [멘탈 관리와 건강](content/ch32-mental-health.md) | 78분 |
-| 48 | [박사 과정의 신체 건강 관리](content/ch48-physical-health.md) | 71분 |
-| 51 | [박사 과정 중 결혼과 가족](content/ch51-marriage-family-phd.md) | 61분 |
-| 55 | [박사 과정 중 갑작스런 변화 대응](content/ch55-handling-crises.md) | 71분 |
-| 33 | [네트워킹과 개인 브랜딩](content/ch33-networking.md) | 96분 |
-| 34 | [졸업 후 커리어](content/ch34-career.md) | 87분 |
-| 39 | [연구비와 제안서 작성](content/ch39-funding-proposals.md) | 69분 |
-| 41 | [후배 멘토링과 연구실 리더십](content/ch41-mentoring-leadership.md) | 57분 |
-| 43 | [박사 학위 후 첫 1년](content/ch43-first-year-after-phd.md) | 55분 |
-| 46 | [학계 임용 시장](content/ch46-academic-job-market.md) | 70분 |
-| 56 | [박사 학생을 위한 평생 학습 자세](content/ch56-lifelong-learning.md) | 63분 |
+| 31 | [지도교수와 소통하는 법](https://concrete-sangminlee.github.io/thinkmany/ch31/) | 89분 |
+| 32 | [멘탈 관리와 건강](https://concrete-sangminlee.github.io/thinkmany/ch32/) | 78분 |
+| 48 | [박사 과정의 신체 건강 관리](https://concrete-sangminlee.github.io/thinkmany/ch48/) | 71분 |
+| 51 | [박사 과정 중 결혼과 가족](https://concrete-sangminlee.github.io/thinkmany/ch51/) | 61분 |
+| 55 | [박사 과정 중 갑작스런 변화 대응](https://concrete-sangminlee.github.io/thinkmany/ch55/) | 71분 |
+| 33 | [네트워킹과 개인 브랜딩](https://concrete-sangminlee.github.io/thinkmany/ch33/) | 96분 |
+| 34 | [졸업 후 커리어](https://concrete-sangminlee.github.io/thinkmany/ch34/) | 87분 |
+| 39 | [연구비와 제안서 작성](https://concrete-sangminlee.github.io/thinkmany/ch39/) | 69분 |
+| 41 | [후배 멘토링과 연구실 리더십](https://concrete-sangminlee.github.io/thinkmany/ch41/) | 57분 |
+| 43 | [박사 학위 후 첫 1년](https://concrete-sangminlee.github.io/thinkmany/ch43/) | 55분 |
+| 46 | [학계 임용 시장](https://concrete-sangminlee.github.io/thinkmany/ch46/) | 70분 |
+| 56 | [박사 학생을 위한 평생 학습 자세](https://concrete-sangminlee.github.io/thinkmany/ch56/) | 63분 |
 
 </details>
+<!-- /generated:toc -->
 
 ---
 
@@ -237,6 +243,7 @@ npm run dev
 
    글은 그대로 두고 서식만 일괄로 바꾼 커밋이라면, 커밋 해시를 `.git-blame-ignore-revs`에 더한다. 그러면 그 커밋은 "보강" 날짜와 피드에 잡히지 않는다.
 3. `npm test`로 테스트를 돌린다.
+   README.md의 숫자, 읽기 경로, 차례는 본문에서 만든다. 장을 보강해 분량이나 제목이 바뀌면 빌드가 알려 주니 `npm run readme`로 갱신한다.
 4. `main`에 푸시하면 GitHub Actions가 테스트, 빌드, 배포를 한다. PR에서는 테스트와 빌드만 한다.
 
 본문에서 쓸 수 있는 블록: `highlight-box` (`tip` · `info` · `warning` · `important` · `highlight-important`), `card-grid`/`card`, `pipeline`, `timeline`, `tab-container`, `do-dont`, `check-list`, 그리고 표·코드·수식. 다른 장은 `ch05`처럼 id만 쓰면 링크가 된다.

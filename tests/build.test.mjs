@@ -207,3 +207,24 @@ test('no long dashes anywhere in the output pages', () => {
     assert.doesNotMatch(read(f), /[\u2013\u2014]/, f);
   }
 });
+
+test('build messages become GitHub annotations in Actions, plain lines elsewhere', async () => {
+  const { report } = await import('../scripts/build.mjs');
+  const lines = [];
+  const log = console.log;
+  console.log = (l) => lines.push(l);
+  try {
+    report('error', 'content/ch05-x.md:12: 문제\n둘째 줄 100%', { GITHUB_ACTIONS: 'true' });
+    report('warning', 'content/ch05-x.md: 짝이 맞지 않음', { GITHUB_ACTIONS: 'true' });
+    report('warning', 'README.md: 갱신하세요', { GITHUB_ACTIONS: 'true' });
+    report('warning', '글꼴 없음', { GITHUB_ACTIONS: 'true' });
+  } finally {
+    console.log = log;
+  }
+  assert.deepEqual(lines, [
+    '::error file=content/ch05-x.md,line=12::content/ch05-x.md:12: 문제%0A둘째 줄 100%25',
+    '::warning file=content/ch05-x.md::content/ch05-x.md: 짝이 맞지 않음',
+    '::warning file=README.md::README.md: 갱신하세요',
+    '::warning::글꼴 없음',
+  ]);
+});

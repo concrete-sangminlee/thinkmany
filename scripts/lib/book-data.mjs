@@ -62,7 +62,7 @@ export function loadBookData(root) {
       fs.readFileSync(p, 'utf8')
         .split('\n')
         .forEach((line, i) => {
-          if (DASH.test(line)) errors.push(`긴 줄표(U+2014, U+2013) 사용 금지, 쉼표·콜론·괄호로 바꾸세요: ${path.relative(root, p)}:${i + 1}`);
+          if (DASH.test(line)) errors.push(`${path.relative(root, p)}:${i + 1}: 긴 줄표(U+2014, U+2013) 사용 금지, 쉼표·콜론·괄호로 바꾸세요`);
         });
     }
   })(root);
@@ -83,18 +83,18 @@ export function loadBookData(root) {
       const md = fs.readFileSync(file, 'utf8');
       configureChapterRefs({ titles, current: ch.id });
       const info = analyzeChapter(md);
-      if (!md.trim()) warnings.push(`${ch.id}: 내용이 비어 있음`);
+      if (!md.trim()) warnings.push(`content/${ch.file}: ${ch.id} 내용이 비어 있음`);
 
       const opens = countOutsideCode(md, /<div\b/gi);
       const closes = countOutsideCode(md, /<\/div>/gi);
-      if (opens !== closes) warnings.push(`${ch.id}: <div> ${opens}개 / </div> ${closes}개, 짝이 맞지 않음`);
+      if (opens !== closes) warnings.push(`content/${ch.file}: ${ch.id}의 <div> ${opens}개 / </div> ${closes}개, 짝이 맞지 않음`);
 
       // Headings: the page title is the h1, sections go ## then ###, never skipping a level.
       // Card, Do/Don't and tab titles are labels (class="card-title" etc.), not headings.
       let prev = 1;
       for (const h of info.outline) {
-        if (h.depth === 1) errors.push(`${ch.id}: 본문 중간의 # 제목 "${h.text}" (장 제목이 h1이므로 ##부터 쓰세요)`);
-        else if (h.depth > prev + 1) errors.push(`${ch.id}: 제목 단계를 건너뜀 (${'#'.repeat(prev)} 다음 ${'#'.repeat(h.depth)}) "${h.text}"`);
+        if (h.depth === 1) errors.push(`content/${ch.file}: 본문 중간의 # 제목 "${h.text}" (장 제목이 h1이므로 ##부터 쓰세요)`);
+        else if (h.depth > prev + 1) errors.push(`content/${ch.file}: 제목 단계를 건너뜀 (${'#'.repeat(prev)} 다음 ${'#'.repeat(h.depth)}) "${h.text}"`);
         prev = h.depth;
       }
       for (const { line, tag } of rawHeadings(md)) {
@@ -103,7 +103,7 @@ export function loadBookData(root) {
 
       const ids = [...md.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
       const dupIds = ids.filter((id, i) => ids.indexOf(id) !== i);
-      if (dupIds.length) warnings.push(`${ch.id}: 중복 HTML id ${[...new Set(dupIds)].join(', ')}`);
+      if (dupIds.length) warnings.push(`content/${ch.file}: 중복 HTML id ${[...new Set(dupIds)].join(', ')}`);
 
       const lead = info.lead && info.lead !== ch.title ? info.lead : '';
       chapters.push({ id: ch.id, file: ch.file, title: ch.title, md, info, lead, summary: summarize(info) });
