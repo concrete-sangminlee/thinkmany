@@ -74,10 +74,43 @@ const schedule = () => {
   clearTimeout(timer);
   timer = setTimeout(rebuild, 150);
 };
-for (const dir of ['content', 'css', 'js', 'templates', 'assets', 'admin', 'scripts']) {
-  fs.watch(path.join(ROOT, dir), { recursive: true }, schedule);
+const WATCHED = ['content', 'css', 'js', 'templates', 'assets', 'admin', 'scripts', 'sw.js', 'manifest.webmanifest'];
+for (const item of WATCHED) {
+  try {
+    fs.watch(path.join(ROOT, item), { recursive: true }, schedule).on('error', () => {});
+  } catch {
+    /* missing: the poll below still covers it */
+  }
 }
-fs.watch(path.join(ROOT, 'sw.js'), schedule);
+
+/**
+ * fs.watch can stop reporting after a branch switch replaces watched folders,
+ * leaving a preview that silently never rebuilds. A cheap poll of every
+ * file's size and mtime (a few hundred files) catches what it misses.
+ */
+function signature() {
+  let sig = '';
+  const walk = (p) => {
+    let st;
+    try {
+      st = fs.statSync(p);
+    } catch {
+      return;
+    }
+    if (st.isDirectory()) for (const f of fs.readdirSync(p).sort()) walk(path.join(p, f));
+    else sig += `${p}:${st.size}:${st.mtimeMs};`;
+  };
+  for (const item of WATCHED) walk(path.join(ROOT, item));
+  return sig;
+}
+let lastSignature = signature();
+setInterval(() => {
+  const now = signature();
+  if (now !== lastSignature) {
+    lastSignature = now;
+    schedule();
+  }
+}, 2000).unref();
 
 http
   .createServer((req, res) => {
