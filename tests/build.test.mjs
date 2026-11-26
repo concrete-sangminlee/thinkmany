@@ -228,3 +228,13 @@ test('build messages become GitHub annotations in Actions, plain lines elsewhere
     '::warning::글꼴 없음',
   ]);
 });
+
+test('the web app manifest offers a maskable icon, and pages link the iOS icon', () => {
+  const manifest = JSON.parse(read('manifest.webmanifest'));
+  const maskable = manifest.icons.find((i) => i.purpose === 'maskable');
+  assert.ok(maskable && fs.existsSync(path.join(out, maskable.src)), 'maskable icon present');
+  for (const i of manifest.icons) assert.ok(fs.existsSync(path.join(out, i.src)), i.src);
+  const png = fs.readFileSync(path.join(out, 'assets/icon-180.png'));
+  assert.equal(png.subarray(1, 4).toString('latin1'), 'PNG');
+  assert.match(read('index.html'), /<link rel="apple-touch-icon" href="[^"]*assets\/icon-180\.png">/);
+});

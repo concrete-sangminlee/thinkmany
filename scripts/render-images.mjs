@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Regenerates the raster images from their sources (dev-only, needs Playwright):
- *   assets/favicon.svg     -> assets/icon-180.png, icon-192.png, icon-512.png
+ *   assets/favicon.svg     -> assets/icon-180.png, icon-192.png, icon-512.png, icon-maskable-512.png
  *   templates/og-image.html -> assets/og-image.png (1200x630 social card)
  *   templates/og-chapter.html -> assets/og/chNN.jpg (one card per chapter)
  *
@@ -33,12 +33,25 @@ const proxy = process.env.HTTPS_PROXY ? { server: process.env.HTTPS_PROXY } : un
 const browser = await chromium.launch({ proxy });
 
 try {
-  const svg = 'data:image/svg+xml;base64,' + fs.readFileSync(path.join(ASSETS, 'favicon.svg')).toString('base64');
-  for (const size of [180, 192, 512]) {
+  const source = fs.readFileSync(path.join(ASSETS, 'favicon.svg'), 'utf8');
+  const dataUrl = (text) => 'data:image/svg+xml;base64,' + Buffer.from(text).toString('base64');
+  // Square corners for icons the system shapes itself: iOS rounds the home
+  // screen icon (and fills transparent corners with black), and Android masks
+  // a "maskable" icon into its own shape. The moon and stars sit inside the
+  // maskable safe zone (a circle of 40% of the width around the centre).
+  const fullBleed = source.replace(/<rect width="64" height="64" rx="\d+"/, '<rect width="64" height="64"');
+  if (fullBleed === source) throw new Error('favicon.svg: background rect not found');
+  const icons = [
+    { file: 'icon-180.png', size: 180, svg: fullBleed },
+    { file: 'icon-192.png', size: 192, svg: source },
+    { file: 'icon-512.png', size: 512, svg: source },
+    { file: 'icon-maskable-512.png', size: 512, svg: fullBleed },
+  ];
+  for (const { file, size, svg } of icons) {
     const page = await browser.newPage({ viewport: { width: size, height: size } });
-    await page.setContent(`<style>*{margin:0}img{display:block}</style><img src="${svg}" width="${size}" height="${size}">`);
+    await page.setContent(`<style>*{margin:0}img{display:block}</style><img src="${dataUrl(svg)}" width="${size}" height="${size}">`);
     await page.waitForFunction(() => document.images[0].complete && document.images[0].naturalWidth > 0);
-    await page.screenshot({ path: path.join(ASSETS, `icon-${size}.png`), omitBackground: true });
+    await page.screenshot({ path: path.join(ASSETS, file), omitBackground: true });
     await page.close();
   }
 
@@ -74,7 +87,7 @@ try {
       const lead = c.lead || c.summary.split(/(?<=다\.)\s/)[0];
       const vars = {
         color: PART_COLORS[part.color] ?? PART_COLORS.purple,
-        mark: svg,
+        mark: dataUrl(source),
         part: escapeHtml(part.number),
         partTitle: escapeHtml(part.title),
         title: escapeHtml(c.title),
@@ -89,7 +102,7 @@ try {
       n++;
     }
   }
-  console.log(`assets/icon-{180,192,512}.png, assets/og-image.png, assets/og/*.jpg ${n}개 생성`);
+  console.log(`assets/icon-{180,192,512,maskable-512}.png, assets/og-image.png, assets/og/*.jpg ${n}개 생성`);
 } finally {
   await browser.close();
 }
