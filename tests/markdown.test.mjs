@@ -91,3 +91,13 @@ test('html template escapes values and keeps nested templates', () => {
   const name = '<b>"x"</b>';
   assert.equal(String(html`<p title="${name}">${html`<i>${name}</i>`}</p>`), '<p title="&lt;b&gt;&quot;x&quot;&lt;/b&gt;"><i>&lt;b&gt;&quot;x&quot;&lt;/b&gt;</i></p>');
 });
+
+test('bold closing on punctuation right before Korean text is still bold', () => {
+  assert.equal(render('**"모르는 것을 부끄러워하지 않는 것"**이다'), '<p><strong>&quot;모르는 것을 부끄러워하지 않는 것&quot;</strong>이다</p>\n');
+  assert.match(render('**신뢰(trust)**를 쌓는다'), /<strong>신뢰\(trust\)<\/strong>를/);
+  assert.match(render('**[중요]**: 확인'), /<strong>\[중요\]<\/strong>:/, 'already bold under CommonMark, unchanged');
+  assert.match(render('**보통 강조**는 그대로'), /<strong>보통 강조<\/strong>는/);
+  assert.match(render('**`code`와 *기울임*.**다'), /<strong><code>code<\/code>와 <em>기울임<\/em>\.<\/strong>다/, 'inline markup inside still works');
+  assert.match(render('2 ** 3 ** 4'), /^<p>2 \*\* 3 \*\* 4<\/p>/, 'spaced operators stay text');
+  assert.match(render('`**"x"**이다`'), /<code>\*\*&quot;x&quot;\*\*이다<\/code>/, 'code is untouched');
+});

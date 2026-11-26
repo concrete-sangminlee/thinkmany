@@ -1115,7 +1115,7 @@ ChatGPT에게 코드를 복사-붙여넣기 하는 시대는 지났다. 2024-202
 <div class="card-grid">
   <div class="card">
     <div class="card-title">Ollama</div>
-    <p>가장 쉬운 진입점. `ollama run llama3` 한 줄로 실행. GGUF 양자화 모델 지원. 맥북에서 7B 모델이 쾌적하게 돈다. 초심자 추천.</p>
+    <p>가장 쉬운 진입점. <code>ollama run llama3</code> 한 줄로 실행. GGUF 양자화 모델 지원. 맥북에서 7B 모델이 쾌적하게 돈다. 초심자 추천.</p>
   </div>
   <div class="card">
     <div class="card-title">LM Studio</div>
