@@ -165,11 +165,37 @@ function linkHtmlRefs(html, onRef = () => {}) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Bold that ends in punctuation right before Korean text.              */
+/* ------------------------------------------------------------------ */
+
+/**
+ * `**"인용"**이다` is bold to any Korean reader, but CommonMark refuses it: a
+ * closing `**` that follows punctuation must be followed by whitespace or
+ * punctuation, and here a syllable follows. Left alone, both `**` show as
+ * literal asterisks (about 150 times in this book). This takes exactly that
+ * case: inner text ending in punctuation, closer followed by a letter or
+ * digit. Every other `**` is left to marked.
+ */
+const cjkStrong = {
+  name: 'cjkStrong',
+  level: 'inline',
+  start(src) {
+    const i = src.indexOf('**');
+    return i < 0 ? undefined : i;
+  },
+  tokenizer(src) {
+    const m = /^\*\*(?![\s*])((?:[^*\n]|\*(?!\*))*?[^\s*])\*\*(?=[\p{L}\p{N}])/u.exec(src);
+    if (!m || !/[\p{P}\p{S}]$/u.test(m[1])) return undefined;
+    return { type: 'strong', raw: m[0], text: m[1], tokens: this.lexer.inlineTokens(m[1]) };
+  },
+};
+
+/* ------------------------------------------------------------------ */
 
 const marked = new Marked({ gfm: true, breaks: false });
 
 marked.use({
-  extensions: [mathBlock, mathInline, chapterRef],
+  extensions: [mathBlock, mathInline, chapterRef, cjkStrong],
   renderer: {
     heading(token) {
       const inner = this.parser.parseInline(token.tokens);

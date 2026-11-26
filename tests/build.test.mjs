@@ -202,6 +202,20 @@ test('reformatting commits in .git-blame-ignore-revs never count as an update', 
   }
 });
 
+test('no markdown syntax leaks into the text readers see (** or `)', () => {
+  for (const ch of book.chapters) {
+    const page = read(`${ch.id}/index.html`);
+    const prose = page
+      .slice(page.indexOf('id="prose"'))
+      .replace(/<pre[\s\S]*?<\/pre>/g, '')
+      .replace(/<code[\s\S]*?<\/code>/g, '')
+      .replace(/<span class="katex[\s\S]*?<\/annotation>/g, '')
+      .replace(/<[^>]+>/g, '');
+    assert.ok(!prose.includes('**'), `${ch.id}: literal ** (bold that did not close)`);
+    assert.doesNotMatch(prose, /`[^`\n]{1,60}`/, `${ch.id}: literal backticks (code inside raw HTML is not parsed: use <code>)`);
+  }
+});
+
 test('no long dashes anywhere in the output pages', () => {
   for (const f of ['index.html', 'app.html', '404.html', 'feed.xml', ...book.chapters.map((c) => `${c.id}/index.html`)]) {
     assert.doesNotMatch(read(f), /[\u2013\u2014]/, f);
