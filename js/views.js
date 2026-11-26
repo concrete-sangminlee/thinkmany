@@ -32,9 +32,12 @@ export function sidebarView(book, { state = NO_STATE, filter = 'all', currentId 
 
   return html`
     <div class="sidebar-head">
-      <div class="reading-summary" aria-label="읽은 장 ${read}개, 전체 ${total}개">
-        <span><strong>${read}</strong> / ${total}장 완독</span>
-        <span class="meter" aria-hidden="true"><span style="width:${(read / total) * 100}%"></span></span>
+      <div class="sidebar-top">
+        <div class="reading-summary" aria-label="읽은 장 ${read}개, 전체 ${total}개">
+          <span><strong>${read}</strong> / ${total}장 완독</span>
+          <span class="meter" aria-hidden="true"><span style="width:${(read / total) * 100}%"></span></span>
+        </div>
+        <button type="button" class="icon-btn sidebar-close" data-close-sidebar aria-label="목차 닫기">${icon('x')}</button>
       </div>
       <div class="segmented" role="group" aria-label="목차 보기">
         <button type="button" data-filter="all" aria-pressed="${String(filter === 'all')}">전체</button>
@@ -62,7 +65,7 @@ function tocLink(c, state, currentId) {
     <span class="toc-num">${c.num}</span>
     <span class="toc-title">${c.title}</span>
     ${state.isBookmarked(c.id) ? html`<span class="toc-mark" aria-label="북마크">${icon('bookmark')}</span>` : ''}
-    <span class="toc-state" aria-hidden="true"></span>
+    <span class="toc-state">${st === 'done' ? html`<span class="sr-only">완독</span>` : st === 'started' ? html`<span class="sr-only">읽는 중</span>` : ''}</span>
   </a>`;
 }
 
@@ -104,7 +107,7 @@ export function homeView(book, { state = NO_STATE, resume = null } = {}) {
   return html`
     <section class="hero">
       <p class="eyebrow">한국 공학 대학원 실전 가이드</p>
-      <h1 class="hero-title">연구 많이 된다<span>잘 때도 생각날 거야</span></h1>
+      <h1 class="hero-title" tabindex="-1">연구 많이 된다<span>잘 때도 생각날 거야</span></h1>
       <p class="hero-lede">박사 과정의 시행착오를 줄이는 ${book.chapters.length}개의 장. 논문, 실험, AI, 멘탈, 커리어를 한국 연구실의 현실에 맞춰 한 흐름으로 엮었습니다.</p>
       <div class="hero-actions">
         ${
@@ -182,7 +185,7 @@ export function homeView(book, { state = NO_STATE, resume = null } = {}) {
           (p) => html`<section class="part" id="${p.id}" data-color="${p.color}" aria-labelledby="${p.id}-title">
           <header class="part-head">
             <span class="part-num">Part ${p.number}${partDone(p, state)}</span>
-            <h3 id="${p.id}-title">${p.title}</h3>
+            <h3 id="${p.id}-title" tabindex="-1">${p.title}</h3>
             ${p.desc ? html`<p>${p.desc}</p>` : ''}
           </header>
           <ol class="chapter-list">${p.chapters.map((c) => chapterRow(c, state))}</ol>
@@ -238,7 +241,7 @@ export function footerView() {
 export function missingView(id) {
   return html`<div class="state-message">
     <p class="eyebrow">404</p>
-    <h1>“${id}”에 해당하는 장이 없습니다</h1>
+    <h1 tabindex="-1">“${id}”에 해당하는 장이 없습니다</h1>
     <p>링크가 바뀌었거나 잘못 입력된 주소일 수 있습니다.</p>
     <p><a class="btn btn-primary" href="${homeHref()}">차례로 돌아가기</a> <button class="btn btn-ghost" type="button" data-action="search">검색하기</button></p>
   </div>`;

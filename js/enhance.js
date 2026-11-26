@@ -34,6 +34,12 @@ function anchors(root, chapterId) {
     h.removeAttribute('data-slug');
   }
   for (const h of root.querySelectorAll('h2[id], h3[id]')) {
+    // The heading is named by its own words only, not by the copy link inside it.
+    const label = document.createElement('span');
+    label.id = `${h.id}__label`;
+    label.append(...h.childNodes);
+    h.append(label);
+    h.setAttribute('aria-labelledby', label.id);
     const a = document.createElement('a');
     a.className = 'anchor';
     a.href = chapterHref(chapterId, h.id);
@@ -76,7 +82,7 @@ function codeBlocks(root) {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'codeblock-copy';
-    btn.innerHTML = `${icon('copy')}<span>복사</span>`;
+    btn.innerHTML = `${icon('copy')}<span aria-live="polite">복사</span>`; // "복사됨" is announced
     btn.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(code.textContent);

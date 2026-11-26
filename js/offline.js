@@ -66,7 +66,7 @@ export function initOffline({ book, toast }) {
 
   async function save() {
     saving = true;
-    button.disabled = true;
+    button.setAttribute('aria-disabled', 'true'); // not `disabled`: that would drop keyboard focus to <body>
     setMeter(0, urls.length);
     meter.hidden = false;
     note.textContent = `${urls.length}개 장을 저장하는 중입니다.`;
@@ -98,7 +98,7 @@ export function initOffline({ book, toast }) {
     }
 
     saving = false;
-    button.disabled = false;
+    button.removeAttribute('aria-disabled');
     meter.hidden = true;
     await refresh();
     toast(

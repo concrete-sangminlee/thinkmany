@@ -110,6 +110,10 @@ function initDisplayMenu() {
   document.addEventListener('click', (e) => {
     if (!menu.hidden && !e.target.closest('.popover-anchor')) open(false);
   });
+  // Tabbing out closes it, so it never covers the control that has focus.
+  $('.popover-anchor').addEventListener('focusout', (e) => {
+    if (!menu.hidden && e.relatedTarget && !e.currentTarget.contains(e.relatedTarget)) open(false);
+  });
   menu.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       open(false);
@@ -126,6 +130,11 @@ function initDisplayMenu() {
 function initChrome() {
   $('#menu-btn').addEventListener('click', () => toggleSidebar());
   $('#scrim').addEventListener('click', () => toggleSidebar(false));
+  $('#sidebar').addEventListener('click', (e) => {
+    if (!e.target.closest('[data-close-sidebar]')) return;
+    toggleSidebar(false);
+    $('#menu-btn').focus();
+  });
   $('#to-top').addEventListener('click', () => scrollTo({ top: 0, behavior: smooth() }));
   desktop.addEventListener('change', resetSidebar);
   resetSidebar();
@@ -166,6 +175,7 @@ function resetSidebar() {
   document.body.classList.remove('nav-open');
   $('#scrim').hidden = true;
   $('#main').inert = false;
+  $('.topbar').inert = false;
   $('#menu-btn').setAttribute('aria-expanded', String(desktop.matches && !document.body.classList.contains('sidebar-collapsed')));
 }
 
@@ -181,7 +191,9 @@ function toggleSidebar(force) {
   body.classList.toggle('nav-open', open);
   $('#menu-btn').setAttribute('aria-expanded', String(open));
   $('#scrim').hidden = !open;
+  // Everything the drawer covers leaves the tab order (the top bar included).
   $('#main').inert = open;
+  $('.topbar').inert = open;
   if (open) {
     ($('#sidebar .toc-link[aria-current="page"]') ?? $('#sidebar a'))?.focus({ preventScroll: true });
     revealInSidebar();
@@ -436,7 +448,10 @@ async function route({ initial = false, pop = false } = {}) {
     return;
   }
   if (!initial && next.kind === 'home' && current.kind === 'home') {
-    if (next.part) document.getElementById(next.part.id)?.scrollIntoView({ block: 'start', behavior: smooth() });
+    if (next.part) {
+      document.getElementById(next.part.id)?.scrollIntoView({ block: 'start', behavior: smooth() });
+      document.getElementById(`${next.part.id}-title`)?.focus({ preventScroll: true });
+    }
     else pin(y ?? 0);
     return;
   }
@@ -467,6 +482,8 @@ function showHome({ part, y, hydrate }) {
   if (part) pin(document.getElementById(part.id));
   else if (y != null) pin(y);
   else if (!hydrate) scrollTo(0, 0);
+  // In-app arrival: move focus to what is now on screen, as for a chapter.
+  if (!hydrate) (part ? document.getElementById(`${part.id}-title`) : $('.hero-title'))?.focus({ preventScroll: true });
   onScroll();
 }
 
@@ -478,6 +495,7 @@ function showMissing(id) {
   view.querySelector('[data-action="search"]').addEventListener('click', openSearch);
   markSidebar();
   scrollTo(0, 0);
+  view.querySelector('h1')?.focus({ preventScroll: true });
 }
 
 /* ================================================================== */
@@ -535,11 +553,13 @@ async function showChapter(ch, { anchor = '', terms = [], y, hydrate = false }) 
   current.headings = [...el.querySelectorAll('h2[id], h3[id]')];
   wireChapter(ch);
 
+  let target = null;
   if (y != null) pin(y);
-  else if (anchor || terms.length) scrollToAnchor(anchor, false, terms);
+  else if (anchor || terms.length) target = scrollToAnchor(anchor, false, terms, { focus: !hydrate });
   else showResume(ch);
 
-  if (!hydrate) $('.chapter-title').focus({ preventScroll: true });
+  // In-app arrival: focus the section asked for, or else the chapter title.
+  if (!hydrate && !target) $('.chapter-title').focus({ preventScroll: true });
   onScroll();
 }
 
@@ -599,20 +619,31 @@ function wireChapter(ch) {
   });
 }
 
-function scrollToAnchor(anchor, animate, terms = []) {
+/**
+ * Scroll to a section (and highlight search terms in it). With `focus`, the
+ * keyboard follows: the heading or highlight gets focus, so the next Tab
+ * continues from there instead of from the link that led here.
+ * Returns the element scrolled to.
+ */
+function scrollToAnchor(anchor, animate, terms = [], { focus = true } = {}) {
   const prose = $('#prose');
-  if (!prose) return;
+  if (!prose) return null;
   clearHighlights(prose);
   const heading = anchor ? prose.querySelector(`#${CSS.escape(anchor)}`) : null;
   const target = terms.length ? (highlightTerms(prose, heading, terms) ?? heading) : heading;
   if (!target) {
     if (anchor) toast('해당 섹션을 찾지 못해 장의 처음으로 이동했습니다');
     scrollTo({ top: 0 });
-    return;
+    return null;
   }
   const block = target === heading ? 'start' : 'center';
   if (animate) target.scrollIntoView({ block, behavior: smooth() });
   else pin(target, block);
+  if (focus) {
+    if (!target.hasAttribute('tabindex')) target.tabIndex = -1;
+    target.focus({ preventScroll: true });
+  }
+  return target;
 }
 
 function showResume(ch) {
