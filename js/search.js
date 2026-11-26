@@ -266,6 +266,14 @@ export function initSearch(book, { onOpenResult }) {
     if (dialog.open) return;
     dialog.showModal();
     input.select();
+    // An index that missed chapters (offline, say) is rebuilt on the next
+    // open, so coming back online brings them back without a reload.
+    if (worker && indexState.ready && indexState.failed) {
+      worker.terminate();
+      worker = null;
+      indexState = { done: 0, total: book.chapters.length, ready: false };
+      body = { total: 0, results: [] };
+    }
     startIndexing();
     render();
     book.ensureToc?.().then(() => input.value.trim() && render());
