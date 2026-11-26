@@ -40,7 +40,7 @@ export function initSearch(book, { onOpenResult }) {
         if (input.value.trim()) refreshSoon();
         else renderStatus();
       } else if (m.type === 'ready') {
-        indexState = { ...indexState, ready: true };
+        indexState = { ...indexState, ready: true, failed: m.failed ?? 0 };
         if (input.value.trim()) query();
         else renderStatus();
       } else if (m.type === 'results' && m.seq === seq) {
@@ -117,7 +117,9 @@ export function initSearch(book, { onOpenResult }) {
     const { done, total, ready } = indexState;
     if (hasConsonant(input.value)) extra = extra || '초성은 장·섹션 제목에서 찾습니다';
     const indexing = worker && !ready ? `본문 색인 중… ${done}/${total}` : '';
-    status.textContent = [extra, indexing].filter(Boolean).join(' · ');
+    // Say so when part of the book could not be searched (offline and not saved, say).
+    const missing = ready && indexState.failed ? `${indexState.failed}개 장은 불러오지 못해 본문 검색에서 빠졌습니다` : '';
+    status.textContent = [extra, indexing, missing].filter(Boolean).join(' · ');
   }
 
   function showEmpty(message) {

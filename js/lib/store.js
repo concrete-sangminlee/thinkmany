@@ -1,8 +1,16 @@
 /**
  * Small persistence layer over localStorage. Every access is guarded: private
  * windows and blocked storage must never break reading.
+ *
+ * localStorage is the source of truth. Each change re-reads what is stored
+ * before writing, so two open tabs add to each other's history instead of
+ * overwriting it, and onExternalChange() hears about changes made in another
+ * tab. Stored values are checked on the way in: a damaged or foreign value is
+ * treated as empty, never thrown.
  */
 const PREFIX = 'tm:';
+const validId = (id) => typeof id === 'string' && /^[a-z0-9][a-z0-9-]{0,40}$/.test(id);
+const isObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
 
 function read(key, fallback) {
   try {
@@ -61,12 +69,21 @@ export function setSize(v) {
 }
 
 /* ---------- bookmarks ---------- */
-let bookmarks = new Set(read('bookmarks', []));
+const cleanBookmarks = (v) => new Set(Array.isArray(v) ? v.filter(validId) : []);
+let bookmarks = cleanBookmarks(read('bookmarks', []));
+
+/** Pick up what another tab stored since we last looked (memory stays if storage is unavailable). */
+function freshBookmarks() {
+  const v = read('bookmarks', null);
+  if (v !== null) bookmarks = cleanBookmarks(v);
+  return bookmarks;
+}
 
 export const isBookmarked = (id) => bookmarks.has(id);
 export const bookmarkCount = () => bookmarks.size;
 
 export function toggleBookmark(id) {
+  freshBookmarks();
   if (bookmarks.has(id)) bookmarks.delete(id);
   else bookmarks.add(id);
   write('bookmarks', [...bookmarks]);
@@ -75,12 +92,33 @@ export function toggleBookmark(id) {
 
 /* ---------- reading progress ---------- */
 // { [chapterId]: { p: 0..1 furthest point, at: heading id, done: bool, t: epoch ms } }
-let progress = read('progress', {});
+function cleanProgress(v) {
+  const out = {};
+  if (!isObject(v)) return out;
+  for (const [id, q] of Object.entries(v)) {
+    if (!validId(id) || !isObject(q)) continue;
+    out[id] = {
+      p: Math.min(1, Math.max(0, Number(q.p) || 0)),
+      at: typeof q.at === 'string' ? q.at.slice(0, 120) : '',
+      done: q.done === true,
+      t: Number.isFinite(q.t) ? q.t : 0,
+    };
+  }
+  return out;
+}
+let progress = cleanProgress(read('progress', {}));
+
+function freshProgress() {
+  const v = read('progress', null);
+  if (v !== null) progress = cleanProgress(v);
+  return progress;
+}
 
 export const getProgress = (id) => progress[id] ?? null;
 export const readCount = () => Object.values(progress).filter((p) => p.done).length;
 
 export function saveProgress(id, { p, at }) {
+  freshProgress();
   const prev = progress[id] ?? { p: 0, done: false };
   const next = {
     p: Math.max(prev.p, p),
@@ -95,6 +133,7 @@ export function saveProgress(id, { p, at }) {
 }
 
 export function resetProgress(id) {
+  freshProgress();
   const { [id]: _, ...rest } = progress;
   progress = rest;
   write('progress', progress);
@@ -102,16 +141,34 @@ export function resetProgress(id) {
 
 export function lastChapter() {
   const id = read('last', null);
-  return id && progress[id] ? id : null;
+  return validId(id) && progress[id] ? id : null;
 }
 
 /* ---------- checklists inside chapters ---------- */
-export const getChecks = (id) => new Set(read(`checks:${id}`, []));
+const cleanChecks = (v) => new Set(Array.isArray(v) ? v.filter((i) => Number.isInteger(i) && i >= 0 && i < 1000) : []);
+export const getChecks = (id) => cleanChecks(read(`checks:${id}`, []));
 export const setChecks = (id, set) => write(`checks:${id}`, [...set]);
+
+/* ---------- changes made in another tab ---------- */
+const listeners = new Set();
+
+/** Call fn when another tab changes bookmarks, progress or checklists. Returns an unsubscribe function. */
+export function onExternalChange(fn) {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
+}
+
+if (typeof addEventListener === 'function') {
+  addEventListener('storage', (e) => {
+    if (e.key !== null && !e.key.startsWith(PREFIX)) return;
+    freshBookmarks();
+    freshProgress();
+    for (const fn of listeners) fn(e.key === null ? null : e.key.slice(PREFIX.length));
+  });
+}
 
 /* ---------- moving reading history between devices ---------- */
 const CHECKS = 'checks:';
-const validId = (id) => typeof id === 'string' && /^[a-z0-9][a-z0-9-]{0,40}$/.test(id);
 
 function allChecks() {
   const out = {};
@@ -120,8 +177,8 @@ function allChecks() {
       const k = localStorage.key(i);
       if (k?.startsWith(PREFIX + CHECKS)) {
         const id = k.slice(PREFIX.length + CHECKS.length);
-        const list = read(CHECKS + id, []);
-        if (list.length) out[id] = list;
+        const list = [...getChecks(id)];
+        if (validId(id) && list.length) out[id] = list;
       }
     }
   } catch {
@@ -153,10 +210,11 @@ export function summarize(data = exportData()) {
 export function importData(data) {
   if (!data || data.app !== 'thinkmany' || data.v !== 1) throw new Error('읽기 기록이 아닙니다');
 
+  freshBookmarks();
   for (const id of Array.isArray(data.bookmarks) ? data.bookmarks : []) if (validId(id)) bookmarks.add(id);
   write('bookmarks', [...bookmarks]);
 
-  const merged = { ...progress };
+  const merged = { ...freshProgress() };
   for (const [id, q] of Object.entries(data.progress ?? {})) {
     if (!validId(id) || !q || typeof q !== 'object') continue;
     const cur = merged[id];

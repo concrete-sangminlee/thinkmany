@@ -563,6 +563,18 @@ function refreshReaderState() {
   }
 }
 
+/** Another tab changed the history: redraw what shows it, without moving the reader. */
+function onOtherTab() {
+  renderSidebar();
+  if (current.kind === 'home') showHome({ hydrate: true, y: scrollY });
+  else if (current.kind === 'chapter') {
+    const bm = view.querySelector('[data-action="bookmark"]');
+    const on = store.isBookmarked(current.ch.id);
+    bm?.classList.toggle('is-on', on);
+    bm?.setAttribute('aria-pressed', String(on));
+  }
+}
+
 function wireChapter(ch) {
   const bm = view.querySelector('[data-action="bookmark"]');
   bm.addEventListener('click', () => {
@@ -751,6 +763,8 @@ async function boot() {
   search = initSearch(book, { onOpenResult: (href, terms) => navigate(href, { terms }) });
   if (searchWanted) search.open();
   sync = initSync({ root: ROOT, toast, onImported: refreshReaderState });
+  // Reading in another tab: keep the sidebar, home numbers and bookmark button in step.
+  store.onExternalChange(onOtherTab);
   offline = initOffline({ book, toast });
   await sync.takeFromUrl();
 
