@@ -57,3 +57,29 @@ test('importing is idempotent and rejects foreign data', () => {
   assert.throws(() => store.importData({ app: 'other', v: 1 }));
   assert.throws(() => store.importData(null));
 });
+
+test('a history link far bigger than any real history is refused, before and after inflating', async () => {
+  const { MAX_PACKED, MAX_JSON } = await import('../js/lib/sync-codec.js');
+  await assert.rejects(unpack('z' + 'A'.repeat(MAX_PACKED)), /너무 큰 기록/);
+  // A small link that inflates past the limit (a run of spaces compresses a thousandfold).
+  const bomb = await pack({ app: 'thinkmany', v: 1, pad: ' '.repeat(MAX_JSON + 10) });
+  assert.ok(bomb.length < MAX_PACKED, `${bomb.length} chars`);
+  await assert.rejects(unpack(bomb), /너무 큰 기록/);
+});
+
+test('import and its preview count only chapters this book has', () => {
+  const isKnown = (id) => /^ch0[1-5]$/.test(id);
+  const data = {
+    app: 'thinkmany',
+    v: 1,
+    bookmarks: ['ch04', 'ch77'],
+    progress: { ch04: { p: 1, done: true, t: 9 }, ch77: { p: 1, done: true, t: 9 }, ch05: { p: 0.5, done: 'yes', t: 9 } },
+    checks: { ch04: [1, 2], ch77: [1] },
+  };
+  assert.deepEqual(store.summarize(data, { isKnown }), { done: 1, reading: 1, bookmarks: 1, checks: 2 });
+  store.importData(data, { isKnown });
+  assert.ok(store.isBookmarked('ch04') && !store.isBookmarked('ch77'));
+  assert.equal(store.getProgress('ch77'), null);
+  assert.equal(store.getProgress('ch05').done, false, 'only a real true marks done');
+  assert.throws(() => store.importData({ ...data, v: 2 }), 'a newer format is not merged half-understood');
+});

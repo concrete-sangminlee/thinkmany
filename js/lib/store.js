@@ -187,18 +187,29 @@ function allChecks() {
   return out;
 }
 
+/** Whether `data` is a reading history this version understands. */
+export const isHistory = (data) => isObject(data) && data.app === 'thinkmany' && data.v === 1;
+
 /** This device's reading history, as moved by a link or a file. */
 export function exportData() {
   return { app: 'thinkmany', v: 1, exportedAt: new Date().toISOString(), bookmarks: [...bookmarks], progress, checks: allChecks(), last: read('last', null) };
 }
 
-export function summarize(data = exportData()) {
-  const prog = Object.values(data.progress ?? {});
+/**
+ * Counts in a history: chapters done and in progress, bookmarks, ticks.
+ * `isKnown(id)` limits it to chapters the book has (a history may name
+ * chapters since removed, or come from somewhere else).
+ */
+export function summarize(data = exportData(), { isKnown = validId } = {}) {
+  const known = (id) => validId(id) && isKnown(id);
+  const prog = Object.entries(isObject(data.progress) ? data.progress : {}).filter(([id, p]) => known(id) && isObject(p)).map(([, p]) => p);
   return {
-    done: prog.filter((p) => p?.done).length,
-    reading: prog.filter((p) => p && !p.done && p.p > 0.02).length,
-    bookmarks: (data.bookmarks ?? []).length,
-    checks: Object.values(data.checks ?? {}).reduce((n, list) => n + (Array.isArray(list) ? list.length : 0), 0),
+    done: prog.filter((p) => p.done === true).length,
+    reading: prog.filter((p) => p.done !== true && Number(p.p) > 0.02).length,
+    bookmarks: (Array.isArray(data.bookmarks) ? data.bookmarks : []).filter(known).length,
+    checks: Object.entries(isObject(data.checks) ? data.checks : {})
+      .filter(([id]) => known(id))
+      .reduce((n, [, list]) => n + (Array.isArray(list) ? list.filter((i) => Number.isInteger(i) && i >= 0 && i < 1000).length : 0), 0),
   };
 }
 
@@ -207,35 +218,36 @@ export function summarize(data = exportData()) {
  * Bookmarks and checklist ticks are united, progress keeps the furthest point
  * read, and the "where I was" heading comes from whichever side read last.
  */
-export function importData(data) {
-  if (!data || data.app !== 'thinkmany' || data.v !== 1) throw new Error('읽기 기록이 아닙니다');
+export function importData(data, { isKnown = validId } = {}) {
+  if (!isHistory(data)) throw new Error('읽기 기록이 아닙니다');
+  const known = (id) => validId(id) && isKnown(id);
 
   freshBookmarks();
-  for (const id of Array.isArray(data.bookmarks) ? data.bookmarks : []) if (validId(id)) bookmarks.add(id);
+  for (const id of Array.isArray(data.bookmarks) ? data.bookmarks : []) if (known(id)) bookmarks.add(id);
   write('bookmarks', [...bookmarks]);
 
   const merged = { ...freshProgress() };
-  for (const [id, q] of Object.entries(data.progress ?? {})) {
-    if (!validId(id) || !q || typeof q !== 'object') continue;
+  for (const [id, q] of Object.entries(isObject(data.progress) ? data.progress : {})) {
+    if (!known(id) || !isObject(q)) continue;
     const cur = merged[id];
     const t = Number.isFinite(q.t) ? q.t : 0;
     const theirs = !cur || t > (cur.t ?? 0);
     merged[id] = {
       p: Math.max(cur?.p ?? 0, Math.min(1, Math.max(0, Number(q.p) || 0))),
       at: (theirs ? String(q.at ?? '').slice(0, 120) : cur.at) || cur?.at || '',
-      done: Boolean(cur?.done || q.done),
+      done: cur?.done === true || q.done === true,
       t: Math.max(cur?.t ?? 0, t),
     };
   }
   progress = merged;
   write('progress', progress);
 
-  for (const [id, list] of Object.entries(data.checks ?? {})) {
-    if (!validId(id) || !Array.isArray(list)) continue;
+  for (const [id, list] of Object.entries(isObject(data.checks) ? data.checks : {})) {
+    if (!known(id) || !Array.isArray(list)) continue;
     const set = getChecks(id);
     for (const i of list) if (Number.isInteger(i) && i >= 0 && i < 1000) set.add(i);
     setChecks(id, set);
   }
-  if (!read('last', null) && validId(data.last)) write('last', data.last);
-  return summarize();
+  if (!read('last', null) && known(data.last)) write('last', data.last);
+  return summarize(exportData(), { isKnown });
 }

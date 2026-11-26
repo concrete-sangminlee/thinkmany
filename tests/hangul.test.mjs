@@ -35,3 +35,13 @@ test('hasConsonant spots bare consonants only', () => {
   assert.ok(!hasConsonant('논문'));
   assert.ok(!hasConsonant('PINN'));
 });
+
+test('while composing, the last syllable may still gain its final consonant', () => {
+  assert.equal(findKo('논문 읽기', '논무', 0, { open: true }), 0, '논무 on the way to 논문');
+  assert.equal(findKo('논문 읽기', '논무'), -1, 'only when asked');
+  assert.equal(findKo('번아웃', '번아우', 0, { open: true }), 0);
+  assert.equal(findKo('학회', '하', 0, { open: true }), -1, 'one syllable alone stays exact');
+  assert.equal(findKo('논문', '논마', 0, { open: true }), -1, 'a different vowel does not match');
+  assert.deepEqual(matchRanges('논문 읽기의 기술', ['읽기', '기수']), [[3, 5], [7, 9]], 'only the last term is open');
+  assert.equal(matchRanges('논문 읽기', ['논무', '읽기']), null, 'earlier terms are complete');
+});
