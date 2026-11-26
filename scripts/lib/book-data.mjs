@@ -9,11 +9,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { analyzeChapter, configureChapterRefs, CHARS_PER_MINUTE } from '../../js/lib/markdown.js';
+import { lintChapter, dashLines } from '../../js/lib/lint.js';
 
 /** Directories at the site root; a chapter id may not shadow them. */
 export const RESERVED_IDS = new Set(['admin', 'assets', 'content', 'css', 'js', 'templates', 'scripts', 'tests', 'app.html', '404.html']);
 
-const DASH = /[\u2013\u2014]/;
 const TEXT_FILE = /\.(md|json|html|js|mjs|css|webmanifest|xml|txt|yml)$/;
 const SKIP_DIRS = new Set(['.git', 'node_modules', 'vendor', '_site']);
 
@@ -59,11 +59,9 @@ export function loadBookData(root) {
         continue;
       }
       if (!TEXT_FILE.test(entry.name)) continue;
-      fs.readFileSync(p, 'utf8')
-        .split('\n')
-        .forEach((line, i) => {
-          if (DASH.test(line)) errors.push(`${path.relative(root, p)}:${i + 1}: 긴 줄표(U+2014, U+2013) 사용 금지, 쉼표·콜론·괄호로 바꾸세요`);
-        });
+      for (const line of dashLines(fs.readFileSync(p, 'utf8'))) {
+        errors.push(`${path.relative(root, p)}:${line}: 긴 줄표(U+2014, U+2013) 사용 금지, 쉼표·콜론·괄호로 바꾸세요`);
+      }
     }
   })(root);
 
@@ -83,27 +81,11 @@ export function loadBookData(root) {
       const md = fs.readFileSync(file, 'utf8');
       configureChapterRefs({ titles, current: ch.id });
       const info = analyzeChapter(md);
-      if (!md.trim()) warnings.push(`content/${ch.file}: ${ch.id} 내용이 비어 있음`);
-
-      const opens = countOutsideCode(md, /<div\b/gi);
-      const closes = countOutsideCode(md, /<\/div>/gi);
-      if (opens !== closes) warnings.push(`content/${ch.file}: ${ch.id}의 <div> ${opens}개 / </div> ${closes}개, 짝이 맞지 않음`);
-
-      // Headings: the page title is the h1, sections go ## then ###, never skipping a level.
-      // Card, Do/Don't and tab titles are labels (class="card-title" etc.), not headings.
-      let prev = 1;
-      for (const h of info.outline) {
-        if (h.depth === 1) errors.push(`content/${ch.file}: 본문 중간의 # 제목 "${h.text}" (장 제목이 h1이므로 ##부터 쓰세요)`);
-        else if (h.depth > prev + 1) errors.push(`content/${ch.file}: 제목 단계를 건너뜀 (${'#'.repeat(prev)} 다음 ${'#'.repeat(h.depth)}) "${h.text}"`);
-        prev = h.depth;
-      }
-      for (const { line, tag } of rawHeadings(md)) {
-        errors.push(`content/${ch.file}:${line}: HTML <${tag}> 제목 대신 class="card-title", "do-dont-title", "tab-title" 같은 이름표를 쓰세요`);
-      }
-
-      const ids = [...md.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
-      const dupIds = ids.filter((id, i) => ids.indexOf(id) !== i);
-      if (dupIds.length) warnings.push(`content/${ch.file}: 중복 HTML id ${[...new Set(dupIds)].join(', ')}`);
+      // The house rules (js/lib/lint.js). Dashes are checked below for every text file.
+      const lint = lintChapter(md, info.outline);
+      const where = (e) => `content/${ch.file}${e.line ? `:${e.line}` : ''}: ${e.message}`;
+      for (const e of lint.errors) if (!/긴 줄표/.test(e.message)) errors.push(where(e));
+      for (const w of lint.warnings) warnings.push(where(w));
 
       const lead = info.lead && info.lead !== ch.title ? info.lead : '';
       chapters.push({ id: ch.id, file: ch.file, title: ch.title, md, info, lead, summary: summarize(info) });
@@ -139,21 +121,6 @@ export function loadBookData(root) {
   return { config, chapters, index, errors, warnings };
 }
 
-/** Raw HTML heading tags outside fenced code: [{ line, tag }]. */
-function rawHeadings(md) {
-  const out = [];
-  let fence = false;
-  md.split('\n').forEach((l, i) => {
-    if (/^\s*(```|~~~)/.test(l)) fence = !fence;
-    else if (!fence) for (const m of l.matchAll(/<(h[1-6])[\s>]/gi)) out.push({ line: i + 1, tag: m[1].toLowerCase() });
-  });
-  return out;
-}
-
-function countOutsideCode(md, re) {
-  const prose = md.replace(/^(```|~~~)[^\n]*\n[\s\S]*?^\1[ \t]*$/gm, '');
-  return (prose.match(re) ?? []).length;
-}
 
 /** First ~150 characters of the chapter's opening text, for meta descriptions. */
 function summarize(info) {

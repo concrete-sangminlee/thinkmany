@@ -6,9 +6,11 @@
   <title>관리자 · 연구 많이 된다</title>
   <meta name="robots" content="noindex">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.21.0/dist/easymde.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.21.0/dist/easymde.min.css"
+        integrity="sha384-ZoLYv3S+AsZX+zhbN1D1+WPpc8f+DmLfxfgw+qn0Nq8wJPOYQQXEW5ZrRhcGozlG" crossorigin="anonymous">
   <style>
+    /* The site's own font, served from this site (characters it lacks fall back to the system font). */
+    @font-face { font-family: 'Thinkmany Sans'; src: url('../assets/fonts/thinkmany-sans.woff2') format('woff2'); font-weight: 400 800; font-display: swap; }
     :root {
       --bg: #0a0a0f; --bg2: #111118; --bg3: #16161f;
       --text: #e8e8ed; --text2: #9898a8; --muted: #6a6a7a;
@@ -17,7 +19,7 @@
       --radius: 12px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body { font-family: 'Thinkmany Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
     /* Login */
     #login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
@@ -25,7 +27,7 @@
     #login-screen p { color: var(--text2); margin-bottom: 2rem; text-align: center; font-size: 0.9rem; max-width: 400px; }
     #login-screen input { width: 100%; max-width: 400px; padding: 12px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.9rem; margin-bottom: 1rem; }
     #login-screen input:focus { outline: none; border-color: var(--purple); }
-    .login-btn { padding: 12px 32px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; }
+    .login-btn { padding: 12px 32px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: 'Thinkmany Sans', system-ui, sans-serif; }
     #login-error { color: var(--red); margin-top: 1rem; font-size: 0.85rem; display: none; }
 
     /* App */
@@ -34,7 +36,7 @@
     .app-header h1 { font-size: 1rem; font-weight: 600; }
     .header-actions { display: flex; gap: 0.5rem; align-items: center; }
 
-    .btn { padding: 7px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg3); color: var(--text); font-size: 0.82rem; cursor: pointer; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; transition: all 0.2s; }
+    .btn { padding: 7px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg3); color: var(--text); font-size: 0.82rem; cursor: pointer; font-family: 'Thinkmany Sans', system-ui, sans-serif; transition: all 0.2s; }
     .btn:hover { border-color: var(--purple); }
     .btn-save { background: linear-gradient(135deg, var(--purple), var(--blue)); border: none; color: white; font-weight: 600; }
     .btn-save:hover { opacity: 0.9; }
@@ -45,7 +47,7 @@
 
     /* Tabs */
     .mode-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); background: var(--bg2); }
-    .mode-tab { padding: 10px 20px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .mode-tab { padding: 10px 20px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-family: 'Thinkmany Sans', system-ui, sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; }
     .mode-tab:hover { color: var(--text); }
     .mode-tab.active { color: var(--purple); border-bottom-color: var(--purple); }
 
@@ -75,7 +77,7 @@
     #toc-manager { display: none; padding: 2rem; overflow-y: auto; max-width: 800px; margin: 0 auto; }
     .toc-section-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.5rem; overflow: hidden; }
     .toc-section-header { display: flex; align-items: center; gap: 0.8rem; padding: 1rem 1.2rem; background: var(--bg3); border-bottom: 1px solid var(--border); }
-    .toc-section-header input { flex: 1; padding: 6px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; font-size: 0.9rem; }
+    .toc-section-header input { flex: 1; padding: 6px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Thinkmany Sans', system-ui, sans-serif; font-size: 0.9rem; }
     .toc-section-header input:focus { outline: none; border-color: var(--purple); }
     .toc-section-header select { padding: 6px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 0.8rem; }
     .toc-section-desc { padding: 0.6rem 1.2rem 0; }
@@ -85,16 +87,16 @@
     .color-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
     .toc-sub-list { padding: 0.5rem 0; }
     .toc-sub-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1.2rem; }
-    .toc-sub-item input { flex: 1; padding: 5px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; font-size: 0.85rem; }
+    .toc-sub-item input { flex: 1; padding: 5px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Thinkmany Sans', system-ui, sans-serif; font-size: 0.85rem; }
     .toc-sub-item input:focus { outline: none; border-color: var(--purple); }
     .toc-sub-actions { display: flex; gap: 4px; }
     .toc-add-sub { padding: 0.5rem 1.2rem; }
-    .toc-add-sub button { padding: 5px 12px; font-size: 0.8rem; background: none; border: 1px dashed var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; transition: all 0.15s; }
+    .toc-add-sub button { padding: 5px 12px; font-size: 0.8rem; background: none; border: 1px dashed var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-family: 'Thinkmany Sans', system-ui, sans-serif; transition: all 0.15s; }
     .toc-add-sub button:hover { border-color: var(--purple); color: var(--purple); }
     .icon-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; padding: 4px; border-radius: 4px; transition: all 0.15s; line-height: 1; }
     .icon-btn:hover { color: var(--text); background: var(--bg3); }
     .icon-btn.delete:hover { color: var(--red); }
-    #add-section-btn { display: block; width: 100%; padding: 12px; background: none; border: 2px dashed var(--border); border-radius: var(--radius); color: var(--muted); font-size: 0.9rem; cursor: pointer; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; transition: all 0.15s; margin-bottom: 1rem; }
+    #add-section-btn { display: block; width: 100%; padding: 12px; background: none; border: 2px dashed var(--border); border-radius: var(--radius); color: var(--muted); font-size: 0.9rem; cursor: pointer; font-family: 'Thinkmany Sans', system-ui, sans-serif; transition: all 0.15s; margin-bottom: 1rem; }
     #add-section-btn:hover { border-color: var(--purple); color: var(--purple); }
     #save-toc-btn { display: block; width: 100%; margin-top: 1rem; }
 
@@ -107,9 +109,12 @@
     .EasyMDEContainer .editor-toolbar button { color: var(--text2) !important; }
     .EasyMDEContainer .editor-toolbar button:hover, .EasyMDEContainer .editor-toolbar button.active { background: var(--bg3) !important; color: var(--purple) !important; border-color: var(--border) !important; }
     .EasyMDEContainer .editor-statusbar { display: none !important; }
-    .EasyMDEContainer .editor-preview { background: var(--bg) !important; color: var(--text) !important; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif !important; }
+    .EasyMDEContainer .editor-preview { background: var(--bg) !important; color: var(--text) !important; font-family: 'Thinkmany Sans', system-ui, sans-serif !important; }
     .EasyMDEContainer .editor-preview h1, .EasyMDEContainer .editor-preview h2, .EasyMDEContainer .editor-preview h3 { color: white !important; }
     .EasyMDEContainer .editor-preview code { background: var(--bg3) !important; color: var(--cyan) !important; }
+    /* The preview is a frame showing the page as the site renders it. */
+    .EasyMDEContainer .editor-preview:has(.site-preview), .EasyMDEContainer .editor-preview-side:has(.site-preview) { padding: 0 !important; overflow: hidden !important; }
+    .site-preview { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
 
     /* Toast */
     .toast { position: fixed; bottom: 2rem; right: 2rem; padding: 12px 20px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; z-index: 999; animation: slideUp 0.3s ease; }
@@ -132,10 +137,11 @@
   <!-- Login -->
   <div id="login-screen">
     <h1>관리자 로그인</h1>
-    <p>GitHub Personal Access Token을 입력하세요.<br>
-       토큰은 브라우저에만 저장됩니다.<br>
-       <a href="https://github.com/settings/tokens/new" target="_blank" style="color:#a78bfa;">토큰 발급하기</a> (repo 권한 필요)</p>
-    <input type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <p>GitHub 토큰을 입력하세요.<br>
+       토큰은 이 탭에만 보관되고, 탭을 닫으면 사라집니다.<br>
+       <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener" style="color:#a78bfa;">세분화된 토큰 발급하기</a>:
+       저장소는 thinkmany 하나만, 권한은 Contents 읽기·쓰기만 주세요.</p>
+    <input type="password" id="token-input" placeholder="github_pat_..." autocomplete="off">
     <button class="login-btn" id="login-btn">로그인</button>
     <div id="login-error"></div>
   </div>
@@ -180,7 +186,8 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/easymde@2.21.0/dist/easymde.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/easymde@2.21.0/dist/easymde.min.js"
+          integrity="sha384-mTM6vzy+/UiHrMBClNGViM9qEv0/26iCGqpJKhSzdnjrxbKjO3vkT62ujXQ8B5iv" crossorigin="anonymous"></script>
   <script>
     const REPO_OWNER = 'concrete-sangminlee';
     const REPO_NAME = 'thinkmany';
@@ -256,7 +263,7 @@
         const user = await res.json();
         if (user.login !== REPO_OWNER) throw new Error('리포지토리 소유자만 접근 가능');
         token = t;
-        localStorage.setItem('sw_admin_token', t);
+        sessionStorage.setItem(TOKEN_KEY, t);
         await initApp();
       } catch (e) {
         const el = document.getElementById('login-error');
@@ -265,7 +272,11 @@
       }
     });
 
-    const savedToken = localStorage.getItem('sw_admin_token');
+    // The token lives in this tab only (sessionStorage), never in localStorage,
+    // which every page on this github.io origin can read. Drop one left by an older version.
+    const TOKEN_KEY = 'tm_admin_token';
+    try { localStorage.removeItem('sw_admin_token'); } catch {}
+    const savedToken = sessionStorage.getItem(TOKEN_KEY);
     if (savedToken) { token = savedToken; initApp(); }
 
     async function initApp() {
@@ -274,7 +285,7 @@
         config = JSON.parse(content);
         configSha = sha;
       } catch (e) {
-        localStorage.removeItem('sw_admin_token');
+        sessionStorage.removeItem(TOKEN_KEY);
         token = '';
         const el = document.getElementById('login-error');
         el.textContent = e.message;
@@ -339,7 +350,9 @@
         ta.value = content;
         editor = new EasyMDE({ element: ta, autofocus: true, spellChecker: false, status: false,
           placeholder: '마크다운으로 내용을 작성하세요...',
-          toolbar: ['bold','italic','heading','|','unordered-list','ordered-list','|','code','quote','link','image','|','preview','side-by-side','|','guide'],
+          // The chapter title is the page's h1, so sections start at ## (the build rejects a # in the body).
+          toolbar: ['bold','italic','heading-2','heading-3','|','unordered-list','ordered-list','|','code','quote','link','image','|','preview','side-by-side','|','guide'],
+          previewRender: (md, preview) => sitePreview(md, preview),
           sideBySideFullscreen: false,
         });
         editor.codemirror.on('change', () => {
@@ -352,23 +365,70 @@
       } catch (e) { setStatus('오류: ' + e.message, 'error'); }
     }
 
+    // --- Preview: the site's own pipeline, in a frame with the site's styles ---
+    let previewFrame = null;
+    let previewReady = false;
+    let previewMd = '';
+    function postPreview() {
+      if (!previewFrame || !previewReady) return;
+      const titles = config.sections.flatMap(s => s.subsections.map(c => [c.id, c.title]));
+      const id = config.sections.flatMap(s => s.subsections).find(c => c.file === currentFile)?.id ?? '';
+      previewFrame.contentWindow.postMessage({ md: previewMd, id, titles }, location.origin);
+    }
+    addEventListener('message', (e) => {
+      if (e.origin === location.origin && e.data?.type === 'preview-ready' && previewFrame && e.source === previewFrame.contentWindow) {
+        previewReady = true;
+        postPreview();
+      }
+    });
+    /** EasyMDE's previewRender: keeps one frame in the preview pane and returns null (leave the pane as it is). */
+    function sitePreview(md, preview) {
+      previewMd = md;
+      if (!previewFrame || !preview.contains(previewFrame)) {
+        preview.replaceChildren();
+        previewFrame = document.createElement('iframe');
+        previewFrame.className = 'site-preview';
+        previewFrame.title = '사이트 미리 보기';
+        previewReady = false;
+        previewFrame.src = 'preview.html';
+        preview.append(previewFrame);
+      }
+      clearTimeout(sitePreview.timer);
+      sitePreview.timer = setTimeout(postPreview, 150);
+      return null;
+    }
+
     // --- Save file ---
     document.getElementById('save-btn').addEventListener('click', doSave);
     document.addEventListener('keydown', e => {
       if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); if (!document.getElementById('save-btn').disabled) doSave(); }
     });
 
+    /** The build's own rules (js/lib/lint.js): what it would reject is not saved. */
+    async function checkChapter(md) {
+      const [{ lintChapter }, { analyzeChapter }] = await Promise.all([import('../js/lib/lint.js'), import('../js/lib/markdown.js')]);
+      return lintChapter(md, analyzeChapter(md).outline);
+    }
+
     async function doSave() {
       if (!currentFile || !editor) return;
       document.getElementById('save-btn').disabled = true;
+      const content = editor.value();
+      const { errors } = await checkChapter(content);
+      if (errors.length) {
+        const list = errors.slice(0, 5).map(e => (e.line ? `${e.line}번째 줄: ` : '') + e.message).join('\n');
+        setStatus(`저장 안 함: 고칠 곳 ${errors.length}개`, 'error');
+        alert(`이대로 저장하면 사이트 빌드가 실패합니다. 먼저 고쳐 주세요.\n\n${list}${errors.length > 5 ? `\n외 ${errors.length - 5}개` : ''}`);
+        document.getElementById('save-btn').disabled = false;
+        return;
+      }
       setStatus('저장 중...', 'saving');
       try {
-        const content = editor.value();
         const newSha = await saveGHFile(CONTENT_DIR + '/' + currentFile, content, currentSha);
         currentSha = newSha;
         originalContent = content;
-        setStatus('저장 완료 · 1-2분 뒤 사이트에 반영', 'saved');
-        showToast('저장되었습니다. 배포까지 1-2분 걸립니다.', 'success');
+        setStatus('저장 완료 · 배포는 GitHub Actions에서 확인', 'saved');
+        showToast('저장되었습니다. 1-2분 뒤 사이트에 반영되며, 진행은 저장소의 Actions 탭에서 볼 수 있습니다.', 'success');
         setTimeout(() => setStatus('', ''), 5000);
       } catch (e) {
         setStatus('저장 실패', 'error');
@@ -493,8 +553,10 @@
 
     document.getElementById('add-section-btn').addEventListener('click', () => {
       const num = config.sections.length + 1;
+      // A new id, never one in use: parts are renumbered when one is deleted, ids are not.
+      const maxId = Math.max(0, ...config.sections.map(s => parseInt((/^part-(\d+)$/.exec(s.id) || [])[1] || '0', 10)));
       config.sections.push({
-        id: `part-${num}`,
+        id: `part-${maxId + 1}`,
         number: String(num).padStart(2, '0'),
         title: '새 파트',
         color: COLORS[(num - 1) % COLORS.length],
@@ -534,7 +596,7 @@
 
     // --- Logout ---
     document.getElementById('logout-btn').addEventListener('click', () => {
-      localStorage.removeItem('sw_admin_token');
+      sessionStorage.removeItem(TOKEN_KEY);
       location.reload();
     });
 
