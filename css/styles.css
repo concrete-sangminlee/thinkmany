@@ -1151,7 +1151,9 @@ body.sidebar-collapsed #main {
 
 .chapter-meta {
   display: flex;
-  flex-wrap: wrap;
+  /* One row in any font: the text wraps inside its column and the buttons
+     stay put, so the page does not jump when the web font arrives. */
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
@@ -1160,6 +1162,10 @@ body.sidebar-collapsed #main {
   border-block: 1px solid var(--line);
   color: var(--fg-muted);
   font-size: 0.875rem;
+}
+
+.chapter-meta > span:first-child {
+  min-width: 0;
 }
 
 .chapter-actions {
@@ -1656,16 +1662,6 @@ body.sidebar-collapsed #main {
   line-height: 1.7;
 }
 
-.card-tag {
-  display: inline-block;
-  margin: 0.6rem 0.3rem 0 0;
-  padding: 0.1rem 0.55rem;
-  border-radius: 99px;
-  background: var(--bg-hover);
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
 .pipeline {
   display: flex;
   flex-wrap: wrap;
@@ -1929,15 +1925,6 @@ ul.check-list {
   margin: 0;
   padding-left: 0;
   list-style: none;
-}
-
-.formula-box {
-  padding: 1rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--bg-elev);
-  text-align: center;
-  font-family: var(--font-mono);
 }
 
 .mermaid {

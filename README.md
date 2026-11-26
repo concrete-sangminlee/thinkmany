@@ -93,7 +93,7 @@
 
 | 장 | 제목 | 분량 |
 |---:|---|---:|
-| 15 | [프로그래밍: 연구의 기본 언어](https://concrete-sangminlee.github.io/thinkmany/ch15/) | 69분 |
+| 15 | [프로그래밍: 연구의 기본 언어](https://concrete-sangminlee.github.io/thinkmany/ch15/) | 68분 |
 | 16 | [버전 관리와 데이터 관리](https://concrete-sangminlee.github.io/thinkmany/ch16/) | 70분 |
 | 17 | [시뮬레이션과 해석 도구](https://concrete-sangminlee.github.io/thinkmany/ch17/) | 85분 |
 | 18 | [논문 작성과 생산성 도구](https://concrete-sangminlee.github.io/thinkmany/ch18/) | 79분 |
@@ -115,7 +115,7 @@
 | 20 | [AI 입문: 제로에서 시작하기](https://concrete-sangminlee.github.io/thinkmany/ch20/) | 94분 |
 | 21 | [머신러닝 기초](https://concrete-sangminlee.github.io/thinkmany/ch21/) | 87분 |
 | 22 | [딥러닝 핵심 아키텍처](https://concrete-sangminlee.github.io/thinkmany/ch22/) | 96분 |
-| 23 | [ML 프로젝트 파이프라인](https://concrete-sangminlee.github.io/thinkmany/ch23/) | 81분 |
+| 23 | [ML 프로젝트 파이프라인](https://concrete-sangminlee.github.io/thinkmany/ch23/) | 80분 |
 | 24 | [물리 기반 AI와 대리 모델](https://concrete-sangminlee.github.io/thinkmany/ch24/) | 97분 |
 | 25 | [컴퓨터 비전과 공학 응용](https://concrete-sangminlee.github.io/thinkmany/ch25/) | 94분 |
 | 26 | [생성형 AI 활용법](https://concrete-sangminlee.github.io/thinkmany/ch26/) | 84분 |
@@ -187,7 +187,7 @@
 - **글꼴 하나, 172KB**: 본문 글꼴은 Pretendard에서 이 책이 실제로 쓰는 1,400여 자와 굵기 400~800만 추린 파일 하나다(`assets/fonts/thinkmany-sans.woff2`). 전에는 CDN에서 페이지마다 조각 파일 20여 개를 받았다. 같은 곳에서 제공하므로 오프라인에서도 그대로 보인다.
 - **장 사이 링크**: 본문에서 `ch05`처럼 다른 장을 언급하면 그 장으로 가는 링크가 된다 (900여 곳, 카드나 표 같은 HTML 블록 안 포함). 장 끝의 "연결된 장"에는 이 장이 언급한 장과 이 장을 언급한 장이 모인다.
 - **장별 공유 카드**: 장마다 제목이 들어간 미리보기 이미지(`assets/og/chNN.jpg`)가 있어, 장 링크를 공유하면 그 장의 카드가 뜬다.
-- **검색**: `/` 또는 `Ctrl K`. 장·섹션 제목은 즉시, 본문 전체는 Web Worker가 백그라운드에서 색인해 찾는다. 결과를 열면 해당 위치로 이동해 검색어를 강조한다. 장·섹션 제목은 초성으로도 찾는다(`ㄴㅁ`, `논ㅁ` → 논문).
+- **검색**: `/` 또는 `Ctrl K`. 장·섹션 제목은 즉시, 본문 전체는 빌드가 섹션별로 나눠 둔 검색 데이터 하나(`content/search.json`)를 Web Worker가 받아 찾는다(0.3초 안팎). 오프라인이라 그 파일이 없으면 저장된 장 원고에서 색인한다. 결과를 열면 해당 위치로 이동해 검색어를 강조한다. 장·섹션 제목은 초성으로도 찾는다(`ㄴㅁ`, `논ㅁ` → 논문).
 - **이어 읽기**: 장마다 읽은 위치와 진행률을 기억하고, 다 읽은 장은 목차에 표시한다. 북마크, 체크리스트 상태도 브라우저에 저장된다. 다시 온 독자에게는 홈이 책 소개 숫자 대신 자기 숫자(읽은 장, 읽는 중, 북마크, 남은 분량)와 파트별 진행을 보여 준다.
 - **읽기 기록 옮기기**: 설정 메뉴에서 기록을 링크로 보내거나 파일로 저장한다. 다른 기기에서 링크를 열거나 파일을 불러오면, 무엇을 가져오는지 보여 준 뒤 그 기기의 기록과 합친다(지워지는 기록은 없다). 서버에는 아무것도 저장하지 않는다.
 - **최근 보강**: git 기록에서 장마다 마지막으로 보강한 날을 읽어 장 머리말과 홈의 "최근 보강된 장"에 보여 준다. 최근 보강 30건은 Atom 피드(`/thinkmany/feed.xml`)로도 구독할 수 있다. 서식만 바꾼 커밋은 `.git-blame-ignore-revs`에 적어 두면 보강으로 세지 않는다.

@@ -80,6 +80,9 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
   const slim = { ...indexRest, chapters: Object.fromEntries(Object.entries(withToc).map(([id, { toc: _t, ...c }]) => [id, c])) };
   writeFile(out, 'content/index.json', JSON.stringify(slim));
   writeFile(out, 'content/toc.json', JSON.stringify(toc));
+  // Full-text search data, split into sections at build time: the search
+  // worker fetches this one file instead of all chapters and parsing each.
+  writeFile(out, 'content/search.json', JSON.stringify(searchData(data)));
 
   const version = hashFiles(['css', 'js', 'templates', 'sw.js', 'assets/fonts'].map((p) => path.join(ROOT, p))).slice(0, 10);
   const graph = moduleGraph(path.join(out, 'js'), 'app.js');
@@ -181,6 +184,11 @@ export function report(level, msg, env = process.env) {
   console.log(`::${level}${props}::${text}`);
 }
 const warn = (msg) => report('warning', msg);
+
+/** { chapters: [{ id, sections: [[id, title, text], ...] }] } in book order. */
+export function searchData(data) {
+  return { v: 1, chapters: data.chapters.map((c) => ({ id: c.id, sections: c.info.sections.map((s) => [s.id, s.title, s.text]) })) };
+}
 
 const PRETENDARD_CDN = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
 
@@ -401,14 +409,21 @@ ${entries.join('\n')}
 `;
 }
 
-/** sw.js with its version and the reader shell to precache. */
+/**
+ * sw.js with its version and the reader shell to precache. Stylesheet and
+ * modules are listed with "?v=", exactly as pages request them, so the
+ * install reuses what the page just downloaded instead of fetching it again.
+ */
 function serviceWorker(out, version) {
-  const files = ['app.html', 'manifest.webmanifest', 'assets/favicon.svg', 'content/config.json', 'content/index.json', 'content/toc.json', 'css/styles.css', 'assets/fonts/thinkmany-sans.woff2'].filter((f) => fs.existsSync(path.join(out, f)));
+  const files = ['app.html', 'manifest.webmanifest', 'assets/favicon.svg', 'content/config.json', 'content/index.json', 'assets/fonts/thinkmany-sans.woff2']
+    .filter((f) => fs.existsSync(path.join(out, f)));
+  files.push(`css/styles.css?v=${version}`);
   const walk = (dir) => {
     for (const f of fs.readdirSync(path.join(out, dir)).sort()) {
       const rel = `${dir}/${f}`;
       if (fs.statSync(path.join(out, rel)).isDirectory()) walk(rel);
-      else if (/\.(m?js)$/.test(f) && !rel.startsWith('js/vendor/katex/')) files.push(rel); // KaTeX is cached when a reader needs it
+      // KaTeX is cached when a reader needs it (or saves the book).
+      else if (/\.(m?js)$/.test(f) && !rel.startsWith('js/vendor/katex/')) files.push(`${rel}?v=${version}`);
     }
   };
   walk('js');
