@@ -17,6 +17,20 @@ export function initSearch(book, { onOpenResult }) {
   const list = dialog.querySelector('#search-results');
   const empty = dialog.querySelector('#search-empty');
   const status = dialog.querySelector('#search-status');
+  // Screen readers hear the outcome of a search, once it settles, not every
+  // step of the index filling in (that shows in #search-status only).
+  const live = dialog.querySelector('#search-live');
+  let announceTimer = 0;
+  let announceText = '';
+  function announce(text) {
+    announceText = text;
+    // At most one announcement per 0.7 s, with the latest text: results keep
+    // re-rendering while the index fills in.
+    announceTimer ||= setTimeout(() => {
+      announceTimer = 0;
+      if (live && live.textContent !== announceText) live.textContent = announceText;
+    }, 700);
+  }
 
   let worker = null;
   let indexState = { done: 0, total: book.chapters.length, ready: false };
@@ -125,6 +139,7 @@ export function initSearch(book, { onOpenResult }) {
   function showEmpty(message) {
     list.hidden = true;
     list.replaceChildren();
+    input.setAttribute('aria-expanded', 'false');
     empty.hidden = false;
     mount(empty, message);
   }
@@ -140,6 +155,7 @@ export function initSearch(book, { onOpenResult }) {
     if (!q) {
       showEmpty(html`챕터 제목, 섹션 제목, 본문을 모두 찾습니다.<br><span>예: 리뷰어, Zotero, 지도교수, PINN · 초성도 됩니다: ㄴㅁ → 논문</span>`);
       renderStatus();
+      announce('');
       return;
     }
 
@@ -160,15 +176,19 @@ export function initSearch(book, { onOpenResult }) {
       .map(([r, c]) => item(chapterHref(c.id, r.id), html`${c.title}`, r.title ? mark(r.title, ts) : html`들어가며`, mark(r.snippet, ts), true));
     if (bodyItems.length) groups.push(group('본문', `${body.total}곳`, bodyItems));
 
+    const waiting = worker && !indexState.ready;
     if (!groups.length) {
-      const waiting = worker && !indexState.ready;
-      showEmpty(html`${waiting ? '본문을 색인하는 중입니다. 잠시 후 결과가 나타납니다.' : `“${q}”에 대한 결과가 없습니다.`}`);
+      const text = waiting ? '본문을 색인하는 중입니다. 잠시 후 결과가 나타납니다.' : `“${q}”에 대한 결과가 없습니다.`;
+      showEmpty(html`${text}`);
+      announce(text);
     } else {
       empty.hidden = true;
       list.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
       mount(list, html`${groups}`);
       const i = keep ? options().findIndex((o) => o.getAttribute('href') === keep) : -1;
       if (i >= 0) setActive(i, false);
+      announce(`결과 ${options().length}개${waiting ? ', 본문 색인 중' : ''}`);
     }
     renderStatus();
   }

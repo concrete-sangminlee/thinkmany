@@ -223,6 +223,12 @@ kbd {
   border-radius: 4px;
 }
 
+/* Headings and highlights the app moves focus to after navigation: the
+   keyboard continues from there, without a ring around a whole heading. */
+:is(h1, h2, h3, mark)[tabindex='-1'] {
+  outline: none;
+}
+
 .skip-link {
   position: fixed;
   top: 8px;
@@ -420,6 +426,21 @@ body[data-view='chapter'] .topbar {
   background: var(--bg);
 }
 
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.sidebar-top .reading-summary {
+  flex: 1;
+}
+
+/* Shown only in the phone and tablet drawer (see the max-width 1023.98px block). */
+.icon-btn.sidebar-close {
+  display: none;
+}
+
 .reading-summary {
   display: grid;
   gap: 0.4rem;
@@ -611,6 +632,13 @@ body.sidebar-collapsed #main {
   body.nav-open .sidebar {
     transform: none;
     visibility: visible;
+    /* Visible at once on open, so its link can take focus (also under reduced
+       motion, which shortens but does not remove transitions); still delayed on close. */
+    transition-property: transform;
+  }
+
+  .icon-btn.sidebar-close {
+    display: inline-grid;
   }
 
   body.nav-open {
@@ -2359,12 +2387,15 @@ dialog::backdrop {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* No transitions at all. (Forcing a tiny duration instead would make every
+     element transition every property, inherited visibility included, so a
+     drawer's links would still be hidden at the moment they take focus.) */
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition: none !important;
     scroll-behavior: auto !important;
   }
 }
@@ -2828,6 +2859,7 @@ dialog::backdrop {
   transition: transform 0.2s ease;
 }
 
+.btn[aria-disabled='true'],
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -2844,4 +2876,38 @@ dialog::backdrop {
   justify-content: flex-end;
   gap: 0.5rem;
   margin-top: 1.25rem;
+}
+
+/* 17. Forced colours (Windows high contrast) -------------------------------
+   Selection and state shown only by background or shadow would vanish, so
+   give them a system-colour outline or border. */
+@media (forced-colors: active) {
+  .search-results [role='option'][aria-selected='true'] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .tab-btn {
+    border-bottom-color: Canvas;
+  }
+
+  .tab-btn.active {
+    border-bottom-color: Highlight;
+  }
+
+  .segmented button[aria-pressed='true'] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .toc-link[data-state='done'] .toc-state {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+
+  .hero-stats[data-reader]::before,
+  .offline-meter span {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
 }
