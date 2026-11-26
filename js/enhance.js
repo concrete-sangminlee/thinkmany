@@ -162,9 +162,11 @@ function checklists(root, chapterId) {
     box.disabled = false;
     box.checked = checked.has(i);
     box.addEventListener('change', () => {
-      if (box.checked) checked.add(i);
-      else checked.delete(i);
-      setChecks(chapterId, checked);
+      // Read again first: another tab may have ticked other boxes of this chapter.
+      const now = getChecks(chapterId);
+      if (box.checked) now.add(i);
+      else now.delete(i);
+      setChecks(chapterId, now);
     });
   });
 }

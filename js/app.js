@@ -35,8 +35,9 @@ const desktop = matchMedia('(min-width: 1024px)');
 const readerState = {
   isBookmarked: store.isBookmarked,
   progress: store.getProgress,
-  readCount: store.readCount,
-  bookmarkCount: store.bookmarkCount,
+  // Only chapters this book has: a history can name chapters since removed.
+  readCount: () => book?.chapters.filter((c) => store.getProgress(c.id)?.done).length ?? store.readCount(),
+  bookmarkCount: () => book?.chapters.filter((c) => store.isBookmarked(c.id)).length ?? store.bookmarkCount(),
 };
 
 let book;
@@ -164,7 +165,10 @@ function initChrome() {
   );
   addEventListener('resize', onScroll, { passive: true });
   document.addEventListener('visibilitychange', () => document.hidden && persistProgress());
-  addEventListener('pagehide', persistProgress);
+  addEventListener('pagehide', () => {
+    persistProgress();
+    rememberScroll();
+  });
 }
 
 function smooth() {
@@ -231,7 +235,7 @@ function initOutline() {
 
 function onKey(e) {
   if (e.isComposing || e.defaultPrevented) return;
-  const typing = e.target.closest?.('input, textarea, select, [contenteditable="true"]');
+  const typing = e.target.closest?.('input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"], [type="reset"]), textarea, select, [contenteditable="true"]');
 
   if ((e.metaKey || e.ctrlKey) && e.code === 'KeyK') {
     e.preventDefault();
@@ -323,7 +327,8 @@ function renderSidebar() {
   const nav = $('#book-toc');
   const currentId = current.kind === 'chapter' ? current.ch.id : null;
   mount(nav, sidebarView(book, { state: readerState, filter: sidebarFilter, currentId }));
-  revealInSidebar();
+  // Off screen (the closed drawer on phones), there is nothing to scroll into view.
+  if (desktop.matches || document.body.classList.contains('nav-open')) revealInSidebar();
 }
 
 function initSidebar() {
@@ -362,12 +367,21 @@ function revealInSidebar() {
 /* ================================================================== */
 
 /** What a URL points at, or 'external' for anything the reader doesn't own. */
+/** decodeURIComponent that keeps a malformed escape (a cut-off link) as it is. */
+function decode(s) {
+  try {
+    return decodeURIComponent(s);
+  } catch {
+    return s;
+  }
+}
+
 function parse(url) {
   const base = getBase();
-  const path = decodeURIComponent(url.pathname);
+  const path = decode(url.pathname);
   if (!path.startsWith(base)) return { kind: 'external' };
   const rest = path.slice(base.length).replace(/(^|\/)index\.html$/, '').replace(/\/$/, '');
-  const hash = decodeURIComponent(url.hash.slice(1));
+  const hash = decode(url.hash.slice(1));
 
   if (rest === '' || rest === 'app.html') {
     if (!hash) return { kind: 'home' };
@@ -378,6 +392,9 @@ function parse(url) {
     if (part) return part.id === head ? { kind: 'home', part } : { kind: 'redirect', to: partHref(part.id) };
     return { kind: 'home' };
   }
+  // Old /chNN/<section> links: online templates/404.html redirects them, offline only we can.
+  const old = /^(ch\d{2})\/(.+?)$/.exec(rest);
+  if (old && book.chapter(old[1])) return { kind: 'redirect', to: chapterHref(old[1], old[2]) };
   if (rest.includes('/')) return { kind: 'external' };
   const ch = book.chapter(rest);
   if (ch) return { kind: 'chapter', ch, anchor: hash };
@@ -468,6 +485,7 @@ async function route({ initial = false, pop = false } = {}) {
 /* ================================================================== */
 
 function showHome({ part, y, hydrate }) {
+  renderToken++; // a chapter still loading must not land on top of this page
   current = { kind: 'home' };
   document.title = '연구 많이 된다 · 대학원생 연구 가이드';
   document.body.dataset.view = 'home';
@@ -488,6 +506,7 @@ function showHome({ part, y, hydrate }) {
 }
 
 function showMissing(id) {
+  renderToken++;
   current = { kind: 'missing' };
   document.body.dataset.view = 'missing';
   document.title = '찾을 수 없음 · 연구 많이 된다';
@@ -527,7 +546,14 @@ async function showChapter(ch, { anchor = '', terms = [], y, hydrate = false }) 
       [md, { renderMarkdown }] = await Promise.all([fetchChapter(ch), import('./render.js')]);
     } catch {
       if (token !== renderToken) return;
+      // Offline, a chapter first opened as a page is cached as that page, not as
+      // markdown: load the page (the address already points at it).
+      if (await cachedPage(ch)) {
+        location.reload();
+        return;
+      }
       const why = navigator.onLine ? '네트워크 상태를 확인한 뒤 다시 시도해 주세요.' : '오프라인에서는 한 번 열어 본 장만 읽을 수 있습니다. 설정에서 책 전체를 저장해 두면 모든 장을 읽을 수 있습니다.';
+      $('#prose').removeAttribute('aria-busy');
       mount($('#prose'), html`<div class="state-message"><h2>이 장을 불러오지 못했습니다</h2><p>${why}</p><p><button class="btn btn-ghost" type="button" data-retry>다시 시도</button></p></div>`);
       $('[data-retry]').addEventListener('click', () => showChapter(ch, { anchor, terms }));
       return;
@@ -561,6 +587,15 @@ async function showChapter(ch, { anchor = '', terms = [], y, hydrate = false }) 
   // In-app arrival: focus the section asked for, or else the chapter title.
   if (!hydrate && !target) $('.chapter-title').focus({ preventScroll: true });
   onScroll();
+}
+
+/** Whether the service worker holds this chapter's prerendered page. */
+async function cachedPage(ch) {
+  try {
+    return Boolean(await caches.match(new URL(chapterHref(ch.id), location.origin).href, { ignoreSearch: true }));
+  } catch {
+    return false;
+  }
 }
 
 /** A chapter's outline read from its rendered headings (when toc.json is not loaded). */
@@ -750,10 +785,16 @@ function onScroll() {
   // "Back to top" appears only while scrolling up, so it does not sit on the text as one reads down.
   $('#to-top').classList.toggle('is-visible', scrollY > 1600 && scrollY < lastScrollY);
   lastScrollY = scrollY;
+  // Remember where this page is scrolled, so Forward (not only Back) returns here.
+  clearTimeout(onScroll.remember);
+  onScroll.remember = setTimeout(rememberScroll, 250);
   if (current.kind !== 'chapter' || !current.headings.length) return;
   spy();
   updateReadingLeft();
   if (Date.now() - current.saved > 1500) persistProgress();
+  // And once more after the scrolling stops, so a jump to the end counts as read.
+  clearTimeout(onScroll.save);
+  onScroll.save = setTimeout(persistProgress, 400);
 }
 
 function persistProgress() {
@@ -763,11 +804,13 @@ function persistProgress() {
   if (f < 0.02 || scrollY < innerHeight / 2) return; // opening a chapter is not reading it
   const before = store.getProgress(current.ch.id);
   const after = store.saveProgress(current.ch.id, { p: f, at: currentHeading()?.id });
+  // Rebuilding the sidebar forces a layout of the whole page: not inside a scroll frame.
+  const idle = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 200));
   if (after.done && !before?.done) {
-    renderSidebar();
+    idle(renderSidebar);
     toast(`“${current.ch.title}” 완독`);
   } else if (!before) {
-    renderSidebar();
+    idle(renderSidebar);
   }
 }
 
@@ -793,7 +836,7 @@ async function boot() {
 
   search = initSearch(book, { onOpenResult: (href, terms) => navigate(href, { terms }) });
   if (searchWanted) search.open();
-  sync = initSync({ root: ROOT, toast, onImported: refreshReaderState });
+  sync = initSync({ root: ROOT, toast, onImported: refreshReaderState, isKnown: (id) => Boolean(book.chapter(id)) });
   // Reading in another tab: keep the sidebar, home numbers and bookmark button in step.
   store.onExternalChange(onOtherTab);
   offline = initOffline({ book, toast });
@@ -802,7 +845,11 @@ async function boot() {
   // The router owns scroll positions (saved per history entry in history.state).
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   interceptLinks();
-  addEventListener('popstate', () => route({ pop: true }));
+  addEventListener('popstate', () => {
+    if (!location.hash.startsWith('#import=')) route({ pop: true }); // that one is for sync, below
+  });
+  // A history link pasted into this tab's address bar changes only the hash.
+  addEventListener('hashchange', () => sync.takeFromUrl());
 
   await route({ initial: true });
   // Warm the in-app renderer while the reader is reading, so the next chapter opens fast.

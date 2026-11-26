@@ -239,7 +239,7 @@ export function initSearch(book, { onOpenResult }) {
       setActive(active + 1);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setActive(active - 1);
+      setActive(active < 0 ? -1 : active - 1); // from the input, Up goes to the last result
     } else if (e.key === 'Enter') {
       e.preventDefault();
       choose(options()[active] ?? options()[0]);

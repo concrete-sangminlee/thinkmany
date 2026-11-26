@@ -9,7 +9,7 @@ import { html, mount, icon } from './lib/html.js';
 
 const HASH = '#import=';
 
-export function initSync({ root, toast, onImported }) {
+export function initSync({ root, toast, onImported, isKnown }) {
   const panel = document.querySelector('[data-sync-panel]');
   const fileInput = panel?.querySelector('[data-sync-file]');
 
@@ -20,7 +20,7 @@ export function initSync({ root, toast, onImported }) {
 
   function refresh() {
     if (!panel) return;
-    const text = describe(store.summarize());
+    const text = describe(store.summarize(undefined, { isKnown }));
     panel.querySelector('[data-sync-summary]').textContent = text || '아직 이 기기에 읽기 기록이 없습니다.';
     for (const b of panel.querySelectorAll('[data-sync="link"], [data-sync="save"]')) b.disabled = !text;
   }
@@ -58,8 +58,8 @@ export function initSync({ root, toast, onImported }) {
   function confirmImport(data) {
     let summary;
     try {
-      if (!data || data.app !== 'thinkmany') throw new Error();
-      summary = describe(store.summarize(data));
+      if (!store.isHistory(data)) throw new Error();
+      summary = describe(store.summarize(data, { isKnown }));
     } catch {
       toast('읽기 기록을 읽지 못했습니다');
       return;
@@ -86,7 +86,7 @@ export function initSync({ root, toast, onImported }) {
       if (e.target === dialog || e.target.closest('[data-cancel]')) dialog.close();
       if (e.target.closest('[data-merge]')) {
         try {
-          const after = store.importData(data);
+          const after = store.importData(data, { isKnown });
           toast(`기록을 합쳤습니다. 이제 ${describe(after)}`);
           onImported();
           refresh();
