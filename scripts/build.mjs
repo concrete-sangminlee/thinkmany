@@ -162,7 +162,44 @@ export async function build({ out = OUT, check = CHECK_ONLY, siteUrl = process.e
   writeFile(out, 'sw.js', serviceWorker(out, version));
 
   log(`${path.relative(ROOT, out) || out}/ 작성: 장 ${data.chapters.length}개 페이지 (${((Date.now() - t0) / 1000).toFixed(1)}초)`);
+  // Last: a Content-Security-Policy in every reader page (admin/ keeps its own rules).
+  for (const rel of ['index.html', 'app.html', '404.html', ...book.chapters.map((c) => `${c.id}/index.html`)]) {
+    const p = path.join(out, rel);
+    fs.writeFileSync(p, withCsp(fs.readFileSync(p, 'utf8')));
+  }
+
   return { data, book, out };
+}
+
+/**
+ * Only this site's own scripts run: inline scripts are allowed by hash (the
+ * theme script that runs before first paint, the 404 redirect), never by
+ * 'unsafe-inline', so an injected <script> or onerror= does nothing. Styles
+ * allow inline (KaTeX positions with style attributes). The CDN appears only
+ * where a page loads the Pretendard fallback, and for the pinned mermaid
+ * build that renders diagrams. A meta CSP cannot set frame-ancestors.
+ */
+export function withCsp(html) {
+  const hashes = [];
+  for (const m of html.matchAll(/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/g)) {
+    hashes.push(`'sha256-${crypto.createHash('sha256').update(m[1]).digest('base64')}'`);
+  }
+  const cdn = html.includes('https://cdn.jsdelivr.net/gh/orioncactus/pretendard') ? ' https://cdn.jsdelivr.net' : '';
+  const policy = [
+    "default-src 'self'",
+    `script-src 'self' ${hashes.join(' ')} https://cdn.jsdelivr.net/npm/mermaid@11.12.0/`.replace(/\s+/g, ' '),
+    `style-src 'self' 'unsafe-inline'${cdn}`,
+    `font-src 'self'${cdn}`,
+    "img-src 'self' data:",
+    "connect-src 'self'",
+    "worker-src 'self'",
+    "manifest-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'none'",
+  ].join('; ');
+  const meta = `<meta http-equiv="Content-Security-Policy" content="${policy}">`;
+  return html.replace(/(<meta charset="UTF-8">)/i, `$1\n  ${meta}`);
 }
 
 /* ------------------------------------------------------------------ */

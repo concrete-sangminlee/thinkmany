@@ -4,7 +4,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { build, finishProse } from '../scripts/build.mjs';
+import { build, finishProse, withCsp } from '../scripts/build.mjs';
+import crypto from 'node:crypto';
 import { missingChars } from '../scripts/lib/font-chars.mjs';
 
 const SITE = 'https://example.test/book/';
@@ -93,7 +94,7 @@ test('pages load the book font from this site, and a CDN only while the font has
   for (const f of ['index.html', 'app.html', '404.html', 'ch01/index.html']) {
     const page = read(f);
     assert.equal((page.match(/rel="preload"[^>]*thinkmany-sans\.woff2/g) ?? []).length, 1, f);
-    assert.equal(page.includes('cdn.jsdelivr.net'), gaps.length > 0, `${f}: CDN fallback only when the font lacks characters (${gaps.join(' ')})`);
+    assert.equal(page.includes('cdn.jsdelivr.net/gh/orioncactus/pretendard'), gaps.length > 0, `${f}: CDN fallback only when the font lacks characters (${gaps.join(' ')})`);
   }
 });
 
@@ -267,4 +268,21 @@ test('the web app manifest offers a maskable icon, and pages link the iOS icon',
   const png = fs.readFileSync(path.join(out, 'assets/icon-180.png'));
   assert.equal(png.subarray(1, 4).toString('latin1'), 'PNG');
   assert.match(read('index.html'), /<link rel="apple-touch-icon" href="[^"]*assets\/icon-180\.png">/);
+});
+
+test('reader pages carry a Content-Security-Policy that allows their own inline scripts by hash only', () => {
+  for (const f of ['index.html', 'app.html', '404.html', 'ch01/index.html', 'ch19/index.html']) {
+    const page = read(f);
+    const policy = /<meta http-equiv="Content-Security-Policy" content="([^"]+)">/.exec(page)?.[1];
+    assert.ok(policy, f);
+    assert.ok(page.indexOf('Content-Security-Policy') < page.indexOf('<script'), `${f}: the policy comes before any script`);
+    const scriptSrc = policy.split('; ').find((d) => d.startsWith('script-src '));
+    assert.ok(!scriptSrc.includes('unsafe-inline') && !scriptSrc.includes('unsafe-eval'), f);
+    for (const m of page.matchAll(/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/g)) {
+      const hash = crypto.createHash('sha256').update(m[1]).digest('base64');
+      assert.ok(scriptSrc.includes(`'sha256-${hash}'`), `${f}: inline script allowed by its hash`);
+    }
+  }
+  assert.ok(!read('admin/index.html').includes('Content-Security-Policy'), 'the admin page is left as it is');
+  assert.match(withCsp('<meta charset="UTF-8"><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/x.css">'), /style-src 'self' 'unsafe-inline' https:\/\/cdn\.jsdelivr\.net; font-src 'self' https:\/\/cdn\.jsdelivr\.net/, 'the CDN only with the font fallback');
 });
