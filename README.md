@@ -200,7 +200,8 @@ templates/              페이지 틀 (page.html), 404, 공유 카드 원본
 js/views.js             홈·장·목차 화면 템플릿. 빌드와 브라우저가 함께 쓴다
 js/lib/markdown.js      마크다운 파이프라인 (헤딩 id, 수식, 장 링크, 분량 계산)
 js/app.js               라우터, 하이드레이션, 진행률, 단축키
-js/search.js            검색 대화상자 (+ js/search-worker.js 본문 색인)
+js/search.js            검색 대화상자 (+ js/search-worker.js 본문 색인, js/lib/search-core.js 점수 계산)
+js/lib/store.js         읽기 기록 저장 (localStorage, 여러 탭이 함께 써도 기록이 섞이지 않는다)
 js/enhance.js           본문 후처리 (탭, 표, 코드 복사, 수식, 체크리스트)
 js/render.js            앱 안에서 장을 열 때만 불러오는 마크다운 렌더러
 js/offline.js           책 전체 오프라인 저장 (설정 메뉴)
