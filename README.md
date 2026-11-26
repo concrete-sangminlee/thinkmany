@@ -228,7 +228,7 @@ Node 22 이상이 필요하다. 설치할 패키지는 없다.
 npm run dev
 ```
 
-그다음 http://localhost:8000/thinkmany/ 를 연다. 파일을 고치면 자동으로 다시 빌드된다.
+그다음 http://localhost:8000/thinkmany/ 를 연다. 파일을 고치면 자동으로 다시 빌드된다. 이 컴퓨터에서만 열린다. 같은 네트워크의 휴대폰으로 보려면 `npm run dev -- --host 0.0.0.0`.
 
 ### 글을 고칠 때
 
